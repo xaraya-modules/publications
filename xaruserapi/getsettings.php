@@ -28,8 +28,8 @@ function publications_userapi_getsettings($data)
         return xarCore::getCached('publications', 'settings_' . $data['ptid']);
     }
 
-    sys::import('modules.dynamicdata.class.objects.master');
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $data['ptid']]);
 
     $pubtypesettings = [];

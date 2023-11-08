@@ -24,7 +24,7 @@
  *
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_user_view($args)
 {
@@ -114,7 +114,7 @@ function publications_user_view($args)
     }
 
     // Get the publication type for this display
-    $data['pubtypeobject'] = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $data['pubtypeobject'] = DataObjectFactory::getObject(['name' => 'publications_types']);
     $data['pubtypeobject']->getItem(['itemid' => $ptid]);
 
     // Pass the access rules of the publication type to the template
@@ -591,13 +591,13 @@ function publications_user_view($args)
     }
 
     // Get the publications we want to view
-    $data['object'] = DataObjectMaster::getObject(['name' => $data['pubtypeobject']->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObject(['name' => $data['pubtypeobject']->properties['name']->value]);
     $data['objectname'] = $data['pubtypeobject']->properties['name']->value;
     $data['ptid'] = (int)$ptid;
 
-//    $object = DataObjectMaster::getObjectList(array('name' => $data['pubtypeobject']->properties['name']->value));
+//    $object = DataObjectFactory::getObjectList(array('name' => $data['pubtypeobject']->properties['name']->value));
 //    $data['items'] = $object->getItems();
-    $data['object'] = DataObjectMaster::getObjectList(['name' => $data['pubtypeobject']->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObjectList(['name' => $data['pubtypeobject']->properties['name']->value]);
     // Set the itemtype to static for filtering
     $data['object']->modifyProperty('itemtype', ['type' => 1]);
 

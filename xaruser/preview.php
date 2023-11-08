@@ -29,7 +29,7 @@
  * If no 404 page is defined it will show the standard Xaraya 404 page
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_user_preview($data)
 {
@@ -57,7 +57,7 @@ function publications_user_preview($data)
         return xarResponse::NotFound();
     }
 
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $ptid]);
     // Save this as the current pubtype
     xarCoreCache::setCached('Publications', 'current_pubtype_object', $pubtypeobject);

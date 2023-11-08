@@ -316,7 +316,7 @@ function publications_adminapi_importpubtype($args)
                             $objectname = $matches[1];
                             $itemid = $matches[2];
                             if (empty($objectname2objectid[$objectname])) {
-                                $objectinfo = DataObjectMaster::getObjectInfo(array('name' => $objectname));
+                                $objectinfo = DataObjectFactory::getObjectInfo(array('name' => $objectname));
                                 if (isset($objectinfo) && !empty($objectinfo['objectid'])) {
                                     $objectname2objectid[$objectname] = $objectinfo['objectid'];
                                 } else {

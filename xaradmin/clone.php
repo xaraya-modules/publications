@@ -36,7 +36,7 @@ function publications_admin_clone()
 
     // If a pubtype ID was passed, get the name of the pub object
     if (isset($ptid)) {
-        $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $ptid]);
         $objectname = $pubtypeobject->properties['name']->value;
     }
@@ -44,8 +44,8 @@ function publications_admin_clone()
         return xarResponse::NotFound();
     }
 
-    sys::import('modules.dynamicdata.class.objects.master');
-    $data['object'] = DataObjectMaster::getObject(['name' => $objectname]);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $data['object'] = DataObjectFactory::getObject(['name' => $objectname]);
     if (empty($data['object'])) {
         return xarResponse::NotFound();
     }
@@ -103,7 +103,7 @@ function publications_admin_clone()
 
             // Clone each one
             foreach ($q->output() as $item) {
-                $object = DataObjectMaster::getObject(['name' => $item['name']]);
+                $object = DataObjectFactory::getObject(['name' => $item['name']]);
                 $object->getItem(['itemid' => $item['id']]);
                 $object->properties['parent']->value = $cloneid;
                 $object->properties['id']->value = 0;

@@ -92,11 +92,11 @@ function publications_admin_importwebpage()
 #
         # Get the fields of hte chosen pubtype
 #
-        sys::import('modules.dynamicdata.class.objects.master');
-        $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+        sys::import('modules.dynamicdata.class.objects.factory');
+        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
         $objectname = $pubtypeobject->properties['name']->value;
-        $pageobject = DataObjectMaster::getObject(['name' => $objectname]);
+        $pageobject = DataObjectFactory::getObject(['name' => $objectname]);
 
         foreach ($pageobject->properties as $name => $property) {
             if ($property->basetype == 'string') {
@@ -229,7 +229,7 @@ function publications_admin_importwebpage()
             $args[$data['titlefield']] = $title;
             $args['name'] = str_replace(' ', '_', trim(strtolower($title)));
         }
-        $pageobject = DataObjectMaster::getObject(['name' => $objectname]);
+        $pageobject = DataObjectFactory::getObject(['name' => $objectname]);
         $pageobject->setFieldValues($args, 1);
 
         # --------------------------------------------------------

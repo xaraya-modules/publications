@@ -137,7 +137,7 @@ class Publications_StaticmenuBlock extends BasicBlock implements iBlock
         $access = DataPropertyMaster::getProperty(['name' => 'access']);
 
         // Get the information on publication types
-        $pubtypes = DataObjectMaster::getObjectList(['name' => 'publications_types']);
+        $pubtypes = DataObjectFactory::getObjectList(['name' => 'publications_types']);
         $pubtypes->dataquery->gt($pubtypes->properties['state']->source, 2);
         $typeinfo = $pubtypes->getItems();
 

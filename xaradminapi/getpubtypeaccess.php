@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_adminapi_getpubtypeaccess($args)
 {
@@ -19,7 +19,7 @@ function publications_adminapi_getpubtypeaccess($args)
         throw new Exception(xarML('Missing ptid param in publications_adminapi_getpubtypeaccess'));
     }
 
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     if (null == $pubtypeobject) {
         return false;
     }

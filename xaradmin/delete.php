@@ -49,8 +49,8 @@ function publications_admin_delete()
 
     /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
-    sys::import('modules.dynamicdata.class.objects.master');
-    $publication = DataObjectMaster::getObject(['name' => 'publications_publications']);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $publication = DataObjectFactory::getObject(['name' => 'publications_publications']);
     if (!isset($confirmed)) {
         $data['idlist'] = $idlist;
         if (count($ids) > 1) {

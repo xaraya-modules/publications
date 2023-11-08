@@ -39,8 +39,8 @@ function publications_admin_delete_translation()
 
     /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
-    sys::import('modules.dynamicdata.class.objects.master');
-    $publication = DataObjectMaster::getObject(['name' => 'publications_publications']);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $publication = DataObjectFactory::getObject(['name' => 'publications_publications']);
     if (!isset($confirmed)) {
         $data['title'] = xarML("Delete Translation");
         $data['authid'] = xarSec::genAuthKey();

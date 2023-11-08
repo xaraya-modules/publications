@@ -369,7 +369,7 @@ function publications_admin_view($args=[])
     }
 
     // Get the available publications objects
-    $object = DataObjectMaster::getObjectList(['objectid' => 1]);
+    $object = DataObjectFactory::getObjectList(['objectid' => 1]);
     $items = $object->getItems();
     $options = [];
     foreach ($items as $item) {
@@ -392,9 +392,9 @@ function publications_admin_view($args=[])
     }
     $data['conditions'] = $q;
 
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $ptid]);
-    $data['object'] = DataObjectMaster::getObjectList(['name' => $pubtypeobject->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObjectList(['name' => $pubtypeobject->properties['name']->value]);
 
     // Flag this as the current list view
     xarSession::setVar('publications_current_listview', xarServer::getCurrentURL(['ptid' => $ptid]));

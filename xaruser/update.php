@@ -20,7 +20,7 @@
  * @return  bool true on success, or mixed on failure
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_user_update()
 {
@@ -62,9 +62,9 @@ function publications_user_update()
 //    if (!xarSec::confirmAuthKey()) return;
 
     $items = explode(',', $items);
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $data['ptid']]);
-    $data['object'] = DataObjectMaster::getObject(['name' => $pubtypeobject->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
 
     // First we need to check all the data on the template
     // If checkInput fails, don't bail

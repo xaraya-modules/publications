@@ -19,14 +19,14 @@
  *         failure
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_userapi_get_pubtypes($args)
 {
     if (xarCoreCache::isCached('Publications.Data', 'producttypes')) {
         return xarCoreCache::getCached('Publications.Data', 'producttypes');
     }
-    $object = DataObjectMaster::getObjectList(['name' => 'publications_types']);
+    $object = DataObjectFactory::getObjectList(['name' => 'publications_types']);
     $items = $object->getItems();
     xarCoreCache::setCached('Publications.Data', 'producttypes', $items);
     return $items;

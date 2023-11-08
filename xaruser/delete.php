@@ -51,8 +51,8 @@ function publications_user_delete()
 
     /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
-    sys::import('modules.dynamicdata.class.objects.master');
-    $publication = DataObjectMaster::getObject(['name' => 'publications_documents']);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $publication = DataObjectFactory::getObject(['name' => 'publications_documents']);
     $access = DataPropertyMaster::getProperty(['name' => 'access']);
     $nopermissionpage_id = xarModVars::get('publications', 'noprivspage');
 

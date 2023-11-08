@@ -21,8 +21,8 @@ function publications_userapi_fieldoutput($args)
     if (!isset($object) || !isset($itemid) || !isset($field)) {
         return '';
     }
-    sys::import('modules.dynamicdata.class.objects.master');
-    $object = DataObjectMaster::getObject(['name' => $object]);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $object = DataObjectFactory::getObject(['name' => $object]);
     $itemid = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $itemid]);
     $object->getItem(['itemid' => $itemid]);
     $field = $object->properties[$field]->getValue();

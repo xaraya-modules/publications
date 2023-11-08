@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_admin_new($args)
 {
@@ -40,9 +40,9 @@ function publications_admin_new($args)
     }
     xarSession::setVar('publications_current_pubtype', $data['ptid']);
 
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $data['ptid']]);
-    $data['object'] = DataObjectMaster::getObject(['name' => $pubtypeobject->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
 
     //FIXME This should be configuration in the celko property itself
     $data['object']->properties['position']->initialization_celkoparent_id = 'parentpage_id';

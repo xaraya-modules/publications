@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_admin_stylesheet_type($args)
 {
@@ -34,12 +34,12 @@ function publications_admin_stylesheet_type($args)
         return;
     }
 
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $data['ptid']]);
     $pubtype = explode('_', $pubtypeobject->properties['name']->value);
     $pubtype = $pubtype[1] ?? $pubtype[0];
 
-    $data['object'] = DataObjectMaster::getObject(['name' => $pubtypeobject->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
 
     $basepath = sys::code() . "modules/publications/xarstyles";
     $sourcefile = $basepath . "/" . $data['file'] . ".css";

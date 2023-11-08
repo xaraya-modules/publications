@@ -48,8 +48,8 @@ function publications_admin_delete_pubtype()
 
     /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
-    sys::import('modules.dynamicdata.class.objects.master');
-    $pubtype = DataObjectMaster::getObject(['name' => 'publications_types']);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $pubtype = DataObjectFactory::getObject(['name' => 'publications_types']);
     if (!isset($confirmed)) {
         $data['idlist'] = $idlist;
         if (count($ids) > 1) {

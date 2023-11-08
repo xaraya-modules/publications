@@ -40,7 +40,7 @@ function publications_adminapi_promote_alias($args)
         return true;
     }
 
-    $publication = DataObjectMaster::getObject(['name' => 'publications']);
+    $publication = DataObjectFactory::getObject(['name' => 'publications']);
 
     // Get the alias, set its parent ID to 0 and save
     $publication->getItem(['itemid' => $itemid]);

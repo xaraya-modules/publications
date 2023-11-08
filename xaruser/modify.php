@@ -17,7 +17,7 @@
  * @param int preview
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_user_modify($args)
 {
@@ -62,7 +62,7 @@ function publications_user_modify($args)
     }
 
     if (!empty($ptid)) {
-        $publication_type = DataObjectMaster::getObjectList(['name' => 'publications_types']);
+        $publication_type = DataObjectFactory::getObjectList(['name' => 'publications_types']);
         $where = 'id = ' . $ptid;
         $items = $publication_type->getItems(['where' => $where]);
         $item = current($items);
@@ -73,7 +73,7 @@ function publications_user_modify($args)
     }
 
     // Get our object
-    $data['object'] = DataObjectMaster::getObject(['name' => $name]);
+    $data['object'] = DataObjectFactory::getObject(['name' => $name]);
     $data['object']->getItem(['itemid' => $data['itemid']]);
 
     # --------------------------------------------------------
@@ -145,7 +145,7 @@ function publications_user_modify($args)
     $data['items'][$data['itemid']] = $fieldvalues;
 
     // Get any translations of the base document
-    $data['objectlist'] = DataObjectMaster::getObjectList(['name' => $name]);
+    $data['objectlist'] = DataObjectFactory::getObjectList(['name' => $name]);
     $where = "parent = " . $data['itemid'];
     $items = $data['objectlist']->getItems(['where' => $where]);
     foreach ($items as $key => $value) {

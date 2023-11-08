@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_user_create()
 {
@@ -38,9 +38,9 @@ function publications_user_create()
     // if (!xarSec::confirmAuthKey()) return;
 
     $data['items'] = [];
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $data['ptid']]);
-    $data['object'] = DataObjectMaster::getObject(['name' => $pubtypeobject->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
 
     $isvalid = $data['object']->checkInput();
 

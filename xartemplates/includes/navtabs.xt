@@ -2,7 +2,7 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <xar:javascript module="publications" filename="tabs.js" />
     <xar:style scope="module" module="base" file="navtabs" />
-    <xar:set name="object">DataObjectMaster::getObjectList(array('name' => 'publications_types'))</xar:set>
+    <xar:set name="object">DataObjectFactory::getObjectList(array('name' => 'publications_types'))</xar:set>
     <xar:set name="items">$object->getItems()</xar:set>
 
     <dl class="xar-tabs">

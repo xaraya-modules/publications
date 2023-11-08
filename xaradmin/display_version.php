@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_admin_display_version($args)
 {
@@ -29,8 +29,8 @@ function publications_admin_display_version($args)
         return xarResponse::NotFound();
     }
 
-    sys::import('modules.dynamicdata.class.objects.master');
-    $entries = DataObjectMaster::getObjectList(['name' => 'publications_versions']);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $entries = DataObjectFactory::getObjectList(['name' => 'publications_versions']);
     $entries->dataquery->eq($entries->properties['page_id']->source, $data['page_id']);
     $data['versions'] = $entries->countItems();
 
@@ -47,7 +47,7 @@ function publications_admin_display_version($args)
     $data['version_1'] = $version_1;
 
     // Get the content data for the display
-    $version = DataObjectMaster::getObjectList(['name' => 'publications_versions']);
+    $version = DataObjectFactory::getObjectList(['name' => 'publications_versions']);
     $version->dataquery->eq($version->properties['page_id']->source, $data['page_id']);
     $version->dataquery->eq($version->properties['version_number']->source, $version_1);
     $items = $version->getItems();
@@ -58,9 +58,9 @@ function publications_admin_display_version($args)
     $content_array_1 = unserialize($item['content']);
 
     // Get an empty object for the page data
-    $pubtype = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtype = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtype->getItem(['itemid' => $content_array_1['itemtype']]);
-    $page = DataObjectMaster::getObject(['name' => $pubtype->properties['name']->value]);
+    $page = DataObjectFactory::getObject(['name' => $pubtype->properties['name']->value]);
     $page->tplmodule = 'publications';
     $page->layout = 'publications_documents';
 

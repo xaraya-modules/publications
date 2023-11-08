@@ -154,11 +154,11 @@ function publications_admin_importpictures()
 #
         # Get the fields of hte chosen pubtype
 #
-        sys::import('modules.dynamicdata.class.objects.master');
-        $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+        sys::import('modules.dynamicdata.class.objects.factory');
+        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
         $objectname = $pubtypeobject->properties['name']->value;
-        $pageobject = DataObjectMaster::getObject(['name' => $objectname]);
+        $pageobject = DataObjectFactory::getObject(['name' => $objectname]);
 
         foreach ($pageobject->properties as $name => $property) {
             if ($property->basetype == 'string') {

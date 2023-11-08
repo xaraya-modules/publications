@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_admin_modify_pubtype($args)
 {
@@ -43,11 +43,11 @@ function publications_admin_modify_pubtype($args)
     }
 
     // Get our object
-    $data['object'] = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $data['object'] = DataObjectFactory::getObject(['name' => 'publications_types']);
     if (!empty($data['itemid'])) {
         $data['object']->getItem(['itemid' => $data['itemid']]);
     } else {
-        $type_list = DataObjectMaster::getObjectList(['name' => 'publications_types']);
+        $type_list = DataObjectFactory::getObjectList(['name' => 'publications_types']);
         $where = 'name = ' . $name;
         $items = $type_list->getItems(['where' => $where]);
         $item = current($items);

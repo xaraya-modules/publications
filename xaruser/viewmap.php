@@ -69,8 +69,8 @@ function publications_user_viewmap($args)
     }
 
     // Get publication types
-    sys::import('modules.dynamicdata.class.objects.master');
-    $object = DataObjectMaster::getObjectList(['name' => 'publications_types']);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $object = DataObjectFactory::getObjectList(['name' => 'publications_types']);
     $data['pubtypes'] = $object->getItems();
 
     // redirect to filtered view
@@ -365,7 +365,7 @@ function publications_user_viewmap($args)
     }
 
     if (!empty($ptid)) {
-        $object = DataObjectMaster::getObject(['name' => 'publications_types']);
+        $object = DataObjectFactory::getObject(['name' => 'publications_types']);
         $object->getItem(['itemid' => $ptid]);
         $template = $object->properties['template']->value;
     } else {

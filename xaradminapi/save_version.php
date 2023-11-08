@@ -17,8 +17,8 @@ function publications_adminapi_save_version($args)
         throw new Exception(xarML('Missing object arg for saving version'));
     }
 
-    sys::import('modules.dynamicdata.class.objects.master');
-    $entries = DataObjectMaster::getObject(['name' => 'publications_versions']);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $entries = DataObjectFactory::getObject(['name' => 'publications_versions']);
     $entries->properties['content']->value = serialize($args['object']->getFieldValues([], 1));
     $entries->properties['operation']->value = $args['operation'];
     $entries->properties['version']->value = $args['object']->properties['version']->value;

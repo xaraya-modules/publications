@@ -77,8 +77,8 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
         $tables =& xarDB::getTables();
 
         // Get all the publications types
-        sys::import('modules.dynamicdata.class.objects.master');
-        $pubtypeobject = DataObjectMaster::getObjectList(['name' => 'publications_types']);
+        sys::import('modules.dynamicdata.class.objects.factory');
+        $pubtypeobject = DataObjectFactory::getObjectList(['name' => 'publications_types']);
         $types = $pubtypeobject->getItems();
 
         # ------------------------------------------------------------
@@ -93,7 +93,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
             // Use that information to get the featured item as an object
             $featuredtype = $types[$result['pubtype_id']]['name'];
-            $data['featured'] = DataObjectMaster::getObject(['name' => $featuredtype]);
+            $data['featured'] = DataObjectFactory::getObject(['name' => $featuredtype]);
             $data['featured']->getItem(['itemid' => $data['featuredid']]);
             $feature = $data['featured']->getFieldValues([], 1);
             $data['properties'] =& $data['featured']->properties;
@@ -155,7 +155,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
             $data['items'] = [];
             foreach ($publications as $publication) {
                 $itemname = $types[$publication['pubtype_id']]['name'];
-                $object = DataObjectMaster::getObject(['name' => $itemname]);
+                $object = DataObjectFactory::getObject(['name' => $itemname]);
                 $object->getItem(['itemid' => $publication['id']]);
                 $itemvalues = $object->getFieldValues([], 1);
 

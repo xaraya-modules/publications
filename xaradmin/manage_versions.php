@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_admin_manage_versions($args)
 {
@@ -29,8 +29,8 @@ function publications_admin_manage_versions($args)
         return xarResponse::NotFound();
     }
 
-    sys::import('modules.dynamicdata.class.objects.master');
-    $entries = DataObjectMaster::getObjectList(['name' => 'publications_versions']);
+    sys::import('modules.dynamicdata.class.objects.factory');
+    $entries = DataObjectFactory::getObjectList(['name' => 'publications_versions']);
     $entries->dataquery->eq($entries->properties['page_id']->source, $data['page_id']);
     $data['versions'] = $entries->countItems() + 1;
 
@@ -54,9 +54,9 @@ function publications_admin_manage_versions($args)
     }
 
     // Get an empty object for the page data
-    $page = DataObjectMaster::getObject(['name' => $data['objectname']]);
+    $page = DataObjectFactory::getObject(['name' => $data['objectname']]);
 
-    $version = DataObjectMaster::getObjectList(['name' => 'publications_versions']);
+    $version = DataObjectFactory::getObjectList(['name' => 'publications_versions']);
 
     if ($data['version_1'] == $data['versions']) {
         $page->getItem(['itemid' => $data['page_id']]);

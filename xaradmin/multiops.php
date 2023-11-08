@@ -2,7 +2,7 @@
 /**
  * Action for bulk operations
  */
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 function publications_admin_multiops()
 {
     // Get parameters

@@ -29,7 +29,7 @@
  * If no 404 page is defined it will show the standard Xaraya 404 page
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_user_display($args)
 {
@@ -128,7 +128,7 @@ function publications_user_display($args)
         return xarResponse::NotFound();
     }
 
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $ptid]);
 
     // A non-active publication type means the page does not exist
@@ -139,7 +139,7 @@ function publications_user_display($args)
     // Save this as the current pubtype
     xarCoreCache::setCached('Publications', 'current_pubtype_object', $pubtypeobject);
 
-    $data['object'] = DataObjectMaster::getObject(['name' => $pubtypeobject->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
 //    $id = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
     $itemid = $data['object']->getItem(['itemid' => $id]);
 

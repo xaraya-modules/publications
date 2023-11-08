@@ -32,7 +32,7 @@ sys::import('modules.base.class.pager');
  * If no 404 page is defined it will show the standard Xaraya 404 page
  */
 
-sys::import('modules.dynamicdata.class.objects.master');
+sys::import('modules.dynamicdata.class.objects.factory');
 
 function publications_admin_display($args)
 {
@@ -129,16 +129,16 @@ function publications_admin_display($args)
     /*    if (empty($name) && empty($ptid)) return xarResponse::NotFound();
 
         if(empty($ptid)) {
-            $publication_type = DataObjectMaster::getObjectList(array('name' => 'publications_types'));
+            $publication_type = DataObjectFactory::getObjectList(array('name' => 'publications_types'));
             $where = 'name = ' . $name;
             $items = $publication_type->getItems(array('where' => $where));
             $item = current($items);
             $ptid = $item['id'];
         }
     */
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $ptid]);
-    $data['object'] = DataObjectMaster::getObject(['name' => $pubtypeobject->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
 //    $id = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
     $itemid = $data['object']->getItem(['itemid' => $id]);
 
@@ -856,9 +856,9 @@ function publications_admin_display($args)
         $data['layout'] = $layout;
     }
 
-    $pubtypeobject = DataObjectMaster::getObject(['name' => 'publications_types']);
+    $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $ptid]);
-    $data['object'] = DataObjectMaster::getObject(['name' => $pubtypeobject->properties['name']->value]);
+    $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
     $id = xarMod::apiFunc('publications', 'user', 'getranslationid', ['id' => $id]);
     $data['object']->getItem(['itemid' => $id]);
 
