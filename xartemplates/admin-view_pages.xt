@@ -6,14 +6,14 @@
     <div class="xar-mod-body">
         <h2>View Publications Trees</h2>
 
-        <xar:set name="root_pages">xarMod::apiFunc('publications', 'user', 'getpages', array('parent'=>0))</xar:set>
+        <xar:set name="root_pages">xarMod::apiFunc('publications', 'user', 'getpages', ['parent'=>0])</xar:set>
         <xar:if condition="!empty($root_pages)">
             <xar:set name="method">'get'</xar:set>
             <form method="post" action="#xarController::URL('publications','admin','view_pages')#">
                 <label for="contains">Select tree:</label>&#160;
 
                 <xar:var name="firstline">-- All --</xar:var>
-                <xar:set name="firstline">array('id'=>0,'name'=>$firstline)</xar:set>
+                <xar:set name="firstline">['id'=>0,'name'=>$firstline]</xar:set>
                 <xar:data-input type="dropdown" nme="root_id" value="$root_id" options="$root_pages" firstline="$firstline"/>
                 <!--
                 <select name="root_id" id="root_id">
@@ -43,7 +43,7 @@
                     </xar:set>
                     <xar:if condition="xarModVars::get('publications', 'use_module_icons')">
                         <a href="#$link#" title="#xarML('Add A New Publication')#" style="margin-right: 5px">
-                            <img src="#xarTpl::getImage('icons/'.'document-new.png', 'base')#" width="16" height="16" alt="#xarML('Add')#"/>
+                            <img src="#xarTpl::getImage('icons/' . 'document-new.png', 'base')#" width="16" height="16" alt="#xarML('Add')#"/>
                         </a>
                     <xar:else />
                         <a href="#$link#">
@@ -58,28 +58,28 @@
             <!-- Define alphanumeric states here -->
             <xar:set name="stateoptions">
                 array(
-                    array('id' => 0, 'name' => 'Deleted'),
-                    array('id' => 1, 'name' => 'Inactive'),
-                    array('id' => 2, 'name' => 'Template'),
-                    array('id' => 3, 'name' => 'Active'),
-                    array('id' => 4, 'name' => 'Front Page'),
-                    array('id' => 5, 'name' => 'Empty'),
+                    ['id' => 0, 'name' => 'Deleted'],
+                    ['id' => 1, 'name' => 'Inactive'],
+                    ['id' => 2, 'name' => 'Template'],
+                    ['id' => 3, 'name' => 'Active'],
+                    ['id' => 4, 'name' => 'Front Page'],
+                    ['id' => 5, 'name' => 'Empty'],
                 )
             </xar:set>
             <xar:set name="state">
                 array(
-                    array('id' => 0, 'name' => 'red-12.png'),
-                    array('id' => 1, 'name' => 'yellow-12.png'),
-                    array('id' => 2, 'name' => 'orange-12.png'),
-                    array('id' => 3, 'name' => 'green-12.png'),
-                    array('id' => 4, 'name' => 'blue-12.png'),
-                    array('id' => 5, 'name' => 'clear-12.png'),
+                    ['id' => 0, 'name' => 'red-12.png'],
+                    ['id' => 1, 'name' => 'yellow-12.png'],
+                    ['id' => 2, 'name' => 'orange-12.png'],
+                    ['id' => 3, 'name' => 'green-12.png'],
+                    ['id' => 4, 'name' => 'blue-12.png'],
+                    ['id' => 5, 'name' => 'clear-12.png'],
                 )
             </xar:set>
             <xar:set name="options">
                 array(
-                //    array('id' => 0, 'name' => 'red-12.png'),
-                    array('id' => 1, 'name' => 'green-12.png'),
+                //    ['id' => 0, 'name' => 'red-12.png'],
+                    ['id' => 1, 'name' => 'green-12.png'],
                 )
             </xar:set>
             <table border="0" width="100%" cellspacing="0" cellpadding="0">
@@ -129,11 +129,11 @@
                                 <xar:if condition="xarUser::isLoggedIn()">
                                     <xar:access level="500">
                                         <xar:set name="link">
-                                            xarController::URL('publications', 'admin', 'modify', array('ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']))
+                                            xarController::URL('publications', 'admin', 'modify', ['ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']])
                                         </xar:set>
                                         <xar:if condition="xarModVars::get('publications', 'use_module_icons')">
                                             <a href="#$link#" title="#xarML('Modify this publication')#" style="margin-right: 5px">
-                                                <img src="#xarTpl::getImage('icons/'.'modify.png', 'base')#" width="16" height="16" alt="#xarML('Modify Publication')#"/>
+                                                <img src="#xarTpl::getImage('icons/' . 'modify.png', 'base')#" width="16" height="16" alt="#xarML('Modify Publication')#"/>
                                             </a>
                                         <xar:else />
                                             <a href="#$link#" title="#xarML('Modify this publication')#" style="margin-right: 5px">
@@ -143,11 +143,11 @@
                                     </xar:access>
                                     <xar:access level="700">
                                         <xar:set name="link">
-                                            xarController::URL('publications', 'admin', 'clone', array('ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']))
+                                            xarController::URL('publications', 'admin', 'clone', ['ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']])
                                         </xar:set>
                                         <xar:if condition="xarModVars::get('publications', 'use_module_icons')">
                                             <a href="#$link#" title="#xarML('Clone this publication')#" style="margin-right: 5px">
-                                                <img src="#xarTpl::getImage('icons/'.'add.png', 'base')#" width="16" height="16" alt="#xarML('Clone Publication')#"/>
+                                                <img src="#xarTpl::getImage('icons/' . 'add.png', 'base')#" width="16" height="16" alt="#xarML('Clone Publication')#"/>
                                             </a>
                                         <xar:else />
                                             <a href="#$link#" title="#xarML('Clone this publication')#" style="margin-right: 5px">
@@ -157,11 +157,11 @@
                                     </xar:access>
                                     <xar:access level="700">
                                         <xar:set name="link">
-                                            xarController::URL('publications', 'admin', 'delete', array('ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']))
+                                            xarController::URL('publications', 'admin', 'delete', ['ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']])
                                         </xar:set>
                                         <xar:if condition="xarModVars::get('publications', 'use_module_icons')">
                                             <a href="#$link#" title="#xarML('Delete this publication')#" style="margin-right: 5px">
-                                                <img src="#xarTpl::getImage('icons/'.'delete.png', 'base')#" width="16" height="16" alt="#xarML('Delete Publication')#"/>
+                                                <img src="#xarTpl::getImage('icons/' . 'delete.png', 'base')#" width="16" height="16" alt="#xarML('Delete Publication')#"/>
                                             </a>
                                         <xar:else />
                                             <a href="#$link#" title="#xarML('Delete this publication')#" style="margin-right: 5px">
@@ -171,11 +171,11 @@
                                     </xar:access>
                                     <xar:access level="200">
                                         <xar:set name="link">
-                                            xarController::URL('publications', 'admin', 'display', array('ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']))
+                                            xarController::URL('publications', 'admin', 'display', ['ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']])
                                         </xar:set>
                                         <xar:if condition="xarModVars::get('publications', 'use_module_icons')">
                                             <a href="#$link#" title="#xarML('Display this publication')#" style="margin-right: 5px">
-                                                <img src="#xarTpl::getImage('icons/'.'display.png', 'base')#" width="16" height="16" alt="#xarML('Display Publication')#"/>
+                                                <img src="#xarTpl::getImage('icons/' . 'display.png', 'base')#" width="16" height="16" alt="#xarML('Display Publication')#"/>
                                             </a>
                                         <xar:else />
                                             <a href="#$link#" title="#xarML('Display this publication')#" style="margin-right: 5px">
@@ -185,7 +185,7 @@
                                     </xar:access>
                                     <xar:access level="800">
                                         <xar:set name="link">
-                                            xarController::URL('publications', 'admin', 'templates_page', array('ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']))
+                                            xarController::URL('publications', 'admin', 'templates_page', ['ptid' => $loop->item['ptid'], 'itemid' => $loop->item['id']])
                                         </xar:set>
                                         <xar:if condition="xarModVars::get('publications', 'use_module_icons')">
                                             <a href="#$link#" title="#xarML('Manage templates of this publication')#" style="margin-right: 5px">

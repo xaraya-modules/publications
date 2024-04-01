@@ -7,7 +7,7 @@
     
     <xar:template file="publinks" type="module" />
 
-    <xar:set name="fields">$object->getFieldValues(array(),1)</xar:set>
+    <xar:set name="fields">$object->getFieldValues([],1)</xar:set>
 
     <!-- State -->
     <xar:set name="publication_state">
@@ -67,7 +67,7 @@
                 retrieve the file information. For dynamic extra fields, you can use [fieldname]_output
                 directly to access the file information.
             </xar:comment>
-            <xar:set name="fileupload_output">xarMod::apiFunc('uploads','user','showoutput',array('value' => $fields['fileupload'], 'multiple' => true))</xar:set>
+            <xar:set name="fileupload_output">xarMod::apiFunc('uploads','user','showoutput',['value' => $fields['fileupload'], 'multiple' => true])</xar:set>
             <xar:foreach in="$fileupload_output" key="$fileid" value="$fileinfo">
                 <p>
                     <a href="#$fileinfo['fileDownload']#">
@@ -99,7 +99,7 @@
             <xar:set name="prevpublication">xarCoreCache::getCached('Publications', 'prevpublication')</xar:set>
             <xar:if condition="!empty($prevpublication)">
                 <xar:var name="prev">Previous</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', array('itemid' => $prevpublication['id']))#" title="#$prev#">
+                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $prevpublication['id']])#" title="#$prev#">
                     <xar:img scope="theme" file="icons/go-previous.png" class="xar-icon" alt="$prev"/>
                 </a>
             </xar:if>
@@ -107,7 +107,7 @@
             <xar:set name="nextpublication">xarCoreCache::getCached('Publications', 'nextpublication')</xar:set>
             <xar:if condition="!empty($nextpublication)">
                 <xar:var name="next">Next</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', array('itemid' => $nextpublication['id']))#" title="#$next#">
+                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $nextpublication['id']])#" title="#$next#">
                     <xar:img scope="theme" file="icons/go-next.png" class="xar-icon" alt="$next"/>
                 </a>
             </xar:if>

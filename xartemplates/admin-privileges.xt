@@ -41,7 +41,7 @@
                             Category
                         </th>
                         <td>
-                            <xar:set name="firstline">array('id' => xarML('All'), 'name' => xarML('All'))</xar:set>
+                            <xar:set name="firstline">['id' => xarML('All'), 'name' => xarML('All'])</xar:set>
                             <xar:set name="onchange">"this.form.action='" . xarServer::getCurrentURL() . "';this.form.submit();"</xar:set>
                             <xar:data-input type="categories" name="privcategories" itemtype="$ptid" value="$cids" firstline="All" layout="vertical" returnitself="true" onchange="$onchange" />
                         </td>
@@ -84,11 +84,11 @@
                                 1; unset($levels[-1]);unset($levels[400]);unset($levels[600]);
                             </xar:set>
                             <xar:set name="options">
-                                array()
+                                []
                             </xar:set>
                             <xar:foreach in="$levels" key="$key" value="$value" >
                                 <xar:set name="foo">1;
-                                    $options[] = array('id' => $key * 100, 'name' => $value)
+                                    $options[] = ['id' => $key * 100, 'name' => $value]
                                 </xar:set>
                             </xar:foreach>
                             <xar:data-input type="dropdown" name="extlevel" value="$extlevel" options="$options" />

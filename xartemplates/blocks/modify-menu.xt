@@ -14,9 +14,9 @@
             </label>
             <xar:set name="options">
                 array(
-                    array('id' => 'AUTO', 'name' => xarML('Automatic - set by the current module')),
-                    array('id' => 'AUTODEFAULT', 'name' => xarML('Automatic - use default outside roots')),
-                    array('id' => 'DEFAULT', 'name' => xarML('Default - force use of the default page')),
+                    ['id' => 'AUTO', 'name' => xarML('Automatic - set by the current module')],
+                    ['id' => 'AUTODEFAULT', 'name' => xarML('Automatic - use default outside roots')],
+                    ['id' => 'DEFAULT', 'name' => xarML('Default - force use of the default page')],
                 )
             </xar:set>
             <xar:set name="id">'current_source_' . $bid</xar:set>

@@ -41,7 +41,7 @@
         
         <!-- We need $typeinfo for the menu labels-->
         <xar:set name="dummy">
-            $pubtypes = DataObjectFactory::getObjectList(array('name' => 'publications_types'));
+            $pubtypes = DataObjectFactory::getObjectList(['name' => 'publications_types']);
             $pubtypes->dataquery->gt($pubtypes->properties['state']->source,2);
             $typeinfo = $pubtypes->getItems();
         </xar:set>
@@ -54,7 +54,7 @@
                     <xar:if condition="$loop:index ge 0">
                         <tr>
                             <td align="left" class="xar-publications-sitemap-level-#$loop:item.depth#">
-                                <xar:for start="$i = 0" test="$i lt $loop->item['depth']" iter="$i++">
+                                <xar:for start="$i = 0" test="$i lt $loop:item['depth']" iter="$i++">
                                     &#160;&#160;&#160;&#160;
                                 </xar:for>
                                 <xar:if condition="$loop->item['redirect_flag'] eq 0 AND $loop->item['state'] eq 5">
@@ -76,7 +76,7 @@
                                         #xarVar::prepForDisplay($loop:item.title)#
                                     </xar:if>
                                 <xar:else/>
-                                    <a href="#xarController::URL('publications','user','display',array('itemid' => $loop->item['id']))#" title="#$loop->item['title']#">
+                                    <a href="#xarController::URL('publications','user','display',['itemid' => $loop->item['id']])#" title="#$loop->item['title']#">
                                         <xar:set name="source_flag">$loop->item['sitemap_source_flag']</xar:set>
                                         <xar:if condition="$source_flag eq 1">
                                             <xar:if condition="isset($typeinfo[$loop->item['pubtype_id']]['menu_source_flag'])">
@@ -108,7 +108,7 @@
             <xar:set name="prevpublication">xarCoreCache::getCached('Publications', 'prevpublication')</xar:set>
             <xar:if condition="!empty($prevpublication)">
                 <xar:var name="prev">Previous</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', array('itemid' => $prevpublication['id']))#" title="#$prev#">
+                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $prevpublication['id']])#" title="#$prev#">
                     <xar:img scope="theme" file="icons/go-previous.png" class="xar-icon" alt="$prev"/>
                 </a>
             </xar:if>
@@ -116,7 +116,7 @@
             <xar:set name="nextpublication">xarCoreCache::getCached('Publications', 'nextpublication')</xar:set>
             <xar:if condition="!empty($nextpublication)">
                 <xar:var name="next">Next</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', array('itemid' => $nextpublication['id']))#" title="#$next#">
+                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $nextpublication['id']])#" title="#$next#">
                     <xar:img scope="theme" file="icons/go-next.png" class="xar-icon" alt="$next"/>
                 </a>
             </xar:if>

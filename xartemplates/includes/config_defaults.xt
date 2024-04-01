@@ -41,9 +41,9 @@
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    array('id' => 'id', 'name' => 'ID'),
-                    array('id' => 'name', 'name' => 'Name'),
-                    array('id' => 'description', 'name' => 'Description'),
+                    ['id' => 'id', 'name' => 'ID'],
+                    ['id' => 'name', 'name' => 'Name'],
+                    ['id' => 'description', 'name' => 'Description'],
                 )
             </xar:set>
             <xar:data-input name="sortpubtypes" type="dropdown" options="$options" />&#160;
@@ -97,9 +97,9 @@
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    array('id' => 0, 'name' => xarML('Only owner')),
-                    array('id' => 1, 'name' => xarML('Owner or administrators')),
-                    array('id' => 2, 'name' => xarML('Owner or designated site administrator')),
+                    ['id' => 0, 'name' => xarML('Only owner')],
+                    ['id' => 1, 'name' => xarML('Owner or administrators')],
+                    ['id' => 2, 'name' => xarML('Owner or designated site administrator')],
                 )
             </xar:set>
             <xar:set name="value">xarModVars::get('publications', 'admin_override')</xar:set>

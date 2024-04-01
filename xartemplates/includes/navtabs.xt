@@ -2,7 +2,7 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <xar:javascript module="publications" filename="tabs.js" />
     <xar:style scope="module" module="base" file="navtabs" />
-    <xar:set name="object">DataObjectFactory::getObjectList(array('name' => 'publications_types'))</xar:set>
+    <xar:set name="object">DataObjectFactory::getObjectList(['name' => 'publications_types'])</xar:set>
     <xar:set name="items">$object->getItems()</xar:set>
 
     <dl class="xar-tabs">
@@ -14,7 +14,7 @@
             <xar:data-input name="ptid" type="objectref" refobject="publications_types" store_prop="id" display_prop="description" value="$ptid" onchange="$onchange" />
         </form>
         <dd style="float:right">
-            <a href="#xarController::URL('publications','admin','view',array('ptid' => $ptid))#">
+            <a href="#xarController::URL('publications','admin','view',['ptid' => $ptid])#">
                 Publications List
             </a>
         </dd>

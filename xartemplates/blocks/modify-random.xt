@@ -11,7 +11,7 @@
                 Publication Type
             </label> 
             <xar:var name="firstline">Default / Current</xar:var>
-            <xar:set name="firstline">array('id' => 0, 'name' => $firstline)</xar:set>
+            <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
             <xar:set name="options">xarMod::apiFunc('publications', 'user', 'get_pubtypes')</xar:set>        
             <xar:data-input type="dropdown" name="pubtype_id" firstline="$firstline" options="$options" value="$pubtype_id"/>
         </div>
@@ -21,7 +21,7 @@
             Category 
         </label>
         <xar:var name="firstline">All / Current</xar:var>
-        <xar:set name="firstline">array('id' => 0, 'name' => $firstline)</xar:set>
+        <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
         <xar:set name="options">xarMod::apiFunc('categories', 'user', 'getcat')</xar:set>        
         <xar:data-input type="dropdown" name="catfilter" firstline="$firstline" options="$options" value="$catfilter"/>
     </div>
@@ -45,9 +45,9 @@
         </label>
         <xar:set name="options">
             array(
-                array('id' => '2,3', 'name' => xarML('All Published')),
-                array('id' => '3', 'name' => xarML('Frontpage')),
-                array('id' => '2', 'name' => xarML('Approved'))
+                ['id' => '2,3', 'name' => xarML('All Published')],
+                ['id' => '3', 'name' => xarML('Frontpage')],
+                ['id' => '2', 'name' => xarML('Approved')]
             )
         </xar:set>        
         <xar:data-input type="dropdown" name="stateoptions" options="$options" value="$state"/>
@@ -58,7 +58,7 @@
                 Locale
             </label> 
             <xar:var name="firstline">All</xar:var>
-            <xar:set name="firstline">array('id' => 0, 'name' => $firstline)</xar:set>
+            <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
             <xar:data-input type="dropdown" name="locales" firstline="$firstline" options="$locales" value="$locale"/>
         </div>
     </xar:if>

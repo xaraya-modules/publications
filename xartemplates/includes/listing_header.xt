@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <tr>
-        <xar:set name="paramarray">array('op' => 'column')</xar:set>
+        <xar:set name="paramarray">['op' => 'column']</xar:set>
         <xar:if condition="!empty($letter)">
             <xar:set name="dummy">1;$paramarray['letter'] = $letter</xar:set>
         </xar:if>
@@ -21,7 +21,7 @@
                 <a href="#$url#" class="refresh_listing" alt="Click to order by this field" title="Order by #$column#">
                     <xar:var name="fieldlabels.$column"/>
                 </a>
-                <xar:set name="subdata">array_merge($params,array('column' => $column))</xar:set>
+                <xar:set name="subdata">array_merge($params,['column' => $column])</xar:set>
                 <xar:template file="sortarrows" subdata="$subdata" module="$module" property="listing"/>
             </th>
         </xar:foreach>

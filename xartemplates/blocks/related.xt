@@ -10,7 +10,7 @@
         <br /><br />
     </xar:if>
     <xar:if condition="!empty($showauthor) AND !empty($authorlink)">
-        <xar:set name="username">DataPropertyMaster::getProperty(array('name'=>'username'));
+        <xar:set name="username">DataPropertyMaster::getProperty(['name'=>'username']);
             $username->initialization_store_type = 'id';
             $username->value = $authorid;
         </xar:set>

@@ -46,7 +46,7 @@
     #$output#
     <xar:if condition="!empty($showcols)">
         <xar:if condition="$showcols eq 1">
-            <a href="#xarController::URL('publications','user','view',array('numcols' => 1))#">
+            <a href="#xarController::URL('publications','user','view',['numcols' => 1])#">
                 single-column display
             </a>
             <xar:else />

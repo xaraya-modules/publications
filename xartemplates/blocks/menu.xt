@@ -14,7 +14,7 @@
 
     <!-- We need $typeinfo for the menu labels-->
     <xar:set name="dummy">
-        $pubtypes = DataObjectFactory::getObjectList(array('name' => 'publications_types'));
+        $pubtypes = DataObjectFactory::getObjectList(['name' => 'publications_types']);
         $pubtypes->dataquery->gt($pubtypes->properties['state']->source,2);
         $typeinfo = $pubtypes->getItems();
     </xar:set>

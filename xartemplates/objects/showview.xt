@@ -11,7 +11,7 @@
             <xar:sec mask="ManagePublications" catch="false">
                 <xar:set name="type">xarController::$request->getInfo()</xar:set>
                 <xar:var name="label">Create a new publication</xar:var>
-                <a href="#xarController::URL('publications', $type[1], 'new',array('name' => $object->name))#" style="float:right; margin-right: 10px" title="#$label#">
+                <a href="#xarController::URL('publications', $type[1], 'new',['name' => $object->name])#" style="float:right; margin-right: 10px" title="#$label#">
                     <img src="#xarTpl::getImage('icons/document-new.png','base')#"/>
                 </a>
             </xar:sec> 
@@ -33,7 +33,7 @@
     </xar:if>
     
     <!-- Get an access object to use for checking access -->
-    <xar:set name="access">DataPropertyMaster::getProperty(array('name' => 'access'))</xar:set>
+    <xar:set name="access">DataPropertyMaster::getProperty(['name' => 'access'])</xar:set>
     
     <xar:if condition="empty($items)">
         Nothing to display
@@ -46,7 +46,7 @@
     
         <!-- Get this item's access constraints for display -->
             <xar:set name="accessconstraints">
-                xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', array('property' => $object->properties['access']))
+                xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $object->properties['access']])
             </xar:set>
             <xar:set name="allowed">$access->check($accessconstraints['display'])</xar:set>
     

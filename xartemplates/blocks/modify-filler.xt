@@ -8,7 +8,7 @@
         </div>
         <div class="xar-col">
             <xar:var name="firstline">All</xar:var>
-            <xar:set name="firstline">array('id' => 0, 'name' => $firstline)</xar:set>
+            <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
             <xar:set name="options">xarMod::apiFunc('publications', 'user', 'get_pubtypes')</xar:set>        
             <xar:data-input type="dropdown" name="pubtype_id" firstline="$firstline" options="$options" value="$pubtype_id"/>
         </div>
@@ -22,9 +22,9 @@
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    array('id' => '2,3', 'name' => xarML('All Published')),
-                    array('id' => '3', 'name' => xarML('Frontpage')),
-                    array('id' => '2', 'name' => xarML('Approved'))
+                    ['id' => '2,3', 'name' => xarML('All Published')],
+                    ['id' => '3', 'name' => xarML('Frontpage')],
+                    ['id' => '2', 'name' => xarML('Approved')]
                 )
             </xar:set>        
             <xar:data-input type="dropdown" name="state" options="$options" value="$state"/>
@@ -38,7 +38,7 @@
         </div>
         <div class="xar-col">
             <xar:var name="firstline">--- choose an article to be featured ---</xar:var>
-            <xar:set name="firstline">array('id' => 0, 'name' => $firstline)</xar:set>
+            <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
             <xar:data-input type="dropdown" name="fillerid" firstline="$firstline" options="$filtereditems" value="$fillerid"/>
         </div>
     </div>
@@ -51,8 +51,8 @@
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    array('id' => 'summary', 'name' => xarML('Summary Display')),
-                    array('id' => 'detail', 'name' => xarML('Detail Display')),
+                    ['id' => 'summary', 'name' => xarML('Summary Display')],
+                    ['id' => 'detail', 'name' => xarML('Detail Display')],
                 )
             </xar:set>        
             <xar:data-input type="dropdown" name="displaytype" options="$options" value=""/>

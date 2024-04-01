@@ -19,7 +19,7 @@
             <div class="xar-form-input-wrapper">
                 <label class="xar-form-label" for="new_root_pid">Add Root Page</label>
                 <xar:var name="firstline">-- None --</xar:var>
-                <xar:set name="firstline">array('id'=>'','name'=>$firstline)</xar:set>
+                <xar:set name="firstline">['id'=>'','name'=>$firstline]</xar:set>
                 <xar:data-input name="new_root_pid" type="dropdown" options="$options" value="" firstline="$firstline"/>
             </div>
 

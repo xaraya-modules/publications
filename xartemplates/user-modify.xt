@@ -13,7 +13,7 @@
         </h2>
         <div style="float:right">
             <xar:set name="type">xarController::$request->getInfo()</xar:set>
-            <a href="#xarController::URL('publications',$type[1],'view',array('ptid' => $ptid))#">
+            <a href="#xarController::URL('publications',$type[1],'view',['ptid' => $ptid])#">
                 Publications List
             </a>
         </div>
@@ -46,11 +46,11 @@
                 <xar:set name="dummy">$object->itemid = $key</xar:set>
 
                 <xar:if condition="$tab eq 'preview' AND $index eq 0">
-                    <xar:set name="visible">array('none','none','block')</xar:set>
+                    <xar:set name="visible">['none','none','block']</xar:set>
                 <xar:elseif condition="$tab ne 'preview' AND $index eq 0" />
-                    <xar:set name="visible">array('block','none','none')</xar:set>
+                    <xar:set name="visible">['block','none','none']</xar:set>
                 <xar:else />
-                    <xar:set name="visible">array('none','none','none')</xar:set>
+                    <xar:set name="visible">['none','none','none']</xar:set>
                 </xar:if>
 
                 <xar:set name="index">$index + 1</xar:set>
@@ -97,7 +97,7 @@
                     -->
                     <!--
                         <xar:sec mask="ManagePublications" catch="false">
-                            <a href="#xarController::URL('publications','admin','delete',array('id' => $object.itemid))#">
+                            <a href="#xarController::URL('publications','admin','delete',['id' => $object.itemid])#">
                                 <img src="#xarTpl::getImage('icons/delete.png','base')#"/>
                             </a>
                         </xar:sec>

@@ -8,7 +8,7 @@
         </div>
         <div class="xar-col">
             <xar:var name="firstline">All</xar:var>
-            <xar:set name="firstline">array('id' => 0, 'name' => $firstline)</xar:set>
+            <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
             <xar:set name="options">xarMod::apiFunc('publications', 'user', 'get_pubtypes')</xar:set>        
             <xar:data-input type="dropdown" name="pubtype_id" firstline="$firstline" options="$options" value="$pubtype_id"/>
         </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="xar-col">
                 <xar:var name="firstline">All / Current</xar:var>
-                <xar:set name="firstline">array('id' => 0, 'name' => $firstline)</xar:set>
+                <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
                 <xar:set name="options">xarMod::apiFunc('categories', 'user', 'getcat')</xar:set>        
                 <xar:data-input type="dropdown" name="catfilter" firstline="$firstline" options="$options" value="$catfilter"/>
             </div>
@@ -79,9 +79,9 @@
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    array('id' => '2,3', 'name' => xarML('All Published')),
-                    array('id' => '3', 'name' => xarML('Frontpage')),
-                    array('id' => '2', 'name' => xarML('Approved'))
+                    ['id' => '2,3', 'name' => xarML('All Published')],
+                    ['id' => '3', 'name' => xarML('Frontpage')],
+                    ['id' => '2', 'name' => xarML('Approved')]
                 )
             </xar:set>        
             <xar:data-input type="dropdown" name="pubstate" options="$options" value="$pubstate"/>
@@ -107,7 +107,7 @@
         </div>
         <div class="xar-col">
             <xar:var name="firstline">--- choose an article to be featured ---</xar:var>
-            <xar:set name="firstline">array('id' => 0, 'name' => $firstline)</xar:set>
+            <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
             <xar:data-input type="dropdown" name="featuredid" firstline="$firstline" options="$filtereditems" value="$featuredid"/>
         </div>
     </div>
@@ -170,11 +170,11 @@
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    array('id' => 'author', 'name' => xarML('Author')),
-                    array('id' => 'date', 'name' => xarML('Date')),
-                    array('id' => 'hits', 'name' => xarML('Hit Count')),
-                    array('id' => 'rating', 'name' => xarML('Rating')),
-                    array('id' => 'title', 'name' => xarML('Title'))
+                    ['id' => 'author', 'name' => xarML('Author')],
+                    ['id' => 'date', 'name' => xarML('Date')],
+                    ['id' => 'hits', 'name' => xarML('Hit Count')],
+                    ['id' => 'rating', 'name' => xarML('Rating')],
+                    ['id' => 'title', 'name' => xarML('Title')]
                 )
             </xar:set>        
             <xar:data-input type="dropdown" name="sortoptions" options="$options" value="$toptype"/>

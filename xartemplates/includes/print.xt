@@ -4,7 +4,7 @@
         xarVar::fetch('pageName', 'str:1', $pageName, '', xarVar::NOT_REQUIRED)
     </xar:set>
     <xar:if condition="$pageName ne 'module'">
-        <a href="#xarServer::getCurrentURL(array('pageName' => 'module'))#" style="float:right; margin-left: 10px; margin-right: 10px">
+        <a href="#xarServer::getCurrentURL(['pageName' => 'module'])#" style="float:right; margin-left: 10px; margin-right: 10px">
             <img src="#xarTpl::getImage('icons/document-print.png','base')#"/>
         </a>
     </xar:if>

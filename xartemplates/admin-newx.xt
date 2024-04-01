@@ -24,7 +24,7 @@
             <xar:data-input type="objectref" refobject="publications_types" store_prop="id" display_prop="description" value="$ptid" onchange="$newurl" />
         </div>
         <div style="float:right">
-            <a href="#xarController::URL('publications','admin','view',array('ptid' => $ptid))#">
+            <a href="#xarController::URL('publications','admin','view',['ptid' => $ptid])#">
                 Publications List
             </a>
         </div>
@@ -40,9 +40,9 @@
         </xar:if>
         <form method="post" id="post" action="&xar-modurl-publications-user-create;" enctype="#$enctype#" >
             <xar:if condition="isset($tab) AND $tab eq 'preview'">
-                <xar:set name="visible">array('none','none','block')</xar:set>
+                <xar:set name="visible">['none','none','block']</xar:set>
             <xar:else />
-                <xar:set name="visible">array('block','none','none')</xar:set>
+                <xar:set name="visible">['block','none','none']</xar:set>
             </xar:if>
             <xar:set name="itemcount">count($items)</xar:set>
             <xar:template file="pagetabs" type="module" />
