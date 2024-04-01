@@ -1,0 +1,120 @@
+{# @publications/objects/documents/detail-5.html.twig #}
+
+{% block detail_5 %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "sitemap", title: "Site Map Stylesheet"}) }}
+    
+    {% set ptid = object.objectid %}
+    {{ include('@publications/includes/publinks.html.twig') }}
+
+    {% set publication_state = properties['state'].value %}
+
+    {% if (publication_state < PUBLICATIONS_STATE_ACTIVE) and (not xar_security_check('ManagePublications',0)) %}
+        This item cannot be viewed
+    {% else %}
+
+        {# <!-- Title --> #}
+        <div class="xar-publications-sitemap-detail-title">
+            {{ xar_data_output({property: properties['title']}) }}
+
+            {# <!-- Edit icons if allowed --> #}
+            {{ include('@publications/includes/editicons.html.twig') }}
+    
+            {# <!-- Print button --> #}
+            {{ include('@publications/includes/print.html.twig') }}
+        </div>
+
+        {# <!-- Body --> #}
+        <div class="xar-publications-sitemap-detail-text">
+            {{ xar_data_output({property: properties['body']}) }}
+        </div>
+
+        {# <!-- Notes --> #}
+        {# <!--
+        <div class="xar-publications-document-detail-text">
+            {{ xar_data_output({property: properties['notes']}) }}
+        </div>
+        --> #}
+        
+        {# <!-- We need $typeinfo for the menu labels--> #}
+        {% set dummy = pubtypes = xar_coremethod('DataObjectFactory','getObjectList',{'name': 'publications_types'});
+            pubtypes.dataquery.gt(pubtypes.properties['state'].source,2);
+            typeinfo = pubtypes.getItems(); %}
+
+        {# <!-- Load the pages for this map --> #}
+        {% set pages = xar_apifunc('publications','user','get_sitemap_pages') %}
+        <div class="xar-publications-sitemap-detail-text">
+            <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                {% for loop_key1, loop_item1 in pages %}{% set loop_index1 = loop.index %}
+                    {% if loop_index1 >= 0 %}
+                        <tr>
+                            <td align="left" class="xar-publications-sitemap-level-{{ loop_item1.depth }}">
+                                {% for i in range(0, loop_item1['depth'] - 1) %}
+                                    &#160;&#160;&#160;&#160;
+                                {% endfor %}
+                                {% if loop_item1['redirect_flag'] == 0 and loop_item1['state'] == 5 %}
+                                    {% set source_flag = loop_item1['sitemap_source_flag'] %}
+                                    {% if source_flag == 1 %}
+                                        {% if typeinfo[loop_item1['pubtype_id']]['menu_source_flag'] is not null %}
+                                            {% set source_flag = typeinfo[loop_item1['pubtype_id']]['menu_source_flag'] %}
+                                        {% else %}
+                                            {% set source_flag = 2 %}
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if source_flag == 2 %}
+                                        {{ xar_prep_display(loop_item1.title) }}
+                                    {% elseif source_flag == 3 %}
+                                        {{ xar_prep_display(loop_item1.description) }}
+                                    {% elseif source_flag == 4 %}
+                                        {{ xar_prep_display(loop_item1.sitemap_alias) }}
+                                    {% else %}
+                                        {{ xar_prep_display(loop_item1.title) }}
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{{ xar_moduleurl('publications','user','display',{'itemid': loop_item1['id']}) }}" title="{{ loop_item1['title'] }}">
+                                        {% set source_flag = loop_item1['sitemap_source_flag'] %}
+                                        {% if source_flag == 1 %}
+                                            {% if typeinfo[loop_item1['pubtype_id']]['menu_source_flag'] is not null %}
+                                                {% set source_flag = typeinfo[loop_item1['pubtype_id']]['menu_source_flag'] %}
+                                            {% else %}
+                                                {% set source_flag = 2 %}
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if source_flag == 2 %}
+                                            {{ xar_prep_display(loop_item1.title) }}
+                                        {% elseif source_flag == 3 %}
+                                            {{ xar_prep_display(loop_item1.description) }}
+                                        {% elseif source_flag == 4 %}
+                                            {{ xar_prep_display(loop_item1.sitemap_alias) }}
+                                        {% else %}
+                                            {{ xar_prep_display(loop_item1.title) }}
+                                        {% endif %}
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        
+        {# <!-- Link to previous or next --> #}
+        <div class="xar-normal xar-align-right xar-padding-thick">
+            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+            {% if prevpublication %}
+                {% set prev = 'Previous' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-previous.png", class: "xar-icon", alt: prev}) -}}
+                </a>
+            {% endif %}
+            &#160;
+            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+            {% if nextpublication %}
+                {% set next = 'Next' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-next.png", class: "xar-icon", alt: next}) -}}
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

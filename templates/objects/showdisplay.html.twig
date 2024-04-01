@@ -1,0 +1,29 @@
+{# @publications/objects/showdisplay.html.twig #}
+
+{% block showdisplay %}
+{% set settings = xar_apifunc('publications','user','getsettings',{'ptid': properties['itemtype'].value}) %}
+
+    {# <!-- Get the name of the publication type. It is supposed to be "publications_something" --> #}
+    {% if object.name|length <= 13 %}
+        {% set pubtype = 'generic' %}
+    {% else %}
+        {% set pubtype = object.name|slice(13) %}
+    {% endif %}
+
+    {# <!-- Figure out which template to use --> #}
+    {% set includepath = "objects/pubtype" %}
+    {% if (layout is not null or layout) and layout in ['summary','detail'] %}
+        {% set filename = layout %}
+    {% else %}
+        {% set filename = 'detail' %}
+    {% endif %}
+    {% if properties['detail_template'].value and properties['id'].value %}
+        {% set template = properties['id'].value %}
+    {% else %}
+        {% set template = '' %}
+    {% endif %}
+
+    {# <!-- Display --> #}
+    {{ include('@publications/objects/' ~ pubtype ~ '/' ~ filename ~ '.html.twig') }}
+
+{% endblock %}

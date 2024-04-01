@@ -1,0 +1,58 @@
+{# @publications/includes/substats.html.twig #}
+
+{% block substats %}
+{% if nextlevel is not null %}
+    {% set curlevel = nextlevel %}
+{% endif %}
+{% if nextfield is not null %}
+    {% set curfield = nextfield %}
+{% endif %}
+{% if nextvalue is not null %}
+    {% set curvalue = nextvalue %}
+{% endif %}
+<ul>
+    {% for subkey, subvalue in curvalue %}
+        <li>
+            {% if curfield == 'pubtype_id' %}
+                {% set curlabel = pubtypes[subkey]['description'] %}
+                {% set pubtype_id = subkey %}
+                {% elseif curfield == 'state' %}
+                {% set curlabel = statelist[subkey] %}
+                {% set state = subkey %}
+                {% elseif curfield == 'owner' %}
+                {% set curlabel = xar_username(subkey) %}
+                {% set owner = subkey %}
+                {% elseif curfield == 'locale' %}
+                {% set curlabel = subkey %}
+                {% set locale = subkey %}
+                {% elseif curfield == 'pubdate_year' or curfield == 'pubdate_month' or curfield == 'pubdate_day' %}
+                {% set curlabel = subkey %}
+                {% set pubdate = subkey %}
+            {% endif %}
+            <a href="{{ xar_moduleurl('publications','admin','view',{'ptid': pubtype_id, 'owner': owner, 'lang': locale, 'state[]': state, 'pubdate': pubdate}) }}">{{ curlabel }} </a> 
+{#  
+    Include template recursively here
+ #}
+            {% if group[curlevel] and subvalue is iterable %}
+                {% set nextfield = group[curlevel] %}
+                {% set nextlevel = curlevel + 1 %}
+                {% set nextvalue = subvalue %}
+                {{ include('@publications/includes/substats.html.twig') }}
+            {% else %}
+                {{ subvalue }}
+            {% endif %}
+            {% if curfield == 'pubtype_id' %}
+                {% set pubtype_id = null %}
+                {% elseif curfield == 'state' %}
+                {% set state = null %}
+                {% elseif curfield == 'owner' %}
+                {% set owner = null %}
+                {% elseif curfield == 'locale' %}
+                {% set locale = null %}
+                {% elseif curfield == 'pubdate_year' or curfield == 'pubdate_month' or curfield == 'pubdate_day' %}
+                {% set pubdate = null %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

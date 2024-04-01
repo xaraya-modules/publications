@@ -1,0 +1,13 @@
+{# @publications/viewmap.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+{% if cattree|length > 0 %}
+        {{ include('@publications/includes/mapbycategory.html.twig') }}
+    {% elseif catgrid|length > 0 %}
+        {{ include('@publications/includes/mapbygrid.html.twig') }}
+    {% else %}
+        {{ include('@publications/includes/mapbypubtype.html.twig') }}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,57 @@
+{# @publications/includes/mapbypubtype.html.twig #}
+
+{% block mapbypubtype %}
+<h2>
+        Publication Map by Publication Type
+    </h2>
+    <br />
+    <form method="post" action="{{ maplink }}">
+        <div>
+            Filter:
+            &#160;
+            {{ xar_data_input({type: "objectref", name: "ptid", refobject: "publications_types", store_prop: "id", display_prop: "description", value: ptid, onchange: "javascript:this.form.submit();", firstline: "0,Publication"}) }}
+            {% for cid in catfilter|keys %}
+                &#160;&#160;&#160;{{ catfilter[cid] }}
+            {% endfor %}
+            &#160;&#160;&#160;
+            {% set label = 'Go' %}
+            {{- xar_button({type: "submit", name: "go", label: label}) -}}
+        </div>
+    </form>
+    <br />
+    <br />
+    {% for pubtype in publinks %}
+            {% if ptid and pubtype['pubid'] != ptid %}
+                <xar:continue />
+            {% endif %}
+        <div class="xar-accent-outline">
+            <div class="xar-title xar-accent xar-standard-box-padding">
+                {% if not pubtype['publink'] %}
+                    {{ pubtype['pubtitle'] }}
+                    {% else %}
+                    <a href="{{ pubtype['publink'] }}">{{ pubtype['pubtitle'] }}</a>
+                {% endif %}
+                {% if pubtype['pubcount'] %}
+                    ({{ pubtype['pubcount'] }})
+                {% endif %}
+            </div>
+            <div class="xar-standard-box-padding">
+                {% for childcats in pubtype['cats'] %}
+                    {% for cat in childcats %}
+                        {{ cat['beforetags'] }}
+                        {% if cat['link'] %}
+                            <a href="{{ cat['link'] }}">{{ cat['name'] }}</a>
+                            {% else %}
+                            {{ cat['name'] }}
+                        {% endif %}
+                        {% if cat['count'] %}
+                            ({{ cat['count'] }})
+                        {% endif %}
+                        {{ cat['aftertags'] }}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    {{ include('@publications/includes/navtabs-user-map.html.twig') }}
+{% endblock %}

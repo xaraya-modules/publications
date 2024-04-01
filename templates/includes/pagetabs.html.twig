@@ -1,0 +1,92 @@
+{# @publications/includes/pagetabs.html.twig #}
+
+{% block pagetabs %}
+{{ xar_style({scope: "module", module: "base", file: "navtabs"}) }}
+    {% set tabs = 3*itemcount %}
+    {% if tab is null %}
+        {% set tab = '' %}
+    {% endif %}
+    {% set index = 0 %}
+    {% set allow_translations = xar_modvar('publications', 'multilanguage') %}
+    {% if allow_translations and properties['id'].value %}
+        <div style="float:right" id="newtranslation">
+            {% if layout == 'publications-admin' %}
+                <a href="{{ xar_moduleurl('publications','admin','modify',{'itemid': itemid, 'name': object.name, 'tplmodule': 'publications', 'tab': 'newtranslation'}) }}">
+                    New Translation
+                </a>
+            {% else %}
+                <a href="{{ xar_moduleurl('publications','user','modify',{'itemid': itemid, 'name': object.name, 'tplmodule': 'publications', 'tab': 'newtranslation'}) }}">
+                    New Translation
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+    <ul class="xar-tabs xar-alt xar-norm-outline" style="clear:both">
+        {% for item in items %}
+            {# <!--{% if tab == 'content' %}
+                {% set class = "active" %}
+            {% else %}
+                {% set class = "" %}
+            {% endif %}--> #}
+            {% set index = index + 1 %}
+            <li id="tab-{{ index }}">
+                <a id="href-{{ index }}" href="javascript:showtab({{ index }},{{ tabs }})">
+                    {% if xar_modvar('publications', 'multilanguage') %}
+                        {% if not item['id'] %}
+                            New:
+                        {% else %}
+                            {{ xar_data_output({property: properties['id'], value: item['id']}) }}:
+                        {% endif %}
+                        &#160;{{ xar_data_output({property: properties['locale'], value: item['locale']}) }}
+                    {% else %}
+                        {% if not item['id'] %}
+                            New Publication
+                        {% else %}
+                            Publication ID {{ xar_data_output({property: properties['id'], value: item['id']}) }}
+                        {% endif %}
+                    {% endif %}
+                </a>
+             </li>
+
+            {# <!--{% if tab == 'settings' %}
+                {% set class = "active" %}
+            {% else %}
+                {% set class = "" %}
+            {% endif %}--> #}
+            {% set index = index + 1 %}
+            <li id="tab-{{ index }}">
+                <a id="href-{{ index }}" href="javascript:showtab({{ index }},{{ tabs }})">
+                    {% if xar_modvar('publications', 'multilanguage') %}
+                        {% if not item['id'] %}
+                            New:
+                        {% else %}
+                            {{ xar_data_output({property: properties['id'], value: item['id']}) }}:
+                        {% endif %}
+                        &#160;Settings
+                    {% else %}
+                        {% if not item['id'] %}
+                            New Publication
+                        {% else %}
+                            Publication ID {{ xar_data_output({property: properties['id'], value: item['id']}) }}:
+                        {% endif %}
+                        &#160;Settings
+                    {% endif %}
+                </a>
+            </li>
+
+            {% if tab == 'preview' %}
+                {% set visible = 'block' %}
+            {% else %}
+                {% set visible = 'none' %}
+            {% endif %}
+            {% set index = index + 1 %}
+            {# <!--{% set class = "active" %}--> #}
+            <li id="tab-{{ index }}" style="display: {{ visible }}">
+                <a id="href-{{ index }}" href="javascript:showtab({{ index }},{{ tabs }})">
+                    {{ xar_data_output({property: properties['id'], value: item['id']}) }}:
+                    &#160;Preview
+                </a>
+            </li>
+        {% endfor %}
+    </ul>    
+{% endblock %}

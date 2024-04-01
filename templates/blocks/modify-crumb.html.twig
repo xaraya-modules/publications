@@ -1,0 +1,40 @@
+{# @publications/blocks/modify-crumb.html.twig #}
+
+{% block modify_crumb %}
+<div>
+        <div class="xar-form-input-wrapper">
+            <label class="xar-form-label" title="{{ xar_translate('Check this if you want the block to display the root page') }}" for="include_root"> 
+                Show the root page in the trail
+            </label> 
+            {{ xar_data_input({type: "checkbox", name: "include_root", checked: include_root}) }}
+        </div>
+
+        <fieldset>
+            <legend>Root Pages</legend>
+            <p>
+
+                    If root pages are set, then the crumbtrails will be limited to those trees alone.
+                    A current page outside any root will suppress the block.
+
+            </p>
+            <div class="xar-form-input-wrapper">
+                <label class="xar-form-label" for="new_root_pid">Add Root Page</label>
+                {% set firstline = '-- None --' %}
+                {% set firstline = {'id': '', 'name': firstline} %}
+                {{ xar_data_input({name: "new_root_pid", type: "dropdown", options: options, firstline: firstline}) }}
+            </div>
+
+            {# <!-- Existing root pids to removed --> #}
+            {% for loop_key1, loop_item1 in root_ids %}{% set loop_index1 = loop.index %}
+                <div>
+                    <input name="remove_root_pid[]" type="checkbox" value="{{ loop_key1 }}" id="remove_root_pid_{{ bid }}_{{ loop_key1 }}"/>
+                    &#160;
+                    <label for="remove_root_pid_{{ bid }}_{{ loop_key1 }}">
+                        {{ xar_translate('Remove #(1)', xar_prep_display(loop_item1)) }}
+                    </label>
+                </div>
+            {% endfor %}
+        </fieldset>
+
+    </div>
+{% endblock %}

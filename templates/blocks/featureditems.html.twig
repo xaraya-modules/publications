@@ -1,0 +1,9 @@
+{# @publications/blocks/featureditems.html.twig #}
+
+{% block featureditems %}
+{{ include('@publications/includes/featureditems_main.html.twig') }}
+    
+    {% if items %}
+        {{ include('@publications/includes/featureditems_additional.html.twig') }}
+    {% endif %}
+{% endblock %}

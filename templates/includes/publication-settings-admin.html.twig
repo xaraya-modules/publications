@@ -1,0 +1,447 @@
+{# @publications/includes/publication-settings-admin.html.twig #}
+
+{% block publication_settings_admin %}
+<fieldset>
+        <legend>
+            Page Characteristics
+        </legend>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Document ID' %}
+                {{ xar_data_label({property: properties['id'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['id']}) }}
+                {{ xar_data_input({property: properties['parent'], hidden: "hidden"}) }}
+            </div>
+        </div>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Publication Type' %}
+                {{ xar_data_label({property: properties['itemtype'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['itemtype'], value: ptid}) }}
+            </div>
+        </div>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Page Type' %}
+                {{ xar_data_label({property: properties['pagetype'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['pagetype']}) }}
+            </div>
+        </div>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Language' %}
+                {{ xar_data_label({property: properties['locale'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {% if xar_modvar('publications', 'multilanguage') %}
+                    {{ xar_data_input({property: properties['locale']}) }}
+                {% else %}
+                    {{ xar_data_output({property: properties['locale']}) }}
+                    {{ xar_data_input({property: properties['locale'], hidden: "hidden"}) }}
+                {% endif %}
+            </div>
+        </div>
+        {% set versions = xar_modvar('publications', 'use_versions') %}
+        {% if versions %}
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Current Version' %}
+                    {{ xar_data_label({property: properties['version'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['version']}) }}
+                    {% if itemid %}
+                        &#160;
+                        <a href="{{ xar_moduleurl('publications', 'admin' ,'display_version', {'itemid': itemid, 'name': object.name}) }}" title="{{ xar_translate('Display version') }}">
+                            Display versions
+                        </a>
+                        &#160;
+                        <a href="{{ xar_moduleurl('publications', 'admin' ,'manage_versions', {'itemid': itemid, 'name': object.name}) }}" title="{{ xar_translate('Manage versions') }}">
+                            Manage versions
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            {{ xar_data_input({property: properties['version'], hidden: "hidden"}) }}
+        {% endif %}
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Author' %}
+                {{ xar_data_label({property: properties['author'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['author']}) }}
+            </div>
+        </div>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Number of Pages' %}
+                {{ xar_data_label({property: properties['pages'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['pages']}) }}
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>
+            Publication Period
+        </legend>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Start Publication' %}
+                {{ xar_data_label({property: properties['start_date'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['start_date'], style: "width: 60px"}) }}
+            </div>
+        </div>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'End Publication' %}
+                {{ xar_data_label({property: properties['end_date'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['end_date'], style: "width: 60px"}) }}
+            </div>
+        </div>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Open Ended' %}
+                {{ xar_data_label({property: properties['no_end'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['no_end']}) }}
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>
+            Page Status
+        </legend>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Document State' %}
+                {{ xar_data_label({property: properties['state'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['state']}) }}
+                &#160;
+                {% if properties['parent'].value not = 0 %}
+                    <a href="{{ xar_moduleurl('publications','admin','delete_translation',{'itemid': properties['id'].value}) }}" title="{{ xar_translate('Delete this translation') }}" style="margin-right: 5px">
+                        <img src="{{ xar_imageurl('icons/'.'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete Translation') }}"/>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% set process = xar_modvar('publications', 'use_process_states') %}
+        {% if process %}
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Process State' %}
+                    {{ xar_data_label({property: properties['process_state'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['process_state']}) }}
+                </div>
+            </div>
+        {% else %}
+            {{ xar_data_input({property: properties['process_state'], hidden: "hidden"}) }}
+        {% endif %}
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Date Created' %}
+                {{ xar_data_label({property: properties['created'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['created']}) }}
+            </div>
+        </div>
+        <div class="xar-row">
+            <div class="xar-col">
+                {% set label = 'Date Last Modified' %}
+                {{ xar_data_label({property: properties['modified'], for: "id", label: label}) }}
+            </div>
+            <div class="xar-col">
+                {{ xar_data_input({property: properties['modified']}) }}
+            </div>
+        </div>
+    </fieldset>
+    {# <!--
+    {% set parent = properties['parent'].value %}
+    {% if not parent %}
+    --> #}
+        <fieldset>
+            <legend>
+                Presentation
+            </legend>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Summary Template' %}
+                    {{ xar_data_label({property: properties['summary_template'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['summary_template']}) }}
+                    &#160;
+                    <a href="{{ xar_moduleurl('publications','admin','templates_page',{'file': 'summary', 'ptid': properties['itemtype'].value, 'itemid': properties['id'].value}) }}">
+                        Edit template
+                    </a>
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Detail Template' %}
+                    {{ xar_data_label({property: properties['detail_template'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['detail_template']}) }}
+                    &#160;
+                    <a href="{{ xar_moduleurl('publications','admin','templates_page',{'file': 'detail', 'ptid': properties['itemtype'].value, 'itemid': properties['id'].value}) }}">
+                        Edit template
+                    </a>
+                </div>
+            </div>
+            <div class="xar-row">
+                {% set firstline = '(current template)' %}
+                {% set firstline = ",firstline" %}
+                {% set this_theme = strtolower(properties['theme'].value) %}
+                {% if this_theme %}
+                    {% set base_directory = "themes/" ~ this_theme ~ "/pages" %}
+                    {% set dummy = 1;properties['page_template'].initialization_basedirectory = base_directory %}
+                    {% set dummy = 1;properties['page_template'].getOptions() %}
+                {% endif %}
+                <div class="xar-col">
+                    {% set label = 'Page Template' %}
+                    {{ xar_data_label({property: properties['page_template'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['page_template'], firstline: firstline}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                {% set firstline = '(current theme)' %}
+                {% set firstline = ",firstline" %}
+                <div class="xar-col">
+                    {% set label = 'Theme' %}
+                    {{ xar_data_label({property: properties['theme'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['theme'], firstline: firstline}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'HTML Page Title' %}
+                    {{ xar_data_label({property: properties['page_title'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['page_title']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'HTML Page Description' %}
+                    {{ xar_data_label({property: properties['page_description'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['page_description']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'HTML Keywords' %}
+                    {{ xar_data_label({property: properties['keywords'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['keywords']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Include in Site Map' %}
+                    {{ xar_data_label({property: properties['sitemap_flag'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['sitemap_flag']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Site Map Source' %}
+                    {{ xar_data_label({property: properties['sitemap_source_flag'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['sitemap_source_flag']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Site Map Custom Field' %}
+                    {{ xar_data_label({property: properties['sitemap_custom_field'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['sitemap_custom_field']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Include in Menu' %}
+                    {{ xar_data_label({property: properties['menu_flag'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['menu_flag']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Menu Source' %}
+                    {{ xar_data_label({property: properties['menu_source_flag'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['menu_source_flag']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Menu Custom Field' %}
+                    {{ xar_data_label({property: properties['menu_custom_field'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['menu_custom_field']}) }}
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>
+                Redirects and Aliases
+            </legend>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Type of redirect' %}
+                    {{ xar_data_label({property: properties['redirect_flag'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['redirect_flag']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Redirect URL' %}
+                    {{ xar_data_label({property: properties['redirect_url'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['redirect_url']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'URL to proxy' %}
+                    {{ xar_data_label({property: properties['proxy_url'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['proxy_url']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Type of alias' %}
+                    {{ xar_data_label({property: properties['alias_flag'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['alias_flag']}) }}
+                </div>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                    {% set label = 'Alias name' %}
+                    {{ xar_data_label({property: properties['alias'], for: "id", label: label}) }}
+                </div>
+                <div class="xar-col">
+                    {{ xar_data_input({property: properties['alias']}) }}
+                </div>
+            </div>
+        </fieldset>
+    {# <!--
+    {% endif %}
+    --> #}
+    <fieldset>
+        {% set propvalue = properties['access'].getValue() %}
+        {% if not propvalue['display'] %}
+            {% set propvalue = {
+                    'display': propvalue,
+                    'modify': propvalue,
+                    'delete': propvalue,
+                } %}
+        {% endif %}
+        <legend>
+            Access
+        </legend>
+        <legend>
+            Display Access
+        </legend>
+        {% set prefix = object.getFieldPrefix() %}
+        {% if not prefix and prefix != '0' %}
+            {% set propname = "dd_" ~ properties['access'].id ~ '_display' %}
+        {% else %}
+            {% set propname = prefix ~ "_dd_" ~ properties['access'].id ~ '_display' %}
+        {% endif %}
+        {{ xar_data_input({property: properties['access'], name: propname, value: propvalue['display'], group_multiselect: "1"}) }}
+        <hr/>
+        <legend>
+            Modify Access
+        </legend>
+        {% if not prefix and prefix != '0' %}
+            {% set propname = "dd_" ~ properties['access'].id ~ '_modify' %}
+        {% else %}
+            {% set propname = prefix ~ "_dd_" ~ properties['access'].id ~ '_modify' %}
+        {% endif %}
+        {{ xar_data_input({property: properties['access'], name: propname, value: propvalue['modify'], group_multiselect: "1"}) }}
+        <hr/>
+        <legend>
+            Delete Access
+        </legend>
+        {% if not prefix and prefix != '0' %}
+            {% set propname = "dd_" ~ properties['access'].id ~ '_delete' %}
+        {% else %}
+            {% set propname = prefix ~ "_dd_" ~ properties['access'].id ~ '_delete' %}
+        {% endif %}
+        {{ xar_data_input({property: properties['access'], name: propname, value: propvalue['delete'], group_multiselect: "1"}) }}
+    </fieldset>
+    <fieldset>
+        <legend>
+            Categories
+        </legend>
+        <div class="xar-form-input-wrapper">
+            {% set label = 'Categories' %}
+            {{ xar_data_label({property: properties['categories'], for: "id", label: label}) }}
+            {{ xar_data_input({property: properties['categories']}) }}
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>
+            Allowed Tags
+        </legend>
+        <div class="xar-form-input-wrapper">
+            <label class="xar-form-label help" title="{{ xar_translate('This is the allowed HTML that this website has configured.') }}">
+                Allowed HTML tags
+            </label>
+            {% set tags = xar_coremethod('xarConfigVars', 'get', [null,'Site.Core.AllowableHTML']) %}
+            <div class="xar-form-container-after">
+                {% set tagstring = "" %}
+                {% for key, value in tags %}
+                    {% if value %}
+                        {% set tagstring = tagstring ~ '&#60;' ~ key ~ '&#62;' %}
+                        {{ key }}&#160;
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </fieldset>
+{% endblock %}

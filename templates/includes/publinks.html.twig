@@ -1,0 +1,29 @@
+{# @publications/includes/publinks.html.twig #}
+
+{% block publinks %}
+{% set publinks = xar_apifunc('publications','user','getpublinks') %}
+    {% if settings['show_publinks'] %}
+        {# <!-- show a link to all publication types --> #}
+        {% set publabel = 'Publication' %}
+        {{ publabel }}
+        {% for publink in publinks %}
+            {{ publink['pubjoin'] }}
+            {% if not publink['publink'] %}
+                {{ publink['pubtitle'] }}
+                {% else %}
+                    <a href="{{ publink['publink'] }}">{{ publink['pubtitle'] }}</a>
+            {% endif %}
+            {% if publink['pubcount'] %}
+                ({{ publink['pubcount'] }})
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {# <!-- show a header for the current publication type --> #}
+        {% for publink in publinks %}
+            {% set ptid = properties['itemtype'].getValue() %}
+            {% if publink['pubid'] == ptid %}
+                <h2>{{ publink['pubtitle'] }}</h2>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

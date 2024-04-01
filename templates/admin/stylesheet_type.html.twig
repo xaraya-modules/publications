@@ -1,0 +1,62 @@
+{# @publications/admin/stylesheet_type.html.twig #}
+
+{% block stylesheet_type %}
+{{ xar_javascript({module: "publications", filename: "tabs.js"}) }}
+    {{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>
+            Manage Publication Stylesheets
+        </h2>
+        <div class="xar-row">
+            <div style="margin-right: 10px; float:left">
+                <label title="{{ xar_translate('Enter the name of a stylesheet to edit') }}">
+                    Stylesheet:
+                </label>
+            </div>
+            <form method="post" action="{{ xar_moduleurl('publications','admin','stylesheet_type') }}" style="float:left">
+                {% set label = 'Refresh' %}
+                {{- xar_button({type: "submit", label: label}) -}}
+                &#160;
+                {{ xar_data_input({name: "file", type: "textbox", value: file}) }}
+                &#160;
+                {% if filetype == 'module' %}
+                    This is a module stylesheet. Saving this will create a theme stylesheet.
+                {% elseif filetype == 'theme' %}
+                    This is a theme stylesheet.
+                {% elseif filetype == 'unknown' %}
+                    This will create a new theme stylesheet.
+                {% else %}
+                    Enter the name of a new or existing stylesheet.
+                {% endif %}
+            </form>
+        </div>
+        <div style="clear:both">&#160;</div>
+        <form method="post" id="post" action="{{ xar_currenturl() }}" enctype="application/x-www-form-urlencoded" >
+            {{ xar_data_input({type: "codemirror", name: "source_data", value: source_data}) }}
+            <div class="xar-row" style="margin-top: 10px">
+                <div class="xar-col">
+                    {% if writable %}
+                        This stylesheet can be saved.
+                    {% else %}
+                        <img src="{{ xar_imageurl('exception.png','base') }}" width="20px" height="20px"/>&#160;
+                        <span class="warning">                            
+                            {% if filetype == 'module' %}
+                                This stylesheet cannot be saved: check the directory permissions
+                            {% else %}
+                                This stylesheet cannot be saved: no permission
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="xar-col">
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" />
+                    <input type="hidden" name="confirm" id="confirm" value="1" />
+                    <input type="hidden" name="ptid" id="ptid" value="{{ ptid }}" />
+                    <input type="hidden" name="file" id="file" value="{{ file }}" />
+                    {% set label = 'Update Stylesheet' %}
+                    {{- xar_button({type: "submit", label: label}) -}}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

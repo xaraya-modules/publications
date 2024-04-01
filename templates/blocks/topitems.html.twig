@@ -1,0 +1,23 @@
+{# @publications/blocks/topitems.html.twig #}
+
+{% block topitems %}
+{% if items %}
+      <ul>
+        {% for item in items %}
+          <li>
+            {% if not item['link'] %}
+                {{ item['title'] }}
+            {% else %}
+                <a href="{{ item['link'] }}">{{ item['title'] }}</a>
+            {% endif %}&#160;
+            {% if item['value'] %}
+                ({{ item['value'] }})
+            {% endif %}&#160;
+            {% if item['summary'] %}
+                {{ item['summary'] }}
+            {% endif %}
+          </li>      
+        {% endfor %}
+      </ul>
+    {% endif %}  
+{% endblock %}

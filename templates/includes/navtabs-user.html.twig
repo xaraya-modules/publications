@@ -1,0 +1,33 @@
+{# @publications/includes/navtabs-user.html.twig #}
+
+{% block navtabs_user %}
+{% if settings['show_map'] or settings['show_archives'] or settings['showsubmit'] %}
+        {{ xar_style({scope: "module", module: "base", file: "navtabs"}) }}
+        <dl class="xar-tabs">
+            <dt class="help">
+                Options                 : 
+            </dt>
+            {% if settings['show_map'] %}
+                <dd>
+                    <a href="{{ xar_moduleurl('publications', 'user', 'viewmap', {'ptid': !empty(ptid) ? ptid : null}) }}">
+                        View Publication Map
+                    </a>
+                </dd>
+            {% endif %}
+            {% if settings['showsubmit'] %}
+                <dd>
+                    <a href="{{ xar_moduleurl('publications', 'admin', 'new', {'ptid': !empty(ptid) ? ptid : null}) }}" title="Submit Publication">
+                        Contribute 
+                    </a>
+                </dd>
+            {% endif %}
+            {% if settings['show_archives'] %}
+                <dd>
+                    <a href="xarController::URL('publications', 'user', 'archive', ['ptid' => !empty($ptid) ? $ptid : null])">
+                        View Archives
+                    </a>
+                </dd>
+            {% endif %}
+        </dl>
+    {% endif %}
+{% endblock %}

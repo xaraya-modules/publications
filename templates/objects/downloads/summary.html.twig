@@ -1,0 +1,75 @@
+{# @publications/objects/downloads/summary.html.twig #}
+
+{% block summary %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "download", title: "Download Stylesheet"}) }}
+    
+    {{ include('@publications/includes/publinks.html.twig') }}
+    {% set fields = object.getFieldValues([],1) %}
+
+    {# <!-- State --> #}
+    {% set publication_state = properties['state'].value %}
+
+    {% if publication_state < 3 and not xar_security_check('ManagePublications',0) %}
+        This item cannot be viewed
+    {% else %}
+
+        {# <!-- Title --> #}
+        <div class="xar-publications-download-summary-title">
+            <a class="xar-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': fields['id']}) }}">
+                {{ xar_data_output({property: properties['title'], value: fields['title']}) }}
+            </a>
+        </div>
+
+        {# <!-- Edit icons if allowed --> #}
+        {{ include('@publications/includes/editicons.html.twig') }}
+
+        {# <!-- Description --> #}
+        <div class="xar-publications-download-summary-title ">
+            <b>Description</b>
+        </div>
+        <div class="xar-publications-download-summary-text ">
+            {{ xar_data_output({property: properties['summary'], value: fields['summary']}) }}
+        </div>
+    
+        {# <!-- Download link --> #}
+        <div class="xar-publications-download-summary-text ">
+            Link:&#160;
+            {% set filepath = properties['fileupload'].initialization_basedirectory ~ '/'. fields['fileupload'] %}
+            
+            {% if not fields['fileupload'] %}
+                {# <!-- Nothing to display --> #}
+            {% elseif xar_coremethod('xarModHooks', 'isHooked', ['uploads','publications',fields['itemtype']]) and fields['fileupload']|slice(0,1) == ';' %}
+                {# <!-- If you hook the uploads module to publications, 
+                then file upload fields will contain a comma-separated list of file ids, 
+                and you will need to call an API function to retrieve the file information. 
+                For dynamic extra fields, you can use [fieldname]_output directly to access the file information.--> #}
+                {% set fileupload_output = xar_apifunc('uploads','user','showoutput',{'value': fields['fileupload'], 'multiple': true}) %}
+                {% for fileid, fileinfo in fileupload_output %}
+                    <p>
+                        <a href="{{ fileinfo['fileDownload'] }}">{{ fileinfo['fileName'] }}</a>
+                    </p>
+                {% endfor %}
+            {% elseif file_exists(filepath) %}
+                <p>
+                    <a href="{{ filepath }}" title="{{ fields['title'] }}">
+                        {{ xar_data_output({property: properties['fileupload'], value: fields['fileupload']}) }}
+                    </a>
+                </p>
+            {% else %}
+                <p>
+                    {{ xar_data_output({property: properties['fileupload'], value: fields['fileupload']}) }}
+                </p>
+            {% endif %}
+        </div>
+
+        {# <!-- Keywords --> #}
+        <div class="xar-publications-download-keywords">
+            {% if keywords %}
+            Keywords:
+            {% for loop_key1, loop_item1 in keywords %}{% set loop_index1 = loop.index %}
+                <a href="{{ xar_moduleurl('keywords', 'user', 'main', {'keyword': loop_item1['keyword']}) }}" title="{{ loop_item1['keyword'] }}">{{ loop_item1['keyword'] }}</a>
+            {% endfor %}{% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

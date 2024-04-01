@@ -1,0 +1,32 @@
+{# @publications/summary.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+<div class="xar-error">
+        <p>
+            <strong>Note:</strong> when you create a new publication type,
+            the publications module will automatically use the templates
+            <em>user-display-[publicationtype].xd</em>
+            and <em>user-summary-[publicationtype].xd</em>.
+            If those templates do not exist when you try to preview or display a new article,
+            you'll get this warning :-)
+            Please place your own templates in themes/<em>yourtheme</em>/modules/publications . The templates
+            will get the extension .xt there.
+        </p>
+    </div>
+    <div class="xar-norm xar-standard-box-padding">
+        <h1><a href="{{ link }}">{{ title }}</a></h1>
+        {% if author is not null %}
+        <p>{{ author }}</p>
+        {% endif %}
+        {% if start_date is not null %}
+        <p>
+            {{ xar_translate('#(1) #(2)', xar_localedate(pubdate, 'long', ''), xar_localedate(pubdate, '', 'long')) }}
+        </p>
+        {% endif %}
+        {% if summary is not null %}
+        <p>{{ summary }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

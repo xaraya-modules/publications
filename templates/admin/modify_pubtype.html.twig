@@ -1,0 +1,27 @@
+{# @publications/admin/modify_pubtype.html.twig #}
+
+{% block modify_pubtype %}
+{{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>
+            Modify publication type: {{ properties['description'].value }}
+        </h2>
+
+        <form method="post" action="{{ xar_moduleurl('publications','admin','modify_pubtype') }}">
+            {{ xar_data_form({object: object, tplmodule: "publications"}) }}
+            <div class="xar-row">
+                <div class="xar-col">
+                </div>
+                <div class="xar-col">
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}"/>
+                    <input type="hidden" name="name" id="name" value="{{ object.name }}"/>
+                    <input type="hidden" name="itemid" id="itemid" value="{{ object.itemid }}"/>
+                    <input type="hidden" name="confirm" id="confirm" value="true"/>
+                    {% set label = 'Update' %}
+                    {{- xar_button({type: "submit", label: label}) -}}
+                </div>
+            </div>
+        </form>
+    </div>
+    
+{% endblock %}

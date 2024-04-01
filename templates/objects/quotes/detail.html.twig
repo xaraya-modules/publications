@@ -1,0 +1,67 @@
+{# @publications/objects/quotes/detail.html.twig #}
+
+{% block detail %}
+{{ include('@publications/includes/publinks.html.twig') }}
+    {# <!--
+    {{ xar_data_output({type: "categorynavigation", layout: "trails", showchildren: "1", module: "publications", itemtype: ptid, itemid: id, cids: cids, show_catcount: settings['show_catcount'], showempty: "0"}) }}
+    --> #}
+
+    {% set publication_state = properties['state'].value %}
+
+    {% if publication_state < 3 and not xar_security_check('ManagePublications',0) %}
+        This item cannot be viewed
+    {% else %}
+
+        <div class="xar-title">
+            {{ xar_data_output({property: properties['source']}) }}
+
+            {# <!-- Edit icons if allowed --> #}
+            {{ include('@publications/includes/editicons.html.twig') }}
+    
+            {# <!-- Print button --> #}
+            {{ include('@publications/includes/print.html.twig') }}
+        </div>
+        <div class="xar-norm">
+            Quote
+            : {{ xar_data_output({property: properties['quote']}) }}
+        </div>
+        <div class="xar-sub">        
+            Added on
+            {{ xar_data_output({property: properties['created']}) }}
+        </div>
+        <div class="xar-sub">
+            By            :
+            {% if profile %}
+                <a href="{{ profile }}">
+                    {{ xar_data_output({property: properties['author']}) }}
+                </a>
+            {% else %}
+                {{ xar_data_output({property: properties['author']}) }}
+            {% endif %}
+        </div>
+        {% if counter %}
+            <div class="xar-sub">
+                {{ xar_translate('(#(1) Hits)', counter) }}
+            </div>
+        {% endif %}
+
+        {# <!-- Link to previous or next --> #}
+        <div class="xar-normal xar-align-right xar-padding-thick">
+            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+            {% if prevpublication %}
+                {% set prev = 'Previous' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-previous.png", class: "xar-icon", alt: prev}) -}}
+                </a>
+            {% endif %}
+            &#160;
+            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+            {% if nextpublication %}
+                {% set next = 'Next' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-next.png", class: "xar-icon", alt: next}) -}}
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

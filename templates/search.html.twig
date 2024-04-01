@@ -1,0 +1,114 @@
+{# @publications/search.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+<h2>Search Results</h2>
+
+{# <!--
+    {% set fulltext = xar_modvar('publications', 'fulltextsearch') %}
+    {% if fulltext %}
+        {% set fulltextfields = ',fulltext|split(') %}
+    {% endif %}
+
+    <form method="post" action="&xar-modurl-publications-user-search;">
+--> #}
+    {# <!-- author --> #}
+    <input type="hidden" name="author" id="author" value="{{ author }}" size="20" />
+    {# <!-- search type (full text) --> #}
+    <input type="hidden" name="searchtype" value="$searchtype" />
+
+    {# <!-- publication types --> #}
+    {% set i = 0 %}
+    <input type="hidden" name="ptids[]" value="0"/>
+    <xar:while condition="1 eq  1">
+        <xar:while condition="1 eq  1">
+            {% if not publications %}
+                <xar:break />
+            {% endif %}
+            {% set pubtype = array_pop(publications) %}
+              <input type="hidden" name="ptids[]" id="{{ pubtype['description'] }}" value="{{ pubtype['id'] }}" checked="checked" /> 
+              {% set i = i + 1 %}
+              {% if i % 2 == 0 %}
+                <xar:break />
+              {% endif %}
+        </xar:while>
+        {% if not publications %}
+            <xar:break />
+        {% endif %}
+    </xar:while>
+    
+    {# <!-- fields --> #}
+    {% for item in fieldlist %}
+      {% if fulltextfields and item['id'] in fulltextfields %}
+        <input type="hidden" name="publications_fields[{{ item['id'] }}]" id="publications_fields_{{ item['id'] }}" value="1" />
+      {% elseif item['checked'] %}
+        <input type="hidden" name="publications_fields[{{ item['id'] }}]" id="publications_fields_{{ item['id'] }}" value="1" />
+      {% else %}
+        <input type="hidden" name="publications_fields[{{ item['id'] }}]" id="publications_fields_{{ item['id'] }}" value="1" />
+      {% endif %}
+    {% endfor %}
+
+    {# <!-- status: active or front page --> #}
+      {% if statelist %}
+          <input type="hidden" name="state[]" id="state_3" value="3" />
+          <input type="hidden" name="state[]" id="state_4" value="4" />
+      {% endif %}
+
+    {# <!-- categories --> #}
+    <input type="hidden" name="by" id="filterbycat" value="1" />
+    {% if categories|length == 0 %}
+          {% set i = 0 %}
+          <xar:while condition="1 eq  1">
+            <xar:while condition="1 eq  1">
+                {% if not categories %}
+                    <xar:break />
+                {% endif %}
+                {% set cat = array_pop(categories) %}
+                  <td valign="top" align="right">{{ cat['cattitle'] }} : </td>
+                  <td valign="top">{{ cat['catselect'] }} </td>
+                  {% if i++ and i % 2 == 0 %}
+                    <xar:break />
+                  {% endif %}
+            </xar:while>
+            {% if not categories %}
+                <xar:break />
+            {% endif %}
+          </xar:while>
+    {% endif %}
+
+    {% for result in results %}
+      <h3>{{ result['description'] }}:</h3>
+
+      <ul>
+        {% for item in result['items'] %}
+          <li>
+            {% if item['categories'] and item['categories']|length > 0 %}
+              [ {% for cat in item['categories'] %}
+                {{ cat['cjoin'] }} <a href="{{ cat['clink'] }}">{{ cat['cname'] }}</a>
+              {% endfor %} ]
+            {% endif %}
+            {% if xar_modvar('publications', 'multilanguage') %}
+                <a href="{{ item['link'] }}">{{ item['title'] }} - {{ strstr(item['locale'], '_', true) }}</a>
+            {% else %}
+                <a href="{{ item['link'] }}">{{ item['title'] }}</a>
+            {% endif %}
+            {% if item['pubdate'] %}{{ xar_coremethod('xarLocale', 'formatDate', ['%a, %d %B %Y %H.%M.%S %Z', item['pubdate']]) }}{% endif %}
+            {# <!-- Show relevance for MySQL full-text search (see $getfields in search.php)
+                {% if item['relevance'] is not null %}
+                  {% set relevance = sprintf('%.2f',item['relevance']) %}
+                  [{{ relevance }}]
+                {% endif %}
+            --> #}
+          </li>
+        {% endfor %}
+      </ul>
+      {{ result['pager'] }}
+    {% endfor %}
+
+    {% if state %}
+      <br />{{ state }}<br />
+    {% endif %}
+
+    <br />
+{% endblock %}

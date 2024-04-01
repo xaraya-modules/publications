@@ -1,0 +1,77 @@
+{# @publications/view-pictures.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+{{ include('@publications/includes/publinks.html.twig') }}
+    {% if ptid or catid %}
+        {{ xar_data_output({type: "categorynavigation", layout: "trails", showchildren: "1", module: "publications", itemtype: ptid, catid: catid, show_catcount: settings['show_catcount'], showempty: "1"}) }}
+    {% endif %}
+
+        {#  
+            You can use different user-view-[pubtype].xd templates for different pubtypes,
+            and also a separate user-view-frontpage.xd template for the publications frontpage
+         #}
+
+    {% if author %}
+        <h2>
+            {{ xar_translate('By Author : #(1)') }}
+        </h2>
+        <br />
+    {% endif %}
+    {% if numcols and number > 0 %}
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                {% for col in columns|keys %}
+                    <td style="vertical-align: top;text-align: center;width: {{ colwidth }}%;">
+                        {% for row in columns[col]|keys %}
+                            {{ columns[col][row] }}
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+            </tr>
+        </table>
+        {% elseif number %}
+        {% for col in columns|keys %}
+            {% for row in columns[col]|keys %}
+                {{ columns[col][row] }}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    {{ output }}
+    {% if showcols %}
+        {% if showcols == 1 %}
+            <a href="{{ xar_moduleurl('publications','user','view',{'numcols': 1}) }}">
+                single-column display
+            </a>
+            {% else %}
+            <a href="{{ xar_moduleurl('publications','user','view') }}">
+                {{ xar_translate('#(1)-column display') }}
+            </a>
+        {% endif %}
+    {% endif %}
+
+    {{ include('@publications/includes/alphapager.html.twig') }}
+
+    <div class="xar-align-center">
+    {#  $pager (combining the pager and the sort links) will be removed in later versions #}
+        <p>{{ viewpager }}</p>
+        {% if sortlinks is not null and sortlinks|length > 0 %}
+            Sort by 
+            {% for sortitem in sortlinks %}
+                {% if sortitem['slink'] %}
+                    <a href="{{ sortitem['slink'] }}">{{ sortitem['stitle'] }}</a>
+                {% else %}
+                    {{ sortitem['stitle'] }}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {% if show_prevnext %}
+        {{ xar_data_output({type: "categorynavigation", layout: "prevnext"}) }}
+    {% endif %}
+
+    {{ include('@publications/includes/navtabs-user.html.twig') }}
+    {{ xar_style({scope: "module", module: "publications", file: "gallery"}) }}
+{% endblock %}

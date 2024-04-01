@@ -1,0 +1,30 @@
+{# @publications/blocks/nav-trails.html.twig #}
+
+{% block nav_trails %}
+{% if cattrees is not null and cattrees is iterable %}
+<ul><span>You Are Here: &#160;</span>
+{% for cattree in cattrees %}
+
+    {% if cattree['catparents'] is not null and cattree['catparents'] is iterable and sizeof(cattree['catparents']) > 0 %}
+    {% for parent in cattree['catparents'] %}
+        <li>
+        {% if not parent['catlink'] %}
+            {{ parent['catlabel'] }}
+        {% else %}
+          {% if parent['catid'] == cid %}
+            <a class="current" href="{{ parent['catlink'] }}">{{ parent['catlabel'] }}</a>
+          {% else %}
+            <a href="{{ parent['catlink'] }}">{{ parent['catlabel'] }}</a>
+          {% endif %}
+        {% endif %}
+        </li>
+        {% if parent['catid'] != cid %}
+        {{ crumbSeparator }}
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

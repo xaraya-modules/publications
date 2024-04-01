@@ -1,0 +1,66 @@
+{# @publications/objects/translations/detail.html.twig #}
+
+{% block detail %}
+{% set ptid = object.objectid %}
+    {{ include('@publications/includes/publinks.html.twig') }}
+    {# <!--
+    {% set cids = properties['categories'].getValue() %}
+    {{ xar_data_output({type: "categorynavigation", layout: "trails", showchildren: "1", module: "publications", itemtype: ptid, itemid: properties['id'], cids: cids, show_catcount: settings['show_catcount'], showempty: "0"}) }}
+    --> #}
+    
+    {% set publication_state = properties['state'].value %}
+
+    {% if publication_state < 3 and not xar_security_check('ManagePublications',0) %}
+        This item cannot be viewed
+    {% else %}
+        <div class="xar-row">
+            <div class="xar-col-expanded" style="width: 100%;">
+                <div style="float: left">
+                    {{ xar_data_output({property: properties['title']}) }}
+                </div>
+    
+                <div style="float: right">
+                    {# <!-- Edit icons if allowed --> #}
+                    {{ include('@publications/includes/editicons.html.twig') }}
+                </div>
+                <div style="float: right">
+                    {# <!-- Print button --> #}
+                    {{ include('@publications/includes/print.html.twig') }}
+                </div>
+            </div>
+        </div>
+        <div class="xar-row">
+            <div class="xar-col" style="width: 48%; padding: 5px; vertical-align: top;">
+                {{ xar_data_output({property: properties['source']}) }}
+            </div> 
+            <div class="xar-col" style="width: 48%; padding: 5px; vertical-align: top;">
+                {{ xar_data_output({property: properties['translation']}) }}
+            </div> 
+        </div>
+        <div class="xar-row">
+            <div class="xar-col" style="width: 100%">
+                <span class="xar-quote">
+                    {{ xar_data_output({property: properties['notes']}) }} 
+                </span>
+            </div>
+        </div>
+        {# <!-- Link to previous or next --> #}
+        <div class="xar-normal xar-align-right xar-padding-thick">
+            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+            {% if prevpublication %}
+                {% set prev = 'Previous' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-previous.png", class: "xar-icon", alt: prev}) -}}
+                </a>
+            {% endif %}
+            &#160;
+            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+            {% if nextpublication %}
+                {% set next = 'Next' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-next.png", class: "xar-icon", alt: next}) -}}
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

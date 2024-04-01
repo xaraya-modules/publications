@@ -1,0 +1,194 @@
+{# @publications/admin/view_pages.html.twig #}
+
+{% block view_pages %}
+{{ xar_style({scope: "module", file: "admin-style"}) }}
+
+    {{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>View Publications Trees</h2>
+
+        {% set root_pages = xar_apifunc('publications', 'user', 'getpages', {'parent': 0}) %}
+        {% if root_pages %}
+            {% set method = 'get' %}
+            <form method="post" action="{{ xar_moduleurl('publications','admin','view_pages') }}">
+                <label for="contains">Select tree:</label>&#160;
+
+                {% set firstline = '-- All --' %}
+                {% set firstline = {'id': 0, 'name': firstline} %}
+                {{ xar_data_input({type: "dropdown", nme: "root_id", value: root_id, options: root_pages, firstline: firstline}) }}
+                {# <!--
+                <select name="root_id" id="root_id">
+                    <option value="0"></option>
+                    {% for loop_key1, loop_item1 in root_pages %}{% set loop_index1 = loop.index %}
+                        {% if loop_item1.id == root_id %}
+                            <option value="{{ loop_item1.id }}" selected="selected">[{{ loop_item1.id }}] {{ xar_prep_display(loop_item1.name) }} ({{ xar_prep_display(loop_item1.pubtype_name) }})</option>
+                        {% else %}
+                            <option value="{{ loop_item1.id }}">[{{ loop_item1.id }}] {{ xar_prep_display(loop_item1.name) }} ({{ xar_prep_display(loop_item1.pubtype_name) }})</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                --> #}
+                &#160;
+                {% set label = 'Refresh' %}
+                {{- xar_button({type: "submit", label: label}) -}}
+            </form>
+        {% endif %}
+
+        {% if not pages %}
+             No publications defined
+        {% else %}
+            <xar:access level="600">
+                <div style="text-align: right">
+                    {% set link = xar_moduleurl('publications','admin','new') %}
+                    {% if xar_modvar('publications', 'use_module_icons') %}
+                        <a href="{{ link }}" title="{{ xar_translate('Add A New Publication') }}" style="margin-right: 5px">
+                            <img src="{{ xar_imageurl('icons/' ~ 'document-new.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Add') }}"/>
+                        </a>
+                    {% else %}
+                        <a href="{{ link }}">
+                            Add A New Publication
+                        </a>
+                    {% endif %}
+                </div>
+            </xar:access>
+            {% if add_allowed %}
+                <div><a href="{{ xar_moduleurl('publications','admin','new') }}">Add Page</a></div>
+            {% endif %}
+            {# <!-- Define alphanumeric states here --> #}
+            {% set stateoptions = [
+                    {'id': 0, 'name': 'Deleted'},
+                    {'id': 1, 'name': 'Inactive'},
+                    {'id': 2, 'name': 'Template'},
+                    {'id': 3, 'name': 'Active'},
+                    {'id': 4, 'name': 'Front Page'},
+                    {'id': 5, 'name': 'Empty'},
+                ] %}
+            {% set state = [
+                    {'id': 0, 'name': 'red-12.png'},
+                    {'id': 1, 'name': 'yellow-12.png'},
+                    {'id': 2, 'name': 'orange-12.png'},
+                    {'id': 3, 'name': 'green-12.png'},
+                    {'id': 4, 'name': 'blue-12.png'},
+                    {'id': 5, 'name': 'clear-12.png'},
+                ] %}
+            {% set options = [
+
+                    {'id': 1, 'name': 'green-12.png'},
+                ] %}
+            <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th style="text-align: center">M</th>
+                    <th style="text-align: center">S</th>
+                    <th>Description</th>
+                    <th>Translations</th>
+                    <th>Options</th>
+                </tr>
+                {% for loop_key1, loop_item1 in pages %}{% set loop_index1 = loop.index %}
+                    {% if loop_index1 >= 0 %}
+                        {% if ((loop_index1 + 1) % 2) %}
+                            {% set row_class = '' %}
+                        {% else %}
+                            {% set row_class = 'xar-accent' %}
+                        {% endif %}
+
+                        <tr>
+                            <td class="{{ row_class }}" style="text-align: center">
+                                {{ loop_item1.id }}
+                            </td>
+                            <td class="{{ row_class }}" style="text-align: left">
+                                {{ loop_item1.xar_map }}
+                                {{ xar_prep_display(loop_item1.name) }}
+                            </td>
+                            <td class="{{ row_class }}" style="text-align: center">
+                                {% set value = loop_item1['menu_flag'] %}
+                                {{ xar_data_output({type: "iconcheckbox", icon_directory: "set1", icon_options: options, value: value}) }}
+                            </td>
+                            <td class="{{ row_class }}" style="text-align: center">
+                                {% set value = loop_item1['sitemap_flag'] %}
+                                {{ xar_data_output({type: "iconcheckbox", icon_directory: "set1", icon_options: options, value: value}) }}
+                            </td>
+                            <td class="{{ row_class }}" title="{{ xar_translate('Status: ') }} {{ stateoptions[loop_item1['status']]['name'] }}">
+                                {% set value = loop_item1['status'] %}
+                                {{ xar_data_output({type: "icondropdown", icon_directory: "set1", icon_options: state, value: value}) }}&#160;
+                                <span class="xar-publications-status-{{ state[loop_item1['status']]['id'] }}">{{ xar_prep_display(loop_item1.pubtype_name) }}: {{ xar_prep_display(loop_item1.title) }}</span>
+                            </td>
+                            <td style="text-align: left" class="{{ row_class }}">
+                                {% set translations = loop_item1['translations']|join(',') %}
+                                {{ translations }}
+                            </td>
+                            <td class="{{ row_class }}" style="text-align: right;" nowrap="nowrap">
+                                {% if xar_coremethod('xarUser', 'isLoggedIn') %}
+                                    <xar:access level="500">
+                                        {% set link = xar_moduleurl('publications', 'admin', 'modify', {'ptid': loop_item1['ptid'], 'itemid': loop_item1['id']}) %}
+                                        {% if xar_modvar('publications', 'use_module_icons') %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Modify this publication') }}" style="margin-right: 5px">
+                                                <img src="{{ xar_imageurl('icons/' ~ 'modify.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Modify Publication') }}"/>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Modify this publication') }}" style="margin-right: 5px">
+                                                Modify
+                                            </a>
+                                        {% endif %}
+                                    </xar:access>
+                                    <xar:access level="700">
+                                        {% set link = xar_moduleurl('publications', 'admin', 'clone', {'ptid': loop_item1['ptid'], 'itemid': loop_item1['id']}) %}
+                                        {% if xar_modvar('publications', 'use_module_icons') %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Clone this publication') }}" style="margin-right: 5px">
+                                                <img src="{{ xar_imageurl('icons/' ~ 'add.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Clone Publication') }}"/>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Clone this publication') }}" style="margin-right: 5px">
+                                                Clone
+                                            </a>
+                                        {% endif %}
+                                    </xar:access>
+                                    <xar:access level="700">
+                                        {% set link = xar_moduleurl('publications', 'admin', 'delete', {'ptid': loop_item1['ptid'], 'itemid': loop_item1['id']}) %}
+                                        {% if xar_modvar('publications', 'use_module_icons') %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Delete this publication') }}" style="margin-right: 5px">
+                                                <img src="{{ xar_imageurl('icons/' ~ 'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete Publication') }}"/>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Delete this publication') }}" style="margin-right: 5px">
+                                                Delete
+                                            </a>
+                                        {% endif %}
+                                    </xar:access>
+                                    <xar:access level="200">
+                                        {% set link = xar_moduleurl('publications', 'admin', 'display', {'ptid': loop_item1['ptid'], 'itemid': loop_item1['id']}) %}
+                                        {% if xar_modvar('publications', 'use_module_icons') %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Display this publication') }}" style="margin-right: 5px">
+                                                <img src="{{ xar_imageurl('icons/' ~ 'display.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Display Publication') }}"/>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Display this publication') }}" style="margin-right: 5px">
+                                                Display
+                                            </a>
+                                        {% endif %}
+                                    </xar:access>
+                                    <xar:access level="800">
+                                        {% set link = xar_moduleurl('publications', 'admin', 'templates_page', {'ptid': loop_item1['ptid'], 'itemid': loop_item1['id']}) %}
+                                        {% if xar_modvar('publications', 'use_module_icons') %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Manage templates of this publication') }}" style="margin-right: 5px">
+                                                <img src="{{ xar_imageurl('template.png','publications') }}" width="16" height="16" alt="{{ xar_translate('Manage Templates') }}"/>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ link }}" title="{{ xar_translate('Manage templates of this publication') }}" style="margin-right: 5px">
+                                                Templates
+                                            </a>
+                                        {% endif %}
+                                    </xar:access>
+                                    <xar:access level="700">
+                                        <input type="checkbox" name="optionscheckbox" id="{{ loop_item1['id'] }}"  />
+                                    </xar:access>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

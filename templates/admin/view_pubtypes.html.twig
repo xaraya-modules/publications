@@ -1,0 +1,14 @@
+{# @publications/admin/view_pubtypes.html.twig #}
+
+{% block view_pubtypes %}
+{{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>
+            Publication Types
+        </h2>
+        {% if statusmsg is not null and statusmsg != '' %}
+            <p class="xar-error">{{ statusmsg }}</p>
+        {% endif %}
+        {{ xar_data_input({type: "listing", objectname: "publications_types", fieldlist: "name,description,state", layout: "pubtypes"}) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{# @publications/blocks/menu.html.twig #}
+
+{% block menu %}
+{# <!-- 
+        This simple menu template formats the pages tree into a nested-list menu.
+        Required paramaters are:
+            $pages - the list of all pages needed to build the menu
+            $root_page - the root page (can be reference into $pages) that defines
+                the root of the menu tree
+        If the root page is 'empty' then don't display it - go straight for the next level.
+        An empty root page creates a multi-homed menu, while a non-empty root page creates
+        a single-homed menu. This can also be forced with the 'multi_homed' option.
+
+     --> #}
+
+    {# <!-- We need $typeinfo for the menu labels--> #}
+    {% set dummy = pubtypes = xar_coremethod('DataObjectFactory','getObjectList',{'name': 'publications_types'});
+        pubtypes.dataquery.gt(pubtypes.properties['state'].source,2);
+        typeinfo = pubtypes.getItems(); %}
+
+    {% if not max_level %}
+        {% set max_level = 0 %}
+    {% endif %}
+
+    {% set parent = root_page %}
+    {{ include('@publications/includes/menu.html.twig') }}
+{% endblock %}

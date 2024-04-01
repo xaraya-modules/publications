@@ -1,0 +1,44 @@
+{# @publications/objects/news/summary.html.twig #}
+
+{% block summary %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "news", title: "News Stylesheet"}) }}
+    
+    {% set fields = object.getFieldValues([],1) %}
+
+    {# <!-- Title --> #}
+    <div class="xar-publications-news-summary-title">
+        <a class="xar-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': fields['id']}) }}">
+            {{ xar_data_output({property: properties['title'], value: fields['title']}) }}
+        </a>
+    </div>
+    
+    {# <!-- Author --> #}
+    <div class="xar-publications-news-summary-postby">
+        {{ xar_translate('Posted by: #(1) on #(2) #(3)', xar_username(fields['author']), xar_localedate(fields['created'],, 'long', ''), xar_localedate(fields['created'],, '', 'long')) }}
+    </div>
+
+    {# <!-- Summary --> #}
+    <div class="xar-publications-summary-text">
+        {{ xar_data_output({property: properties['introduction'], value: fields['introduction']}) }}
+    </div>
+    
+    {# <!-- Word count --> #}
+    <div class="xar-align-right">    
+        {% set intro_length = fields['introduction']|length %}
+        {% set news_length = fields['body']|length %}
+        {% set total_length = intro_length + news_length %}
+        {% if total_length == 1 %}
+            ({{ total_length }}&#160;                
+                word)
+            {% else %}
+            ({{ total_length }}&#160;                
+                words)
+        {% endif %}
+
+    {# <!-- Read more --> #}
+        <a href="{{ xar_moduleurl('publications','user','display',{'id': fields['id']}) }}">                
+            Read more
+        </a>
+    </div>
+{% endblock %}

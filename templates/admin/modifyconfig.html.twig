@@ -1,0 +1,536 @@
+{# @publications/admin/modifyconfig.html.twig #}
+
+{% block modifyconfig %}
+{{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>        
+            Modify Configuration        
+        </h2>
+        {% set xmldata = 'modifyconfig' %}
+        {{ include('@base/includes/admin-menu-skel.html.twig') }}
+        
+        {% if tab == 'global' %}
+           <form class="xar-formwidget" action="{{ xar_moduleurl('publications', 'admin', 'updateconfig') }}" method="post" enctype="application/x-www-form-urlencoded">
+                <fieldset>
+                    <legend>General Settings</legend>
+                    {{ xar_data_form({object: module_settings}) }}
+                </fieldset>
+                <fieldset>
+                    <legend>                    
+                        Global Configuration
+                    </legend>
+                    {{ include('@publications/includes/config_defaults.html.twig') }}
+                </fieldset>
+                <fieldset>
+                    <legend>
+                        Language Configuration
+                    </legend>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label class="xar-form-label" for="multilanguage" title="{{ xar_translate('Support more than one language') }}">
+                                Support Translations
+                            </label> 
+                        </div>
+                        <div class="xar-col">
+                            {% set value = xar_modvar('publications', 'multilanguage') %}
+                            {{ xar_data_input({type: "checkbox", name: "multilanguage", value: value}) }}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label class="xar-form-label" for="defaultlanguage" title="{{ xar_translate('The language we fall back on if no translation is available') }}">
+                                Default Language
+                            </label> 
+                        </div>
+                        <div class="xar-col">
+                            {% if languages %}
+                                {% set value = xar_modvar('publications', 'defaultlanguage') %}
+                                {{ xar_data_input({type: "languages", name: "defaultlanguage", value: value}) }}
+                            {% else %}
+                                <span class="xar-warning">The languages property is not available</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>
+                        Special Pages
+                    </legend>
+                    {% set firstline = '-- None --' %}
+                    {% set firstline = "0,firstline" %}
+                    {% set options = treeoptions %}
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label class="xar-form-label" for="defaultpage">
+                                Default page
+                            </label>
+                            {% set value = xar_modvar('publications', 'defaultpage') %}
+                        </div>
+                        <div class="xar-col">
+                            {{ xar_data_input({type: "dropdown", name: "defaultpage", value: value, options: options, firstline: firstline}) }}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label class="xar-form-label" for="errorpage">
+                                Error page
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {% set value = xar_modvar('publications', 'errorpage') %}
+                            {{ xar_data_input({type: "dropdown", name: "errorpage", value: value, options: options, firstline: firstline}) }}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label class="xar-form-label" for="notfoundpage">
+                                Not found page
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {% set value = xar_modvar('publications', 'notfoundpage') %}
+                            {{ xar_data_input({type: "dropdown", name: "notfoundpage", value: value, options: options, firstline: firstline}) }}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label class="xar-form-label" for="noprivspage">
+                                No privileges page
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {% set value = xar_modvar('publications', 'noprivspage') %}
+                            {{ xar_data_input({type: "dropdown", name: "noprivspage", value: value, options: options, firstline: firstline}) }}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label class="xar-form-label" for="hide_tree_display">
+                                Hide Tree Display
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {% set value = xar_modvar('publications', 'hide_tree_display') %}
+                            {{ xar_data_input({type: "checkbox", name: "hide_tree_display", value: value}) }}
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="xar-norm">
+                    <legend>
+                        Site Configuration
+                    </legend>
+                    <input type="hidden" name="id" id="id" value="{{ ptid }}" />
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label class="help xar-form-label" for="usealias" title="{{ xar_translate('Removes the publications module name from the short url.') }}">
+                                Alias for short URLs
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {% set value = xar_modvar('publications', 'usealias') %}
+                            {{ xar_data_input({type: "checkbox", name: "usealias", checked: value}) }}&#160;
+                            {{ xar_translate('Use \'#(1)\' as alias in short URLs') }}
+                        </div>
+                    </div>
+                    {# <!--
+                    <div class="xar-form-input-wrapper">
+                        <label class="help xar-form-label" for="page_template" title="{{ xar_translate('Change the theme/themename/pages/ template that you use with this publication type.') }}">                    
+                            Use different page template                    
+                        </label> 
+                        <input type="text" name="settings[page_template]" id="page_template" size="20" maxlength="60" value="{{ settings['page_template'] }}" />
+                    </div>
+                    --> #}
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label class="help xar-form-label" for="usetitleforurl" title="{{ xar_translate('Note: if a title contains characters that are illegal in a URL, the title will not be used..') }}">                    
+                                Use title in short URLs                    
+                            </label>
+                            {# <!--
+                                You can add your own formats here and in encode/decode_shorturl
+                            --> #}
+                        </div>
+                        <div class="xar-col">
+                            {% set options = [
+                                    {'id': 0, 'name': 'No'},
+                                    {'id': 1, 'name': 'Use name and append date for duplicates'},
+                                    {'id': 2, 'name': 'Use name and append publication ID for duplicates'},
+                                    {'id': 3, 'name': 'Use name but use publication IDs for duplicates'},
+                                    {'id': 4, 'name': 'Use name ignore duplicates (faster)'},
+                                    {'id': 5, 'name': 'Use title and append date for duplicates'},
+                                    {'id': 6, 'name': 'Use title and append publication ID for duplicates'},
+                                    {'id': 7, 'name': 'Use title but use publication IDs for duplicates'},
+                                    {'id': 8, 'name': 'Use title ignore duplicates (faster)'},
+                                ] %}
+                            {% set value = xar_modvar('publications', 'usetitleforurl') %}
+                            {{ xar_data_input({type: "dropdown", name: "usetitleforurl", options: options, value: value}) }}&#160;
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="xar-norm">
+                    <legend>
+                        Categories
+                    </legend>
+                    {% set defaults = ['',0,1,0] %}
+                    {{ xar_data_input({type: "categorypicker", name: "basecid", module: "publications", column_defaults: defaults, itemtype: ptid}) }}
+                </fieldset>
+                <fieldset>
+                    <legend>                    
+                        Debugging                    
+                    </legend>
+                    {{ include('@publications/includes/config_debug.html.twig') }}
+                </fieldset>
+                <div class="xar-row">
+                    <div class="xar-col">
+                    </div>
+                    <div class="xar-col">
+                        {% set label = 'Update' %}
+                        {{- xar_button({type: "submit", label: label}) -}}
+                        {# <!--
+                        &#160;
+                        {% set label = xar_translate('Reset') %}
+                        {{- xar_button({type: "cancel", label: label}) -}}
+                        --> #}
+                        <input type="hidden" name="tab" id="tab" value="{{ tab }}" />
+                        <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" /> 
+                    </div>
+                </div>
+            </form>
+        {% elseif tab == 'pubtypes' %}
+            <div class="xar-row">
+                <div class="xar-col">
+                    <label class="help xar-form-label" title="{{ xar_translate('Select the type of publication whose settings you want to configure') }}">                    
+                        Publication Type                    
+                    </label>
+                </div>
+                <div class="xar-col">
+                    <form method="post" action="{{ xar_moduleurl('publications','admin','modifyconfig',{'tab': 'pubtypes'}) }}">
+                        {% set onchange = "javascript.this.form.submit();" %}
+                        {{ xar_data_input({name: "ptid", type: "objectref", refobject: "publications_types", store_prop: "id", display_prop: "description", value: ptid, onchange: onchange}) }}
+                    </form>
+                </div>
+            </div>
+           <form class="xar-formwidget" action="{{ xar_moduleurl('publications','admin','updateconfig') }}" method="post" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="ptid" value="{{ ptid }}" />
+                <fieldset class="xar-norm">
+                    <legend>
+                        View Settings
+                    </legend>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label class="help xar-form-label" for="defaultview" title="{{ xar_translate('Sorting by default.') }}">
+                                Default start view
+                            </label> 
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "dropdown", name: "settings[defaultview]", id: "settings_defaultview", options: viewoptions, value: settings['defaultview']}) }}
+                        </div>
+                        <div class="xar-col" style="width: 10%">
+                        </div>
+                        <div class="xar-col" style="width: 20%">
+                            <label for="items_per_page" class="help xar-form-label" title="{{ xar_translate('Number of items to display on user view.') }}">
+                                Items per page on user view
+                            </label> 
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            <input type="text" name="settings[items_per_page]" id="settings_items_per_page" size="3" maxlength="3" value="{{ settings['items_per_page'] }}" />
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label class="help xar-form-label" for="defaultsort" title="{{ xar_translate('Sorting by default') }}">
+                                Default sort order
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {% set options = [
+                                    {'id': 'modify_date', 'name': 'Date (latest first)'},
+                                    {'id': 'date ASC', 'name': 'Date (oldest first)'},
+                                    {'id': 'title', 'name': 'Title'},
+                                    {'id': 'hits', 'name': 'Hits'},
+                                    {'id': 'rating', 'name': 'Rating'},
+                                    {'id': 'id', 'name': 'Publication ID'},
+                                    {'id': 'author', 'name': 'Author'},
+                                    {'id': 'summary', 'name': 'Summary'},
+                                    {'id': 'pubtype_id, date', 'name': 'Customized'},
+                                    {'id': 'left_id', 'name': 'Tree'}
+                                ] %}
+                            {{ xar_data_input({name: "settings[defaultsort]", type: "dropdown", options: options, value: settings['defaultsort']}) }}&#160;
+                        </div>
+                        <div class="xar-col" style="width: 10%">
+                        </div>
+                        <div class="xar-col" style="width: 20%">
+                            <label for="number_of_columns" class="help xar-form-label" title="{{ xar_translate('Number of columns to display on view pages.') }}">
+                                Number of columns
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            <input type="text" name="settings[number_of_columns]" id="settings_number_of_columns" size="1" maxlength="2" value="{{ settings['number_of_columns'] }}" />
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label class="help xar-form-label" for="namestring" title="{{ xar_translate('String to identify the document') }}">
+                                Default ID string for name
+                            </label> 
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "textbox", name: "settings[namestring]", id: "settings_namestring", value: settings['namestring']}) }}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="xar-norm">
+                    <legend>
+                        Display Settings
+                    </legend>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_prevnext" class="help xar-form-label" title="{{ xar_translate('Show link to previous/next item in display.') }}">                    
+                                Show previous/next links
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "show_prevnext", checked: settings['show_prevnext']}) }}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="xar-norm">
+                    <legend>
+                        Utility Modules
+                    </legend>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_keywords" class="help xar-form-label" title="{{ xar_translate('Show keywords on view page.') }}">
+                                Show Keywords
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {% if seenhook['keywords'] %}
+                                {{ xar_data_input({type: "checkbox", name: "show_keywords", checked: settings['show_keywords']}) }}
+                            {% else %}
+                                <input type="hidden" name="show_keywords" id="settings_show_keywords" value="{{ settings['show_keywords'] }}" />&#160;
+                                N/A,&#10; the keywords module is not hooked
+                            {% endif %}
+                        </div>
+                        <div class="xar-col" style="width: 10%">
+                        </div>
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_ratings" class="help xar-form-label" title="{{ xar_translate('Show ratings on view page.') }}">
+                                Show Ratings
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {% if seenhook['ratings'] %}
+                                {{ xar_data_input({type: "checkbox", name: "show_ratings", checked: settings['show_ratings']}) }}
+                            {% else %}
+                                <input type="hidden" name="show_ratings" id="settings_show_ratings" value="{{ settings['show_ratings'] }}" />&#160;
+                                N/A,&#10; the ratings module is not hooked
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_hitcount" class="help xar-form-label" title="{{ xar_translate('Show hit counts on view page.') }}">
+                                Show Hit Counts
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {% if seenhook['hitcount'] %}
+                                {{ xar_data_input({type: "checkbox", name: "show_hitcount", checked: settings['show_hitcount']}) }}
+                            {% else %}
+                                <input type="hidden" name="show_hitcount" id="settings_show_hitcount" value="{{ settings['show_hitcount'] }}" />&#160;
+                                N/A,&#10; the hitcount module is not hooked
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="xar-norm">
+                    <legend>
+                        Internal Links
+                    </legend>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_publinks" class="help xar-form-label" title="{{ xar_translate('Show links to publication types.') }}">
+                                Show links to publication types
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "show_publinks", checked: settings['show_publinks']}) }}
+                        </div>
+                        <div class="xar-col" style="width: 10%">
+                        </div>
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_archives" class="help xar-form-label" title="{{ xar_translate('Show link to archives.') }}">
+                                Show link to archives
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "show_archives", checked: settings['show_archives']}) }}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_pubcount" class="help xar-form-label" title="{{ xar_translate('Show links to publication types.') }}">
+                                Show number of publications in publication links
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "show_pubcount", checked: settings['show_pubcount']}) }}
+                        </div>
+                        <div class="xar-col" style="width: 10%">
+                        </div>
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_map" class="help xar-form-label" title="{{ xar_translate('Show link to publication map.') }}">
+                                Show link to publication map
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "show_map", checked: settings['show_map']}) }}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="xar-norm">
+                    <legend>
+                        Transforms
+                    </legend>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label for="do_transform" class="help xar-form-label" title="{{ xar_translate('Call transform hooks in summaries.') }}">
+                                Transform hooks in summaries
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "do_transform", checked: settings['do_transform']}) }}
+                        </div>
+                        <div class="xar-col" style="width: 10%">
+                        </div>
+                        <div class="xar-col" style="width: 20%">
+                            <label for="title_transform" class="help xar-form-label" title="{{ xar_translate('Call transform hooks in titles.') }}">
+                                Transform hooks in titles
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "title_transform", checked: settings['title_transform']}) }}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="xar-norm">
+                    <legend>
+                        Publication States
+                    </legend>
+                    {% set states = xar_apifunc('publications','user','getstates') %}
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label class="help xar-form-label" for="defaultstate" title="{{ xar_translate('Default start state.') }}">
+                                Default start state
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "dropdown", name: "settings[defaultstate]", id: "settings_defaultstate", options: states, value: settings['defaultstate']}) }}
+                        </div>
+                        <div class="xar-col" style="width: 10%">
+                        </div>
+                        <div class="xar-col" style="width: 20%">
+                            <label class="help xar-form-label" for="defaultprocessstate" title="{{ xar_translate('Default process state.') }}">
+                                Default process state
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "title_transform", checked: settings['title_transform']}) }}
+                            {% if withstate %}
+                                {{ xar_data_input({name: "settings[defaultprocessstate]", id: "settings_defaultprocessstate", options: states, value: defaultprocessstate}) }}
+                            {% else %}
+                                <input type="hidden" name="settings[defaultprocessstate]" id="settings_defaultprocessstate" value="2" />
+                                    N/A
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="xar-norm">
+                    <legend>
+                        Categories/Comments
+                    </legend>
+                     <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_categories" class="help xar-form-label" title="{{ xar_translate('Show category links in publication summaries .') }}">
+                                Category links in summaries
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "show_categories", checked: settings['show_categories']}) }}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_catcount" class="help xar-form-label" title="{{ xar_translate('Show number of publications in category navigation.') }}">
+                                Show number of publications in category navigation
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {{ xar_data_input({type: "checkbox", name: "show_catcount", checked: settings['show_catcount']}) }}
+                        </div>
+                        <div class="xar-col" style="width: 10%">
+                        </div>
+                        <div class="xar-col" style="width: 20%">
+                            <label for="show_comments" class="help xar-form-label" title="{{ xar_translate('Show comments on view page.') }}">
+                                Show number of comments
+                            </label>
+                        </div>
+                        <div class="xar-col" style="width: 25%">
+                            {% if seenhook['comments'] %}
+                                {{ xar_data_input({type: "checkbox", name: "show_comments", checked: settings['show_comments']}) }}
+                            {% else %}
+                                <input type="hidden" name="show_comments" id="settings_show_comments" value="{{ settings['show_comments'] }}" />&#160;
+                                N/A,&#10; the keywords module is not hooked
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="xar-norm">
+                    <legend>
+                        Custom Settings
+                    </legend>
+                        {# <!-- Get the name of the publication type. It is supposed to be "publications_something" --> #}
+                        {% if pubtypename|length <= 13 %}
+                            {% set pubtypename = 'generic' %}
+                        {% else %}
+                            {% set pubtypename = pubtypename|slice(13) %}
+                        {% endif %}
+
+                        {# <!-- Figure out which template to use --> #}
+                        {% set includepath = "objects/pubtypename" %}
+                        {% set filename = 'settings' %}
+
+                        {# <!-- Display --> #}
+                        {{ include('@publications/includes/' ~ filename ~ '.html.twig') }}
+                </fieldset>
+                <div class="xar-row">
+                    <div class="xar-col">
+                    </div>
+                    <div class="xar-col">
+                        {% set label = 'Update' %}
+                        {{- xar_button({type: "submit", label: label}) -}}
+                        {# <!--
+                        &#160;
+                        {% set label = 'Reset' %}
+                        {{- xar_button({type: "cancel", label: label}) -}}
+                        --> #}
+                        <input type="hidden" name="tab" id="tab" value="{{ tab }}" />
+                        <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" /> 
+                    </div>
+                </div>
+            </form>
+        {% elseif tab == 'redirects' %}
+           <form class="xar-formwidget" action="&xar-modurl-publications-admin-updateconfig;" method="post" enctype="application/x-www-form-urlencoded">
+                <fieldset>
+                    <legend>
+                        Redirect URLs
+                    </legend>
+                    {{ xar_data_input({type: "array", name: "redirects", column_titles: "From,To", addremove: "1", value: redirects}) }}
+                </fieldset>
+                <input type="hidden" name="tab" id="tab" value="{{ tab }}"/>
+                {{ include('@base/includes/update-button.html.twig') }}
+           </form>
+        {% endif %}
+    </div>
+{% endblock %}

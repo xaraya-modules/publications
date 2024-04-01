@@ -1,0 +1,36 @@
+{# @publications/objects/translations/summary.html.twig #}
+
+{% block summary %}
+{# <!-- Get the settings of this publication type --> #}
+    {% set settings = xar_coremethod('xarCoreCache', 'getCached', ['publications', 'settings_' ~ object.properties['itemtype'].value]) %}
+    
+    {# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "translation", title: "Translation Stylesheet"}) }}
+    
+    <div class="xar-row">
+        <div class="xar-col-expanded" style="width: 100%;">
+            <div style="float: left">
+                <a class="xar-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': properties['id'].value}) }}">
+                    {{ xar_data_output({property: properties['title']}) }}
+                </a>
+            </div>
+    
+            <div style="float: right">
+                {# <!-- Edit icons if allowed --> #}
+                {{ include('@publications/includes/editicons.html.twig') }}
+            </div>
+            <div style="float: right">
+                {# <!-- Print button --> #}
+                {{ include('@publications/includes/print.html.twig') }}
+            </div>
+        </div>
+    </div>
+    <div class="xar-row">
+        <div class="xar-col" style="width: 48%; padding: 5px; vertical-align: top;">
+            {{ xar_data_output({property: properties['source']}) }}
+        </div> 
+        <div class="xar-col" style="width: 48%; padding: 5px; vertical-align: top;">
+            {{ xar_data_output({property: properties['translation']}) }}
+        </div> 
+    </div>
+{% endblock %}

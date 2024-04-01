@@ -1,0 +1,89 @@
+{# @publications/admin/templates_type.html.twig #}
+
+{% block templates_type %}
+{{ xar_javascript({module: "publications", filename: "tabs.js"}) }}
+    {{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>
+            Manage Publication Type Templates
+        </h2>
+        <div class="xar-row">
+            <div class="xar-col">
+                <label title="{{ xar_translate('Select the type of publication whose templates you want to manage') }}" class="xar-form-label">
+                    Publication Type:
+                </label>
+            </div>
+            <div class="xar-col">
+                {% set onchange = "javascript.this.form.submit();" %}
+                <form method="post" action="{{ xar_moduleurl('publications','admin','templates_type') }}">
+                    {{ xar_data_input({name: "ptid", type: "objectref", refobject: "publications_types", store_prop: "id", display_prop: "description", value: ptid, onchange: onchange}) }}
+                    <input type="hidden" name="file" value="{{ file }}" />
+                </form>
+            </div>
+        </div>
+        <div class="xar-row">
+            <div class="xar-col">
+                <label title="{{ xar_translate('Select a template to create or modify') }}" class="xar-form-label">
+                    Template file:
+                </label>
+            </div>
+            <div class="xar-col">
+                <form method="post" action="{{ xar_moduleurl('publications','admin','templates_type') }}">
+                    {{ xar_data_input({type: "dropdown", name: "file", options: files, value: file, onchange: onchange}) }}
+                    <input type="hidden" name="ptid" value="{{ ptid }}" />
+                    &#160;
+                    {% if filetype == 'module' %}
+                        This is a module template. Saving this will create a theme template.
+                    {% else %}
+                        This is a theme template.
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        <div class="xar-row" style="margin-bottom: 10px">
+            <div class="xar-col">
+                <label title="{{ xar_translate('The location of the template in the file system') }}" class="xar-form-label">
+                    Template path:
+                </label>
+            </div>
+            <div class="xar-col">
+                {{ filepath }}&#160;
+                 <a href="{{ xar_moduleurl('publications','user','download',{'filepath': urlencode(filepath)}) }}"
+                 title="Download this file">
+                    <xar:if condition = "xarModVars::get('grader','use_module_icons')">
+                        <img src="{{ xar_imageurl('icons/' ~ 'document-save.png', 'base') }}" style="margin-right: 5px; vertical-align: top;" />
+                    {% else %}
+                        <b style="margin-right: 5px">Download</b>
+                    {% endif %}
+                 </a>
+            </div>
+        </div>
+        <form method="post" id="post" action="{{ xar_currenturl() }}" enctype="application/x-www-form-urlencoded" >
+            {{ xar_data_input({type: "codemirror", name: "source_data", value: source_data}) }}
+            <div class="xar-row" style="margin-top: 10px">
+                <div class="xar-col">
+                    {% if writable %}
+                        This template can be saved.
+                    {% else %}
+                        <img src="{{ xar_imageurl('exception.png','base') }}" width="20px" height="20px"/>&#160;
+                        <span class="warning">                            
+                            {% if filetype == 'module' %}
+                                This template cannot be saved: check the directory permissions
+                            {% else %}
+                                This template cannot be saved: no permission
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="xar-col">
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" />
+                    <input type="hidden" name="confirm" id="confirm" value="1" />
+                    <input type="hidden" name="ptid" id="ptid" value="{{ ptid }}" />
+                    <input type="hidden" name="file" id="file" value="{{ file }}" />
+                    {% set label = 'Update Template' %}
+                    {{- xar_button({type: "submit", label: label}) -}}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{# @publications/objects/documents/summary.html.twig #}
+
+{% block summary %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "document", title: "Document Stylesheet"}) }}
+    
+    <div class="xar-norm xar-standard-box-padding">
+        {% if categories and categories|length > 0 %}[
+            {% for cat in categories %}{{ cat['cjoin'] }}
+                <a href="{{ cat['clink'] }}">{{ cat['cname'] }}</a>
+            {% endfor %}]
+        {% endif %}
+        
+        {{ include('@publications/includes/editicons.html.twig') }}
+        
+        <span class="xar-publications-document-summary-title">
+            <a class="xar-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': properties['id'].value, 'ptid': properties['itemtype'].value}) }}">
+                {{ xar_data_output({property: properties['title']}) }}
+            </a>
+            {% if counter %}
+                {% if counter == 1 %}({{ counter }}&#160;
+                read)
+                {% else %}({{ counter }}&#160;
+                reads){% endif %}
+            {% endif %}
+        </span>
+        <div class="xar-publications-document-summary-keywords">
+            {% if keywords %}
+                Keywords:
+                {% for loop_key1, loop_item1 in keywords %}{% set loop_index1 = loop.index %}
+                    <a href="{{ xar_moduleurl('keywords', 'user', 'main', {'keyword': loop_item1['keyword']}) }}" title="{{ loop_item1['keyword'] }}">{{ loop_item1['keyword'] }}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{# @publications/blocks/filler.html.twig #}
+
+{% block filler %}
+{% if xar_security_check('AdminBase') %}
+        <a class="xar-icon" href="{{ xar_moduleurl('blocks','admin','modify_instance',{'block_id': _bl_block_id}) }}" title="Edit this block" style="float: right">
+            {{- xar_image({scope: "theme", class: "xar-icon", file: "icons/modify-config.png"}) -}}
+        </a>
+    {% endif %}
+    {% if not alttitle and not alttext %}
+        {{ xar_data_display({object: object, tplmodule: "publications", layout: displaytype}) }}
+    {% else %}
+        <div class="xar-title">
+            {{ alttitle }}
+        </div>
+        <div>
+            {{ alttext }}
+        </div>
+    {% endif %}    
+{% endblock %}

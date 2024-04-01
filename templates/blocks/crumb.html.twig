@@ -1,0 +1,20 @@
+{# @publications/blocks/crumb.html.twig #}
+
+{% block crumb %}
+<div class="xarpages-crumbtrail">
+        {# <!-- You are here: --> #}
+        {% for loop_key1, loop_item1 in ancestors %}{% set loop_index1 = loop.index %}
+            {% if loop_index1 >= 1 %}&#187;{% endif %}
+            {% if loop_item1.id == id %}
+                <span title="{{ xar_prep_display(loop_item1.title) }}"><strong>{{ xar_prep_display(loop_item1.title) }}</strong></span>
+            {% else %}
+                <a href="{{ xar_moduleurl('publications','user','display',{'id': loop_item1.id, 'ptid': loop_item1.ptid}) }}" title="{{ xar_prep_display(loop_item1.title) }}">{{ xar_prep_display(loop_item1.title) }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {# <!-- Provide an edit link if we have privileges --> #}
+        {% if xar_security_check('EditPublications', 0) %}
+            [<a href="{{ xar_moduleurl('publications','admin','modify',{'id': id, 'ptid': current_page.ptid, 'return_url': xar_coremethod('xarServer','getCurrentURL',[], false): }) }}">edit</a>]
+        {% endif %}
+    </div>
+{% endblock %}

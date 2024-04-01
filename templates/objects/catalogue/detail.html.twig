@@ -1,0 +1,147 @@
+{# @publications/objects/catalogue/detail.html.twig #}
+
+{% block detail %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "catalogue", title: "Catalogue Stylesheet"}) }}
+    
+    {% set fields = object.getFieldValues([],1) %}
+
+    {% set publication_state = properties['state'].value %}
+
+    {% if publication_state < 3 and not xar_security_check('ManagePublications',0) %}
+        This item cannot be viewed
+    {% else %}
+
+        {# <!-- Title --> #}
+        <div class="xar-publications-catalogue-detail-title">
+            {{ xar_data_output({property: properties['title']}) }}
+
+            {# <!-- Edit icons if allowed --> #}
+            {{ include('@publications/includes/editicons.html.twig') }}
+    
+            {# <!-- Print button --> #}
+            {{ include('@publications/includes/print.html.twig') }}
+        </div>
+
+        {% if profile %}
+            <xar:set name="author_string">'
+            <a href="'.$profile.'">' . $properties['author']->getValue() . '</a>'</xar:set>
+        {% else %}
+            {% set author_string = properties['author'].getValue() %}
+        {% endif %}
+
+        {# <!-- Summary --> #}
+        {% if fields['detail_image'] %}
+            <div>
+                <div style="float: left;">
+                    {% set imagepath = properties['detail_image'].initialization_basedirectory ~ '/'. fields['detail_image'] %}
+                    <a href="{{ filepath }}" title="{{ fields['title'] }}">
+                        <img src="{{ imagepath }}" style="margin-right: 25px; vertical-align:text-top; border: 1px dotted gray" />
+                    </a>
+                </div>
+                <div class="xar-publications-catalogue-author-text ">
+                    {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(fields['created'],, 'long', ''), xar_localedate(fields['created'],, '', 'long')) }}
+                    {% if counter %}
+                        {{ xar_translate('(#(1) Reads)', counter) }}
+                    {% endif %}
+                </div>
+                <div class="xar-publications-catalogue-detail-text ">
+                    {{ xar_data_output({property: properties['summary'], value: fields['summary']}) }}
+                </div>
+            </div>
+        {% else %}
+            <div class="xar-publications-catalogue-author-text ">
+                {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(fields['created'],, 'long', ''), xar_localedate(fields['created'],, '', 'long')) }}
+                {% if counter %}
+                    {{ xar_translate('(#(1) Reads)', counter) }}
+                {% endif %}
+            </div>
+            <div class="xar-publications-catalogue-detail-text">
+                {{ xar_data_output({property: properties['summary'], value: fields['summary']}) }}
+            </div>
+        {% endif %}
+
+        {# <!-- Detail --> #}
+        {% if fields['detail'] %}
+            <div class="xar-publications-catalogue-detail-text">
+                {{ xar_data_output({property: properties['detail']}) }}
+            </div>
+        {% endif %}
+
+        {# <!-- Download link(s) --> #}
+        {% set filepath = properties['download'].initialization_basedirectory ~ '/'. fields['download'] %}
+
+        {% if not fields['download'] %}
+            {# <!-- Nothing to display --> #}
+
+        {% elseif xar_coremethod('xarModHooks', 'isHooked', ['uploads','publications',fields['itemtype']]) and fields['fileupload']|slice(0,1) == ';' %}
+            {# <!-- Hook output --> #}
+            {#  
+                If you hook the uploads module to publications, then file upload fields will contain
+                a comma-separated list of file ids, and you will need to call an API function to
+                retrieve the file information. For dynamic extra fields, you can use [fieldname]_output
+                directly to access the file information.
+             #}
+            {% set fileupload_output = xar_apifunc('uploads','user','showoutput',{'value': fields['fileupload'], 'multiple': true}) %}
+            {% for fileid, fileinfo in fileupload_output %}
+                <p>
+                    <a href="{{ fileinfo['fileDownload'] }}">
+                        {{ fileinfo['fileName'] }}
+                    </a>
+                </p>
+            {% endfor %}
+        {% elseif file_exists(filepath) %}
+            {# <!-- Simple download link --> #}
+            {% set filesize = number_format(filesize(filepath)/1000,1) %}
+            <div class="xar-publications-catalogue-detail-text">
+                <a href="{{ filepath }}" title="{{ fields['title'] }}">
+                    Download this file:&#160;
+                    {{ xar_data_output({property: properties['download'], value: fields['download']}) }}&#160;
+                    ({{ filesize }}kB)
+                </a>
+            </div>
+        {% else %}
+            {# <!-- Link exists, but we don't have a file, so display the file name --> #}
+            <div class="xar-publications-catalogue-detail-text">
+                {{ xar_data_output({property: properties['download'], value: fields['download']}) }}
+            </div>
+        {% endif %}
+        
+        {# <!-- Notes --> #}
+        {% if fields['note'] %}
+            <p class="xar-quote">Note :
+            <em>
+                {{ xar_data_output({property: properties['note']}) }}
+            </em></p>
+        {% endif %}
+        
+        {# <!-- Back link --> #}
+        <div class="xar-publications-catalogue-detail-text">
+            <a href="javascript: history.go(-1)">Back</a>
+            
+            {# <!-- Button alternative
+            {% set label = 'Back' %}
+            {{- xar_button({type: "cancel", label: label}) -}}
+            --> #}
+        </div>
+        
+        {# <!-- Link to previous or next --> #}
+        <div class="xar-normal xar-align-right xar-padding-thick">
+            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+            {% if prevpublication %}
+                {% set prev = 'Previous' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-previous.png", class: "xar-icon", alt: prev}) -}}
+                </a>
+            {% endif %}
+            &#160;
+            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+            {% if nextpublication %}
+                {% set next = 'Next' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-next.png", class: "xar-icon", alt: next}) -}}
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

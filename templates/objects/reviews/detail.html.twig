@@ -1,0 +1,129 @@
+{# @publications/objects/reviews/detail.html.twig #}
+
+{% block detail %}
+{{ include('@publications/includes/publinks.html.twig') }}
+    {# <!--
+    {{ xar_data_output({type: "categorynavigation", layout: "trails", showchildren: "1", module: "publications", itemtype: ptid, itemid: id, cids: cids, show_catcount: settings['show_catcount'], showempty: "0"}) }}
+    --> #}
+    
+    {% set publication_state = properties['state'].value %}
+
+    {% if publication_state < 3 and not xar_security_check('ManagePublications',0) %}
+        This item cannot be viewed
+    {% else %}
+        <table border="0" cellpadding="3" cellspacing="0">
+        <tr>
+          <td align="right">
+            Title:
+          </td>
+          <td align="left">
+
+            {{ include('@publications/includes/editicons.html.twig') }}
+
+            {# <!-- Print button --> #}
+            {{ include('@publications/includes/print.html.twig') }}
+
+            {{ xar_data_output({property: properties['title']}) }}
+            <br />
+          </td>
+        </tr>
+        {% if notes %}
+        <tr>
+          <td align="right" valign="top">
+            Image:
+          </td>
+          <td align="center">
+            <img src="{{ properties['image'].getValue() }}" border="0" alt="{{ properties['title'].getValue() }}" />
+            &#160;
+          </td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td align="right" valign="top">
+            Review:
+          </td>
+          <td align="left">
+            {{ xar_data_output({property: properties['review']}) }}
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            Added on:
+          </td>
+          <td align="left">
+            {{ xar_data_output({property: properties['modified']}) }}
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            By:
+          </td>
+          <td align="left">
+            {% if profile %}
+              <a href="{{ profile }}">
+              {{ xar_data_output({property: properties['author']}) }}
+              </a>
+            {% else %}
+              {{ xar_data_output({property: properties['author']}) }}
+            {% endif %}
+          </td>
+        </tr>
+        {% if body or redirect %}
+        <tr>
+          <td align="right">
+            Related Link:
+          </td>
+          <td align="left">
+            {% if redirect %}
+                <a href="{{ redirect }}">
+                    {{ xar_data_output({property: properties['related_link']}) }}
+                </a>
+            {% else %}
+                {{ xar_data_output({property: properties['related_link']}) }}
+            {% endif %}
+            &#160;
+          </td>
+        </tr>
+        {% endif %}
+        {% if rating %}
+        <tr>
+          <td align="right">
+            Rating:
+          </td>
+          <td align="left">
+            {{ rating }}
+          </td>
+        </tr>
+        {% endif %}
+        {% if counter %}
+        <tr>
+          <td align="right">
+            Reads:
+          </td>
+          <td align="left">
+            {{ counter }}
+          </td>
+        </tr>
+        {% endif %}
+        </table>
+
+        {# <!-- Link to previous or next --> #}
+        <div class="xar-normal xar-align-right xar-padding-thick">
+            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+            {% if prevpublication %}
+                {% set prev = 'Previous' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-previous.png", class: "xar-icon", alt: prev}) -}}
+                </a>
+            {% endif %}
+            &#160;
+            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+            {% if nextpublication %}
+                {% set next = 'Next' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-next.png", class: "xar-icon", alt: next}) -}}
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

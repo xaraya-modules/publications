@@ -1,0 +1,81 @@
+{# @publications/objects/generic/detail.html.twig #}
+
+{% block detail %}
+{% set ptid = object.objectid %}
+    {{ include('@publications/includes/publinks.html.twig') }}
+    {# <!--
+    {% set cids = properties['categories'].getValue() %}
+    {{ xar_data_output({type: "categorynavigation", layout: "trails", showchildren: "1", module: "publications", itemtype: ptid, itemid: properties['id'], cids: cids, show_catcount: settings['show_catcount'], showempty: "0"}) }}
+    --> #}
+    
+    {% set publication_state = properties['state'].value %}
+
+    {% if publication_state < 3 and not xar_security_check('ManagePublications',0) %}
+        This item cannot be viewed
+    {% else %}
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+            <tr>
+                <td align="left" valign="top" class="xar-normal">
+
+                    {{ include('@publications/includes/editicons.html.twig') }}
+
+                    {# <!-- Print button --> #}
+                    {{ include('@publications/includes/print.html.twig') }}
+
+                    <br />
+                    {{ xar_data_output({property: properties['name']}) }}
+                    <span class="xar-title">
+                        {{ xar_data_output({property: properties['title']}) }}
+                    </span>
+                    <br />
+                    {# <!--
+                    {% if counter %}
+                        ({{ counter }}
+
+                            Reads
+
+                        )
+                    {% endif %}
+                    <div align="right">
+                        <span class="xar-sub"> {{ topic_icons }} </span>
+                    </div>
+                    <br />
+                    --> #}
+                    <br />
+                    {{ xar_data_output({property: properties['description']}) }}
+                    <br />
+                    {{ xar_data_output({property: properties['summary']}) }}
+                    <br />
+                    {{ xar_data_output({property: properties['body_1']}) }}
+                    <br />
+                    {{ xar_data_output({property: properties['body_2']}) }}
+                    <br />
+                    {{ xar_data_output({property: properties['body_3']}) }}
+                    <br />
+                    <span class="xar-quote">
+                        {{ xar_data_output({property: properties['notes']}) }} 
+                    </span>
+                </td>
+            </tr>
+        </table>
+        
+        {# <!-- Link to previous or next --> #}
+        <div class="xar-normal xar-align-right xar-padding-thick">
+            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+            {% if prevpublication %}
+                {% set prev = 'Previous' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-previous.png", class: "xar-icon", alt: prev}) -}}
+                </a>
+            {% endif %}
+            &#160;
+            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+            {% if nextpublication %}
+                {% set next = 'Next' %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-next.png", class: "xar-icon", alt: next}) -}}
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

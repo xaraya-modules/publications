@@ -1,0 +1,79 @@
+{# @publications/blocks/staticmenu.html.twig #}
+
+{% block staticmenu %}
+{# <!--
+    This template illustrates how to create menus using the staticmenu block's $menuarry variable
+    Structure of $menuarray:
+    Each item in $menuarray has the structure
+        $menuarray[$menuindex][$itemindex] = array(
+                                                    'id' => $node_id,
+                                                    'name' => $node_name,
+                                                    'label' => $node_label,
+                                                    'redirect_flag' => $node_redirect_flag,
+                                                    'state' => $node_state,
+                                                  ) 
+        $menuindex is a number that designates the top level menu or a submenu
+            - $menuarray[0] contains the top level of the menu
+            - $menuarray[x] contains the top level of the menu
+        $itemindex is a number that designates an item in the top level menu or a submenu
+        
+        Override this template in your theme to customize your own menu.
+   --> #}
+   
+   {# <!-- Root menu --> #}
+    <ul style="margin-right: 5px">
+        {% for node in menuarray[0] %}
+            {% if (node['id'] == 19) and xar_coremethod('xarUser', 'isLoggedIn') %}
+                <xar:continue/>
+            {% elseif (node['id'] == 22) and not xar_coremethod('xarUser', 'isLoggedIn') %}
+                <xar:continue/>
+            {% endif %}
+            {# <!-- Check if this is the active node --> #}
+            {% set hilite = 'hilite' ~ node['id'] %}
+            {% if node['id'] == (int)xar_coremethod('xarCoreCache', 'getCached', ['Blocks.publications', 'current_base_id']) %}
+                {% set hilite = 'active' %}
+            {% else %}
+                {% set hilite = '' %}
+            {% endif %}
+            
+            {# <!-- Check if we have a submenu --> #}
+            {% if menuarray[node['id']] is not null %}
+                {% set nodename = 'menu-' ~ node['id'] %}
+            {% else %}
+                {% set nodename = 'empty' %}
+            {% endif %}
+
+            {# <!-- We set a link only if this node is not empty and not redirected or proxied --> #}
+            {% if node['redirect_flag'] == 0 and node['state'] == 5 %}
+                <li style="margin-right: 5px" class="rootVoice {{ hilite }} {menu: '{{ nodename }}'}">{{ node['label'] }}</li>
+            {% else %}
+                <li style="margin-right: 5px" class="rootVoice {{ hilite }} {menu: '{{ nodename }}'}"><a href="{{ xar_moduleurl('publications','user','display',{'itemid': node['id']}) }}">{{ node['label'] }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+   {# <!-- Submenus --> #}
+    {% for key, nodes in menuarray %}
+        {% if key == 0 %}
+            <xar:continue/>
+        {% endif %}
+        <div id="menu-{{ key }}" class="mbmenu">
+            {% for node in nodes %}
+                {# <!-- Check if this is the active node --> #}
+                {% set hilite = 'hilite' ~ node['id'] %}
+                {% if node['id'] == (int)xar_coremethod('xarCoreCache', 'getCached', ['Blocks.publications', 'current_base_id']) %}
+                    {% set hilite = 'active' %}
+                {% else %}
+                    {% set hilite = '' %}
+                {% endif %}
+                
+                {# <!-- Check if we have a submenu --> #}
+                {% if menuarray[node['id']] is not null %}
+                    <a class="{menu: 'menu-{{ node['id'] }}'} sub-menu {{ hilite }}" href="{{ xar_moduleurl('publications','user','display',{'itemid': node['id']}) }}">{{ node['label'] }}</a>
+                {% else %}
+                    <a class="sub-menu {{ hilite }}" href="{{ xar_moduleurl('publications','user','display',{'itemid': node['id']}) }}">{{ node['label'] }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

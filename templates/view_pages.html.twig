@@ -1,0 +1,113 @@
+{# @publications/view_pages.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+{{ xar_style({scope: "module", file: "admin-style"}) }}
+
+    <div class="xar-mod-head"><span class="xar-mod-title">Page Administration</span></div>
+
+    <div class="xar-mod-body">
+        {{ include('@publications/includes/admin-menu.html.twig') }}
+        <h2>View Publications Tree</h2>
+
+        {% set root_pages = xar_apifunc('publications', 'user', 'getpages', {'parent': 0}) %}
+        {% if root_pages %}
+            {% set method = 'get' %}
+            <form method="$method" action="{{ xar_moduleurl('publications','admin','view_pages') }}">
+                <div>
+                    {% if method == 'get' %}
+                        <input name="module" type="hidden" value="publications"/>
+                        <input name="type" type="hidden" value="admin"/>
+                        <input name="func" type="hidden" value="view_pages"/>
+                    {% endif %}
+
+                    <label for="contains">Select tree:</label>
+
+                    <select name="contains" id="contains">
+                        <option value="0">-- All --</option>
+                        {% for loop_key1, loop_item1 in root_pages %}{% set loop_index1 = loop.index %}
+                            {% if loop_item1.id == contains %}
+                                <option value="{{ loop_item1.id }}" selected="selected">[{{ loop_item1.id }}] {{ xar_prep_display(loop_item1.name) }} ({{ xar_prep_display(loop_item1.pubtype_name) }})</option>
+                            {% else %}
+                                <option value="{{ loop_item1.id }}">[{{ loop_item1.id }}] {{ xar_prep_display(loop_item1.name) }} ({{ xar_prep_display(loop_item1.pubtype_name) }})</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% set label = 'Refresh' %}
+                    {{- xar_button({type: "submit", label: label}) -}}
+                </div>
+            </form>
+        {% endif %}
+
+        {% if not pages %}
+             No publications defined
+        {% else %}
+            {% if add_allowed %}
+                <div><a href="{{ xar_moduleurl('publications','admin','new') }}">Add Page</a></div>
+            {% endif %}
+
+            <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Options</th>
+                </tr>
+                {% for loop_key1, loop_item1 in pages %}{% set loop_index1 = loop.index %}
+                    {% if loop_index1 >= 0 %}
+                        {% if ((loop_index1 + 1) % 2) %}
+                            {% set row_class = '' %}
+                        {% else %}
+                            {% set row_class = 'xar-accent' %}
+                        {% endif %}
+
+                        <tr>
+                            <td align="left" class="{{ row_class }}">
+                                {{ loop_item1.xar_map }}
+                                {{ xar_prep_display(loop_item1.name) }}
+                            </td>
+                            <td class="{{ row_class }}" title="{{ xar_translate('Status: ') }} {{ loop_item1.status }}"><span class="xar-publications-status-{{ loop_item1.status }}">{{ xar_prep_display(loop_item1.pubtype_name) }}: {{ xar_prep_display(loop_item1.title) }}</span></td>
+                            <td class="{{ row_class }}" style="text-align: center;">
+                                {% if loop_item1.edit_allowed %}
+                                    {% set link = xar_moduleurl('publications', 'admin', 'modify', {'itemid': loop_item1['id'], 'returnurl': 'view_pages', 'ptid': loop_item1['ptid']}) %}
+                                    {% if xar_modvar('publications', 'use_module_icons') %}
+                                        {% set icon = xar_imageurl('icons/modify.png', 'base') %}
+                                        {{ xar_data_output({type: "urlicon", link: link, icon: icon}) }}
+                                    {% else %}
+                                        <a href="{{ link }}">
+                                            Modify
+                                        </a>
+                                    {% endif %}
+                                    &#160;|&#160;
+                                {% endif %}
+
+                                {% if loop_item1.delete_allowed %}
+                                    {% set link = xar_moduleurl('publications', 'admin', 'delete', {'idlist': loop_item1['id'], 'returnurl': 'view_pages', 'ptid': loop_item1['ptid']}) %}
+                                    {% if xar_modvar('publications', 'use_module_icons') %}
+                                        {% set icon = xar_imageurl('icons/delete.png', 'base') %}
+                                        {{ xar_data_output({type: "urlicon", link: link, icon: icon}) }}
+                                    {% else %}
+                                        <a href="{{ link }}">
+                                            Delete
+                                        </a>
+                                    {% endif %}
+                                    &#160;|&#160;
+                                {% endif %}
+
+                                {% set link = xar_moduleurl('publications', 'user', 'display', {'id': loop_item1['id'], 'returnurl': 'view_pages', 'ptid': loop_item1['ptid']}) %}
+                                {% if xar_modvar('publications', 'use_module_icons') %}
+                                    {% set icon = xar_imageurl('icons/display.png', 'base') %}
+                                    {{ xar_data_output({type: "urlicon", link: link, icon: icon}) }}
+                                {% else %}
+                                    <a href="{{ link }}">
+                                        Display
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

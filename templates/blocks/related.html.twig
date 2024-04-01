@@ -1,0 +1,29 @@
+{# @publications/blocks/related.html.twig #}
+
+{% block related %}
+{% if showpubtype and pubtypelink %}
+        <a href="{{ pubtypelink }}">
+            {{ xar_translate('More #(1)', xar_prep_display(pubtypename)) }}
+        </a>
+        <br /><br />
+    {% endif %}
+    {% if showauthor and authorlink %}
+        {% set username = xar_coremethod('DataPropertyMaster','getProperty',{'name': 'username'});
+            username.initialization_store_type = 'id';
+            username.value = authorid; %}
+        {% set authorname = username.getValue() %}
+        {% if pubtypename %}
+            <a href="{{ authorlink }}">
+                {{ xar_translate('#(1) by #(2)', xar_prep_display(pubtypename), xar_prep_display(authorname)) }}
+            </a>
+        {% else %}
+            <a href="{{ authorlink }}">
+                {{ xar_translate('Publications by #(1)', xar_prep_display(authorname)) }}
+            </a>
+      {% endif %}
+      {% if authorcount %}
+        ({{ authorcount }})
+      {% endif %}
+        <br /><br />
+    {% endif %}
+{% endblock %}

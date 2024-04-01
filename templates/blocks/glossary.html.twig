@@ -1,0 +1,14 @@
+{# @publications/blocks/glossary.html.twig #}
+
+{% block glossary %}
+<div>
+        {% if definition %}
+            {{ xar_prep_display(definition) }}
+            {% if detailavailable %}
+                <br/><a href="{{ detailurl }}" title="{{ xar_translate('Expanded glossary definition') }}">Further details...</a>
+            {% endif %}
+        {% else %}
+            <span class="xar-error">No glossary entry found.</span>
+        {% endif %}
+    </div>
+{% endblock %}

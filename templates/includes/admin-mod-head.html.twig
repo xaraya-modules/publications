@@ -1,0 +1,14 @@
+{# @publications/includes/admin-mod-head.html.twig #}
+
+{% block admin_mod_head %}
+<div class="xar-mod-head">
+        <span class="xar-mod-title">
+            {% if xar_modvar('publications', 'use_module_alias') %}
+                {{ xar_var({scope: "module", module: "publications", name: "module_alias_name"}) }}
+            {% else %}
+                Publications Administration
+            {% endif %}
+        </span>
+        {{ include('@publications/includes/admin-menu.html.twig') }}
+    </div>
+{% endblock %}

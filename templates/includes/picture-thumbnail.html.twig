@@ -1,0 +1,5 @@
+{# @publications/includes/picture-thumbnail.html.twig #}
+
+{% block picture_thumbnail %}
+<xar:image-resize src="$file[fileId]" label="$title" width="150px" height="150px" constrain="true" />
+{% endblock %}

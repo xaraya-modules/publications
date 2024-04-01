@@ -1,0 +1,37 @@
+{# @publications/admin/delete.html.twig #}
+
+{% block delete %}
+{{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>
+            {{ title }}
+        </h2>
+        <div class="xar-align-center">
+            <span class="xar-title">Confirm the deletion of:</span><br />
+            {% if name is not null %}
+                '<div class="xar-align-center">{{ name }}'</div>
+            {% elseif items is not null %}
+                <div class="xar-align-center">
+                    {% for item in items %}
+                        {{ item['name'] }} (ID {{ item['id'] }})
+                        <br />
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <br/>
+            <form method="post" action="{{ xar_currenturl() }}">
+                <input type="hidden" name="authid" id="authid" value="{{ authid }}" />
+                <input type="hidden" name="idlist" id="idlist" value="{{ idlist }}" />
+                <input type="hidden" name="itemid" id="itemid" value="{{ itemid }}" />
+                <input type="hidden" name="confirmed" id="confirmed" value="1" />
+                {% if returnurl %}
+                    <input type="hidden" name="returnurl" id="returnurl" value="{{ returnurl }}" />
+                {% endif %}
+                {% set label = 'Confirm' %}
+                {{- xar_button({type: "submit", label: label}) -}}&#160;
+                {% set label = 'Cancel' %}
+                {{- xar_button({type: "cancel", label: label}) -}}
+            </form>
+        </div>
+    </div>
+{% endblock %}

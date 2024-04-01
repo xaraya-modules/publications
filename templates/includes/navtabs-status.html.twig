@@ -1,0 +1,27 @@
+{# @publications/includes/navtabs-status.html.twig #}
+
+{% block navtabs_status %}
+{{ xar_style({scope: "module", module: "base", file: "navtabs"}) }}
+    {% if statefilters %}
+        <dl class="xar-tabs">
+            <dt class="help" title="{{ xar_translate('Click on a tab to display publications from that publication type') }}">
+                Status            :
+            </dt>
+            {% for statefilter in statefilters %}
+                {% if not statefilter['slink'] %}
+                    <dd class="active">
+                        <a href="{{ xar_currenturl() }}" title="{{ statefilter['stitle'] }}">
+                            {{ statefilter['stitle'] }}
+                        </a>
+                    </dd>
+                {% else %}
+                    <dd>
+                        <a href="{{ statefilter['slink'] }}" title="{{ statefilter['stitle'] }}">
+                            {{ statefilter['stitle'] }}
+                        </a>
+                    </dd>
+                {% endif %}
+            {% endfor %}
+        </dl>
+    {% endif %}
+{% endblock %}

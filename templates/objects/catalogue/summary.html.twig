@@ -1,0 +1,70 @@
+{# @publications/objects/catalogue/summary.html.twig #}
+
+{% block summary %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "catalogue", title: "Catalogue Stylesheet"}) }}
+    
+    {{ include('@publications/includes/publinks.html.twig') }}
+    {% set fields = object.getFieldValues([],1) %}
+
+    {# <!-- State --> #}
+    {% set publication_state = properties['state'].value %}
+
+    {% if publication_state < 3 and not xar_security_check('ManagePublications',0) %}
+        This item cannot be viewed
+    {% else %}
+
+        {# <!-- Title --> #}
+        <div class="xar-publications-catalogue-summary-title">
+            <a class="xar-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': fields['id']}) }}">
+                {{ xar_data_output({property: properties['title'], value: fields['title']}) }}
+            </a>
+        </div>
+
+        {# <!-- Edit icons if allowed --> #}
+        {{ include('@publications/includes/editicons.html.twig') }}
+
+        {% if profile %}
+            <xar:set name="author_string">'
+            <a href="'.$profile.'">' . $properties['author']->getValue() . '</a>'</xar:set>
+        {% else %}
+            {% set author_string = properties['author'].getValue() %}
+        {% endif %}
+
+        {# <!-- Description --> #}
+        {% if fields['detail_image'] %}
+            <div>
+                <div style="float: left;">
+                    {% set imagepath = properties['detail_image'].initialization_basedirectory ~ '/'. fields['detail_image'] %}
+                    <img src="{{ imagepath }}" style="margin-right: 25px; vertical-align:text-top; border: 1px dotted gray" />
+                </div>
+                <div class="xar-publications-catalogue-author-text ">
+                    {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(fields['created'],, 'long', ''), xar_localedate(fields['created'],, '', 'long')) }}
+                    {% if counter %}
+                        {{ xar_translate('(#(1) Reads)', counter) }}
+                    {% endif %}
+                </div>
+                <div class="xar-publications-catalogue-summary-text ">
+                    {{ xar_data_output({property: properties['description'], value: fields['description']}) }}
+                </div>
+            </div>
+        {% else %}
+            <div class="xar-publications-catalogue-author-text ">
+                {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(fields['created'],, 'long', ''), xar_localedate(fields['created'],, '', 'long')) }}
+                {% if counter %}
+                    {{ xar_translate('(#(1) Reads)', counter) }}
+                {% endif %}
+            </div>
+            <div class="xar-publications-catalogue-summary-text">
+                {{ xar_data_output({property: properties['description'], value: fields['description']}) }}
+            </div>
+        {% endif %}
+            
+        {# <!-- Read more --> #}
+        <div class="xar-publications-catalogue-summary-text">
+            <a href="{{ xar_moduleurl('publications','user','display',{'id': fields['id']}) }}">                
+                Read More
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

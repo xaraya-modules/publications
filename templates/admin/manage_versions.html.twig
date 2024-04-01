@@ -1,0 +1,46 @@
+{# @publications/admin/manage_versions.html.twig #}
+
+{% block manage_versions %}
+{{ xar_style({scope: "module", file: "admin-style"}) }}
+    
+    {# <!-- Load the stylesheet for the diff application --> #}
+    {{ xar_style({method: "import", scope: "module", module: "publications", file: "difflib", title: "Diff Stylesheet"}) }}
+
+    {{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>Compare Publications Versions</h2>
+        {% if not versions %}
+            There are no versions previous to the current version
+        {% else %}
+            <form method="post" action="{{ xar_currenturl() }}">
+                <div class="xar-row">
+                    <div class="xar-col">
+                        <a href="{{ xar_moduleurl('publications', 'admin', 'modify', {'name': objectname, 'itemid': page_id}) }}" title="{{ xar_translate('Modify this item') }}" style="margin-right: 5px">
+                            <img src="{{ xar_imageurl('icons/' ~ 'modify.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Modify') }}"/>
+                        </a>
+                        &#160;
+                        &#160;
+                        Version {{ xar_data_input({type: "dropdown", name: "version_1", options: options, value: version_1}) }}
+                        &#160;
+                        &#160;
+                        Version {{ xar_data_input({type: "dropdown", name: "version_2", options: options, value: version_2}) }}
+                        &#160;
+                        &#160;
+                        {% set label = 'Submit' %}
+                        {{- xar_button({type: "submit", label: label}) -}}
+                    </div>
+                </div>
+                <hr/>
+                <div>
+                    {% if not diffresult %}
+                        The two versions are identical
+                        <br/>
+                        {{ content }}
+                    {% else %}
+                        {{ diffresult }}
+                    {% endif %}
+                </div>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

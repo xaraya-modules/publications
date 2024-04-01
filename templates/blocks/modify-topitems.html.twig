@@ -1,0 +1,106 @@
+{# @publications/blocks/modify-topitems.html.twig #}
+
+{% block modify_topitems %}
+<div class="xar-form-input-wrapper">
+        <label class="xar-form-label help" title="{{ xar_translate('Enter the number of items that you wish to display.') }}" for="numitems{{ blockid }}"> 
+            Number of items             
+        </label> <input type="text" name="numitems" id="numitems{{ blockid }}" value="{{ numitems }}" size="5" maxlength="5" /> 
+    </div>
+    {% if not nopublimit %}
+        <div class="xar-form-input-wrapper">
+            <label class="xar-form-label help" title="{{ xar_translate('Choose the publication type you want to display with top items.') }}" for="pubtype_id{{ blockid }}"> 
+                Publication Type
+            </label> 
+            {% set firstline = 'Default / Current' %}
+            {% set firstline = {'id': 0, 'name': firstline} %}
+            {% set options = xar_apifunc('publications', 'user', 'get_pubtypes') %}        
+            {{ xar_data_input({type: "dropdown", name: "pubtype_id", firstline: firstline, options: options, value: pubtype_id}) }}
+        </div>
+    {% endif %}
+    <div class="xar-form-input-wrapper-after">
+        {{ xar_data_input({type: "checkbox", name: "nopublimit", checked: nopublimit}) }}
+        <label class="help" title="{{ xar_translate('Check this if you want the block to display content from all publication types all the time.') }}" for="nopublimit{{ blockid }}"> 
+            All Publication Types 
+        </label> 
+    </div>
+    <div class="xar-form-input-wrapper-after">
+        {{ xar_data_input({type: "checkbox", name: "linkpubtype", checked: linkpubtype}) }}
+        <label class="help" title="{{ xar_translate('Check this if you want to include the publication type in the article links.') }}" for="linkpubtype{{ blockid }}"> 
+            Link to Publication Type 
+        </label> 
+    </div>
+    {% if not nocatlimit %}
+        <div class="xar-form-input-wrapper">
+            <label class="xar-form-label help" title="{{ xar_translate('Choose the category that you want to display with top items.') }}" for="catfilter{{ blockid }}"> 
+                Category 
+            </label>
+            {% set firstline = 'All / Current' %}
+            {% set firstline = {'id': 0, 'name': firstline} %}
+            {% set options = xar_apifunc('categories', 'user', 'getcat') %}        
+            {{ xar_data_input({type: "dropdown", name: "catfilter", firstline: firstline, options: options, value: catfilter}) }}
+        </div>
+        {% if not includechildren and catfilter > 0 %}
+            <div class="xar-form-input-wrapper-after">
+                {{ xar_data_input({type: "checkbox", name: "linkcat", checked: linkcat}) }}
+                <label class="help" title="{{ xar_translate('Check this if you want to include this the category in the article links.') }}" for="linkcat{{ blockid }}"> 
+                    Link to This Category 
+                </label> 
+            </div>
+        {% endif %}
+        <div class="xar-form-input-wrapper-after">
+            {{ xar_data_input({type: "checkbox", name: "includechildren", checked: includechildren}) }}
+            <label class="help" title="{{ xar_translate('Check this if you want to display all publications in all subcategories of the current or selected category.') }}" for="includechildren{{ blockid }}"> 
+                Include Child Category Content 
+            </label> 
+        </div>
+    {% endif %}
+    <div class="xar-form-input-wrapper-after">
+        {{ xar_data_input({type: "checkbox", name: "nocatlimit", checked: nocatlimit}) }}
+        <label class="help" title="{{ xar_translate('Check this if you want the block to display content from all categories all the time.') }}" for="nocatlimit{{ blockid }}"> 
+            All Categories 
+        </label> 
+    </div>
+    <div class="xar-form-input-wrapper-after">
+        {{ xar_data_input({type: "checkbox", name: "dynamictitle", checked: dynamictitle}) }}
+        <label class="help" title="{{ xar_translate('Check this to have the block title dynamically generated from the current content.') }}" for="dynamictitle{{ blockid }}"> 
+            Dynamic Block Title 
+        </label> 
+    </div>
+    <div class="xar-form-input-wrapper">
+        <label class="xar-form-label help" title="{{ xar_translate('Choose the sorting options for the top items.') }}" for="toptype{{ blockid }}"> 
+            Sort by 
+        </label>
+        {% set options = [
+                {'id': 'author', 'name': {{ xar_translate('Author') }}},
+                {'id': 'date', 'name': {{ xar_translate('Date') }}},
+                {'id': 'hits', 'name': {{ xar_translate('Hit Count') }}},
+                {'id': 'rating', 'name': {{ xar_translate('Rating') }}},
+                {'id': 'title', 'name': {{ xar_translate('Title') }}}
+            ] %}        
+        {{ xar_data_input({type: "dropdown", name: "sortoptions", options: options, value: toptype}) }}
+        &#160;Hook Hitcount or Ratings to Publications to use these sort types
+    </div>
+    <div class="xar-form-input-wrapper-after">
+        {{ xar_data_input({type: "checkbox", name: "showvalue", checked: showvalue}) }}
+        <label class="help" title="{{ xar_translate('Check this box to show the value of the sort that you chose.') }}" for="showvalue{{ blockid }}"> 
+            Show sort value 
+        </label> 
+    </div>
+    <div class="xar-form-input-wrapper-after">
+        {{ xar_data_input({type: "checkbox", name: "showsummary", checked: showsummary}) }}
+        <label class="help" title="{{ xar_translate('Select this if you wish to show the summary of the individual item.') }}" for="showsummary{{ blockid }}"> 
+            Show summary 
+        </label> 
+    </div> 
+    <div class="xar-form-input-wrapper">
+        <label class="xar-form-label help" title="{{ {{ xar_translate('Choose the state (e.g. Approved, Front Page) }} for the featured items.') }}" for="state{{ blockid }}">             
+            Status             
+        </label>
+        {% set options = [
+                {'id': '2, 3': , 'name': {{ xar_translate('All Published') }}},
+                {'id': '3', 'name': {{ xar_translate('Frontpage') }}},
+                {'id': '2', 'name': {{ xar_translate('Approved') }}}
+            ] %}        
+        {{ xar_data_input({type: "dropdown", name: "stateoptions", options: options, value: state}) }}
+    </div>
+{% endblock %}

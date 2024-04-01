@@ -1,0 +1,46 @@
+{# @publications/admin/display_version.html.twig #}
+
+{% block display_version %}
+{{ xar_style({scope: "module", file: "admin-style"}) }}
+    
+    {# <!-- Load the stylesheet for the diff application --> #}
+    {{ xar_style({method: "import", scope: "module", module: "publications", file: "difflib", title: "Diff Stylesheet"}) }}
+
+    {{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>Display Publication Version</h2>
+        {% if not versions %}
+            There are no versions previous to the current version
+        {% else %}
+            <div class="xar-row">
+                <div class="xar-col">
+                    <form method="post" action="{{ xar_currenturl() }}">
+                        <a href="{{ xar_moduleurl('publications', 'admin', 'modify', {'name': objectname, 'itemid': page_id}) }}" title="{{ xar_translate('Modify this item') }}" style="margin-right: 5px">
+                            <img src="{{ xar_imageurl('icons/' ~ 'modify.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Modify') }}"/>
+                        </a>
+                        &#160;
+                        &#160;
+                        Version {{ xar_data_input({type: "dropdown", name: "version_1", options: options, value: version_1}) }}
+                        &#160;
+                        &#160;
+                        {% set label = 'Show' %}
+                        {{- xar_button({type: "submit", label: label}) -}}
+                        <input type="hidden" name="confirm" value="1"/>
+                    </form>
+                </div>
+                <div class="xar-col">
+                    <form method="post" action="{{ xar_currenturl() }}">
+                        {% set label = 'Make This Version Current' %}
+                        {{- xar_button({type: "submit", label: label}) -}}
+                        <input type="hidden" name="confirm" value="2"/>
+                        {{ xar_data_input({type: "dropdown", name: "version_1", options: options, value: version_1, hidden: "hidden"}) }}
+                    </form>
+                </div>
+            </div>
+            <hr/>
+            <div>
+                {{ content }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

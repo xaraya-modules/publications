@@ -1,0 +1,23 @@
+{# @publications/includes/navtabs.html.twig #}
+
+{% block navtabs %}
+{{ xar_javascript({module: "publications", filename: "tabs.js"}) }}
+    {{ xar_style({scope: "module", module: "base", file: "navtabs"}) }}
+    {% set object = xar_coremethod('DataObjectFactory','getObjectList',{'name': 'publications_types'}) %}
+    {% set items = object.getItems() %}
+
+    <dl class="xar-tabs">
+        <dt class="help">
+            Select Publication Type             : 
+        </dt>
+        <form method="post" action="{{ xar_moduleurl('publications','admin','modifyconfig') }}">
+            {% set onchange = "javascript.this.form.submit();" %}
+            {{ xar_data_input({name: "ptid", type: "objectref", refobject: "publications_types", store_prop: "id", display_prop: "description", value: ptid, onchange: onchange}) }}
+        </form>
+        <dd style="float:right">
+            <a href="{{ xar_moduleurl('publications','admin','view',{'ptid': ptid}) }}">
+                Publications List
+            </a>
+        </dd>
+    </dl>
+{% endblock %}

@@ -1,0 +1,68 @@
+{# @publications/objects/showview.html.twig #}
+
+{% block showview %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "publication_type", title: "Publication Type Stylesheet"}) }}
+
+    <div class="xar-publications-type-title">
+        {{ object.label }}
+        <span style="float: right">
+            {% if xar_security_check('ManagePublications') %}
+                {% set type = xar_coremethod('xarController', 'getRequest').getInfo() %}
+                {% set label = 'Create a new publication' %}
+                <a href="{{ xar_moduleurl('publications', type{1]: , 'new': , ['name': object.name}) }}" style="float:right; margin-right: 10px" title="{{ label }}">
+                    <img src="{{ xar_imageurl('icons/document-new.png','base') }}"/>
+                </a>
+            {% endif %} 
+        </span>
+    </div>
+
+    {# <!-- Get the name of the publication type. It is supposed to be "publications_something" --> #}
+    {% if object.name|length <= 13 %}
+        {% set pubtype = 'generic' %}
+    {% else %}
+        {% set pubtype = object.name|slice(13) %}
+    {% endif %}
+    
+    {# <!-- show the pager --> #}
+    {% if object.itemcount > object.numitems %}
+        <div class="xar-align-center">
+            {{ xar_pager({startnum: object.startnum, itemsperpage: object.numitems, total: object.itemcount, urltemplate: object.pagerurl}) }}
+        </div>
+    {% endif %}
+    
+    {# <!-- Get an access object to use for checking access --> #}
+    {% set access = xar_coremethod('DataPropertyMaster','getProperty',{'name': 'access'}) %}
+    
+    {% if not items %}
+        Nothing to display
+    {% else %}
+        {# <!-- We want to display each item in its summary template --> #}
+        {% for itemid, fields in items %}
+
+        {# <!-- Load the values --> #}
+            {% set dummy = object.setFieldValues(fields,1) %}
+    
+        {# <!-- Get this item's access constraints for display --> #}
+            {% set accessconstraints = xar_apifunc('publications', 'admin', 'getpageaccessconstraints', {'property': object.properties['access']}) %}
+            {% set allowed = access.check(accessconstraints['display']) %}
+    
+        {# <!-- If no access, then just move on --> #}
+            {% if not allowed %}
+                <xar:continue/>
+            {% endif %}
+        
+        {# <!-- Access allowed; now figure out which template to use --> #}
+            {% set includepath = "objects/pubtype" %}
+            {% set filename = 'summary' %}
+            {% if fields['summary_template'] and fields['id'] %}
+                {% set template = fields['id'] %}
+            {% else %}
+                {% set template = '' %}
+            {% endif %}
+
+        {# <!-- Display --> #}
+            {{ include('@publications/includes/' ~ filename ~ '.html.twig') }}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

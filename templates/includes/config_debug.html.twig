@@ -1,0 +1,17 @@
+{# @publications/includes/config_debug.html.twig #}
+
+{% block config_debug %}
+If debug mode is active, exception messages are visible to the debug administrators, which are defined <a href="{{ xar_moduleurl('roles','admin','modifyconfig',{'tab': 'debugging'}) }}">here</a>.
+    <div class="xar-row">
+        <div class="xar-col">
+            {% set label = 'Debug mode' %}
+            <label for="checked" title="{{ label }}" class="xar-form-label">            
+                Enable debug mode:            
+            </label>
+        </div>
+        <div class="xar-col">
+            {% set checked = xar_modvar('publications', 'debugmode') %}
+            {{ xar_data_input({type: "checkbox", name: "debugmode", checked: checked}) }}
+        </div>
+    </div>
+{% endblock %}

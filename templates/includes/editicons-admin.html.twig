@@ -1,0 +1,25 @@
+{# @publications/includes/editicons-admin.html.twig #}
+
+{% block editicons_admin %}
+{% if xar_security_check('ManagePublications') %}
+        {% set label = 'Create a new publication' %}
+        <a href="{{ xar_moduleurl('publications', 'admin', 'new',{'name': object.name}) }}" style="float:right; margin-right: 10px" title="{{ label }}">
+            <img src="{{ xar_imageurl('icons/document-new.png','base') }}"/>
+        </a>
+        &#160;
+        {% set label = 'Create a copy of this publication' %}
+        <a href="{{ xar_moduleurl('publications', 'admin', 'clone',{'itemid': properties['id'].value, 'name': object.name}) }}" style="float:right; margin-right: 10px" title="{{ label }}">
+            <img src="{{ xar_imageurl('icons/add.png','base') }}"/>
+        </a>
+        &#160;
+        {% set label = 'Delete this publication' %}
+        <a href="{{ xar_moduleurl('publications', 'admin', 'delete',{'idlist': properties['id'].value, 'name': object.name}) }}" style="float:right; margin-right: 10px" title="{{ label }}">
+            <img src="{{ xar_imageurl('icons/delete.png','base') }}"/>
+        </a>
+        &#160;
+        {% set label = 'Modify this publication' %}
+        <a href="{{ xar_moduleurl('publications', 'admin', 'modify',{'itemid': properties['id'].value, 'name': object.name}) }}" style="float:right; margin-right: 10px" title="{{ label }}">
+            <img src="{{ xar_imageurl('icons/modify.png','base') }}"/>
+        </a>
+    {% endif %} 
+{% endblock %}

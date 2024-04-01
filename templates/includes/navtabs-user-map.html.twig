@@ -1,0 +1,40 @@
+{# @publications/includes/navtabs-user-map.html.twig #}
+
+{% block navtabs_user_map %}
+{{ xar_style({scope: "module", module: "base", file: "navtabs"}) }}
+<dl class="xar-tabs">
+    <dt class="help" title="{{ xar_translate('Click on a tab to explore further') }}">
+        Options 
+    </dt>
+    {% if by != 'cat' %}
+        <dd>
+            <a href="{{ xar_moduleurl('publications','user','viewmap',{'by': 'cat'}) }}">
+                Publication Map by Category 
+            </a>
+        </dd>
+    {% endif %}
+    {% if by != 'pub' %}
+    <dd>
+        <a href="{{ xar_moduleurl('publications','user','viewmap',{'by': 'pub', 'ptid': ptid}) }}">
+            Publication Map by Publication Type 
+        </a>
+    </dd>
+    {% endif %}
+    {% if viewlink %}
+        <dd>
+            <a href="{{ viewlink }}">
+                {{ viewlabel }} 
+            </a>
+        </dd>
+    {% endif %}
+    {% if archivelink %}
+        {% if archivelink %}
+            <dd>
+                <a href="{{ archivelink }}">
+                    {{ archivelabel }} 
+                </a>
+            </dd>
+        {% endif %}
+    {% endif %}
+</dl>
+{% endblock %}

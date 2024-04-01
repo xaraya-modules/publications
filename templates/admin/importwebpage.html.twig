@@ -1,0 +1,156 @@
+{# @publications/admin/importwebpage.html.twig #}
+
+{% block importwebpage %}
+{{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>            
+            Utilities
+        </h2>
+          {{ include('@publications/includes/util-menu.html.twig') }}
+        <h3>Import Web Page</h3>
+            {% if logfile %}
+                <div>
+                    <span class="warning">{{ logfile }}</span>
+                </div>
+            {% endif %}
+            <form method="post" action="{{ xar_moduleurl('publications','admin','importwebpage') }}">
+                <fieldset>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label for="basedir">
+                                Page URL
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <input type="text" name="url" id="url" value="{{ url }}" size="50" maxlength="250" />
+                            <input type="hidden" name="authid" id="authid" value="{{ authid }}" />
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label for="ptid">
+                                Publication Type
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {% set firstline = 'Choose a publication type' %}
+                            {% set firstline = "0,firstline" %}
+                            {{ xar_data_input({type: "dropdown", name: "ptid", value: ptid, firstline: firstline, options: pubtypes, onchange: "javascript:this.form.submit();"}) }}
+                        </div>
+                    </div>
+                    {% if fields|length > 0 %}
+                        <div class="xar-row">
+                            <div class="xar-col">
+                                <label for="content">
+                                    Insert Page Title into Field
+                                </label>
+                            </div>
+                            <div class="xar-col">
+                                {% set firstline = 'Choose a field' %}
+                                {% set firstline = ",firstline" %}
+                                {{ xar_data_input({type: "dropdown", name: "titlefield", value: titlefield, firstline: firstline, options: fields}) }}
+                            </div>
+                        </div>
+                        <div class="xar-row">
+                            <div class="xar-col">
+                                <label for="content">
+                                    Insert Content into Field
+                                </label>
+                            </div>
+                            <div class="xar-col">
+                                {{ xar_data_input({type: "dropdown", name: "contentfield", value: contentfield, firstline: firstline, options: fields}) }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if cats|length > 0 %}
+                        <div class="xar-row">
+                            <div class="xar-col">
+                                <label for="ptid">
+                                    Initial Categories
+                                </label>
+                            </div>
+                            <div class="xar-col">
+                                {% for catid in cats|keys %}{{ cats[catid] }}{% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label for="filterhead">
+                                Filter Start of Page
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <input type="text" name="filterhead" id="filterhead" value="{{ filterhead }}" size="30" maxlength="100" />
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label for="filtertail">
+                                Filter End of Page
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <input type="text" name="filtertail" id="filtertail" value="{{ filtertail }}" size="30" maxlength="100" />
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label for="findtitle">
+                                Find Page Title
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <input type="text" name="findtitle" id="findtitle" value="{{ findtitle }}" size="30" maxlength="100" />
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <label for="filtertail">
+                                Replacement Rules
+                            </label>
+                            <input type="hidden" name="numrules" value="3" />
+                        </div>
+                        <div class="xar-col">
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            Search for
+                        </div>
+                        <div class="xar-col">
+                            Replace with
+                        </div>
+                    </div>
+                    {% for id in search|keys %}
+                        <div class="xar-row">
+                            <div class="xar-col">
+                                <input type="text" name="search[{{ id }}]" id="search[{{ id }}]" value="{{ search[id] }}" size="20" />
+                            </div>
+                            <div class="xar-col">
+                                <input type="text" name="replace[{{ id }}]" id="replace[{{ id }}]" value="{{ replace[id] }}" size="20" />
+                            </div>
+                        </div>
+                    {% endfor %}
+                </fieldset>
+                <div class="xar-row">
+                    <div class="xar-col">
+                    </div>
+                    <div class="xar-col">
+                        {% set label = 'Test Import' %}
+                        {{- xar_button({type: "submit", name: "test", id: "test", label: label}) -}}
+                        {% set label = 'Import Webpage' %}
+                        {{- xar_button({type: "submit", name: "import", id: "import", label: label}) -}}
+                    </div>
+                </div>
+            </form>
+            {% if preview %}
+                <div class="xar-fullwidth xar-standard-box-padding">
+                <hr />
+                <strong>
+                    Preview of the first webpage
+                </strong>
+                <hr />{{ preview }}</div>
+            {% endif %}
+    </div>
+{% endblock %}

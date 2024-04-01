@@ -1,0 +1,78 @@
+{# @publications/includes/listing_row-default.html.twig #}
+
+{% block listing_row_default %}
+{% if not layout %}
+        {% set layout = 'publications-user' %}
+    {% endif %}
+    {% if (layout == 'publications-user') or (layout == 'default') %}
+        <tr class="{{ item_class }}">
+            {{ include('@' ~ module ~ '/includes/listing_rowprefix.html.twig') }}
+            {% for field in fields|keys %}
+                {% set value = loopitem[field] %}
+                {% set column = columns[field] %}
+                {% if field == primaryalias and not show_primary %}
+                    <xar:continue />
+                {% endif %}
+                <td>
+                    {% if field == keyfieldalias and xar_security_check('ReadPublications',0) %}
+                        <a href="{{ xar_moduleurl('publications','user','display',{'itemid': loopitem[primaryalias], 'name': objectname, 'tplmodule': module}) }}">
+                            {{ xar_data_output({property: properties[column], value: value}) }}
+                        </a>
+                    {% else %}
+                        {{ xar_data_output({property: properties[column], value: value}) }}
+                    {% endif %}
+                </td>
+            {% endfor %}
+
+            {{ include('@' ~ module ~ '/includes/listing_rowsuffix.html.twig') }}
+        </tr>
+    {% elseif layout == 'publications-admin' %}
+        <tr class="{{ item_class }}">
+            {{ include('@' ~ module ~ '/includes/listing_rowprefix.html.twig') }}
+            {% for field in fields|keys %}
+                {% set value = loopitem[field] %}
+                {% set column = columns[field] %}
+                {% if field == primaryalias and not show_primary %}
+                    <xar:continue />
+                {% endif %}
+                {# <!-- Don't show the itemtype. We only added it because we need the value --> #}
+                {% if column == 'itemtype' %}
+                    <xar:continue />
+                {% endif %}
+                <td>
+                    {% if xar_coremethod('xarUser', 'isLoggedIn') and field == keyfieldalias and xar_security_check('EditPublications',0) %}
+                        <a href="{{ xar_moduleurl('publications','admin','display',{'itemid': loopitem[primaryalias], 'name': objectname, 'tplmodule': module}) }}">
+                            {{ xar_data_output({property: properties[column], value: value}) }}
+                        </a>
+                    {% else %}
+                        {% if field == keyfieldalias and xar_security_check('ReadPublications',0) %}
+                            <a href="{{ xar_moduleurl('publications','admin','display',{'itemid': loopitem[primaryalias], 'name': objectname, 'tplmodule': module}) }}">
+                                {{ xar_data_output({property: properties[column], value: value}) }}
+                            </a>
+                        {% else %}
+                            {{ xar_data_output({property: properties[column], value: value}) }}
+                        {% endif %}
+                    {% endif %}
+                </td>
+            {% endfor %}
+
+            {{ include('@' ~ module ~ '/includes/listing_rowsuffix.html.twig') }}
+        </tr>
+    {% elseif layout == 'pubtypes' %}
+        <tr class="{{ item_class }}">
+            {{ include('@' ~ module ~ '/includes/listing_rowprefix.html.twig') }}
+            {% for field in fields|keys %}
+                {% set value = loopitem[field] %}
+                {% set column = columns[field] %}
+                {% if field == primaryalias and not show_primary %}
+                    <xar:continue />
+                {% endif %}
+                <td>
+                    {{ xar_data_output({property: properties[column], value: value}) }}
+                </td>
+            {% endfor %}
+
+            {{ include('@' ~ module ~ '/includes/listing_rowsuffix.html.twig') }}
+        </tr>
+    {% endif %}
+{% endblock %}

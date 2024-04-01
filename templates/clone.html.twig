@@ -1,0 +1,51 @@
+{# @publications/clone.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+<div class="xar-mod-head">
+        <span class="xar-mod-title">
+            Manage Publications            
+        </span>
+    </div>
+    <div class="xar-mod-body">
+        <form method="post" action="{{ xar_moduleurl('publications','user','clone') }}">
+            <fieldset>
+                <legend>
+                    <b>Clone this publication</b>
+                </legend>
+                Do you want to create a copy of this publication "{{ object.properties.name.value }}"?
+                <div class="xar-row">
+                    <div class="xar-col">
+                        Name for the new account:
+                    </div>
+                    <div class="xar-col">
+                        <input type="textbox" name="newname" value="{{ object.properties.name.value }}_copy" size="50"/>
+                    </div>
+                </div>
+                <div class="xar-row">
+                    <div class="xar-col">
+                        Clone translations:
+                    </div>
+                    <div class="xar-col">
+                        {{ xar_data_input({type: "checkbox", name: "clone_translations", checked: "checked"}) }}
+                    </div>
+                </div>
+                <div class="xar-align-center">
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}"/>
+                    <input type="hidden" name="confirm" id="confirm" value="1"/>
+                    <input type="hidden" name="name" id="name" value="{{ object.name }}"/>
+                    <input type="hidden" name="itemid" id="itemid" value="{{ itemid }}"/>
+                    {% if return_url %}
+                        <input type="hidden" name="return_url" id="return_url" value="{{ return_url }}"/>
+                    {% endif %}
+                    {% set label = 'Clone' %}
+                    {{- xar_button({type: "submit", label: label, class: "xar-margin-thickleft"}) -}}
+                    &#160;
+                    {% set label = 'Cancel' %}
+                    {{- xar_button({type: "cancel", label: label, class: "xar-margin-thickleft"}) -}}
+                </div>
+          </fieldset>
+        </form>
+    </div>
+{% endblock %}

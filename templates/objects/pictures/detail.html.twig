@@ -1,0 +1,82 @@
+{# @publications/objects/pictures/detail.html.twig #}
+
+{% block detail %}
+{{ xar_style({scope: "module", module: "publications", file: "gallery"}) }}
+    {{ xar_javascript({filename: "xar_publications_pictures.js"}) }}
+    {{ include('@publications/includes/publinks.html.twig') }}
+    {# <!--
+    {{ xar_data_output({type: "categorynavigation", layout: "trails", showchildren: "1", module: "publications", itemtype: ptid, itemid: id, cids: cids, show_catcount: settings['show_catcount'], showempty: "0"}) }}
+    --> #}
+    
+    {% set publication_state = properties['state'].value %}
+
+    {% if publication_state < 3 and not xar_security_check('ManagePublications',0) %}
+        This item cannot be viewed
+    {% else %}
+        <div id="wrap">
+            <div id="header">
+
+                <h1>
+                    {{ xar_data_output({property: properties['title']}) }}
+
+                    {# <!-- Edit icons if allowed --> #}
+                    {{ include('@publications/includes/editicons.html.twig') }}
+            
+                    {# <!-- Print button --> #}
+                    {{ include('@publications/includes/print.html.twig') }}
+                </h1>
+                <p>
+                    {% if counter %}
+                        ( {{ counter }}
+                            Reads
+                        )
+                    {% endif %}
+                </p>
+            </div>
+            <div id="main-content">
+                <div id="fullplate-photo">
+                    <p>
+                        {{ xar_data_output({property: properties['picture']}) }}
+                    </p>
+                    {# <!--
+                    <div id='photoholder'>
+                        {% if xar_coremethod('xarModHooks', 'isHooked', ['uploads','publications',pubtype_id]) and body|slice(0,1) == ';' %}
+                            {% set img_output = xar_apifunc('uploads','user','showoutput',{'value': body, 'multiple': true}) %}
+                            {% for fileId, fileInfo in img_output %}
+                                <a href="{{ fileInfo['fileDownload'] }}" alt="{{ xar_translate('View full sized image') }}">
+                                    {% if xar_coremethod('xarMod', 'isAvailable', ['images']) %}
+                                        {% set file = fileInfo %}
+                                        {{ include('@publications/includes/picture-display.html.twig') }}
+                                    {% else %}
+                                        <img src="{{ xar_moduleurl('uploads', 'user', 'download', {'fileId': fileInfo['fileId']}) }}"  width="100%" alt="{{ title }}" id="thephoto" />
+                                    {% endif %}
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <img src="{{ body }}" border="0" alt="{{ properties['title'].getValue() }}" id="thephoto" />
+                        {% endif %}
+                    </div>
+                    --> #}
+                    {# <!-- Link to previous or next --> #}
+                    <div class="xar-normal xar-align-right xar-padding-thick">
+                        {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+                        {% if prevpublication %}
+                            {% set prev = 'Previous' %}
+                            <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
+                                {{- xar_image({scope: "theme", file: "icons/go-previous.png", class: "xar-icon", alt: prev}) -}}
+                            </a>
+                        {% endif %}
+                        &#160;
+                        {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+                        {% if nextpublication %}
+                            {% set next = 'Next' %}
+                            <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">
+                                {{- xar_image({scope: "theme", file: "icons/go-next.png", class: "xar-icon", alt: next}) -}}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

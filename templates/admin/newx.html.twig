@@ -1,0 +1,70 @@
+{# @publications/admin/newx.html.twig #}
+
+{% block newx %}
+{{ xar_javascript({module: "publications", filename: "tabs.js"}) }}
+    {{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>
+            {{ xar_translate('New Publication') }}
+        </h2>
+        {#  
+            You can use different admin-new-[pubtype].xd templates for different pubtypes
+         #}
+        {#  
+            If you want to let users pre-select a category first, before selecting a publication type, you can use the following tag. Note that this only makes sense if you have a single base category for your publications
+    {# <!-- xar:data-output type="categorynavigation" layout="trails" showchildren="1" module="publications" urltype="admin" func="new" itemtype="$ptid" catid="$catid" /--> #}
+         #}
+        <div  style="float:left">
+            <label title="{{ xar_translate('Select a type of publication to add') }}" class="xar-form-label">
+                Publication Type:
+            </label>
+            {% set newurl = "document.location.href='" ~ xar_moduleurl('publications','user','new') ~ "&amp;ptid='+this.value" %}
+            {{ xar_data_input({type: "objectref", refobject: "publications_types", store_prop: "id", display_prop: "description", value: ptid, onchange: newurl}) }}
+        </div>
+        <div style="float:right">
+            <a href="{{ xar_moduleurl('publications','admin','view',{'ptid': ptid}) }}">
+                Publications List
+            </a>
+        </div>
+        <div style="clear:both">&#160;</div>
+        {% if object.upload %}
+            {% set enctype = 'multipart/form-data' %}
+        {% else %}
+            {% set enctype = 'application/x-www-form-urlencoded' %}
+        {% endif %}
+        <form method="post" id="post" action="&xar-modurl-publications-user-create;" enctype="{{ enctype }}" >
+            {% if tab is not null and tab == 'preview' %}
+                {% set visible = ['none','none','block'] %}
+            {% else %}
+                {% set visible = ['block','none','none'] %}
+            {% endif %}
+            {% set itemcount = items|length %}
+            {{ include('@publications/includes/pagetabs.html.twig') }}
+            <div id="page-1" style="display: {{ visible[0] }}">
+                {% set contentfile = 'content-' ~ object.name %}
+                {{ include('@publications/includes/' ~ contentfile ~ '.html.twig') }}
+            </div>
+            <div id="page-2" style="display: {{ visible[1] }}">
+                {{ include('@publications/includes/publication-settings-admin.html.twig') }}
+            </div>
+            <div id="page-3" style="display: {{ visible[2] }}">
+                <fieldset class="xar-standard-box-padding xar-overflow-auto">
+                    {{ xar_data_display({object: object, tplmodule: "publications"}) }}
+                </fieldset>
+            </div>
+
+            <div class="xar-form-input-wrapper">
+                <div class="xar-form-input-wrapper-after">
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" />
+                    <input type="hidden" name="ptid" id="ptid" value="{{ ptid }}" />
+                    {# <!-- The return_url can be set here to return to another page that the admin-view one --> #}
+                    {% set label = 'Preview' %}
+                    {{- xar_button({type: "submit", name: "preview", label: label}) -}}
+                    &#160;
+                    {% set label = 'Create Document' %}
+                    {{- xar_button({type: "submit", label: label}) -}}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

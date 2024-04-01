@@ -1,0 +1,44 @@
+{# @publications/objects/faqs/summary.html.twig #}
+
+{% block summary %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "faq", title: "FAQ Stylesheet"}) }}
+    
+    <a name="titles"></a>
+    <br />
+    {% if categories and categories|length > 0 %}
+        [ {% for cat in categories %}
+            {{ cat['cjoin'] }} <a href="{{ cat['clink'] }}">{{ cat['cname'] }}</a>
+        {% endfor %} ]
+    {% endif %}
+        
+    {{ include('@publications/includes/editicons.html.twig') }}
+        
+    <a class="xar-publications-faq-summary-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': properties['id'].value, 'ptid': properties['itemtype'].value}) }}">
+        {{ xar_data_output({property: properties['question']}) }}
+    </a>
+    {% if counter %}
+        {% if counter == 1 %}
+            ({{ counter }}&#160;read)
+        {% else %}
+            ({{ counter }}&#160;reads)
+        {% endif %}
+    {% endif %}
+    {% if properties['submitted_by'].value %}
+        <div class="xar-publications-faq-summary-postby">
+            by 
+            {{ xar_data_output({property: properties['submitted_by']}) }}
+        </div>
+    {% endif %}
+    {% if properties['details'].value %}
+        <p class="xar-publications-faq-summary-text">
+            {{ xar_data_output({property: properties['details']}) }}
+        </p>
+    {% endif %}
+    {% if properties['answer'].value %}
+        <p class="xar-publications-faq-summary-text">
+            {{ xar_data_output({property: properties['answer']}) }}
+        </p>
+    {% endif %}
+    <p><a href="{{ xar_currenturl() }}#titles">Back to top</a></p>
+{% endblock %}

@@ -1,0 +1,45 @@
+{# @publications/properties/showinput-listing.html.twig #}
+
+{% block showinput_listing %}
+{% if not layout %}
+        {% set layout = 'publications-user' %}
+    {% endif %}
+    {% if (layout == 'publications-user') or (layout == 'publications-admin') or (layout == 'default') %}
+        {% set url = xar_currenturl(params) %}
+
+        {{ xar_style({scope: "module", module: "base", file: "navtabs"}) }}
+        <div>
+            {{ include('@' ~ module ~ '/includes/listing_alphabet.html.twig') }}
+        </div>
+        <div style="clear: both">
+            {{ include('@' ~ module ~ '/includes/listing_searchboxline.html.twig') }}
+        </div>
+        <div>
+            {{ include('@' ~ module ~ '/includes/listing_summaryline.html.twig') }}
+        </div>
+        <div>
+            {{ include('@' ~ module ~ '/includes/listing_pagerline.html.twig') }}
+        </div>
+        {% if not total %}
+            <p class="xar-align-center">There are no items selected</p>
+        {% else %}
+            <table style="clear:both; width: 100%" border="0">
+                {{ include('@' ~ module ~ '/includes/listing_header.html.twig') }}
+                {{ include('@' ~ module ~ '/includes/listing_body.html.twig') }}
+            </table>
+        {% endif %}
+        <form  action="{{ xar_moduleurl('dynamicdata','user','property',{'prop': 'listing', 'act': 'bulk_action'}) }}" method="post" style="clear: both">
+            {{ include('@' ~ module ~ '/includes/listing_footerline.html.twig') }}
+            <input type="hidden" name="returnurl" id="returnurl" value="{{ xar_currenturl() }}" />
+            <input type="hidden" name="object" id="object" value="{{ objectname }}" />
+            <input type="hidden" name="module" id="module" value="{{ module }}" />
+        </form>
+    {% elseif layout == 'publications-user' %}
+        {% set filename = 'view-summaries-' ~ object.name %}
+        {% if file_exists(xar_coremethod('xarTpl', 'getThemeDir').'/modules/publications/includes/'.filename.'.xt') or file_exists(xar_coremethod('sys', 'code').'modules/publications/xartemplates/includes/'.filename.'.xt') %}
+            {{ include('@publications/includes/' ~ filename ~ '.html.twig') }}
+        {% else %}
+            {{ include('@publications/includes/view-summaries.html.twig') }}
+        {% endif %}
+    {% endif %}
+{% endblock %}

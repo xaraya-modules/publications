@@ -1,0 +1,45 @@
+{# @publications/admin/stats.html.twig #}
+
+{% block stats %}
+{{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>        
+           Utilities        
+        </h2>
+          {{ include('@publications/includes/util-menu.html.twig') }}
+        <h3>Statistics</h3>
+        <form method="post" action="{{ xar_moduleurl('publications','admin','stats') }}">        
+            Group by        
+            {% for i in range(0, 4 - 1) %}
+                <select name="group[{{ i }}]" id="group_{{ i }}">
+                    <option value="">
+                    </option>
+                    {% for name, label in fields %}
+                        {% if group[i] and group[i] == name %}
+                            <option value="{{ name }}" selected="selected">
+                                {{ label }}
+                            </option>
+                            {% else %}
+                            <option value="{{ name }}">
+                                {{ label }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            {% endfor %}
+            {% set label = 'Select' %}
+            {{- xar_button({type: "submit", label: label}) -}}
+        </form>
+        {% set pubtype_id = null %}
+        {% set owner = null %}
+        {% set state = null %}
+        {% set pubdate = null %}
+        {% set locale = null %}
+        {% if group[0] %}
+            {% set nextfield = group[0] %}
+            {% set nextlevel = 1 %}
+            {% set nextvalue = stats %}
+            {{ include('@publications/includes/substats.html.twig') }}
+        {% endif %}
+    </div>
+{% endblock %}

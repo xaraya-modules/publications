@@ -1,0 +1,23 @@
+{# @publications/includes/listing_footerline.html.twig #}
+
+{% block listing_footerline %}
+{% if xar_coremethod('xarUser', 'isLoggedIn') and xar_security_check('ManagePublications',0) and total > 0 %}
+        <div style="text-align:center; padding-top:10px;">
+            <input type="hidden" name="idlist" id="idlist" />
+            <input type="hidden" name="redirecttarget" id="redirecttarget" />
+
+            {% set options = [
+                {'id': '', 'name': 'Select action'},
+                {'id': '0', 'name': 'Delete Selected Items'}
+                ] %}
+
+            &#160;
+            {{ xar_data_input({type: "dropdown", name: "operation", options: options}) }}&#160;
+            {% set label = 'Execute' %}
+            {{- xar_button({type: "submit", label: label}) -}}&#160;
+            {{ xar_javascript({filename: "checkall.js", property: "listing", position: "body"}) }}
+            <a href="javascript:listing_checkall(true)">Check All</a>&#160;|&#160;
+            <a href="javascript:listing_checkall(false)">Uncheck All</a>
+        </div>
+    {% endif %}
+{% endblock %}

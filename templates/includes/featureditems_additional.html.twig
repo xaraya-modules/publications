@@ -1,0 +1,25 @@
+{# @publications/includes/featureditems_additional.html.twig #}
+
+{% block featureditems_additional %}
+<div class="xar-block-title">
+        More Featured Headlines:
+    </div>
+    <ul>
+        {% for item in items %}
+          <li>
+            {% if not item.link %}
+                {{ xar_prep_display(item.title) }}
+            {% else %}
+                {% if item.count %}
+                    <a href="{{ item.link }}">{{ xar_prep_display(item.title) }} ({{ item.count }})</a>
+                {% else %}
+                    <a href="{{ item.link }}">{{ xar_prep_display(item.title) }}</a>
+                {% endif %}
+            {% endif %}
+            {% if item.description %}
+                {{ xar_prep_html(item.description) }}
+            {% endif %}
+          </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

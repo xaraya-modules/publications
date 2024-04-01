@@ -1,0 +1,71 @@
+{# @publications/blocks/nav-tree.html.twig #}
+
+{% block nav_tree %}
+{% if catimage is not null and catimage %}
+  <img src="$catimage" />
+{% endif %}
+{% if cattrees is not null and cattrees is iterable %}
+<ul class="xar-menu-section">
+{% for cattree in cattrees %}
+    {% if cattree['items'] is not null and cattree['items'] is iterable and sizeof(cattree['items']) > 0 %}
+    {% for pubtypeName, items in cattree['items'] %}
+    <li class="xar-menu-section">
+    <h4>{{ pubtypeName }}</h4>
+    <ul class="xar-menu-item">
+    {% for item in items %}
+        <li class="{{ item['class'] }}">
+        {% if not item['link'] %}
+            {{ item['label'] }}
+        {% else %}
+            <a href="{{ item['link'] }}">{{ item['label'] }}</a>
+        {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+    </li>
+    {% endfor %}
+    {% endif %}
+
+
+    {% if cattree['catitems'] is not null and cattree['catitems'] is iterable and sizeof(cattree['catitems']) > 0 %}
+    <li class="xar-menu-section">
+    <h4>Sections</h4>
+    <ul class="xar-menu-item">
+    {% for catitem in cattree['catitems'] %}
+        <li class="xar-menu-item">
+        {% if not catitem['catlink'] %}
+            {{ catitem['catlabel'] }}
+        {% else %}
+            <a href="{{ catitem['catlink'] }}">{{ catitem['catlabel'] }}</a>
+        {% endif %}
+        {% if catitem['catcount'] %}
+            ({{ catitem['catcount'] }})
+        {% endif %}
+        </li>
+
+        {% if catitem['catchildren'] and catitem['catchildren']|length > 0 %}
+        <ul class="xar-menu-subitem">
+        {% for catchild in catitem['catchildren'] %}
+            <li class="xar-menu-subitem">
+            {% if not catchild['clink'] %}
+                {{ catchild['clabel'] }}
+            {% else %}
+                <a href="{{ catchild['clink'] }}">{{ catchild['clabel'] }}</a>
+            {% endif %}
+            {% if catchild['ccount'] %}
+                ({{ catchild['ccount'] }})
+            {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+
+    {% endfor %}
+    </ul>
+    </li>
+    {% endif %}
+
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

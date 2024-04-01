@@ -1,0 +1,31 @@
+{# @publications/includes/listing_header.html.twig #}
+
+{% block listing_header %}
+<tr>
+        {% set paramarray = {'op': 'column'} %}
+        {% if letter %}
+            {% set dummy = 1;paramarray['letter'] = letter %}
+        {% endif %}
+        {{ include('@' ~ module ~ '/includes/listing_headerprefix.html.twig') }}
+        {% for field in fieldnames|keys %}
+            {% set column = fieldnames[field] %}
+            {% set dummy = 1;paramarray['order'] = column %}
+            {% if (column == primaryalias) and not show_primary %}
+                <xar:continue />
+            {% endif %}
+                {# <!-- Don't show the itemtypein the admin view --> #}
+                {% if layout == 'publications-admin' and column == 'itemtype' %}
+                    <xar:continue />
+                {% endif %}
+            <th>
+                {% set url = xar_currenturl(paramarray) %}
+                <a href="{{ url }}" class="refresh_listing" alt="Click to order by this field" title="Order by {{ column }}">
+                    {{ fieldlabels.column }}
+                </a>
+                {% set subdata = array_merge(params,{'column': column}) %}
+                {{ include('@' ~ module ~ '/includes/sortarrows.html.twig', subdata) }}
+            </th>
+        {% endfor %}
+        {{ include('@' ~ module ~ '/includes/listing_headersuffix.html.twig') }}
+    </tr>
+{% endblock %}

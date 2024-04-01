@@ -1,0 +1,27 @@
+{# @publications/includes/alphapager.html.twig #}
+
+{% block alphapager %}
+{% if sort is not null and (sort == 'title') %}
+        {#  Added to automatically display an alpha pager when publications are sorted by title. #}
+        {{ xar_style({scope: "module", module: "publications", file: "alphapager"}) }}
+
+        <div class="alphapager-wrapper">
+            <a href="{{ xar_currenturl({'letter': null, 'startnum': null, 'q': null}) }}">All</a>
+            {% for i in range(ord('A'), ord('Z')) %}
+                {% set curletter = chr(i) %}
+
+                {% if letter and (letter == strtolower(curletter)) %}
+                    <span>{{ curletter }}</span>
+                {% else %}
+                    <a href="{{ xar_currenturl({'letter': curletter, 'startnum': null, 'q': null}) }}">{{ curletter }}</a>
+                {% endif %}
+
+            {% endfor %}
+            {% if letter and (letter == 'other') %}
+                <span>Other</span>
+            {% else %}
+                <a href="{{ xar_currenturl({'letter': 'other', 'startnum': null, 'q': null}) }}">Other</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

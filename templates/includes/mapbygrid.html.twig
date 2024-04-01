@@ -1,0 +1,31 @@
+{# @publications/includes/mapbygrid.html.twig #}
+
+{% block mapbygrid %}
+{% if not descr %}
+        <h2>
+            Publication Map by Grid
+        </h2>
+        {% else %}
+        <h2>
+            {{ xar_translate('Publication Map by Grid for #(1)') }}
+        </h2>
+    {% endif %}
+    <table border="1" cellpadding="3" cellspacing="0">
+        {% for row in catgrid|keys %}
+            <tr>
+                {% for col in catgrid[row]|keys %}
+                    {% if not col or row % 2 == 0 %}
+                        <td class="xar-accent" align="center">
+                            {{ catgrid[row][col] }}
+                        </td>
+                        {% else %}
+                        <td align="center">
+                            {{ catgrid[row][col] }}
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    {{ include('@publications/includes/navtabs-user-map.html.twig') }}
+{% endblock %}

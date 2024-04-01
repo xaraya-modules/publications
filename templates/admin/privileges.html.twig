@@ -1,0 +1,116 @@
+{# @publications/admin/privileges.html.twig #}
+
+{% block privileges %}
+{{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>
+            {{ xar_translate('Select Publications for Privilege \'#(1)\'', extname) }}
+        </h2>
+            <form method="post" action="&xar-modurl-publications-admin-privileges;">
+                <div>
+                <input type="hidden" name="extpid" id="extpid" value="{{ extpid }}" />
+                <input type="hidden" name="extname" id="extname" value="{{ extname }}" />
+                <input type="hidden" name="extrealm" id="extrealm" value="{{ extrealm }}" />
+                <input type="hidden" name="extmodule" id="extmodule" value="{{ extmodule }}" />
+                <input type="hidden" name="extcomponent" id="extcomponent" value="{{ extcomponent }}" />
+                <table border="1" cellpadding="8" cellspacing="0">
+                    <tr>
+                        <th valign="top" align="right">
+                            Publication Type
+                        </th>
+                        <td>
+                            <select name="ptid" onchange="javascript:this.form.submit();">
+                                <option value="0">
+                                    All
+                                </option>
+                                {% for pubid, pubtype in pubtypes %}
+                                    {% if ptid and ptid == pubid %}
+                                        <option value="{{ pubid }}" selected="selected">{{ pubtype['description'] }}</option>
+                                        {% else %}
+                                        <option value="{{ pubid }}">{{ pubtype['description'] }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th valign="top" align="right">
+                            Category
+                        </th>
+                        <td>
+                            {% set firstline = {'id': xar_translate('All'), 'name': xar_translate('All')} %}
+                            {% set onchange = "this.form.action='" ~ xar_currenturl() ~ "';this.form.submit();" %}
+                            {{ xar_data_input({type: "categories", name: "privcategories", itemtype: ptid, value: cids, firstline: "All", layout: "vertical", returnitself: "true", onchange: onchange}) }}
+                        </td>
+                    </tr>
+                    {% if showauthor %}
+                        <tr>
+                            <th valign="top" align="right">
+                                Author
+                            </th>
+                            <td>
+                                {% set onchange = "javascript.this.form.submit();" %}
+                                {{ xar_data_input({type: "dropdown", name: "uid", options: authorlist, value: uid, firstline: "All / Other --> ", onchange: onchange}) }}
+                                <input type="text" name="author" id="author" value="{{ author }}" size="15" onchange="javascript:this.form.submit();" />
+                            </td>
+                        </tr>
+                        {% else %}
+                        <input type="hidden" name="uid" id="uid" value="0" />
+                    {% endif %}
+                    <tr>
+                        <th valign="top" align="right">
+                            Publication
+                        </th>
+                        <td>
+                        Enter article number:
+                        <input type="text" name="id" id="id" value="{{ id }}" size="10" onchange="javascript:this.form.submit();" />
+                        {# <!-- TODO: show dropdown box for all relevant publications (if not too many) --> #}
+                        {% if title %}
+                        <br />
+                        Title: {{ title }}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th valign="top" align="right">
+                            Access Level
+                        </th>
+                        <td>
+                            {% set levels = xar_coremethod('SecurityLevel','displayMap') %}
+                            {# @todo prepare this in function #}
+                            {% set foo = 1; unset(levels[-1]);unset(levels[400]);unset(levels[600]); %}
+                            {% set options = [] %}
+                            <xar:foreach in="$levels" key="$key" value="$value" >
+                                {% set foo = 1;
+                                    options{] = ['id': key * 100, 'name': value} %}
+                            {% endfor %}
+                            {{ xar_data_input({type: "dropdown", name: "extlevel", value: extlevel, options: options}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            {{- xar_button({type: "submit", label: refreshlabel}) -}}
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                {{ xar_translate('There are #(1) publications matching these selection criteria at the moment', numitems) }}
+                <br />
+                <hr />
+                <br />(Instance Definition {{ extinstance }})
+                <br />
+                <br />
+                {{- xar_button({type: "submit", name: "apply", label: applylabel}) -}}
+                </div>
+            </form>
+            <br />
+            Some examples : (assuming your users have read access by default)
+            <br />
+            <br />- In order to allow 'Friends' to submit News Publications (and only that), define a privilege 'SubmitNews' (or whatever name you prefer), and choose the publication type "News Publications" (instance 1:All:All:All) and access level "Submit (Comment)" above. Press "Finish and Apply to Privilege", and then assign that privilege to the 'Friends' role.
+            <br />
+            <br />- In order to stop 'Strangers' from viewing Documents, define some privilege 'NoDocuments' with publication type "Documents" (instance 2:All:All:All) and access level "No Access". Then assign that privilege to the 'Strangers' role.
+            <br />
+            <br />- ...
+            <br />
+            <br />
+            Note: if you want to deny access to all publications in a particular category with ID 123, you can also define a privilege for module 'categories', component 'Category', category name 'All' and category ID '123'. This will remove the category from the publications map and categories navigation as well.
+    </div>
+{% endblock %}

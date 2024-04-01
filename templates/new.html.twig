@@ -1,0 +1,83 @@
+{# @publications/new.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+{{ xar_javascript({module: "publications", filename: "tabs.js"}) }}
+    <div class="xar-mod-head">
+        <span class="xar-mod-title">
+            Manage Publications
+        </span>
+    </div>
+    <div class="xar-mod-body">
+        <h2>
+            New Publication
+        </h2>
+        {# <!--
+            You can use different admin-new-[pubtype].xt templates for different pubtypes
+        --> #}
+        {# <!--
+            If you want to let users pre-select a category first, before selecting a publication type, you can use the following tag. Note that this only makes sense if you have a single base category for your publications
+            xar:data-output type="categorynavigation" layout="trails" showchildren="1" module="publications" urltype="admin" func="new" itemtype="$ptid" catid="$catid" 
+        --> #}
+        <form method="post" action="{{ xar_moduleurl('publications','user','new') }}">
+            <div class="xar-row">
+                <div class="xar-col">
+                    <label title="{{ xar_translate('Select a type of publication to add') }}">
+                        Publication Type:
+                    </label>
+                </div>
+                <div class="xar-col">
+                    {% set onchange = "javascript.this.form.submit();" %}
+                    {{ xar_data_input({name: "ptid", type: "objectref", refobject: "publications_types", store_prop: "id", display_prop: "description", value: ptid, onchange: onchange}) }}
+                </div>
+                <div class="xar-col" style="text-align: right; min-width: 40%">
+                    {% set type = xar_coremethod('xarController', 'getRequest').getInfo() %}
+                    <a href="{{ xar_moduleurl('publications', type[1] , 'view' , {'ptid': ptid}) }}">
+                        Publications List
+                    </a>
+                </div>
+            </div>
+        </form>
+        {% if object.upload %}
+            {% set enctype = 'multipart/form-data' %}
+        {% else %}
+            {% set enctype = 'application/x-www-form-urlencoded' %}
+        {% endif %}
+        <form method="post" id="post" action="{{ xar_moduleurl('publications','user','create') }}" enctype="{{ enctype }}" >
+            {% set layout = 'publications-user' %}
+            {% if tab is not null and tab == 'preview' %}
+                {% set visible = ['none','none','block'] %}
+            {% else %}
+                {% set visible = ['block','none','none'] %}
+            {% endif %}
+            {% set itemcount = items|length %}
+            {{ include('@publications/includes/pagetabs.html.twig') }}
+            <div id="page-1" style="display: {{ visible[0] }}">
+                {{ xar_data_form({object: object, tplmodule: "publications"}) }}
+            </div>
+            <div id="page-2" style="display: {{ visible[1] }}">
+                {{ include('@publications/includes/publication-settings-user.html.twig') }}
+            </div>
+            <div id="page-3" style="display: {{ visible[2] }}">
+                <fieldset class="xar-standard-box-padding xar-overflow-auto">
+                    {{ xar_data_display({object: object, tplmodule: "publications", layout: "input"}) }}
+                </fieldset>
+            </div>
+            <div class="xar-row">
+                <div class="xar-col">
+                </div>
+                <div class="xar-col">
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}"/>
+                    <input type="hidden" name="ptid" id="ptid" value="{{ ptid }}" />
+                    {# <!-- The return_url can be set here to return to another page that the admin-view one --> #}
+                    {% set label = 'Preview' %}
+                    {{- xar_button({type: "submit", name: "preview", label: label}) -}}
+                    &#160;
+                    {% set label = 'Create Document' %}
+                    {{- xar_button({type: "submit", label: label}) -}}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

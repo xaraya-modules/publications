@@ -1,0 +1,42 @@
+{# @publications/blocks/random.html.twig #}
+
+{% block random %}
+{% if altsummary %}
+        <p>
+            {{ altsummary }}
+        </p>
+    {% endif %}
+
+    {% for item in items %}
+        {% if showtitle %}
+            {% if linkpubtype is not null %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'id': item['id'], 'itemtype': item['pubtype_id']}) }}">{{ item['title'] }}</a>
+            {% else %}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'id': item['id']}) }}">{{ item['title'] }}</a>
+            {% endif %}
+        {% endif %}
+        {% if showsummary and item['summary'] %}
+            <p>
+                {{ item['summary'] }}
+            </p>
+        {% endif %}
+        {% if showauthor %}
+            <p>
+                {{ item['authorname'] }}
+            </p>
+        {% endif %}
+        {% if showpubdate %}
+            <p>
+                {{ xar_localedate(item['pubdate'],, 'medium', '') }}
+            </p>
+        {% endif %}
+    {% endfor %}
+
+    {% if showsubmit %}
+        <div>
+            <a href="{{ xar_moduleurl('publications', 'admin', 'new', {'ptid': pubtype_id}) }}">Submit new</a>
+        </div>
+    {% endif %}
+
+    {#   DD are configurable in block configuration #}
+{% endblock %}

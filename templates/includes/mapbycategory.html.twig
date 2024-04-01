@@ -1,0 +1,34 @@
+{# @publications/includes/mapbycategory.html.twig #}
+
+{% block mapbycategory %}
+<h2>
+        Publication Map by Category
+    </h2>
+    <br />
+    <form method="post" action="{{ maplink }}">
+        <div>
+            {{ xar_translate('Filter:') }}
+            &#160;
+            {{ xar_data_input({type: "categories", bases: basecids}) }}
+            &#160; 
+            {% set label = 'Go' %}
+            {{- xar_button({type: "submit", name: "go", label: label}) -}}
+        </div>
+    </form>
+    <br />
+    {% for childcats in cattree %}
+        {% for cat in childcats %}
+            {{ cat['beforetags'] }}
+            {% if cat['link'] %}
+                <a href="{{ cat['link'] }}">{{ cat['name'] }}</a>
+                {% else %}
+                {{ cat['name'] }}
+            {% endif %}
+            {% if cat['count'] %}
+                ({{ cat['count'] }})
+            {% endif %}
+            {{ cat['aftertags'] }}
+        {% endfor %}
+    {% endfor %}
+    {{ include('@publications/includes/navtabs-user-map-extended.html.twig') }}
+{% endblock %}

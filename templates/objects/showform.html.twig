@@ -1,0 +1,28 @@
+{# @publications/objects/showform.html.twig #}
+
+{% block showform %}
+{% if layout is null or not layout %}
+        {% set layout = 'default' %}
+    {% endif %}
+
+    {% set settings = xar_apifunc('publications','user','getsettings',{'ptid': properties['itemtype'].value}) %}
+
+    {# <!-- Get the name of the publication type. It is supposed to be "publications_something" --> #}
+    {% if object.name|length <= 13 %}
+        {% set pubtype = 'generic' %}
+    {% else %}
+        {% set pubtype = object.name|slice(13) %}
+    {% endif %}
+
+    {# <!-- Figure out which template to use --> #}
+    {% set includepath = "objects/pubtype" %}
+    {% set filename = 'input' %}
+    {% if properties['detail_template'].value and properties['id'].value %}
+        {% set template = properties['id'].value %}
+    {% else %}
+        {% set template = '' %}
+    {% endif %}
+
+    {# <!-- Display --> #}
+    {{ include('@publications/includes/' ~ filename ~ '.html.twig') }}
+{% endblock %}

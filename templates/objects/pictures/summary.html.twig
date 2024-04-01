@@ -1,0 +1,68 @@
+{# @publications/objects/pictures/summary.html.twig #}
+
+{% block summary %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "picture", title: "Picture Stylesheet"}) }}
+    
+    {% set fields = object.getFieldValues([],1) %}
+
+    {% if categories and categories|length > 0 %}[
+        {% for cat in categories %}{{ cat['cjoin'] }}
+            <a href="{{ cat['clink'] }}">{{ cat['cname'] }}</a>
+        {% endfor %}]
+    {% endif %}
+
+    <div id="main-content">
+        <ul>
+            {% if xar_coremethod('xarModHooks', 'isHooked', ['uploads','publications',fields['itemtype']]) and body|slice(0,1) == ';' %}
+        
+                {{ include('@publications/includes/editicons.html.twig') }}
+        
+                {% set img_output = xar_apifunc('uploads','user','showoutput',{'value': body, 'multiple': true}) %}
+                {% for fileId, fileInfo in img_output %}
+                    <li>
+                        <a class="xar-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': properties['id'].value, 'ptid': properties['itemtype'].value}) }}">
+                            {% if xar_coremethod('xarMod', 'isAvailable', ['images']) %}
+                                {% set file = fileInfo %}
+                                {{ include('@publications/includes/picture-thumbnail.html.twig') }}
+                            {% else %}
+                                <img src="{{ xar_moduleurl('uploads', 'user', 'download', {'fileId': fileInfo['fileId']}) }}" width="150px" alt="{{ title }}" />
+                            {% endif %}
+                            <span>
+                                {{ xar_data_output({property: properties['title'], value: fields['title']}) }}
+                            </span>
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>
+                    <a href="{{ xar_moduleurl('articles', 'user', 'display',{'id': fields['id']}) }}">
+                        <img src="{{ fields['thumbnail'] }}" alt="{{ fields['title'] }}" />
+                        <span>
+                            {{ xar_data_output({property: properties['title'], value: fields['title']}) }}
+                        </span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    {# <!-- Previous and next links --> #}
+    {% if counter %}
+        {% if counter == 1 %}
+            ({{ counter }}&#160;read)
+        {% else %}
+            ({{ counter }}&#160;reads)
+        {% endif %}
+    {% endif %}
+
+    {# <!-- Keywords --> #}
+    <div class="xar-publications-keywords">
+        {% if keywords %}            
+            Keywords            :
+            {% for loop_key1, loop_item1 in keywords %}{% set loop_index1 = loop.index %}
+                <a href="{{ xar_moduleurl('keywords', 'user', 'main', {'keyword': loop_item1['keyword']}) }}" title="{{ loop_item1['keyword'] }}">{{ loop_item1['keyword'] }}</a>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

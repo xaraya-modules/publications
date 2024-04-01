@@ -1,0 +1,75 @@
+{# @publications/objects/faqs/input.html.twig #}
+
+{% block input %}
+{{ xar_data_input({property: properties['id'], hidden: "hidden"}) }}
+    <div class="xar-row">
+        <div class="xar-col-condensed">
+            {% set label = 'Name' %}
+            {{ xar_data_label({property: properties['name'], for: "id", label: label}) }}
+        </div>
+        <div class="xar-col-expanded">
+            {{ xar_data_input({property: properties['name']}) }}
+        </div>
+    </div>
+    <div class="xar-row">
+        <div class="xar-col-condensed">
+            {% set label = 'Title' %}
+            {{ xar_data_label({property: properties['title'], for: "id", label: label}) }}
+        </div>
+        <div class="xar-col-expanded">
+            {{ xar_data_input({property: properties['title']}) }}
+        </div>
+    </div>
+    <div class="xar-row">
+        <div class="xar-col-condensed">
+            {% set label = 'Description' %}
+            {{ xar_data_label({property: properties['description'], for: "id", label: label}) }}
+        </div>
+        <div class="xar-col-expanded">
+            {{ xar_data_input({property: properties['description']}) }}
+        </div>
+    </div>
+    <div class="xar-row">
+        <div class="xar-col-condensed">
+            {% set label = 'Question' %}
+            {{ xar_data_label({property: properties['question'], for: "id", label: label}) }}
+        </div>
+        <div class="xar-col-expanded">
+            {{ xar_data_input({property: properties['question'], style: "width: 700px"}) }}
+        </div>
+    </div>
+    <div class="xar-row">
+        <div class="xar-col-condensed">
+            {% set label = 'Details' %}
+            {{ xar_data_label({property: properties['details'], for: "id", label: label}) }}
+        </div>
+        <div class="xar-col-expanded">
+            {{ xar_data_input({property: properties['details'], style: "width: 700px"}) }}
+        </div>
+    </div>
+    <div class="xar-row">
+        <div class="xar-col-condensed">
+            {% set label = 'Answer' %}
+            {{ xar_data_label({property: properties['answer'], for: "id", label: label}) }}
+        </div>
+        <div class="xar-col-expanded">
+            {{ xar_data_input({property: properties['answer'], style: "width: 700px"}) }}
+        </div>
+    </div>
+    <div class="xar-row">
+        <div class="xar-col-condensed">
+            {% set label = 'Submitted By' %}
+            {{ xar_data_label({property: properties['submitted_by'], for: "id", label: label}) }}
+        </div>
+        <div class="xar-col-expanded">
+            {{ xar_data_input({property: properties['submitted_by']}) }}
+        </div>
+    </div>
+    {% if not properties['parent'].value %}
+        <div class="xar-row">
+            <div class="xar-col-expanded">
+                {{ xar_data_input({property: properties['position']}) }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

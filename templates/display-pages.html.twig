@@ -1,0 +1,51 @@
+{# @publications/display-pages.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+{{ include('@publications/includes/publinks.html.twig') }}
+    {{ xar_data_output({type: "categorynavigation", layout: "trails", showchildren: "1", module: "publications", itemtype: ptid, itemid: id, cids: cids}) }}
+    <div class="xar-accent-outline xar-fullwidth">
+        <div class="xar-accent-outline xar-fullwidth">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+                <tr>
+                    <td align="left" valign="top" class="xar-normal">
+                        <span class="xar-title">{{ title }}
+                            {% if editurl %} 
+                                <a href="{{ editurl }}">
+                                    <img src="{{ xar_imageurl('icons/modify.png','base') }}"/>
+                                </a>
+                            {% endif %}
+                        </span>
+                        <br />
+                        {% if counter %}
+                            ({{ counter }}
+                            {{ xar_translate('Reads') }}
+                            )
+                        {% endif %}
+                        <div align="right">
+                            <span class="xar-sub"> {{ topic_icons }} </span>
+                        </div>
+                        <br />
+                        <br />
+                        {{ body }}
+                        <br />
+                        <span class="xar-quote"> {{ notes }} </span>
+                        {% if previous and next %}
+                            <div class="xar-normal xar-align-right xar-padding-thick">
+                                <span> {{ previous }} </span> <span> {{ next }} </span>
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% if hooks %}
+        <br />
+        {% for hookmodule in hooks|keys %}
+            {{ hooks[hookmodule] }}
+        {% endfor %}
+    {% endif %}
+    {{ include('@publications/includes/navtabs-user.html.twig') }}
+{% endblock %}

@@ -1,0 +1,17 @@
+{# @publications/blocks/menu-level2.html.twig #}
+
+{% block menu_level2 %}
+{# <!-- 
+        Menu for side columns.
+     --> #}
+
+    {% if not max_level %}
+        {% set max_level = 0 %}
+    {% endif %}
+
+    <xar:set name="menu"><xar:template file="menu-level1" subdata="['parent'=>$root_page,'pages'=>$pages,'max_level'=>$max_level]"/></xar:set>
+
+    {% if menu|trim != '' %}
+        <div class="fixed1-side-menu">{{ menu }}</div>
+    {% endif %}
+{% endblock %}

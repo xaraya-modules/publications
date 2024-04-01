@@ -1,0 +1,13 @@
+{# @publications/admin/waitingcontent.html.twig #}
+
+{% block waitingcontent %}
+<p><strong>In Publications:</strong></p>
+    {% if not loop %}
+        No Waiting Content
+    {% else %}
+        {% for item in loop %}
+        <a href="{{ item['publink'] }}" title="{{ item['pubtitle'] }}">{{ item['pubtitle'] }}</a> : {{ item['pubcount'] }}
+        <br />
+        {% endfor %}
+    {% endif %}
+{% endblock %}

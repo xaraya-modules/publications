@@ -1,0 +1,19 @@
+{# @publications/objects/translations/settings.html.twig #}
+
+{% block settings %}
+<div class="xar-row">
+        <div class="xar-col">
+            <label for="languages" class="help xar-form-label" title="{{ xar_translate('The languages shown in the translation display') }}">                    
+                Languages Displayed
+            </label>
+        </div>
+        <div class="xar-col">
+            {% if settings['custom_displayed_locales'] is null %}
+                {% set value = '' %}
+            {% else %}
+                {% set value = settings['custom_displayed_locales'] %}
+            {% endif %}
+            {{ xar_data_input({name: "custom_displayed_locales", type: "textbox", value: value}) }}
+        </div>
+    </div>
+{% endblock %}

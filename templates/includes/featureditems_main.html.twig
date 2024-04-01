@@ -1,0 +1,29 @@
+{# @publications/includes/featureditems_main.html.twig #}
+
+{% block featureditems_main %}
+{% if feature['title'] %}
+        <h2>
+            {% if feature['alttitle'] %}
+                <a href="{{ feature['link'] }}">{{ feature['alttitle'] }}</a>
+            {% else %}
+                <a href="{{ feature['link'] }}">{{ xar_prep_display(feature['title']) }}</a>
+            {% endif %}
+        </h2>
+        {% if feature['showfeaturedsum'] == true %}
+            <div>
+                {% if feature['altsummary'] %}
+                    {{ feature['altsummary'] }}
+                {% else %}
+                    {% if feature['description'] %}
+                        {{ xar_prep_html(feature['description']) }}
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endif %}
+        {# <!--
+        {% if feature['showfeaturedbod'] == true %}
+            <div>{{ feature['featuredbody'] }}</div>
+       {% endif %}
+       --> #}
+    {% endif %}
+{% endblock %}

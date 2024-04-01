@@ -1,0 +1,31 @@
+{# @publications/objects/reviews/summary.html.twig #}
+
+{% block summary %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "review", title: "Review Stylesheet"}) }}
+    
+    <li>
+        {% if categories and categories|length > 0 %}
+            [ {% for cat in categories %}
+                {{ cat['cjoin'] }} <a href="{{ cat['clink'] }}">{{ cat['cname'] }}</a>
+            {% endfor %} ]
+        {% endif %}
+        
+        {{ include('@publications/includes/editicons.html.twig') }}
+        
+        <a class="xar-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': properties['id'].value, 'ptid': properties['itemtype'].value}) }}">
+            {{ xar_data_output({property: properties['title']}) }}
+        </a>
+        {% if rating %}
+            - rating : {{ rating }}
+        {% endif %}
+        {% if counter %}
+            {% if counter == 1 %}
+                ({{ counter }}&#160;read)
+            {% else %}
+                ({{ counter }}&#160;reads)
+            {% endif %}
+        {% endif %}
+        <br />&#160;
+    </li>
+{% endblock %}

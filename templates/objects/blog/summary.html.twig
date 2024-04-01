@@ -1,0 +1,56 @@
+{# @publications/objects/blog/summary.html.twig #}
+
+{% block summary %}
+{# <!-- Load the stylesheet for this publication type --> #}
+    {{ xar_style({method: "import", module: "publications", file: "blog", title: "Blog Stylesheet"}) }}
+    
+    {# <!-- Get the values for this page --> #}
+    {% set fields = object.getFieldValues([],1) %}
+
+    {# <!-- The number of characters to display in summary view --> #}
+    {% set summarylength = 100 %}
+    {% if summarylength != 0 %}
+        {% set summary = fields['introduction']|slice(0,summarylength) %}
+    {% else %}
+        {% set summary = fields['introduction'] %}
+    {% endif %}
+    
+    {# <!-- Title --> #}
+    <div class="xar-publications-blog-summary-title">
+        {{ include('@publications/includes/editicons.html.twig') }}
+        <a class="xar-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': fields['id']}) }}">
+            {{ xar_data_output({property: properties['title'], value: fields['title']}) }}
+        </a>
+    </div>
+    
+    {# <!-- Author --> #}
+    <div class="xar-publications-blog-summary-postby">
+        {{ xar_translate('Posted by: #(1) on #(2) #(3)', xar_username(fields['author']), xar_localedate(fields['created'],, 'long', ''), xar_localedate(fields['created'],, '', 'long')) }}
+    </div>
+
+    {# <!-- Summary --> #}
+    <div class="xar-publications-blog-summary-text">
+        {{ xar_data_output({property: properties['introduction'], value: summary}) }}
+    </div>
+
+    {# <!-- Word count --> #}
+    <div class="xar-align-right">    
+        {% set intro_length = fields['introduction']|length %}
+        {% set news_length = fields['body']|length %}
+        {% set total_length = intro_length + news_length %}
+        {% if total_length == 1 %}
+            ({{ total_length }}&#160;                
+                word)
+            {% else %}
+            ({{ total_length }}&#160;                
+                words)
+        {% endif %}
+
+    {# <!-- Read more --> #}
+        <a href="{{ xar_moduleurl('publications','user','display',{'itemid': fields['id']}) }}">                
+            Read more
+        </a>
+    </div>
+    <div class="xar-publications-blog-summary-footer">
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{# @publications/admin/display.html.twig #}
+
+{% block display %}
+{{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        {% if allow %}
+            <div>
+                The state of this page is <b>{{ xar_data_output({property: properties['state']}) }}</b>
+            </div>
+            {{ xar_data_display({object: object, tplmodule: "publications", layout: layout}) }}
+        {% else %}
+            This publication cannot be viewed
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{# @publications/archive.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+<div class="xar-mod-body">
+    {{ include('@publications/includes/publinks.html.twig') }}
+    {#  
+        You can use different user-archive-[pubtype].xd templates for different pubtypes
+     #}
+    <h3>
+        Monthly Archives
+    </h3>
+    <ul>
+        {% for month in months %}
+            <li>
+                {% if not month['mlink'] %}
+                    <strong> {{ month['month'] }} ({{ month['mcount'] }}) </strong>
+                    {% else %}
+                    <a href="{{ month['mlink'] }}"> {{ month['month'] }} </a> ({{ month['mcount'] }})
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <form method="post" action="{{ curlink }}">
+        <table>
+            <tr>
+                {% for sel in catsel %}
+                    <td>
+                        {{ sel }}
+                    </td>
+                {% endfor %}
+            </tr>
+        </table>
+    </form>
+    <table border="0" cellpadding="3" width="100%">
+        <tr>
+            {% for cat in catlist %}
+                {% if not cat['link'] %}
+                    <td class="xar-align-center">
+                        {{ cat['name'] }}
+                    </td>
+                    {% else %}
+                    <td class="xar-align-center">
+                        <a href="{{ cat['link'] }}"> {{ cat['name'] }} </a>
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+{# <!-- TODO: make sure xar-alt is the right class to use here --> #}
+        {% set i = 1 %}
+        {% for article in publications %}
+            {% set i = i + 1 %}
+            {% if i % 2 == 0 %}
+                <tr class="xar-accent">
+                    {% for cat in article['cats'] %}
+                        <td>
+                            {{ cat['list'] }}
+                        </td>
+                    {% endfor %}
+                    <td>
+                        <a href="{{ article['link'] }}"> {{ article['title'] }} </a>
+                    </td>
+                    {% if showdate %}
+                        <td>
+                            {{ xar_coremethod('xarLocale', 'formatDate', ["%Y-%m-%d %H.%M.%S",article['pubdate']]) }}
+                        </td>
+                    {% endif %}
+                </tr>
+                {% else %}
+                <tr>
+                    {% for cat in article['cats'] %}
+                        <td>
+                            {{ cat['list'] }}
+                        </td>
+                    {% endfor %}
+                    <td>
+                        <a href="{{ article['link'] }}"> {{ article['title'] }} </a>
+                    </td>
+                    {% if showdate %}
+                        <td>
+                            {{ xar_coremethod('xarLocale', 'formatDate', ["%Y-%m-%d %H.%M.%S",article['pubdate']]) }}
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    {{ include('@publications/includes/navtabs-user.html.twig') }}
+</div>
+{% endblock %}

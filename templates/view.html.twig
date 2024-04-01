@@ -1,0 +1,61 @@
+{# @publications/view.html.twig #}
+
+{% extends '@publications/base.html.twig' %}
+
+{% block modulespace %}
+{# <!-- Set a custom page title, if one exists --> #}
+    {% set page_title = pubtypeobject.properties['page_title'].getValue() %}
+    {% if page_title %}
+        {% set dummy = xar_coremethod('xarTpl', 'setPageTitle', [page_title]) %}
+    {% endif %}
+    
+    {# <!-- Set a custom page description, if one exists --> #}
+    {% set page_description = pubtypeobject.properties['page_description'].getValue() %}
+    {% if page_description %}
+        <xar:meta type="name" value="description" content="$page_description" lang="en" dir="ltr"/>
+     {% endif %}
+
+    {# <!-- Append custom keywords, if they exist --> #}
+    {% set keywords = pubtypeobject.properties['keywords'].getValue() %}
+    {% if keywords %}
+        <xar:meta type="name" value="keywords" content="$keywords" lang="en" dir="ltr" append="1"/>
+     {% endif %}
+
+    {{ include('@publications/includes/publinks.html.twig') }}
+
+    {% set now = date().getTimestamp() %}
+
+    {# <!-- Get the list of object items we want --> #}
+    {# <!-- Note: itemtype is already defined in the code --> #}
+    <xar:data-getitems properties="$properties" values="$items" object="$object" param="xarServer::getCurrentURL()" numitems="$numitems" startnum="$startnum" count="count">
+      <xar:select>
+        <xar:andconditions>
+          <xar:condition operator="in" property="state">[3,4]</xar:condition>
+          <xar:condition operator="eq" property="locale">xarUser::getNavigationLocale()</xar:condition>
+          <xar:condition operator="le" property="start_date">$now</xar:condition>
+          <xar:orconditions>
+            <xar:condition operator="ge" property="end_date">$now</xar:condition>
+            <xar:condition operator="eq" property="no_end">1</xar:condition>
+          </xar:orconditions>
+        </xar:andconditions>
+      </xar:select>
+    </xar:data-getitems>
+
+    {# <!-- For debugging --> #}
+    {% set debugadmins = xar_coremethod('xarConfigVars', 'get', [null, 'Site.User.DebugAdmins']) %}
+    {% set userid = xar_uservar('id') %}
+    {% set debug = xar_modvar('publications', 'debugmode') and userid in debugadmins %}
+    {% if debug %}
+        {% set dummy = object.dataquery.qecho() %}
+    {% endif %}
+
+    {# <!-- For debugging
+    {% set dummy = var_dump(items) %}
+    {% set dummy = var_dump(xar_localedate(now,, 'long', '')) %}
+    {% set dummy = var_dump(xar_localedate(now,, '', 'long')) %}
+    --> #}
+
+    {# <!-- Display the list of objects --> #}
+    {{ xar_data_view({object: object, tplmodule: "publications"}) }}
+
+{% endblock %}

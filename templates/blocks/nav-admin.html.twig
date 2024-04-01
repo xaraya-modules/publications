@@ -1,0 +1,109 @@
+{# @publications/blocks/nav-admin.html.twig #}
+
+{% block nav_admin %}
+<div class="xar-form-input-wrapper">
+    <label class="xar-form-label" for="layout{{ blockid }}">        
+        Category layout        
+    </label> <select name="layout" id="layout{{ blockid }}">
+        {% for loop_key1, loop_item1 in layouts %}{% set loop_index1 = loop.index %}
+            {% if layout == loop_item1['id'] %}
+                <option value="{{ loop_item1['id'] }}" selected="selected">
+                    {{ loop_item1['name'] }}
+                </option>
+                {% else %}
+                <option value="{{ loop_item1['id'] }}">
+                    {{ loop_item1['name'] }}
+                </option>
+            {% endif %}
+        </xar:loop>
+    </select>
+</div>
+<div class="xar-form-input-wrapper">
+    <label class="xar-form-label" for="startmodule{{ blockid }}">        
+        Show categories        
+    </label>
+    {% set optgroup = 0 %}
+    {# <!--  Review this!!
+    <select name="startmodule" id="startmodule{{ blockid }}">
+        {% for loop_key2, loop_item2 in modules %}{% set loop_index2 = loop.index %}
+            {% if loop_item1.label %}
+                {% if optgroup %}
+                </optgroup>
+            {% endif %}
+            <optgroup label="Module: {{ loop_item1.label }}">
+                {% set optgroup = 1 %}
+                {% else %}
+                {% if startmodule == loop_item1.id %}
+                    <option value="{{ loop_item1.id }}" selected="selected">
+                        {{ loop_item1.name }}
+                    </option>
+                    {% else %}
+                    <option value="{{ loop_item1.id }}">
+                        {{ loop_item1.name }}
+                    </option>
+                {% endif %}
+            {% endif %}
+        </xar:loop>
+        {% if optgroup %}
+        </optgroup>
+    {% endif %}
+</select>
+--> #}
+</div>
+<div class="xar-form-input-wrapper-after">
+    {% if showempty %}
+        <input type="checkbox" name="showempty" id="showempty{{ blockid }}" value="1" checked="checked" />
+        {% else %}
+        <input type="checkbox" name="showempty" id="showempty{{ blockid }}" value="1" />
+    {% endif %}
+    <label for="showempty{{ blockid }}">        
+        Show empty categories        
+    </label>
+</div>
+<div class="xar-form-input-wrapper-after">
+    {% if dynamictitle %}
+        <input type="checkbox" name="dynamictitle" id="dynamictitle{{ blockid }}" value="1" checked="checked" />
+        {% else %}
+        <input type="checkbox" name="dynamictitle" id="dynamictitle{{ blockid }}" value="1" />
+    {% endif %}
+    <label for="dynamictitle{{ blockid }}">        
+        Dynamic title (linked to content)        
+    </label>
+</div>
+<div class="xar-form-input-wrapper">
+    <label class="xar-form-label" for="show_catcount{{ blockid }}">        
+        Show count per category        
+    </label>
+    <select name="show_catcount" id="show_catcount{{ blockid }}">
+        <xar:loop name="$catcounts">
+            {% if show_catcount == loop_item1['id'] %}
+                <option value="{{ loop_item1['id'] }}" selected="selected">
+                    {{ loop_item1['name'] }}
+                </option>
+                {% else %}
+                <option value="{{ loop_item1['id'] }}">
+                    {{ loop_item1['name'] }}
+                </option>
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>
+<div class="xar-form-input-wrapper">
+    <label class="xar-form-label" for="showchildren{{ blockid }}">        
+        Show children        
+    </label>
+    <select name="showchildren" id="showchildren{{ blockid }}">
+        <xar:loop name="$children">
+            {% if showchildren == loop_item1['id'] %}
+                <option value="{{ loop_item1['id'] }}" selected="selected">
+                    {{ loop_item1['name'] }}
+                </option>
+                {% else %}
+                <option value="{{ loop_item1['id'] }}">
+                    {{ loop_item1['name'] }}
+                </option>
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>
+{% endblock %}

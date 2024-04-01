@@ -1,0 +1,17 @@
+{# @publications/includes/editicons.html.twig #}
+
+{% block editicons %}
+{% set pubtype_access = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'pubtype_access']) %}
+    {# <!-- This condition makes these icons not show in nested displays (preview functionality) --> #}
+    {% if pubtype_access is not null %}
+        {% set pageName = xar_coremethod('xarTpl', 'getPageTemplateName') %}
+        {% set info = xar_coremethod('xarController', 'getRequest').getInfo() %}
+        {% if (pageName == 'admin') and (info[2] != 'display_version') and (info[2] != 'manage_versions') and not preview %}
+            {{ include('@publications/includes/editicons-admin.html.twig') }}
+        {% elseif (pageName != 'module') and xar_coremethod('xarUser', 'isLoggedIn') and (xar_uservar('id') == properties['author'].value) %}
+            {{ include('@publications/includes/editicons-user.html.twig') }}
+        {% elseif (pageName != 'admin') and (xar_coremethod('xarRoles', 'isParent', ['Administrators', xar_uservar('uname')]) or xar_coremethod('xarRoles', 'isParent', ['SiteManagers', xar_uservar('uname')])) %}
+            {{ include('@publications/includes/editicons-user.html.twig') }}
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{# @publications/admin/importpubtype.html.twig #}
+
+{% block importpubtype %}
+{{ include('@publications/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>
+            Publication Types
+        </h2>
+        <h3>
+            Import Definition of Publication Type
+        </h3>
+        <strong>{{ warning }}</strong>
+        <br />
+        <form method="post" action="{{ xar_moduleurl('publications','admin','importpubtype') }}">
+            <input type="hidden" name="authid" id="authid" value="{{ authid }}" />
+            Filter:
+            <strong>modules/publications/*.xml</strong>
+            <br />
+            <br />
+            File:
+            <select name="import" id="import">
+                {% for option in options %}
+                    <option value="{{ option['id'] }}">{{ option['name'] }}</option>
+                {% endfor %}
+            </select>
+            <br />
+            <br />
+            {% set label = 'Import Definition' %}
+            {{- xar_button({type: "submit", label: label}) -}}
+            <br />
+            <br />
+            Select a file in the list above, or paste the definition in here:
+            <br />
+            <textarea name="xml" id="xml" rows="30" cols="80"></textarea>
+        </form>
+    </div>
+{% endblock %}

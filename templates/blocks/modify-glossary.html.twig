@@ -1,0 +1,44 @@
+{# @publications/blocks/modify-glossary.html.twig #}
+
+{% block modify_glossary %}
+<h4>Where the glossary items are held</h4>
+<div>
+    <span class="help" title="{{ xar_translate('Choose the publication type for the glossary.') }}"><label for="ptid_block_{{ bid }}">Publication Type</label>:</span>
+</div>
+<div>
+    <select name="ptid" id="ptid_block_{{ bid }}">
+        <option value="0">All</option>
+            {% for pubid, pubtype in pubtypes %}
+                {% if ptid and ptid == pubid %}
+                    <option value="{{ pubid }}" selected="selected">{{ pubtype['description'] }}</option>
+                {% else %}
+                    <option value="{{ pubid }}">{{ pubtype['description'] }}</option>
+                {% endif %}
+            {% endfor %}
+    </select>
+</div>
+
+<div>
+    <span class="help" title="{{ xar_translate('Choose the category for the glossary.') }}"><label for="cid_block_{{ bid }}">Category</label>:</span>
+</div>
+<div>
+    <select name="cid" id="cid_block_{{ bid }}">
+        <option value="0">All</option>
+        {% for catlistvalue in categorylist %}
+            {% if cid and cid == catlistvalue['cid'] %}
+                <option value="{{ catlistvalue['cid'] }}" selected="selected">{{ catlistvalue['name'] }}</option>
+            {% else %}
+                <option value="{{ catlistvalue['cid'] }}">{{ catlistvalue['name'] }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>
+
+<h4>How the glossary block is invoked</h4>
+<div>
+    <span class="help" title="{{ xar_translate('The name of the glossary parameter to trigger the block.') }}"><label for="paramname_{{ bid }}">Parameter Name</label>:</span>
+</div>
+<div>
+    <input type="text" name="paramname" id="paramname_block_{{ bid }}" size="20" maxlength="20" value="{{ xar_prep_display(paramname) }}"/>
+</div>
+{% endblock %}
