@@ -5,17 +5,17 @@
 {% block modulespace %}
 {# <!-- Set a custom page title, if one exists --> #}
     {% if page_title %}
-        {% set dummy = xar_coremethod('xarTpl', 'setPageTitle', [page_title]) %}
+        {% set dummy = xar_coremethod('xarTpl', 'setPageTitle', page_title) %}
     {% endif %}
     
     {# <!-- Set a custom page description, if one exists --> #}
     {% if page_description %}
-        <xar:meta type="name" value="description" content="$page_description" lang="en" dir="ltr"/>
+        {{ xar_meta({type: "name", value: "description", content: page_description, lang: "en", dir: "ltr"}) }}
      {% endif %}
 
     {# <!-- Append custom keywords, if they exist --> #}
     {% if keywords %}
-        <xar:meta type="name" value="keywords" content="$keywords" lang="en" dir="ltr" append="1"/>
+        {{ xar_meta({type: "name", value: "keywords", content: keywords, lang: "en", dir: "ltr", append: "1"}) }}
      {% endif %}
 
     {{ xar_data_display({object: object, tplmodule: "publications", layout: layout}) }}

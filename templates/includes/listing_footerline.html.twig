@@ -1,7 +1,7 @@
 {# @publications/includes/listing_footerline.html.twig #}
 
 {% block listing_footerline %}
-{% if xar_coremethod('xarUser', 'isLoggedIn') and xar_security_check('ManagePublications',0) and total > 0 %}
+{% if xar_userid() and xar_security_check('ManagePublications',0) and total > 0 %}
         <div style="text-align:center; padding-top:10px;">
             <input type="hidden" name="idlist" id="idlist" />
             <input type="hidden" name="redirecttarget" id="redirecttarget" />

@@ -71,11 +71,11 @@
             Sort by 
         </label>
         {% set options = [
-                {'id': 'author', 'name': {{ xar_translate('Author') }}},
-                {'id': 'date', 'name': {{ xar_translate('Date') }}},
-                {'id': 'hits', 'name': {{ xar_translate('Hit Count') }}},
-                {'id': 'rating', 'name': {{ xar_translate('Rating') }}},
-                {'id': 'title', 'name': {{ xar_translate('Title') }}}
+                {'id': 'author', 'name': xar_translate('Author')},
+                {'id': 'date', 'name': xar_translate('Date')},
+                {'id': 'hits', 'name': xar_translate('Hit Count')},
+                {'id': 'rating', 'name': xar_translate('Rating')},
+                {'id': 'title', 'name': xar_translate('Title')}
             ] %}        
         {{ xar_data_input({type: "dropdown", name: "sortoptions", options: options, value: toptype}) }}
         &#160;Hook Hitcount or Ratings to Publications to use these sort types
@@ -97,9 +97,9 @@
             Status             
         </label>
         {% set options = [
-                {'id': '2, 3': , 'name': {{ xar_translate('All Published') }}},
-                {'id': '3', 'name': {{ xar_translate('Frontpage') }}},
-                {'id': '2', 'name': {{ xar_translate('Approved') }}}
+                {'id': '2, 3', 'name': xar_translate('All Published')},
+                {'id': '3', 'name': xar_translate('Frontpage')},
+                {'id': '2', 'name': xar_translate('Approved')}
             ] %}        
         {{ xar_data_input({type: "dropdown", name: "stateoptions", options: options, value: state}) }}
     </div>

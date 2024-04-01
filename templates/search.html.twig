@@ -6,7 +6,7 @@
 <h2>Search Results</h2>
 
 {# <!--
-    {% set fulltext = xar_modvar('publications', 'fulltextsearch') %}
+    {% set fulltext = xar_modulevar('publications', 'fulltextsearch') %}
     {% if fulltext %}
         {% set fulltextfields = ',fulltext|split(') %}
     {% endif %}
@@ -16,27 +16,19 @@
     {# <!-- author --> #}
     <input type="hidden" name="author" id="author" value="{{ author }}" size="20" />
     {# <!-- search type (full text) --> #}
-    <input type="hidden" name="searchtype" value="$searchtype" />
+    <input type="hidden" name="searchtype" value="{{ searchtype }}" />
 
     {# <!-- publication types --> #}
     {% set i = 0 %}
     <input type="hidden" name="ptids[]" value="0"/>
-    <xar:while condition="1 eq  1">
-        <xar:while condition="1 eq  1">
-            {% if not publications %}
-                <xar:break />
-            {% endif %}
-            {% set pubtype = array_pop(publications) %}
-              <input type="hidden" name="ptids[]" id="{{ pubtype['description'] }}" value="{{ pubtype['id'] }}" checked="checked" /> 
-              {% set i = i + 1 %}
-              {% if i % 2 == 0 %}
-                <xar:break />
-              {% endif %}
-        </xar:while>
-        {% if not publications %}
-            <xar:break />
-        {% endif %}
-    </xar:while>
+    {# @todo what was this logic for in blocklayout? #}
+    {% for pubtype in publications|reverse %}
+      <input type="hidden" name="ptids[]" id="{{ pubtype['description'] }}" value="{{ pubtype['id'] }}" checked="checked" /> 
+      {% set i = i + 1 %}
+      {% if i % 2 == 0 %}
+        <xar:break />
+      {% endif %}
+    {% endfor %}
     
     {# <!-- fields --> #}
     {% for item in fieldlist %}
@@ -57,24 +49,17 @@
 
     {# <!-- categories --> #}
     <input type="hidden" name="by" id="filterbycat" value="1" />
+    {# @todo what was this logic for in blocklayout? #}
     {% if categories|length == 0 %}
-          {% set i = 0 %}
-          <xar:while condition="1 eq  1">
-            <xar:while condition="1 eq  1">
-                {% if not categories %}
-                    <xar:break />
-                {% endif %}
-                {% set cat = array_pop(categories) %}
-                  <td valign="top" align="right">{{ cat['cattitle'] }} : </td>
-                  <td valign="top">{{ cat['catselect'] }} </td>
-                  {% if i++ and i % 2 == 0 %}
-                    <xar:break />
-                  {% endif %}
-            </xar:while>
-            {% if not categories %}
-                <xar:break />
-            {% endif %}
-          </xar:while>
+      {% set i = 0 %}
+      {% for cat in categories|reverse %}
+        <td valign="top" align="right">{{ cat['cattitle'] }} : </td>
+        <td valign="top">{{ cat['catselect'] }} </td>
+        {% set i = i + 1 %}
+        {% if i % 2 == 0 %}
+          <xar:break />
+        {% endif %}
+      {% endfor %}
     {% endif %}
 
     {% for result in results %}
@@ -88,12 +73,12 @@
                 {{ cat['cjoin'] }} <a href="{{ cat['clink'] }}">{{ cat['cname'] }}</a>
               {% endfor %} ]
             {% endif %}
-            {% if xar_modvar('publications', 'multilanguage') %}
-                <a href="{{ item['link'] }}">{{ item['title'] }} - {{ strstr(item['locale'], '_', true) }}</a>
+            {% if xar_modulevar('publications', 'multilanguage') %}
+                <a href="{{ item['link'] }}">{{ item['title'] }} - {{ item['locale']|split('_')|first }}</a>
             {% else %}
                 <a href="{{ item['link'] }}">{{ item['title'] }}</a>
             {% endif %}
-            {% if item['pubdate'] %}{{ xar_coremethod('xarLocale', 'formatDate', ['%a, %d %B %Y %H.%M.%S %Z', item['pubdate']]) }}{% endif %}
+            {% if item['pubdate'] %}{{ xar_coremethod('xarLocale', 'formatDate', '%a, %d %B %Y %H.%M.%S %Z', item['pubdate']) }}{% endif %}
             {# <!-- Show relevance for MySQL full-text search (see $getfields in search.php)
                 {% if item['relevance'] is not null %}
                   {% set relevance = sprintf('%.2f',item['relevance']) %}

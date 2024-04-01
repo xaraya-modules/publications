@@ -30,6 +30,7 @@
 
     <div class="xarpages-side-menu1">
         {% set menu_level = 0 %}
-        <xar:template file="menu-css-side-menu1" subdata="['parent'=>$root_page,'pages'=>$pages,'max_level'=>$max_level,'menu_level'=>$menu_level]"/>
+        {% set subdata = {'parent': root_page,'pages': pages,'max_level': max_level,'menu_level': menu_level} %}
+        {{ include('@publications/blocks/menu-css-side-menu1.html.twig', subdata) }}
     </div>
 {% endblock %}

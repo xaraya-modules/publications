@@ -75,12 +75,11 @@
                         </th>
                         <td>
                             {% set levels = xar_coremethod('SecurityLevel','displayMap') %}
-                            {# @todo prepare this in function #}
-                            {% set foo = 1; unset(levels[-1]);unset(levels[400]);unset(levels[600]); %}
                             {% set options = [] %}
-                            <xar:foreach in="$levels" key="$key" value="$value" >
-                                {% set foo = 1;
-                                    options{] = ['id': key * 100, 'name': value} %}
+                            {% for key, value in levels %}
+                                {% if key not in [-1, 400, 600] %}
+                                    {% set options = options|merge([{'id': key * 100, 'name': value}]) %}
+                                {% endif %}
                             {% endfor %}
                             {{ xar_data_input({type: "dropdown", name: "extlevel", value: extlevel, options: options}) }}
                         </td>

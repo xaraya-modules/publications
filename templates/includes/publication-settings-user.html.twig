@@ -8,7 +8,7 @@
     {{ xar_data_input({property: properties['version'], hidden: "hidden"}) }}
     {{ xar_data_input({property: properties['author'], hidden: "hidden"}) }}
     {{ xar_data_input({property: properties['pages'], hidden: "hidden"}) }}
-    {% if xar_modvar('publications', 'multilanguage') %}
+    {% if xar_modulevar('publications', 'multilanguage') %}
         <fieldset>
             <legend>
                 Page Characteristics
@@ -58,7 +58,7 @@
             </div>
         </div>
     </fieldset>
-    {% if properties['parent'].value not = 0 %}
+    {% if properties['parent'].value != 0 %}
         <fieldset>
             <legend>
                 Page Status
@@ -70,7 +70,7 @@
                 <div class="xar-col">
                     &#160;
                     <a href="{{ xar_moduleurl('publications','admin','delete_translation',{'itemid': properties['id'].value}) }}" title="{{ xar_translate('Delete this translation') }}" style="margin-right: 5px">
-                        <img src="{{ xar_imageurl('icons/'.'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete Translation') }}"/>
+                        <img src="{{ xar_imageurl('icons/' ~ 'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete Translation') }}"/>
                     </a>
                 </div>
             </div>
@@ -164,7 +164,7 @@
             <label class="xar-form-label help" title="{{ xar_translate('This is the allowed HTML that this website has configured.') }}">
                 Allowed HTML tags
             </label>
-            {% set tags = xar_coremethod('xarConfigVars', 'get', [null,'Site.Core.AllowableHTML']) %}
+            {% set tags = xar_configvar('Site.Core.AllowableHTML') %}
             <div class="xar-form-container-after">
                 {% set tagstring = "" %}
                 {% for key, value in tags %}

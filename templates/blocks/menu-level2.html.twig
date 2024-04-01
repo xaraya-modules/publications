@@ -9,7 +9,8 @@
         {% set max_level = 0 %}
     {% endif %}
 
-    <xar:set name="menu"><xar:template file="menu-level1" subdata="['parent'=>$root_page,'pages'=>$pages,'max_level'=>$max_level]"/></xar:set>
+    {% set subdata = {'parent': root_page,'pages': pages,'max_level': max_level} %}
+    {% set menu = include('@publications/blocks/menu-level1.html.twig', subdata) %}
 
     {% if menu|trim != '' %}
         <div class="fixed1-side-menu">{{ menu }}</div>

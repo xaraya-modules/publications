@@ -3,21 +3,21 @@
 {% block editicons_user %}
 {% set allowed = properties['access'].getValue() %}
     {% set label = 'Create a new publication' %}
-    <xar:access group="$pubtype_access['add']['group']">
+    {% if xar_access({'group': pubtype_access['add']['group']}) %}
         <a href="{{ xar_moduleurl('publications', 'user', 'new') }}" style="float:right; margin-right: 10px" title="{{ label }}">
             <img src="{{ xar_imageurl('icons/document-new.png','base') }}"/>
         </a>
-    </xar:access>
-    <xar:access group="$allowed['modify']['group']">
+    {% endif %}
+    {% if xar_access({'group': allowed['modify']['group']}) %}
         {% set label = 'Modify this publication' %}
         <a href="{{ xar_moduleurl('publications', 'user', 'modify',{'itemid': properties['id'].value}) }}" style="float:right; margin-right: 10px" title="{{ label }}">
             <img src="{{ xar_imageurl('icons/modify.png','base') }}"/>
         </a>
-    </xar:access>
-    <xar:access group="$allowed['delete']['group']">
+    {% endif %}
+    {% if xar_access({'group': allowed['delete']['group']}) %}
         {% set label = 'Delete this publication' %}
         <a href="{{ xar_moduleurl('publications', 'user', 'delete',{'itemid': properties['id'].value}) }}" style="float:right; margin-right: 10px" title="{{ label }}">
             <img src="{{ xar_imageurl('icons/delete.png','base') }}"/>
         </a>
-    </xar:access>
+    {% endif %}
 {% endblock %}

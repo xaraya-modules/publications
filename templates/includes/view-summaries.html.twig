@@ -22,7 +22,7 @@
     </h2>
     {% set instance = properties['itemtype'].value ~ ':All:All:All' %}
     {# @todo verify syntax #}
-    {% if xar_security_check("SubmitPublications", instance) %}
+    {% if xar_security_check("SubmitPublications", 0, '', instance) %}
         <a href="{{ xar_moduleurl('publications','admin','new',{'ptid': ptid}) }}">
             Submit a {{ xar_data_output({property: properties['title']}) }}
         </a>

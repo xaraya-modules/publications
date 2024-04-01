@@ -32,8 +32,8 @@
         
         {# <!-- Date added --> #}
         {% if properties['created'] and fields['created'] %}            
-            Added on: {{ xar_localedate(properties['created'].value,, 'long', '') }} 
-            {{ xar_localedate(properties['created'].value,, '', 'long') }}
+            Added on: {{ xar_localedate(properties['created'].value, 'long', '') }} 
+            {{ xar_localedate(properties['created'].value, '', 'long') }}
         {% endif %}
         
         {% if rating %}
@@ -52,7 +52,7 @@
                 )
             {% endif %}
         {% endif %}
-        {% if xar_coremethod('xarModHooks', 'isHooked', ['ratings','publications',6]) %}
+        {% if xar_coremethod('xarModHooks', 'isHooked', 'ratings','publications',6) %}
             | <a href="{{ link }}">                
                     Rate / Comment
             </a>

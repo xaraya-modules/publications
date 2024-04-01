@@ -48,9 +48,9 @@
             </div>
             <div class="xar-col">
                 {{ filepath }}&#160;
-                 <a href="{{ xar_moduleurl('publications','user','download',{'filepath': urlencode(filepath)}) }}"
+                 <a href="{{ xar_moduleurl('publications','user','download',{'filepath': filepath}) }}"
                  title="Download this file">
-                    <xar:if condition = "xarModVars::get('grader','use_module_icons')">
+                    {% if xar_coremethod('xarModVars', 'get', 'grader', 'use_module_icons') %}
                         <img src="{{ xar_imageurl('icons/' ~ 'document-save.png', 'base') }}" style="margin-right: 5px; vertical-align: top;" />
                     {% else %}
                         <b style="margin-right: 5px">Download</b>
@@ -76,7 +76,7 @@
                     {% endif %}
                 </div>
                 <div class="xar-col">
-                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" />
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_security_authkey() }}" />
                     <input type="hidden" name="confirm" id="confirm" value="1" />
                     <input type="hidden" name="ptid" id="ptid" value="{{ ptid }}" />
                     <input type="hidden" name="file" id="file" value="{{ file }}" />

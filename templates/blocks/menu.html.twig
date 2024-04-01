@@ -14,9 +14,9 @@
      --> #}
 
     {# <!-- We need $typeinfo for the menu labels--> #}
-    {% set dummy = pubtypes = xar_coremethod('DataObjectFactory','getObjectList',{'name': 'publications_types'});
-        pubtypes.dataquery.gt(pubtypes.properties['state'].source,2);
-        typeinfo = pubtypes.getItems(); %}
+    {% set pubtypes = xar_data_objectlist({'name': 'publications_types'}) %}
+    {% set dummy = pubtypes.dataquery.gt(pubtypes.properties['state'].source,2) %}
+    {% set typeinfo = pubtypes.getItems() %}
 
     {% if not max_level %}
         {% set max_level = 0 %}

@@ -40,11 +40,11 @@
                     </p>
                     {# <!--
                     <div id='photoholder'>
-                        {% if xar_coremethod('xarModHooks', 'isHooked', ['uploads','publications',pubtype_id]) and body|slice(0,1) == ';' %}
+                        {% if xar_coremethod('xarModHooks', 'isHooked', 'uploads','publications',pubtype_id) and body|slice(0,1) == ';' %}
                             {% set img_output = xar_apifunc('uploads','user','showoutput',{'value': body, 'multiple': true}) %}
                             {% for fileId, fileInfo in img_output %}
                                 <a href="{{ fileInfo['fileDownload'] }}" alt="{{ xar_translate('View full sized image') }}">
-                                    {% if xar_coremethod('xarMod', 'isAvailable', ['images']) %}
+                                    {% if xar_coremethod('xarMod', 'isAvailable', 'images') %}
                                         {% set file = fileInfo %}
                                         {{ include('@publications/includes/picture-display.html.twig') }}
                                     {% else %}
@@ -59,7 +59,7 @@
                     --> #}
                     {# <!-- Link to previous or next --> #}
                     <div class="xar-normal xar-align-right xar-padding-thick">
-                        {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+                        {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', 'Publications', 'prevpublication') %}
                         {% if prevpublication %}
                             {% set prev = 'Previous' %}
                             <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
@@ -67,7 +67,7 @@
                             </a>
                         {% endif %}
                         &#160;
-                        {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+                        {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', 'Publications', 'nextpublication') %}
                         {% if nextpublication %}
                             {% set next = 'Next' %}
                             <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">

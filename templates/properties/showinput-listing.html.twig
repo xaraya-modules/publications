@@ -36,7 +36,8 @@
         </form>
     {% elseif layout == 'publications-user' %}
         {% set filename = 'view-summaries-' ~ object.name %}
-        {% if file_exists(xar_coremethod('xarTpl', 'getThemeDir').'/modules/publications/includes/'.filename.'.xt') or file_exists(xar_coremethod('sys', 'code').'modules/publications/xartemplates/includes/'.filename.'.xt') %}
+        {# @todo check in function #}
+        {% if file_exists(xar_coremethod('xarTpl', 'getThemeDir') ~ '/modules/publications/includes/' ~ filename ~ '.xt') or file_exists(xar_coremethod('sys', 'code') ~ 'modules/publications/xartemplates/includes/' ~ filename ~ '.xt') %}
             {{ include('@publications/includes/' ~ filename ~ '.html.twig') }}
         {% else %}
             {{ include('@publications/includes/view-summaries.html.twig') }}

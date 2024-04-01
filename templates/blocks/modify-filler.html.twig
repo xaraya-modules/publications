@@ -22,9 +22,9 @@
         </div>
         <div class="xar-col">
             {% set options = [
-                    {'id': '2, 3': , 'name': {{ xar_translate('All Published') }}},
-                    {'id': '3', 'name': {{ xar_translate('Frontpage') }}},
-                    {'id': '2', 'name': {{ xar_translate('Approved') }}}
+                    {'id': '2, 3', 'name': xar_translate('All Published')},
+                    {'id': '3', 'name': xar_translate('Frontpage')},
+                    {'id': '2', 'name': xar_translate('Approved')}
                 ] %}        
             {{ xar_data_input({type: "dropdown", name: "state", options: options, value: state}) }}
         </div>
@@ -49,8 +49,8 @@
         </div>
         <div class="xar-col">
             {% set options = [
-                    {'id': 'summary', 'name': {{ xar_translate('Summary Display') }}},
-                    {'id': 'detail', 'name': {{ xar_translate('Detail Display') }}},
+                    {'id': 'summary', 'name': xar_translate('Summary Display')},
+                    {'id': 'detail', 'name': xar_translate('Detail Display')},
                 ] %}        
             {{ xar_data_input({type: "dropdown", name: "displaytype", options: options}) }}
         </div>

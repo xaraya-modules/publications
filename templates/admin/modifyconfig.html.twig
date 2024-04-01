@@ -32,7 +32,7 @@
                             </label> 
                         </div>
                         <div class="xar-col">
-                            {% set value = xar_modvar('publications', 'multilanguage') %}
+                            {% set value = xar_modulevar('publications', 'multilanguage') %}
                             {{ xar_data_input({type: "checkbox", name: "multilanguage", value: value}) }}
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="xar-col">
                             {% if languages %}
-                                {% set value = xar_modvar('publications', 'defaultlanguage') %}
+                                {% set value = xar_modulevar('publications', 'defaultlanguage') %}
                                 {{ xar_data_input({type: "languages", name: "defaultlanguage", value: value}) }}
                             {% else %}
                                 <span class="xar-warning">The languages property is not available</span>
@@ -64,7 +64,7 @@
                             <label class="xar-form-label" for="defaultpage">
                                 Default page
                             </label>
-                            {% set value = xar_modvar('publications', 'defaultpage') %}
+                            {% set value = xar_modulevar('publications', 'defaultpage') %}
                         </div>
                         <div class="xar-col">
                             {{ xar_data_input({type: "dropdown", name: "defaultpage", value: value, options: options, firstline: firstline}) }}
@@ -77,7 +77,7 @@
                             </label>
                         </div>
                         <div class="xar-col">
-                            {% set value = xar_modvar('publications', 'errorpage') %}
+                            {% set value = xar_modulevar('publications', 'errorpage') %}
                             {{ xar_data_input({type: "dropdown", name: "errorpage", value: value, options: options, firstline: firstline}) }}
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                             </label>
                         </div>
                         <div class="xar-col">
-                            {% set value = xar_modvar('publications', 'notfoundpage') %}
+                            {% set value = xar_modulevar('publications', 'notfoundpage') %}
                             {{ xar_data_input({type: "dropdown", name: "notfoundpage", value: value, options: options, firstline: firstline}) }}
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                             </label>
                         </div>
                         <div class="xar-col">
-                            {% set value = xar_modvar('publications', 'noprivspage') %}
+                            {% set value = xar_modulevar('publications', 'noprivspage') %}
                             {{ xar_data_input({type: "dropdown", name: "noprivspage", value: value, options: options, firstline: firstline}) }}
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                             </label>
                         </div>
                         <div class="xar-col">
-                            {% set value = xar_modvar('publications', 'hide_tree_display') %}
+                            {% set value = xar_modulevar('publications', 'hide_tree_display') %}
                             {{ xar_data_input({type: "checkbox", name: "hide_tree_display", value: value}) }}
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                             </label>
                         </div>
                         <div class="xar-col">
-                            {% set value = xar_modvar('publications', 'usealias') %}
+                            {% set value = xar_modulevar('publications', 'usealias') %}
                             {{ xar_data_input({type: "checkbox", name: "usealias", checked: value}) }}&#160;
                             {{ xar_translate('Use \'#(1)\' as alias in short URLs') }}
                         </div>
@@ -162,7 +162,7 @@
                                     {'id': 7, 'name': 'Use title but use publication IDs for duplicates'},
                                     {'id': 8, 'name': 'Use title ignore duplicates (faster)'},
                                 ] %}
-                            {% set value = xar_modvar('publications', 'usetitleforurl') %}
+                            {% set value = xar_modulevar('publications', 'usetitleforurl') %}
                             {{ xar_data_input({type: "dropdown", name: "usetitleforurl", options: options, value: value}) }}&#160;
                         </div>
                     </div>
@@ -192,7 +192,7 @@
                         {{- xar_button({type: "cancel", label: label}) -}}
                         --> #}
                         <input type="hidden" name="tab" id="tab" value="{{ tab }}" />
-                        <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" /> 
+                        <input type="hidden" name="authid" id="authid" value="{{ xar_security_authkey() }}" /> 
                     </div>
                 </div>
             </form>
@@ -516,7 +516,7 @@
                         {{- xar_button({type: "cancel", label: label}) -}}
                         --> #}
                         <input type="hidden" name="tab" id="tab" value="{{ tab }}" />
-                        <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" /> 
+                        <input type="hidden" name="authid" id="authid" value="{{ xar_security_authkey() }}" /> 
                     </div>
                 </div>
             </form>

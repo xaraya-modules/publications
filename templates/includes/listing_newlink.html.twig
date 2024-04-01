@@ -1,10 +1,10 @@
 {# @publications/includes/listing_newlink.html.twig #}
 
 {% block listing_newlink %}
-{% if layout == 'publications-admin' %}
-        <xar:access level="600">
+    {% if layout == 'publications-admin' %}
+        {% if xar_access({'level': 600}) %}
             {% set link = xar_moduleurl('publications','admin','new',{'ptid': object.properties['itemtype'].defaultvalue, 'tplmodule': module}) %}
-            {% if xar_modvar('publications', 'use_module_icons') %}
+            {% if xar_modulevar('publications', 'use_module_icons') %}
                 <a href="{{ link }}" title="{{ xar_translate('Add A New Publication') }}" style="margin-right: 5px">
                     <img src="{{ xar_imageurl('icons/document-new.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Add') }}"/>
                 </a>
@@ -13,11 +13,11 @@
                     Add A New Publication
                 </a>
             {% endif %}
-        </xar:access>
+        {% endif %}
     {% else %}
-        <xar:access level="600">
+        {% if xar_access({'level': 600}) %}
             {% set link = xar_moduleurl('publications','user','new',{'ptid': object.properties['itemtype'].defaultvalue, 'tplmodule': module}) %}
-            {% if xar_modvar('publications', 'use_module_icons') %}
+            {% if xar_modulevar('publications', 'use_module_icons') %}
                 <a href="{{ link }}" title="{{ xar_translate('Add A New Publication') }}" style="margin-right: 5px">
                     <img src="{{ xar_imageurl('icons/document-new.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Add') }}"/>
                 </a>
@@ -26,6 +26,6 @@
                     Add A New Publication
                 </a>
             {% endif %}
-        </xar:access>
+        {% endif %}
     {% endif %}
 {% endblock %}

@@ -73,15 +73,15 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="xar-form-label help" title="{{ {{ xar_translate('Choose the state (e.g. Approved, Front Page) }} for the featured items.') }}" for="state{{ blockid }}"> 
+            <label class="xar-form-label help" title="{{ xar_translate('Choose the state (e.g. Approved, Front Page) for the featured items.') }}" for="state{{ blockid }}"> 
                 Status             
             </label>
         </div>
         <div class="xar-col">
             {% set options = [
-                    {'id': '2, 3': , 'name': {{ xar_translate('All Published') }}},
-                    {'id': '3', 'name': {{ xar_translate('Frontpage') }}},
-                    {'id': '2', 'name': {{ xar_translate('Approved') }}}
+                    {'id': '2, 3', 'name': xar_translate('All Published')},
+                    {'id': '3', 'name': xar_translate('Frontpage')},
+                    {'id': '2', 'name': xar_translate('Approved')}
                 ] %}        
             {{ xar_data_input({type: "dropdown", name: "pubstate", options: options, value: pubstate}) }}
         </div>
@@ -168,11 +168,11 @@
         </div>
         <div class="xar-col">
             {% set options = [
-                    {'id': 'author', 'name': {{ xar_translate('Author') }}},
-                    {'id': 'date', 'name': {{ xar_translate('Date') }}},
-                    {'id': 'hits', 'name': {{ xar_translate('Hit Count') }}},
-                    {'id': 'rating', 'name': {{ xar_translate('Rating') }}},
-                    {'id': 'title', 'name': {{ xar_translate('Title') }}}
+                    {'id': 'author', 'name': xar_translate('Author')},
+                    {'id': 'date', 'name': xar_translate('Date')},
+                    {'id': 'hits', 'name': xar_translate('Hit Count')},
+                    {'id': 'rating', 'name': xar_translate('Rating')},
+                    {'id': 'title', 'name': xar_translate('Title')}
                 ] %}        
             {{ xar_data_input({type: "dropdown", name: "sortoptions", options: options, value: toptype}) }}
             &#160;Hook Hitcount or Ratings to Publications to use these sort types

@@ -60,7 +60,7 @@
 
             <div class="xar-form-input-wrapper">
                 <div class="xar-form-input-wrapper-after">
-                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" />
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_security_authkey() }}" />
                     <input type="hidden" name="ptid" id="ptid" value="{{ ptid }}" />
                     {# <!-- The return_url can be set here to return to another page that the admin-view one --> #}
                     {% set label = 'Preview' %}

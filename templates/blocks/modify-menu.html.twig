@@ -14,9 +14,9 @@
                 Source of the current page:            
             </label>
             {% set options = [
-                    {'id': 'AUTO', 'name': {{ xar_translate('Automatic - set by the current module') }}},
-                    {'id': 'AUTODEFAULT', 'name': {{ xar_translate('Automatic - use default outside roots') }}},
-                    {'id': 'DEFAULT', 'name': {{ xar_translate('Default - force use of the default page') }}},
+                    {'id': 'AUTO', 'name': xar_translate('Automatic - set by the current module')},
+                    {'id': 'AUTODEFAULT', 'name': xar_translate('Automatic - use default outside roots')},
+                    {'id': 'DEFAULT', 'name': xar_translate('Default - force use of the default page')},
                 ] %}
             {% set id = 'current_source_' ~ bid %}
             {{ xar_data_input({type: "dropdown", name: "current_source", id: id, value: current_source, options: options}) }}
@@ -37,7 +37,7 @@
                     {% else %}
                         <option value="{{ loop_item1.id }}">{{ loop_item1.slash_separated }}</option>
                     {% endif %}
-                </xar:loop>
+                {% endfor %}
             </select>
         </div>
 
@@ -55,19 +55,19 @@
             </label>
             <select name="new_root_id" id="new_root_id_{{ bid }}">
                 <option value="0" selected="selected">-- None --</option>
-                {% for loop_key2, loop_item2 in all_pages.pages %}{% set loop_index2 = loop.index %}
+                {% for loop_key1, loop_item1 in all_pages.pages %}{% set loop_index1 = loop.index %}
                     <option value="{{ loop_item1.id }}">{{ loop_item1.slash_separated }}</option>
-                </xar:loop>
+                {% endfor %}
             </select>
         </div>
 
         {# <!-- Existing root ids to removed --> #}
         <div class="xar-form-input-wrapper">
             <label for="remove_root_id_{{ bid }}" title="{{ xar_translate('Remove root pages') }}" class="xar-form-label">            
-                {% for loop_key3, loop_item3 in root_ids %}{% set loop_index3 = loop.index %}
+                {% for loop_key1, loop_item1 in root_ids %}{% set loop_index1 = loop.index %}
                     {% if not loop_key1 %}
                         <xar:continue/>
-                    {% endif %}
+                    {% else %}
                     <div>
                         <input name="remove_root_id[]" type="checkbox" value="{{ loop_key1 }}" id="remove_root_id_{{ bid }}_{{ loop_key1 }}"/>
                         &#160;
@@ -75,6 +75,7 @@
                             {{ xar_translate('Remove #(1)', xar_prep_display(loop_item1)) }}
                         </label>
                     </div>
+                    {% endif %}
                 {% endfor %}
             </label>
         </div>
@@ -115,7 +116,7 @@
             </label>
             <select name="new_prune_id" id="new_prune_id_{{ bid }}">
                 <option value="0" selected="selected">-- None --</option>
-                <xar:loop name="$all_pages.pages">
+                {% for loop_key1, loop_item1 in all_pages.pages %}{% set loop_index1 = loop.index %}
                     <option value="{{ loop_item1.id }}">{{ loop_item1.slash_separated }}</option>
                 {% endfor %}
             </select>
@@ -124,10 +125,10 @@
             {# <!-- Existing pruning ids to removed --> #}
         <div class="xar-form-input-wrapper">
             <label for="remove_prune_id_{{ bid }}" title="{{ xar_translate('Remove pruning pages') }}" class="xar-form-label">            
-                <xar:loop name="$prune_ids">
+                {% for loop_key1, loop_item1 in prune_ids %}{% set loop_index1 = loop.index %}
                     {% if not loop_key1 %}
                         <xar:continue/>
-                    {% endif %}
+                    {% else %}
                     <div>
                         <input name="remove_prune_id[]" type="checkbox" value="{{ loop_key1 }}" id="remove_prune_id_{{ bid }}_{{ loop_key1 }}"/>
                         &#160;
@@ -135,6 +136,7 @@
                             {{ xar_translate('Remove #(1)', xar_prep_display(loop_item1)) }}
                         </label>
                     </div>
+                    {% endif %}
                 {% endfor %}
             </label>
         </div>

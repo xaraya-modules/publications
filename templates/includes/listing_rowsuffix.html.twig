@@ -5,80 +5,80 @@
         {% set layout = 'publications-user' %}
     {% endif %}
     {% if (layout == 'publications-user') or (layout == 'default') %}
-        {% if xar_coremethod('xarUser', 'isLoggedIn') %}
+        {% if xar_userid() %}
             <td style="text-align: center;" nowrap="nowrap">
-                <xar:access level="500">
+                {% if xar_access({'level': 500}) %}
                     <a href="{{ xar_moduleurl(module, 'user', 'modify', {'name': objectname, 'itemid': loopitem[primaryalias]}) }}" title="{{ xar_translate('Modify this item') }}" style="margin-right: 5px">
-                        <img src="{{ xar_imageurl('icons/'.'modify.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Modify') }}"/>
+                        <img src="{{ xar_imageurl('icons/' ~ 'modify.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Modify') }}"/>
                     </a>
-                </xar:access>
-                <xar:access level="700">
+                {% endif %}
+                {% if xar_access({'level': 700}) %}
                     <a href="{{ xar_moduleurl(module, 'user', 'delete', {'name': objectname, 'itemid': loopitem[primaryalias]}) }}" title="{{ xar_translate('Delete this item') }}" style="margin-right: 5px">
-                        <img src="{{ xar_imageurl('icons/'.'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete') }}"/>
+                        <img src="{{ xar_imageurl('icons/' ~ 'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete') }}"/>
                     </a>
-                </xar:access>
-                <xar:access level="200">
+                {% endif %}
+                {% if xar_access({'level': 200}) %}
                     <a href="{{ xar_moduleurl(module, 'user', 'display', {'name': objectname, 'itemid': loopitem[primaryalias]}) }}" title="{{ xar_translate('Display this item') }}" style="margin-right: 5px">
-                        <img src="{{ xar_imageurl('icons/'.'display.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Display') }}"/>
+                        <img src="{{ xar_imageurl('icons/' ~ 'display.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Display') }}"/>
                     </a>
-                </xar:access>
+                {% endif %}
                 <input type="checkbox" name="optionscheckbox" id="{{ loopitem[primaryalias] }}"  />
             </td>
         {% endif %}
     {% elseif (layout == 'publications-admin') %}
-        {% if xar_coremethod('xarUser', 'isLoggedIn') %}
+        {% if xar_userid() %}
             <td style="text-align: center;" nowrap="nowrap">
-                <xar:access level="500">
+                {% if xar_access({'level': 500}) %}
                     {% set link = xar_moduleurl(module, 'admin', 'modify', {'name': objectname, 'itemid': loopitem[primaryalias]}) %}
-                    {% if xar_modvar('publications', 'use_module_icons') %}
+                    {% if xar_modulevar('publications', 'use_module_icons') %}
                         <a href="{{ link }}" title="{{ xar_translate('Modify this publication') }}" style="margin-right: 5px">
-                            <img src="{{ xar_imageurl('icons/'.'modify.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Modify Publication') }}"/>
+                            <img src="{{ xar_imageurl('icons/' ~ 'modify.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Modify Publication') }}"/>
                         </a>
                     {% else %}
                         <a href="{{ link }}">
                             Modify
                         </a>
                     {% endif %}
-                </xar:access>
-                <xar:access level="700">
+                {% endif %}
+                {% if xar_access({'level': 700}) %}
                     {% set link = xar_moduleurl(module, 'admin', 'clone', {'name': objectname, 'itemid': loopitem[primaryalias]}) %}
-                    {% if xar_modvar('publications', 'use_module_icons') %}
+                    {% if xar_modulevar('publications', 'use_module_icons') %}
                         <a href="{{ link }}" title="{{ xar_translate('Clone this publication') }}" style="margin-right: 5px">
-                            <img src="{{ xar_imageurl('icons/'.'add.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Clone Publication') }}"/>
+                            <img src="{{ xar_imageurl('icons/' ~ 'add.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Clone Publication') }}"/>
                         </a>
                     {% else %}
                         <a href="{{ link }}">
                             Clone
                         </a>
                     {% endif %}
-                </xar:access>
-                <xar:access level="700">
+                {% endif %}
+                {% if xar_access({'level': 700}) %}
                     {% set link = xar_moduleurl(module, 'admin', 'delete', {'name': objectname, 'itemid': loopitem[primaryalias]}) %}
-                    {% if xar_modvar('publications', 'use_module_icons') %}
+                    {% if xar_modulevar('publications', 'use_module_icons') %}
                         <a href="{{ link }}" title="{{ xar_translate('Delete this publication') }}" style="margin-right: 5px">
-                            <img src="{{ xar_imageurl('icons/'.'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete Publication') }}"/>
+                            <img src="{{ xar_imageurl('icons/' ~ 'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete Publication') }}"/>
                         </a>
                     {% else %}
                         <a href="{{ link }}">
                             Delete
                         </a>
                     {% endif %}
-                </xar:access>
-                <xar:access level="200">
+                {% endif %}
+                {% if xar_access({'level': 200}) %}
                     {% set link = xar_moduleurl(module, 'admin', 'display', {'name': objectname, 'itemid': loopitem[primaryalias]}) %}
-                    {% if xar_modvar('publications', 'use_module_icons') %}
+                    {% if xar_modulevar('publications', 'use_module_icons') %}
                         <a href="{{ link }}" title="{{ xar_translate('Display this publication') }}" style="margin-right: 5px">
-                            <img src="{{ xar_imageurl('icons/'.'display.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Display Publication') }}"/>
+                            <img src="{{ xar_imageurl('icons/' ~ 'display.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Display Publication') }}"/>
                         </a>
                     {% else %}
                         <a href="{{ link }}">
                             Display
                         </a>
                     {% endif %}
-                </xar:access>
-                <xar:access level="800">
+                {% endif %}
+                {% if xar_access({'level': 800}) %}
                     {% set link = xar_moduleurl(module, 'admin', 'templates_page', {'ptid': loopitem['itemtype'], 'itemid': loopitem[primaryalias]}) %}
-                    {% if xar_modvar('publications', 'use_module_icons') %}
+                    {% if xar_modulevar('publications', 'use_module_icons') %}
                         <a href="{{ link }}" title="{{ xar_translate('Manage templates of this item') }}" style="margin-right: 5px">
                             <img src="{{ xar_imageurl('template.png','publications') }}" width="16" height="16" alt="{{ xar_translate('Manage Templates') }}"/>
                         </a>
@@ -87,10 +87,10 @@
                             Templates
                         </a>
                     {% endif %}
-                </xar:access>
-                <xar:access level="700">
+                {% endif %}
+                {% if xar_access({'level': 700}) %}
                     <input type="checkbox" name="optionscheckbox" id="{{ loopitem[primaryalias] }}"  />
-                </xar:access>
+                {% endif %}
             </td>
         {% endif %}
     {% elseif layout == 'pubtypes' %}
@@ -103,7 +103,7 @@
                 </a>
             {% endif %}
             {% if xar_security_check('ManagePublications') %}
-                {% if xar_modvar('publications', 'defaultpubtype') == ptid %}
+                {% if xar_modulevar('publications', 'defaultpubtype') == ptid %}
                     <img src="{{ xar_imageurl('icons/delete.png','base') }}" style="margin-right: 5px"/>
                 {% else %}
                     <a href="{{ xar_moduleurl('publications','admin','delete_pubtype',{'itemid': ptid, 'name': 'objects'}) }}" title="{{ xar_translate('Delete this publication type') }}" style="margin-right: 5px">                    

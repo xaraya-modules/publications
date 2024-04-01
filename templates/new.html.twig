@@ -32,7 +32,7 @@
                     {{ xar_data_input({name: "ptid", type: "objectref", refobject: "publications_types", store_prop: "id", display_prop: "description", value: ptid, onchange: onchange}) }}
                 </div>
                 <div class="xar-col" style="text-align: right; min-width: 40%">
-                    {% set type = xar_coremethod('xarController', 'getRequest').getInfo() %}
+                    {% set type = xar_request().getInfo() %}
                     <a href="{{ xar_moduleurl('publications', type[1] , 'view' , {'ptid': ptid}) }}">
                         Publications List
                     </a>
@@ -68,7 +68,7 @@
                 <div class="xar-col">
                 </div>
                 <div class="xar-col">
-                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}"/>
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_security_authkey() }}"/>
                     <input type="hidden" name="ptid" id="ptid" value="{{ ptid }}" />
                     {# <!-- The return_url can be set here to return to another page that the admin-view one --> #}
                     {% set label = 'Preview' %}

@@ -3,7 +3,7 @@
 {% block navtabs %}
 {{ xar_javascript({module: "publications", filename: "tabs.js"}) }}
     {{ xar_style({scope: "module", module: "base", file: "navtabs"}) }}
-    {% set object = xar_coremethod('DataObjectFactory','getObjectList',{'name': 'publications_types'}) %}
+    {% set object = xar_data_objectlist({'name': 'publications_types'}) %}
     {% set items = object.getItems() %}
 
     <dl class="xar-tabs">

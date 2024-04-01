@@ -14,7 +14,7 @@
 
         {# <!-- Provide an edit link if we have privileges --> #}
         {% if xar_security_check('EditPublications', 0) %}
-            [<a href="{{ xar_moduleurl('publications','admin','modify',{'id': id, 'ptid': current_page.ptid, 'return_url': xar_coremethod('xarServer','getCurrentURL',[], false): }) }}">edit</a>]
+            [<a href="{{ xar_moduleurl('publications','admin','modify',{'id': id, 'ptid': current_page.ptid, 'return_url': xar_coremethod('xarServer','getCurrentURL',[], false)}) }}">edit</a>]
         {% endif %}
     </div>
 {% endblock %}

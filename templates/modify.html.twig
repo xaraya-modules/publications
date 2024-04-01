@@ -14,7 +14,7 @@
             Modify Document {{ xar_data_output({property: properties['title']}) }}
         </h2>
         <div style="float:right">
-            {% set type = xar_coremethod('xarController', 'getRequest').getInfo() %}
+            {% set type = xar_request().getInfo() %}
             <a href="{{ xar_moduleurl('publications', type[1], 'view', {'ptid': ptid}) }}">
                 Publications List
             </a>
@@ -41,7 +41,7 @@
                 {% set dummy = object.setFieldPrefix(key) %}
                 
                 {# <!-- Add the itemid as a reference for e.g. position, categories --> #}
-                {% set dummy = object.itemid = key %}
+                {{ xar_set(object.itemid, key) }}
 
                 {% if tab == 'preview' and index == 0 %}
                     {% set visible = ['none','none','block'] %}
@@ -73,7 +73,7 @@
             
             <div class="xar-form-input-wrapper">
                 <div class="xar-form-container-after">
-                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}" />
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_security_authkey() }}" />
                     <input type="hidden" name="itemid" id="itemid" value="{{ itemid }}" />
                     <input type="hidden" name="ptid" id="ptid" value="{{ ptid }}" />
                     <input type="hidden" name="returnurl" id="returnurl" value="{{ returnurl }}" />

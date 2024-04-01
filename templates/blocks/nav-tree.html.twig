@@ -2,7 +2,7 @@
 
 {% block nav_tree %}
 {% if catimage is not null and catimage %}
-  <img src="$catimage" />
+  <img src="{{ catimage }}" />
 {% endif %}
 {% if cattrees is not null and cattrees is iterable %}
 <ul class="xar-menu-section">

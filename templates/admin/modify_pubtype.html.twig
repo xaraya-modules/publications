@@ -13,7 +13,7 @@
                 <div class="xar-col">
                 </div>
                 <div class="xar-col">
-                    <input type="hidden" name="authid" id="authid" value="{{ xar_coremethod('xarSec', 'genAuthKey') }}"/>
+                    <input type="hidden" name="authid" id="authid" value="{{ xar_security_authkey() }}"/>
                     <input type="hidden" name="name" id="name" value="{{ object.name }}"/>
                     <input type="hidden" name="itemid" id="itemid" value="{{ object.itemid }}"/>
                     <input type="hidden" name="confirm" id="confirm" value="true"/>

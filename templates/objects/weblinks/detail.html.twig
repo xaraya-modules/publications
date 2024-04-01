@@ -16,14 +16,14 @@
                 <td align="left" colspan="2" class="xar-normal">
                     {# <!-- <a class="xar-title" href="{{ redirect }}"> --> #}
                     
-                    <a class="xar-title" href="{{ ">
+                    <a class="xar-title" href="#">
                         <xar.data-output property="properties['title']" />
                     </a>
 
-                    {# <!-- Edit icons if allowed -.
+                    {# <!-- Edit icons if allowed --> #}
                     {{ include('@publications/includes/editicons.html.twig') }}
             
-                    {# <!-- Print button -.
+                    {# <!-- Print button --> #}
                     {{ include('@publications/includes/print.html.twig') }}
                 <br />
                 </td>
@@ -68,7 +68,7 @@
                 </td>
                 <td align="left">
                     {% if profile %}
-                        <a href=" }}$profile{{ ">
+                        <a href="{{ profile }}">
                             <xar.data-output property="properties['author']" />
                         </a>
                         {% else %}
@@ -81,22 +81,22 @@
                     <td align="right">
                         Hits.
                     </td>
-                    <td align="left"> }}$counter{{ </td>
+                    <td align="left">{{ counter }}</td>
                 </tr>
             {% endif %}
         </table>
 
-        {# <!-- Link to previous or next -.
+        {# <!-- Link to previous or next --> #}
         <div class="xar-normal xar-align-right xar-padding-thick">
-            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', 'Publications', 'prevpublication') %}
             {% if prevpublication %}
                 {% set prev = 'Previous' %}
-                <a href=" }}xarController::URL('publications', 'user', 'display', ['itemid' => $prevpublication['id']]){{ " title=" }}$prev{{ ">
-                    {{- xar_image({scope. "theme", file. "icons/go-previous.png", class. "xar-icon", alt. prev}) -}}
+                <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
+                    {{- xar_image({scope: "theme", file: "icons/go-previous.png", class: "xar-icon", alt: prev}) -}}
                 </a>
             {% endif %}
-            & }}160;
-            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+            &#160;
+            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', 'Publications', 'nextpublication') %}
             {% if nextpublication %}
                 {% set next = 'Next' %}
                 <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">

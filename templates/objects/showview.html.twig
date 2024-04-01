@@ -8,9 +8,9 @@
         {{ object.label }}
         <span style="float: right">
             {% if xar_security_check('ManagePublications') %}
-                {% set type = xar_coremethod('xarController', 'getRequest').getInfo() %}
+                {% set type = xar_request().getInfo() %}
                 {% set label = 'Create a new publication' %}
-                <a href="{{ xar_moduleurl('publications', type{1]: , 'new': , ['name': object.name}) }}" style="float:right; margin-right: 10px" title="{{ label }}">
+                <a href="{{ xar_moduleurl('publications', type[1], 'new', {'name': object.name}) }}" style="float:right; margin-right: 10px" title="{{ label }}">
                     <img src="{{ xar_imageurl('icons/document-new.png','base') }}"/>
                 </a>
             {% endif %} 
@@ -32,7 +32,7 @@
     {% endif %}
     
     {# <!-- Get an access object to use for checking access --> #}
-    {% set access = xar_coremethod('DataPropertyMaster','getProperty',{'name': 'access'}) %}
+    {% set access = xar_data_property({'name': 'access'}) %}
     
     {% if not items %}
         Nothing to display
@@ -50,6 +50,7 @@
         {# <!-- If no access, then just move on --> #}
             {% if not allowed %}
                 <xar:continue/>
+            {% else %}
             {% endif %}
         
         {# <!-- Access allowed; now figure out which template to use --> #}

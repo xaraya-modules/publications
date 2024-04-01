@@ -7,7 +7,7 @@
         {% set tab = '' %}
     {% endif %}
     {% set index = 0 %}
-    {% set allow_translations = xar_modvar('publications', 'multilanguage') %}
+    {% set allow_translations = xar_modulevar('publications', 'multilanguage') %}
     {% if allow_translations and properties['id'].value %}
         <div style="float:right" id="newtranslation">
             {% if layout == 'publications-admin' %}
@@ -31,7 +31,7 @@
             {% set index = index + 1 %}
             <li id="tab-{{ index }}">
                 <a id="href-{{ index }}" href="javascript:showtab({{ index }},{{ tabs }})">
-                    {% if xar_modvar('publications', 'multilanguage') %}
+                    {% if xar_modulevar('publications', 'multilanguage') %}
                         {% if not item['id'] %}
                             New:
                         {% else %}
@@ -56,7 +56,7 @@
             {% set index = index + 1 %}
             <li id="tab-{{ index }}">
                 <a id="href-{{ index }}" href="javascript:showtab({{ index }},{{ tabs }})">
-                    {% if xar_modvar('publications', 'multilanguage') %}
+                    {% if xar_modulevar('publications', 'multilanguage') %}
                         {% if not item['id'] %}
                             New:
                         {% else %}

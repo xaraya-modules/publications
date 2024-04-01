@@ -4,19 +4,18 @@
 <tr>
         {% set paramarray = {'op': 'column'} %}
         {% if letter %}
-            {% set dummy = 1;paramarray['letter'] = letter %}
+            {% set paramarray = paramarray|merge({'letter': letter}) %}
         {% endif %}
         {{ include('@' ~ module ~ '/includes/listing_headerprefix.html.twig') }}
         {% for field in fieldnames|keys %}
             {% set column = fieldnames[field] %}
-            {% set dummy = 1;paramarray['order'] = column %}
+            {% set paramarray = paramarray|merge({'order': column}) %}
             {% if (column == primaryalias) and not show_primary %}
                 <xar:continue />
-            {% endif %}
+            {% elseif layout == 'publications-admin' and column == 'itemtype' %}
                 {# <!-- Don't show the itemtypein the admin view --> #}
-                {% if layout == 'publications-admin' and column == 'itemtype' %}
-                    <xar:continue />
-                {% endif %}
+                <xar:continue />
+            {% else %}
             <th>
                 {% set url = xar_currenturl(paramarray) %}
                 <a href="{{ url }}" class="refresh_listing" alt="Click to order by this field" title="Order by {{ column }}">
@@ -25,6 +24,7 @@
                 {% set subdata = array_merge(params,{'column': column}) %}
                 {{ include('@' ~ module ~ '/includes/sortarrows.html.twig', subdata) }}
             </th>
+            {% endif %}
         {% endfor %}
         {{ include('@' ~ module ~ '/includes/listing_headersuffix.html.twig') }}
     </tr>

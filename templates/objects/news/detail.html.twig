@@ -28,12 +28,11 @@
 
         <div class="xar-sub">
             {% if profile %}
-                <xar:set name="author_string">'
-                <a href="'.$profile.'">' . $properties['author']->getValue() . '</a>'</xar:set>
+                {% set author_string = '<a href="' ~ profile ~ '">' ~ properties['author'].getValue() ~ '</a>' %}
             {% else %}
                 {% set author_string = properties['author'].getValue() %}
             {% endif %}
-            {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(properties['created'].value,, 'long', ''), xar_localedate(properties['created'].value,, '', 'long')) }}
+            {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(properties['created'].value, 'long', ''), xar_localedate(properties['created'].value, '', 'long')) }}
             {% if counter %}
                 {{ xar_translate('(#(1) Reads)', counter) }}
             {% endif %}
@@ -69,7 +68,7 @@
         
         {# <!-- Link to previous or next --> #}
         <div class="xar-normal xar-align-right xar-padding-thick">
-            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'prevpublication']) %}
+            {% set prevpublication = xar_coremethod('xarCoreCache', 'getCached', 'Publications', 'prevpublication') %}
             {% if prevpublication %}
                 {% set prev = 'Previous' %}
                 <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': prevpublication['id']}) }}" title="{{ prev }}">
@@ -77,7 +76,7 @@
                 </a>
             {% endif %}
             &#160;
-            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', ['Publications', 'nextpublication']) %}
+            {% set nextpublication = xar_coremethod('xarCoreCache', 'getCached', 'Publications', 'nextpublication') %}
             {% if nextpublication %}
                 {% set next = 'Next' %}
                 <a href="{{ xar_moduleurl('publications', 'user', 'display', {'itemid': nextpublication['id']}) }}" title="{{ next }}">

@@ -2,7 +2,7 @@
 
 {% block summary %}
 {# <!-- Get the settings of this publication type --> #}
-    {% set settings = xar_coremethod('xarCoreCache', 'getCached', ['publications', 'settings_' ~ object.properties['itemtype'].value]) %}
+    {% set settings = xar_coremethod('xarCoreCache', 'getCached', 'publications', 'settings_' ~ object.properties['itemtype'].value) %}
     
     {# <!-- Load the stylesheet for this publication type --> #}
     {{ xar_style({method: "import", module: "publications", file: "translation", title: "Translation Stylesheet"}) }}

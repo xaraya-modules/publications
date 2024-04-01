@@ -45,9 +45,9 @@
             Status             
         </label>
         {% set options = [
-                {'id': '2, 3': , 'name': {{ xar_translate('All Published') }}},
-                {'id': '3', 'name': {{ xar_translate('Frontpage') }}},
-                {'id': '2', 'name': {{ xar_translate('Approved') }}}
+                {'id': '2, 3', 'name': xar_translate('All Published')},
+                {'id': '3', 'name': xar_translate('Frontpage')},
+                {'id': '2', 'name': xar_translate('Approved')}
             ] %}        
         {{ xar_data_input({type: "dropdown", name: "stateoptions", options: options, value: state}) }}
     </div>
@@ -103,7 +103,7 @@
             Show submit link             
         </label> 
     </div>
-    {% if xar_coremethod('xarModHooks', 'isHooked', ['dynamicdata','publications',pubtype_id]) %}
+    {% if xar_coremethod('xarModHooks', 'isHooked', 'dynamicdata','publications',pubtype_id) %}
         <div class="xar-form-input-wrapper-after">
             {{ xar_data_input({type: "checkbox", name: "showdynamic", checked: showdynamic}) }}
             <label class="help" title="{{ xar_translate('Select this if you wish to show the dynamic data that you have included for your publication types.') }}" for="showdynamic{{ blockid }}"> 

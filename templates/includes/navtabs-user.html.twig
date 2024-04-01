@@ -3,27 +3,30 @@
 {% block navtabs_user %}
 {% if settings['show_map'] or settings['show_archives'] or settings['showsubmit'] %}
         {{ xar_style({scope: "module", module: "base", file: "navtabs"}) }}
+        {% if ptid is not defined %}
+            {% set ptid = null %}
+        {% endif %}
         <dl class="xar-tabs">
             <dt class="help">
                 Options                 : 
             </dt>
             {% if settings['show_map'] %}
                 <dd>
-                    <a href="{{ xar_moduleurl('publications', 'user', 'viewmap', {'ptid': !empty(ptid) ? ptid : null}) }}">
+                    <a href="{{ xar_moduleurl('publications', 'user', 'viewmap', {'ptid': ptid}) }}">
                         View Publication Map
                     </a>
                 </dd>
             {% endif %}
             {% if settings['showsubmit'] %}
                 <dd>
-                    <a href="{{ xar_moduleurl('publications', 'admin', 'new', {'ptid': !empty(ptid) ? ptid : null}) }}" title="Submit Publication">
+                    <a href="{{ xar_moduleurl('publications', 'admin', 'new', {'ptid': ptid}) }}" title="Submit Publication">
                         Contribute 
                     </a>
                 </dd>
             {% endif %}
             {% if settings['show_archives'] %}
                 <dd>
-                    <a href="xarController::URL('publications', 'user', 'archive', ['ptid' => !empty($ptid) ? $ptid : null])">
+                    <a href="{{ xar_moduleurl('publications', 'user', 'archive', {'ptid': ptid}) }}">
                         View Archives
                     </a>
                 </dd>

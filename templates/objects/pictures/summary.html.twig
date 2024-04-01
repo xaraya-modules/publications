@@ -14,7 +14,7 @@
 
     <div id="main-content">
         <ul>
-            {% if xar_coremethod('xarModHooks', 'isHooked', ['uploads','publications',fields['itemtype']]) and body|slice(0,1) == ';' %}
+            {% if xar_coremethod('xarModHooks', 'isHooked', 'uploads','publications',fields['itemtype']) and body|slice(0,1) == ';' %}
         
                 {{ include('@publications/includes/editicons.html.twig') }}
         
@@ -22,7 +22,7 @@
                 {% for fileId, fileInfo in img_output %}
                     <li>
                         <a class="xar-title" href="{{ xar_moduleurl('publications','user','display',{'itemid': properties['id'].value, 'ptid': properties['itemtype'].value}) }}">
-                            {% if xar_coremethod('xarMod', 'isAvailable', ['images']) %}
+                            {% if xar_coremethod('xarMod', 'isAvailable', 'images') %}
                                 {% set file = fileInfo %}
                                 {{ include('@publications/includes/picture-thumbnail.html.twig') }}
                             {% else %}

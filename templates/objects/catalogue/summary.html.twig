@@ -25,8 +25,7 @@
         {{ include('@publications/includes/editicons.html.twig') }}
 
         {% if profile %}
-            <xar:set name="author_string">'
-            <a href="'.$profile.'">' . $properties['author']->getValue() . '</a>'</xar:set>
+            {% set author_string = '<a href="' ~ profile ~ '">' ~ properties['author'].getValue() ~ '</a>' %}
         {% else %}
             {% set author_string = properties['author'].getValue() %}
         {% endif %}
@@ -39,7 +38,7 @@
                     <img src="{{ imagepath }}" style="margin-right: 25px; vertical-align:text-top; border: 1px dotted gray" />
                 </div>
                 <div class="xar-publications-catalogue-author-text ">
-                    {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(fields['created'],, 'long', ''), xar_localedate(fields['created'],, '', 'long')) }}
+                    {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(fields['created'], 'long', ''), xar_localedate(fields['created'], '', 'long')) }}
                     {% if counter %}
                         {{ xar_translate('(#(1) Reads)', counter) }}
                     {% endif %}
@@ -50,7 +49,7 @@
             </div>
         {% else %}
             <div class="xar-publications-catalogue-author-text ">
-                {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(fields['created'],, 'long', ''), xar_localedate(fields['created'],, '', 'long')) }}
+                {{ xar_translate('Posted by: #(1) on #(2) #(3)', author_string, xar_localedate(fields['created'], 'long', ''), xar_localedate(fields['created'], '', 'long')) }}
                 {% if counter %}
                     {{ xar_translate('(#(1) Reads)', counter) }}
                 {% endif %}

@@ -10,7 +10,7 @@
             {% for i in range(ord('A'), ord('Z')) %}
                 {% set curletter = chr(i) %}
 
-                {% if letter and (letter == strtolower(curletter)) %}
+                {% if letter and (letter == curletter|lower) %}
                     <span>{{ curletter }}</span>
                 {% else %}
                     <a href="{{ xar_currenturl({'letter': curletter, 'startnum': null, 'q': null}) }}">{{ curletter }}</a>

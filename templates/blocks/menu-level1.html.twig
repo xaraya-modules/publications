@@ -9,6 +9,6 @@
     {% if not max_level %}
         {% set max_level = 0 %}
     {% endif %}
-
-    <xar:template file="menu-level1" subdata="['parent'=>$root_page,'pages'=>$pages,'max_level'=>$max_level]"/>
+    {% set subdata = {'parent': root_page,'pages': pages,'max_level': max_level} %}
+    {{ include('@publications/blocks/menu-level1.html.twig', subdata) }}
 {% endblock %}

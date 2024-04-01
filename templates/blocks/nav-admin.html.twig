@@ -15,7 +15,7 @@
                     {{ loop_item1['name'] }}
                 </option>
             {% endif %}
-        </xar:loop>
+        {% endfor %}
     </select>
 </div>
 <div class="xar-form-input-wrapper">
@@ -25,7 +25,7 @@
     {% set optgroup = 0 %}
     {# <!--  Review this!!
     <select name="startmodule" id="startmodule{{ blockid }}">
-        {% for loop_key2, loop_item2 in modules %}{% set loop_index2 = loop.index %}
+        {% for loop_key1, loop_item1 in modules %}{% set loop_index1 = loop.index %}
             {% if loop_item1.label %}
                 {% if optgroup %}
                 </optgroup>
@@ -43,7 +43,7 @@
                     </option>
                 {% endif %}
             {% endif %}
-        </xar:loop>
+        {% endfor %}
         {% if optgroup %}
         </optgroup>
     {% endif %}
@@ -75,7 +75,7 @@
         Show count per category        
     </label>
     <select name="show_catcount" id="show_catcount{{ blockid }}">
-        <xar:loop name="$catcounts">
+        {% for loop_key1, loop_item1 in catcounts %}{% set loop_index1 = loop.index %}
             {% if show_catcount == loop_item1['id'] %}
                 <option value="{{ loop_item1['id'] }}" selected="selected">
                     {{ loop_item1['name'] }}
@@ -93,7 +93,7 @@
         Show children        
     </label>
     <select name="showchildren" id="showchildren{{ blockid }}">
-        <xar:loop name="$children">
+        {% for loop_key1, loop_item1 in children %}{% set loop_index1 = loop.index %}
             {% if showchildren == loop_item1['id'] %}
                 <option value="{{ loop_item1['id'] }}" selected="selected">
                     {{ loop_item1['name'] }}

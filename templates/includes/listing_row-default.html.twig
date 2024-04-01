@@ -12,7 +12,7 @@
                 {% set column = columns[field] %}
                 {% if field == primaryalias and not show_primary %}
                     <xar:continue />
-                {% endif %}
+                {% else %}
                 <td>
                     {% if field == keyfieldalias and xar_security_check('ReadPublications',0) %}
                         <a href="{{ xar_moduleurl('publications','user','display',{'itemid': loopitem[primaryalias], 'name': objectname, 'tplmodule': module}) }}">
@@ -22,6 +22,7 @@
                         {{ xar_data_output({property: properties[column], value: value}) }}
                     {% endif %}
                 </td>
+                {% endif %}
             {% endfor %}
 
             {{ include('@' ~ module ~ '/includes/listing_rowsuffix.html.twig') }}
@@ -34,13 +35,12 @@
                 {% set column = columns[field] %}
                 {% if field == primaryalias and not show_primary %}
                     <xar:continue />
-                {% endif %}
-                {# <!-- Don't show the itemtype. We only added it because we need the value --> #}
-                {% if column == 'itemtype' %}
+                {% elseif column == 'itemtype' %}
+                    {# <!-- Don't show the itemtype. We only added it because we need the value --> #}
                     <xar:continue />
-                {% endif %}
+                {% else %}
                 <td>
-                    {% if xar_coremethod('xarUser', 'isLoggedIn') and field == keyfieldalias and xar_security_check('EditPublications',0) %}
+                    {% if xar_userid() and field == keyfieldalias and xar_security_check('EditPublications',0) %}
                         <a href="{{ xar_moduleurl('publications','admin','display',{'itemid': loopitem[primaryalias], 'name': objectname, 'tplmodule': module}) }}">
                             {{ xar_data_output({property: properties[column], value: value}) }}
                         </a>
@@ -54,6 +54,7 @@
                         {% endif %}
                     {% endif %}
                 </td>
+                {% endif %}
             {% endfor %}
 
             {{ include('@' ~ module ~ '/includes/listing_rowsuffix.html.twig') }}
@@ -66,10 +67,11 @@
                 {% set column = columns[field] %}
                 {% if field == primaryalias and not show_primary %}
                     <xar:continue />
-                {% endif %}
+                {% else %}
                 <td>
                     {{ xar_data_output({property: properties[column], value: value}) }}
                 </td>
+                {% endif %}
             {% endfor %}
 
             {{ include('@' ~ module ~ '/includes/listing_rowsuffix.html.twig') }}

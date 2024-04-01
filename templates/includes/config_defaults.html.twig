@@ -8,7 +8,7 @@
             </label>
         </div>
         <div class="xar-col">
-            {% set value = xar_modvar('publications', 'show_pagetree') %}
+            {% set value = xar_modulevar('publications', 'show_pagetree') %}
             {{ xar_data_input({type: "checkbox", name: "show_pagetree", checked: value}) }}
         </div>
     </div>
@@ -19,7 +19,7 @@
             </label>
         </div>
         <div class="xar-col">
-            {% set value = xar_modvar('publications', 'show_bypubtype') %}
+            {% set value = xar_modulevar('publications', 'show_bypubtype') %}
             {{ xar_data_input({type: "checkbox", name: "show_bypubtype", checked: value}) }}
         </div>
     </div>
@@ -55,7 +55,7 @@
             </label>
         </div>
         <div class="xar-col">
-            {% set value = xar_modvar('publications', 'use_versions') %}
+            {% set value = xar_modulevar('publications', 'use_versions') %}
             {{ xar_data_input({type: "checkbox", name: "use_versions", checked: value}) }}
         </div>
     </div>
@@ -66,7 +66,7 @@
             </label>
         </div>
         <div class="xar-col">
-            {% set value = xar_modvar('publications', 'use_process_states') %}
+            {% set value = xar_modulevar('publications', 'use_process_states') %}
             {{ xar_data_input({type: "checkbox", name: "use_process_states", checked: value}) }}
         </div>
     </div>
@@ -81,7 +81,7 @@
                 </label>
             </div>
             <div class="xar-col">
-                {% set checked = xar_modvar('publications', 'fulltextsearch') %}
+                {% set checked = xar_modulevar('publications', 'fulltextsearch') %}
                 {{ xar_data_input({name: "fulltext", type: "checkbox", checked: checked}) }}&#160;
                 [<a href="http://dev.mysql.com/doc/refman/4.1/en/fulltext-restrictions.html">with restrictions</a>]
             </div>
@@ -95,11 +95,11 @@
         </div>
         <div class="xar-col">
             {% set options = [
-                    {'id': 0, 'name': {{ xar_translate('Only owner') }}},
-                    {'id': 1, 'name': {{ xar_translate('Owner or administrators') }}},
-                    {'id': 2, 'name': {{ xar_translate('Owner or designated site administrator') }}},
+                    {'id': 0, 'name': xar_translate('Only owner')},
+                    {'id': 1, 'name': xar_translate('Owner or administrators')},
+                    {'id': 2, 'name': xar_translate('Owner or designated site administrator')},
                 ] %}
-            {% set value = xar_modvar('publications', 'admin_override') %}
+            {% set value = xar_modulevar('publications', 'admin_override') %}
             {{ xar_data_input({name: "admin_override", type: "dropdown", options: options, value: value}) }}
         </div>
     </div>

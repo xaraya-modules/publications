@@ -39,7 +39,7 @@
                 {{ xar_data_label({property: properties['locale'], for: "id", label: label}) }}
             </div>
             <div class="xar-col">
-                {% if xar_modvar('publications', 'multilanguage') %}
+                {% if xar_modulevar('publications', 'multilanguage') %}
                     {{ xar_data_input({property: properties['locale']}) }}
                 {% else %}
                     {{ xar_data_output({property: properties['locale']}) }}
@@ -47,7 +47,7 @@
                 {% endif %}
             </div>
         </div>
-        {% set versions = xar_modvar('publications', 'use_versions') %}
+        {% set versions = xar_modulevar('publications', 'use_versions') %}
         {% if versions %}
             <div class="xar-row">
                 <div class="xar-col">
@@ -134,14 +134,14 @@
             <div class="xar-col">
                 {{ xar_data_input({property: properties['state']}) }}
                 &#160;
-                {% if properties['parent'].value not = 0 %}
+                {% if properties['parent'].value != 0 %}
                     <a href="{{ xar_moduleurl('publications','admin','delete_translation',{'itemid': properties['id'].value}) }}" title="{{ xar_translate('Delete this translation') }}" style="margin-right: 5px">
-                        <img src="{{ xar_imageurl('icons/'.'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete Translation') }}"/>
+                        <img src="{{ xar_imageurl('icons/' ~ 'delete.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Delete Translation') }}"/>
                     </a>
                 {% endif %}
             </div>
         </div>
-        {% set process = xar_modvar('publications', 'use_process_states') %}
+        {% set process = xar_modulevar('publications', 'use_process_states') %}
         {% if process %}
             <div class="xar-row">
                 <div class="xar-col">
@@ -211,11 +211,11 @@
             <div class="xar-row">
                 {% set firstline = '(current template)' %}
                 {% set firstline = ",firstline" %}
-                {% set this_theme = strtolower(properties['theme'].value) %}
+                {% set this_theme = properties['theme'].value|lower %}
                 {% if this_theme %}
                     {% set base_directory = "themes/" ~ this_theme ~ "/pages" %}
-                    {% set dummy = 1;properties['page_template'].initialization_basedirectory = base_directory %}
-                    {% set dummy = 1;properties['page_template'].getOptions() %}
+                    {{ xar_set(properties['page_template'], 'initialization_basedirectory', base_directory) }}
+                    {{ properties['page_template'].getOptions() }}
                 {% endif %}
                 <div class="xar-col">
                     {% set label = 'Page Template' %}
@@ -432,7 +432,7 @@
             <label class="xar-form-label help" title="{{ xar_translate('This is the allowed HTML that this website has configured.') }}">
                 Allowed HTML tags
             </label>
-            {% set tags = xar_coremethod('xarConfigVars', 'get', [null,'Site.Core.AllowableHTML']) %}
+            {% set tags = xar_configvar('Site.Core.AllowableHTML') %}
             <div class="xar-form-container-after">
                 {% set tagstring = "" %}
                 {% for key, value in tags %}

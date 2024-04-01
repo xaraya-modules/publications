@@ -3,7 +3,7 @@
 {% block util_menu %}
 {# <!-- Common Administration menu --> #}
 
-    {% set request = xar_coremethod('xarController', 'getRequest').getInfo() %}
+    {% set request = xar_request().getInfo() %}
     {% set activetab = request.2 %}
     {% set xmldata = 'utilities' %}
     {{ include('@base/includes/admin-menu-skel.html.twig') }}

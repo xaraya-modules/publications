@@ -1,7 +1,7 @@
 {# @publications/includes/listing_summaryline.html.twig #}
 
 {% block listing_summaryline %}
-{% set thispageno = items|length; %}
+{% set thispageno = items|length %}
     {% if not layout %}
         {% set layout = 'publications-user' %}
     {% endif %}
@@ -18,11 +18,11 @@
         </div>
     {% elseif layout == 'pubtypes' %}
         <div class="xar-floatright xar-padding-thick xar-halfwidth xar-align-right" style="padding-top:1em;">
-            <xar:access level="700">
+            {% if xar_access({'level': 700}) %}
                 {% set link = xar_moduleurl('dynamicdata','util','import') %}
-                {% if xar_modvar('publications', 'use_module_icons') %}
+                {% if xar_modulevar('publications', 'use_module_icons') %}
                     <a href="{{ link }}" title="{{ xar_translate('Import a Publication Type from XML ') }}" style="margin-right: 5px">
-                        <img src="{{ xar_imageurl('icons/'.'software-install.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Import') }}"/>
+                        <img src="{{ xar_imageurl('icons/' ~ 'software-install.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Import') }}"/>
                     </a>
                 {% else %}
                     <a href="{{ link }}" style="margin-right: 5px">
@@ -31,16 +31,16 @@
                 {% endif %}
                 {% set args = xar_coremethod('DataObjectDescriptor','getObjectID',{'name': 'publications_types'}) %}
                 {% set link = xar_moduleurl('dynamicdata','admin','new',{'objectid': args['objectid']}) %}
-                {% if xar_modvar('publications', 'use_module_icons') %}
+                {% if xar_modulevar('publications', 'use_module_icons') %}
                     <a href="{{ link }}" title="{{ xar_translate('Add A New Publication Type') }}" style="margin-right: 5px">
-                        <img src="{{ xar_imageurl('icons/'.'document-new.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Add') }}"/>
+                        <img src="{{ xar_imageurl('icons/' ~ 'document-new.png', 'base') }}" width="16" height="16" alt="{{ xar_translate('Add') }}"/>
                     </a>
                 {% else %}
                     <a href="{{ link }}" style="margin-right: 5px">
                         Add a new Publication Type
                     </a>
                 {% endif %}
-            </xar:access>
+            {% endif %}
         </div>
     {% endif %}
 {% endblock %}

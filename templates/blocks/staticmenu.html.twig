@@ -23,14 +23,14 @@
    {# <!-- Root menu --> #}
     <ul style="margin-right: 5px">
         {% for node in menuarray[0] %}
-            {% if (node['id'] == 19) and xar_coremethod('xarUser', 'isLoggedIn') %}
+            {% if (node['id'] == 19) and xar_userid() %}
                 <xar:continue/>
-            {% elseif (node['id'] == 22) and not xar_coremethod('xarUser', 'isLoggedIn') %}
+            {% elseif (node['id'] == 22) and not xar_userid() %}
                 <xar:continue/>
-            {% endif %}
+            {% else %}
             {# <!-- Check if this is the active node --> #}
             {% set hilite = 'hilite' ~ node['id'] %}
-            {% if node['id'] == (int)xar_coremethod('xarCoreCache', 'getCached', ['Blocks.publications', 'current_base_id']) %}
+            {% if node['id'] == xar_coremethod('xarCoreCache', 'getCached', 'Blocks.publications', 'current_base_id') %}
                 {% set hilite = 'active' %}
             {% else %}
                 {% set hilite = '' %}
@@ -49,6 +49,7 @@
             {% else %}
                 <li style="margin-right: 5px" class="rootVoice {{ hilite }} {menu: '{{ nodename }}'}"><a href="{{ xar_moduleurl('publications','user','display',{'itemid': node['id']}) }}">{{ node['label'] }}</a></li>
             {% endif %}
+            {% endif %}
         {% endfor %}
     </ul>
 
@@ -56,12 +57,12 @@
     {% for key, nodes in menuarray %}
         {% if key == 0 %}
             <xar:continue/>
-        {% endif %}
+        {% else %}
         <div id="menu-{{ key }}" class="mbmenu">
             {% for node in nodes %}
                 {# <!-- Check if this is the active node --> #}
                 {% set hilite = 'hilite' ~ node['id'] %}
-                {% if node['id'] == (int)xar_coremethod('xarCoreCache', 'getCached', ['Blocks.publications', 'current_base_id']) %}
+                {% if node['id'] == xar_coremethod('xarCoreCache', 'getCached', 'Blocks.publications', 'current_base_id') %}
                     {% set hilite = 'active' %}
                 {% else %}
                     {% set hilite = '' %}
@@ -75,5 +76,6 @@
                 {% endif %}
             {% endfor %}
         </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}

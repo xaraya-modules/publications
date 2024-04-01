@@ -49,7 +49,7 @@
             {% if (max_level == 0 or page.depth <= max_level) and (page.is_child or page.is_sibling or page.is_ancestor or this_menu_level == 1) %}
                 {% set display_children = true %}
             {% endif %}
-        </xar:loop>
+        {% endfor %}
 
         {% if display_children %}
             {# <!-- 
@@ -58,7 +58,7 @@
              --> #}
 
             <ul>
-                <xar:loop name="$parent_copy.child_keys">
+                {% for loop_key1, loop_item1 in parent_copy.child_keys %}{% set loop_index1 = loop.index %}
                     {% set page = pages[loop_item1] %}
                     {% if (max_level == 0 or page.depth <= max_level) and (page.is_child or page.is_sibling or page.is_ancestor or this_menu_level == 1) %}
                         {# <!-- Set a class if the page has sub-pages --> #}

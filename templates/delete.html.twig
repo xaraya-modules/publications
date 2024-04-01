@@ -5,8 +5,8 @@
 {% block modulespace %}
 <div class="xar-mod-head">
         <span class="xar-mod-title">
-            {% if xar_modvar('publications', 'use_module_alias') %}
-                {{ xar_var({scope: "module", module: "publications", name: "module_alias_name"}) }}
+            {% if xar_modulevar('publications', 'use_module_alias') %}
+                {{ xar_modulevar('publications', 'module_alias_name') }}
             {% else %}
                 Delete Publication
             {% endif %}

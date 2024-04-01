@@ -10,7 +10,7 @@ If debug mode is active, exception messages are visible to the debug administrat
             </label>
         </div>
         <div class="xar-col">
-            {% set checked = xar_modvar('publications', 'debugmode') %}
+            {% set checked = xar_modulevar('publications', 'debugmode') %}
             {{ xar_data_input({type: "checkbox", name: "debugmode", checked: checked}) }}
         </div>
     </div>
