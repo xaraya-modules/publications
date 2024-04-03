@@ -15,7 +15,7 @@ sys::import('modules.base.class.pager');
 /**
  * view items
  */
-function publications_admin_view($args=[])
+function publications_admin_view(array $args = [], $context = null)
 {
     if (!xarSecurity::check('EditPublications')) {
         return;
@@ -126,9 +126,14 @@ function publications_admin_view($args=[])
         return;
     }
 
+    $settings = [];
     if (!empty($ptid)) {
-        $settings = unserialize(xarModVars::get('publications', 'settings.'.$ptid));
-    } else {
+        $string = xarModVars::get('publications', 'settings.'.$ptid);
+        if (!empty($string)) {
+            $settings = unserialize($string);
+        }
+    }
+    if (empty($settings)) {
         $string = xarModVars::get('publications', 'settings');
         if (!empty($string)) {
             $settings = unserialize($string);
@@ -399,5 +404,6 @@ function publications_admin_view($args=[])
     // Flag this as the current list view
     xarSession::setVar('publications_current_listview', xarServer::getCurrentURL(['ptid' => $ptid]));
 
+    $data['context'] ??= $context;
     return xarTpl::module('publications', 'admin', 'view', $data, $template);
 }

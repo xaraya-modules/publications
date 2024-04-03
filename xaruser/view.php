@@ -322,7 +322,6 @@ function publications_user_view($args)
     if (!empty($owner)) {
         $data['author'] = xarUser::getVar('name', $owner);
         if (empty($data['author'])) {
-            xarErrorHandled();
             $data['author'] = xarML('Unknown');
         }
     }

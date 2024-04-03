@@ -26,6 +26,7 @@ $modversion['admin']        = true;
 $modversion['user']         = true;
 $modversion['class']        = 'Complete';
 $modversion['category']     = 'Content';
+$modversion['twigtemplates'] = false;  // not quite there yet ;-)
 $modversion['dependencyinfo'] = [
                                     0 => [
                                             'name' => 'Xaraya Core',
