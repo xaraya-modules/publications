@@ -11,7 +11,7 @@
                 {% set value = loopitem[field] %}
                 {% set column = columns[field] %}
                 {% if field == primaryalias and not show_primary %}
-                    <xar:continue />
+                    {# <xar:continue /> #}
                 {% else %}
                 <td>
                     {% if field == keyfieldalias and xar_security_check('ReadPublications',0) %}
@@ -34,10 +34,10 @@
                 {% set value = loopitem[field] %}
                 {% set column = columns[field] %}
                 {% if field == primaryalias and not show_primary %}
-                    <xar:continue />
+                    {# <xar:continue /> #}
                 {% elseif column == 'itemtype' %}
                     {# <!-- Don't show the itemtype. We only added it because we need the value --> #}
-                    <xar:continue />
+                    {# <xar:continue /> #}
                 {% else %}
                 <td>
                     {% if xar_userid() and field == keyfieldalias and xar_security_check('EditPublications',0) %}
@@ -66,7 +66,7 @@
                 {% set value = loopitem[field] %}
                 {% set column = columns[field] %}
                 {% if field == primaryalias and not show_primary %}
-                    <xar:continue />
+                    {# <xar:continue /> #}
                 {% else %}
                 <td>
                     {{ xar_data_output({property: properties[column], value: value}) }}

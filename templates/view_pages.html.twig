@@ -63,7 +63,7 @@
 
                         <tr>
                             <td align="left" class="{{ row_class }}">
-                                {{ loop_item1.xar_map }}
+                                {{ loop_item1.xar_map|raw }}
                                 {{ xar_prep_display(loop_item1.name) }}
                             </td>
                             <td class="{{ row_class }}" title="{{ xar_translate('Status: ') }} {{ loop_item1.status }}"><span class="xar-publications-status-{{ loop_item1.status }}">{{ xar_prep_display(loop_item1.pubtype_name) }}: {{ xar_prep_display(loop_item1.title) }}</span></td>

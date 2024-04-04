@@ -24,9 +24,9 @@
     <ul style="margin-right: 5px">
         {% for node in menuarray[0] %}
             {% if (node['id'] == 19) and xar_userid() %}
-                <xar:continue/>
+                {# <xar:continue /> #}
             {% elseif (node['id'] == 22) and not xar_userid() %}
-                <xar:continue/>
+                {# <xar:continue /> #}
             {% else %}
             {# <!-- Check if this is the active node --> #}
             {% set hilite = 'hilite' ~ node['id'] %}
@@ -56,7 +56,7 @@
    {# <!-- Submenus --> #}
     {% for key, nodes in menuarray %}
         {% if key == 0 %}
-            <xar:continue/>
+            {# <xar:continue /> #}
         {% else %}
         <div id="menu-{{ key }}" class="mbmenu">
             {% for node in nodes %}

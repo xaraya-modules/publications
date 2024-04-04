@@ -17,7 +17,7 @@
                     {# <!-- <a class="xar-title" href="{{ redirect }}"> --> #}
                     
                     <a class="xar-title" href="#">
-                        <xar.data-output property="properties['title']" />
+                        {{ xar_data_output({property: properties['title']}) }}
                     </a>
 
                     {# <!-- Edit icons if allowed --> #}
@@ -33,7 +33,7 @@
                 Web Site.
                 </td>
                 <td align="left">
-                    <xar.data-output property="properties['website']" />
+                    {{ xar_data_output({property: properties['website']}) }}
                 </td>
             </tr>
             <tr>
@@ -41,7 +41,7 @@
                 Description.
                 </td>
                 <td align="left">
-                    <xar.data-output property="properties['description']" />
+                    {{ xar_data_output({property: properties['description']}) }}
                 </td>
             </tr>
             {% if properties['source'].value %}
@@ -50,7 +50,7 @@
                         Source.
                     </td>
                     <td align="left">
-                        <xar.data-output property="properties['source']" />
+                        {{ xar_data_output({property: properties['source']}) }}
                     </td>
                 </tr>
             {% endif %}
@@ -59,7 +59,7 @@
                     Added on.
                 </td>
                 <td align="left">
-                    <xar.data-output property="properties['modified']" />
+                    {{ xar_data_output({property: properties['modified']}) }}
                 </td>
             </tr>
             <tr>
@@ -69,10 +69,10 @@
                 <td align="left">
                     {% if profile %}
                         <a href="{{ profile }}">
-                            <xar.data-output property="properties['author']" />
+                            {{ xar_data_output({property: properties['author']}) }}
                         </a>
                         {% else %}
-                            <xar.data-output property="properties['author']" />
+                            {{ xar_data_output({property: properties['author']}) }}
                     {% endif %}
                 </td>
             </tr>

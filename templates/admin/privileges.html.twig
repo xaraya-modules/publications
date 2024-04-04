@@ -6,7 +6,7 @@
         <h2>
             {{ xar_translate('Select Publications for Privilege \'#(1)\'', extname) }}
         </h2>
-            <form method="post" action="&xar-modurl-publications-admin-privileges;">
+            <form method="post" action="{{ xar_moduleurl('publications', 'admin', 'privileges') }}">
                 <div>
                 <input type="hidden" name="extpid" id="extpid" value="{{ extpid }}" />
                 <input type="hidden" name="extname" id="extname" value="{{ extname }}" />

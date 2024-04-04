@@ -6,26 +6,26 @@
         {% if letter %}
             {% set paramarray = paramarray|merge({'letter': letter}) %}
         {% endif %}
-        {{ include('@' ~ module ~ '/includes/listing_headerprefix.html.twig') }}
+        {{ include('@properties/listing/includes/listing_headerprefix.html.twig') }}
         {% for field in fieldnames|keys %}
             {% set column = fieldnames[field] %}
             {% set paramarray = paramarray|merge({'order': column}) %}
             {% if (column == primaryalias) and not show_primary %}
-                <xar:continue />
+                {# <xar:continue /> #}
             {% elseif layout == 'publications-admin' and column == 'itemtype' %}
                 {# <!-- Don't show the itemtypein the admin view --> #}
-                <xar:continue />
+                {# <xar:continue /> #}
             {% else %}
             <th>
                 {% set url = xar_currenturl(paramarray) %}
                 <a href="{{ url }}" class="refresh_listing" alt="Click to order by this field" title="Order by {{ column }}">
                     {{ fieldlabels.column }}
                 </a>
-                {% set subdata = array_merge(params,{'column': column}) %}
-                {{ include('@' ~ module ~ '/includes/sortarrows.html.twig', subdata) }}
+                {% set subdata = params|merge({'column': column}) %}
+                {{ include('@properties/listing/includes/sortarrows.html.twig', subdata) }}
             </th>
             {% endif %}
         {% endfor %}
-        {{ include('@' ~ module ~ '/includes/listing_headersuffix.html.twig') }}
+        {{ include('@properties/listing/includes/listing_headerprefix.html.twig') }}
     </tr>
 {% endblock %}

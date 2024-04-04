@@ -32,7 +32,7 @@
         {% else %}
             {% set enctype = 'application/x-www-form-urlencoded' %}
         {% endif %}
-        <form method="post" id="post" action="&xar-modurl-publications-user-create;" enctype="{{ enctype }}" >
+        <form method="post" id="post" action="{{ xar_moduleurl('publications', 'user', 'create') }}" enctype="{{ enctype }}" >
             {% if tab is not null and tab == 'preview' %}
                 {% set visible = ['none','none','block'] %}
             {% else %}

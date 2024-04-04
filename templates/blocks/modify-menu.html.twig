@@ -66,7 +66,7 @@
             <label for="remove_root_id_{{ bid }}" title="{{ xar_translate('Remove root pages') }}" class="xar-form-label">            
                 {% for loop_key1, loop_item1 in root_ids %}{% set loop_index1 = loop.index %}
                     {% if not loop_key1 %}
-                        <xar:continue/>
+                        {# <xar:continue /> #}
                     {% else %}
                     <div>
                         <input name="remove_root_id[]" type="checkbox" value="{{ loop_key1 }}" id="remove_root_id_{{ bid }}_{{ loop_key1 }}"/>
@@ -127,7 +127,7 @@
             <label for="remove_prune_id_{{ bid }}" title="{{ xar_translate('Remove pruning pages') }}" class="xar-form-label">            
                 {% for loop_key1, loop_item1 in prune_ids %}{% set loop_index1 = loop.index %}
                     {% if not loop_key1 %}
-                        <xar:continue/>
+                        {# <xar:continue /> #}
                     {% else %}
                     <div>
                         <input name="remove_prune_id[]" type="checkbox" value="{{ loop_key1 }}" id="remove_prune_id_{{ bid }}_{{ loop_key1 }}"/>

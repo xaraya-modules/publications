@@ -49,9 +49,8 @@
     
         {# <!-- If no access, then just move on --> #}
             {% if not allowed %}
-                <xar:continue/>
+                {# <xar:continue /> #}
             {% else %}
-            {% endif %}
         
         {# <!-- Access allowed; now figure out which template to use --> #}
             {% set includepath = "objects/pubtype" %}
@@ -64,6 +63,7 @@
 
         {# <!-- Display --> #}
             {{ include('@publications/includes/' ~ filename ~ '.html.twig') }}
+            {% endif %}
         {% endfor %}
     {% endif %}
 {% endblock %}

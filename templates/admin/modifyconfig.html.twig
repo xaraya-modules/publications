@@ -521,7 +521,7 @@
                 </div>
             </form>
         {% elseif tab == 'redirects' %}
-           <form class="xar-formwidget" action="&xar-modurl-publications-admin-updateconfig;" method="post" enctype="application/x-www-form-urlencoded">
+           <form class="xar-formwidget" action="{{ xar_moduleurl('publications', 'admin', 'updateconfig') }}" method="post" enctype="application/x-www-form-urlencoded">
                 <fieldset>
                     <legend>
                         Redirect URLs

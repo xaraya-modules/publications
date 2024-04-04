@@ -36,12 +36,12 @@
     {% endif %}
     <div class="xar-form-input-wrapper-after">
         {{ xar_data_input({type: "checkbox", name: "includechildren", checked: includechildren}) }}
-        <label class="help" title="{{ xar_translate('Check this if you want to display all publications in all subcategories of the current or selected category.') }}" for="includechildren{{ blockid }}"> 
+        <label class="help" title="{{ xar_translate('Check this if you want to display all publications in all subcategories of the current or selected category.') }}" for="includechildren{{ blockid }}">
             Include Child Category Content 
         </label> 
     </div>
     <div class="xar-form-input-wrapper">
-        <label class="xar-form-label help" title="{{ {{ xar_translate('Choose the state (e.g. Approved, Front Page) }} for the featured items.') }}" for="state{{ blockid }}"> 
+        <label class="xar-form-label help" title="{{ xar_translate('Choose the state (e.g. Approved, Front Page) }} for the featured items.') }}" for="state{{ blockid }}">
             Status             
         </label>
         {% set options = [
