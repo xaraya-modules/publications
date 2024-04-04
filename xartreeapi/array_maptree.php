@@ -73,7 +73,7 @@ define('_PUBLICATIONS_BLANK_CONNECTOR', 'B');   // '  ' (spacer)
  * @author Carl P. Corliss (aka rabbitt)
  * @access public
  * @param array &$comments_list  A reference (pointer) to an array or related items in parent -> child order (see above)
- * @returns bool true on success, false otherwise
+ * @return bool true on success, false otherwise
  *
  */
 
@@ -85,7 +85,7 @@ define('_PUBLICATIONS_BLANK_CONNECTOR', 'B');   // '  ' (spacer)
  * @author Carl P. Corliss (aka rabbitt)
  * @access public
  * @param array      $items   List of related comments
- * @returns array an array of comments with an extra field ('map') for each comment
+ * @return array an array of comments with an extra field ('map') for each comment
  *               that's contains the visual representation for that particular node
  * @todo remove the need for both this function and 'depthbuoy' to maintain separate matrix arrays
  */
@@ -203,7 +203,7 @@ function publications_treeapi_array_maptree($items)
  * @author Carl P. Corliss (aka rabbitt)
  * @access private
  * @param integer    $matrix    the numerical representation of this segment of the visual map
- * @returns string    a visual (html'ified) map of the matrix
+ * @return string    a visual (html'ified) map of the matrix
  * @todo Wouldn't it be nice to be able to join these images together into a single image for each page and cache them?
  */
 

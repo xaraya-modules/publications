@@ -7,7 +7,7 @@
  * boolean function will test that.
  * @param pid integer The page ID that must lie within the the trees
  * @param tree_roots array of integer The roots of the trees to test for
- * @returns boolean true if the page 'pid' lies within any of the trees 'tree_roots'
+ * @return boolean true if the page 'pid' lies within any of the trees 'tree_roots'
  * @todo This could probably be moved to the 'treeapi' since it is generic tree-related
  */
 

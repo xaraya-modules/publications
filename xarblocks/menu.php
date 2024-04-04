@@ -43,14 +43,8 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
 
     /**
      * Display func.
-     * @param $blockinfo array
-     * @returns $blockinfo array
-     */
-
-    /**
-     * Display func.
-     * @param $blockinfo array
-     * @returns $blockinfo array
+     * @param array $data $blockinfo array
+     * @return array $blockinfo array
      * @todo Option to display the menu even when not on a relevant page
      */
     public function display(array $data=[])

@@ -243,10 +243,9 @@ function publications_admin_display($args)
             $pattern='/(action)="([^"\r\n]*)"/';
             $page = preg_replace_callback(
                 $pattern,
-                create_function(
-                    '$matches',
-                    'return $matches[1]."=\"".xarServer::getCurrentURL()."\"";'
-                ),
+                function ($matches) {
+                    return $matches[1] = "\"" . xarServer::getCurrentURL() . "\"";
+                },
                 $page
             );
 
@@ -254,10 +253,9 @@ function publications_admin_display($args)
             $pattern='/(href)="([^"\r\n]*)"/';
             $page = preg_replace_callback(
                 $pattern,
-                create_function(
-                    '$matches',
-                    'return $matches[1]."=\"".xarServer::getCurrentURL(array("child" => urlencode($matches[2])))."\"";'
-                ),
+                function ($matches) {
+                    return $matches[1] = "\"" . xarServer::getCurrentURL(array("child" => urlencode($matches[2]))) . "\"";
+                },
                 $page
             );
 

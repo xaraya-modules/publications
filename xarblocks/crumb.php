@@ -41,8 +41,7 @@ class Publications_CrumbBlock extends BasicBlock implements iBlock
 
     /**
      * Display func.
-     * @param none
-     * @returns $data array of template data
+     * @return array $data array of template data
      * @todo Option to display the menu even when not on a relevant page
      * @FIXME: if blocks are called before the main module is loaded their values are always empty
      * @FIXME: the calls to cache have no fallbacks and assume module is current main module.

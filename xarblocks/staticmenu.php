@@ -42,8 +42,8 @@ class Publications_StaticmenuBlock extends BasicBlock implements iBlock
 
     /**
      * Display func.
-     * @param $blockinfo array
-     * @returns $blockinfo array
+     * @param array $data $blockinfo array
+     * @return array $blockinfo array
      */
     public function display(array $data=[])
     {
