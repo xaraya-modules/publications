@@ -48,7 +48,7 @@
  *               ...
  *               'body1'  => 'nuke_publications.body1')
  */
-function publications_userapi_leftjoin($args)
+function publications_userapi_leftjoin(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);
@@ -61,7 +61,7 @@ function publications_userapi_leftjoin($args)
     // Note : no security checks here
 
     // Table definition
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $dbconn   = xarDB::getConn();
     $publicationstable = $xartable['publications'];
 
@@ -117,27 +117,27 @@ function publications_userapi_leftjoin($args)
         // published in a certain year
         if (preg_match('/^(\d{4})$/', $pubdate, $matches)) {
             $startdate = gmmktime(0, 0, 0, 1, 1, $matches[1]);
-            $enddate = gmmktime(0, 0, 0, 1, 1, $matches[1]+1);
+            $enddate = gmmktime(0, 0, 0, 1, 1, $matches[1] + 1);
             if ($enddate > time()) {
                 $enddate = time();
             }
-        // published in a certain month
+            // published in a certain month
         } elseif (preg_match('/^(\d{4})-(\d+)$/', $pubdate, $matches)) {
             $startdate = gmmktime(0, 0, 0, $matches[2], 1, $matches[1]);
             // PHP allows month > 12 :-)
-            $enddate = gmmktime(0, 0, 0, $matches[2]+1, 1, $matches[1]);
+            $enddate = gmmktime(0, 0, 0, $matches[2] + 1, 1, $matches[1]);
             if ($enddate > time()) {
                 $enddate = time();
             }
-        // published in a certain day
+            // published in a certain day
         } elseif (preg_match('/^(\d{4})-(\d+)-(\d+)$/', $pubdate, $matches)) {
             $startdate = gmmktime(0, 0, 0, $matches[2], $matches[3], $matches[1]);
             // PHP allows day > 3x :-)
-            $enddate = gmmktime(0, 0, 0, $matches[2], $matches[3]+1, $matches[1]);
+            $enddate = gmmktime(0, 0, 0, $matches[2], $matches[3] + 1, $matches[1]);
             if ($enddate > time()) {
                 $enddate = time();
             }
-        // published at a certain timestamp
+            // published at a certain timestamp
         } elseif (preg_match('/^(\d+)$/', $pubdate, $matches)) {
             if ($pubdate <= time()) {
                 $whereclauses[] = $leftjoin['create_date'] . ' = ' . $pubdate;
@@ -162,7 +162,7 @@ function publications_userapi_leftjoin($args)
     }
     if (count($ids) > 0) {
         $allids = join(', ', $ids);
-        $whereclauses[] = $publicationstable . '.id IN (' . $allids .')';
+        $whereclauses[] = $publicationstable . '.id IN (' . $allids . ')';
     }
 
     if (!empty($where)) {

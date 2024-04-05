@@ -31,7 +31,7 @@ class Publication extends DataObject
         }
     }
 
-    public function checkInput(array $args = [], $suppress=0, $priority='dd')
+    public function checkInput(array $args = [], $suppress = 0, $priority = 'dd')
     {
         // The access property is ignored here
         $isvalid = parent::checkInput($args, $suppress, $priority);

@@ -18,11 +18,11 @@
  * @author mikespub
  * @access public
  */
-function publications_schedulerapi_changestate($args)
+function publications_schedulerapi_changestate(array $args = [], $context = null)
 {
     // TODO: get some configuration info about which pubtypes, categories, statees, ... are
-//       concerned, if there is any minimum number of publications to leave in a certain state,
-//       etc. Then retrieve the relevant publications and change their state accordingly :-)
+    //       concerned, if there is any minimum number of publications to leave in a certain state,
+    //       etc. Then retrieve the relevant publications and change their state accordingly :-)
 
     // Note: for more advanced/customised state handling, you should define a workflow
 

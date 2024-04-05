@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_adminapi_read_file($args)
+function publications_adminapi_read_file(array $args = [], $context = null)
 {
     if (empty($args['file'])) {
         return false;

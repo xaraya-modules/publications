@@ -50,7 +50,7 @@ class Publications_FillerBlockAdmin extends Publications_FillerBlock
         return $data;
     }
 
-    public function update(array $data=[])
+    public function update(array $data = [])
     {
         $args = [];
         xarVar::fetch('pubtype_id', 'int', $args['pubtype_id'], $this->pubtype_id, xarVar::NOT_REQUIRED);

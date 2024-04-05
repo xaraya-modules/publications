@@ -34,7 +34,7 @@ sys::import('modules.base.class.pager');
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_display($args)
+function publications_admin_display(array $args = [], $context = null)
 {
     if (!xarSecurity::check('EditPublications')) {
         return;
@@ -75,17 +75,17 @@ function publications_admin_display($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # If no ID supplied, try getting the id of the default page.
-#
+    #
     if (empty($id)) {
         $id = xarModVars::get('publications', 'defaultpage');
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get the ID of the translation if required
-#
+    #
     // First save the "untranslated" id
     xarCoreCache::setCached('Blocks.publications', 'current_base_id', $id);
 
@@ -94,39 +94,39 @@ function publications_admin_display($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # If still no ID, check if we are trying to display a pubtype
-#
+    #
     if (empty($name) && empty($ptid) && empty($id)) {
         // Nothing to be done
         $id = xarModVars::get('publications', 'notfoundpage');
     } elseif (empty($id)) {
         // We're missing an id but can get a pubtype: jump to the pubtype view
-        xarController::redirect(xarController::URL('publications', 'user', 'view'));
+        xarController::redirect(xarController::URL('publications', 'user', 'view'), null, $context);
     }
 
     # --------------------------------------------------------
-#
+    #
     # If still no ID, we have come to the end of the line
-#
+    #
     if (empty($id)) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     # --------------------------------------------------------
-#
+    #
     # We have an ID, now first get the page
-#
+    #
     // Here we get the publication type first, and then from that the page
     // Perhaps more efficient to get the page directly?
     $ptid = xarMod::apiFunc('publications', 'user', 'getitempubtype', ['itemid' => $id]);
 
     // An empty publication type means the page does not exist
     if (empty($ptid)) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
-    /*    if (empty($name) && empty($ptid)) return xarResponse::NotFound();
+    /*    if (empty($name) && empty($ptid)) return xarController::notFound(null, $context);
 
         if(empty($ptid)) {
             $publication_type = DataObjectFactory::getObjectList(array('name' => 'publications_types'));
@@ -139,13 +139,13 @@ function publications_admin_display($args)
     $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
     $pubtypeobject->getItem(['itemid' => $ptid]);
     $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
-//    $id = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
+    //    $id = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
     $itemid = $data['object']->getItem(['itemid' => $id]);
 
     # --------------------------------------------------------
-#
+    #
     # Are we allowed to see this page?
-#
+    #
     $accessconstraints = unserialize($data['object']->properties['access']->value);
     $access = DataPropertyMaster::getProperty(['name' => 'access']);
     $data['allow'] = $access->check($accessconstraints['display']);
@@ -161,9 +161,9 @@ function publications_admin_display($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # If this is a redirect page, then send it on its way now
-#
+    #
     $redirect_type = $data['object']->properties['redirect_flag']->value;
     if ($redirect_type == 1) {
         // This is a simple redirect to another page
@@ -173,12 +173,12 @@ function publications_admin_display($args)
             // Check if this is a Xaraya function
             $pos = strpos($url, 'xar');
             if ($pos === 0) {
-                eval('$url = ' . $url .';');
+                eval('$url = ' . $url . ';');
             }
 
-            xarController::redirect($url, 301);
+            xarController::redirect($url, 301, $context);
         } catch (Exception $e) {
-            return xarResponse::NotFound();
+            return xarController::notFound(null, $context);
         }
     } elseif ($redirect_type == 2) {
         // This displays a page of a different module
@@ -198,18 +198,18 @@ function publications_admin_display($args)
             // Check if this is a Xaraya function
             $pos = strpos($url, 'xar');
             if ($pos === 0) {
-                eval('$url = ' . $url .';');
+                eval('$url = ' . $url . ';');
             }
 
             $params = parse_url($url);
             $params['query'] = preg_replace('/&amp;/', '&', $params['query']);
         } catch (Exception $e) {
-            return xarResponse::NotFound();
+            return xarController::notFound(null, $context);
         }
 
         // If this is an external link, show it without further processing
-        if (!empty($params['host']) && $params['host'] != xarServer::getHost() && $params['host'].":".$params['port'] != xarServer::getHost()) {
-            xarController::redirect($url, 301);
+        if (!empty($params['host']) && $params['host'] != xarServer::getHost() && $params['host'] . ":" . $params['port'] != xarServer::getHost()) {
+            xarController::redirect($url, 301, $context);
         } else {
             parse_str($params['query'], $info);
             $other_params = $info;
@@ -220,17 +220,17 @@ function publications_admin_display($args)
             try {
                 $page = xarMod::guiFunc($info['module'], 'user', $info['func'], $other_params);
             } catch (Exception $e) {
-                return xarResponse::NotFound();
+                return xarController::notFound(null, $context);
             }
 
             // Debug
             // echo xarController::URL($info['module'],'user',$info['func'],$other_params);
             # --------------------------------------------------------
-#
+            #
             # For proxy pages: the transform of the subordinate function's template
-#
+            #
             // Find the URLs in submits
-            $pattern='/(action)="([^"\r\n]*)"/';
+            $pattern = '/(action)="([^"\r\n]*)"/';
             preg_match_all($pattern, $page, $matches);
             $pattern = [];
             $replace = [];
@@ -240,7 +240,7 @@ function publications_admin_display($args)
             }
             $page = preg_replace($pattern, $replace, $page);
 
-            $pattern='/(action)="([^"\r\n]*)"/';
+            $pattern = '/(action)="([^"\r\n]*)"/';
             $page = preg_replace_callback(
                 $pattern,
                 function ($matches) {
@@ -250,11 +250,11 @@ function publications_admin_display($args)
             );
 
             // Find the URLs in links
-            $pattern='/(href)="([^"\r\n]*)"/';
+            $pattern = '/(href)="([^"\r\n]*)"/';
             $page = preg_replace_callback(
                 $pattern,
                 function ($matches) {
-                    return $matches[1] = "\"" . xarServer::getCurrentURL(array("child" => urlencode($matches[2]))) . "\"";
+                    return $matches[1] = "\"" . xarServer::getCurrentURL(["child" => urlencode($matches[2])]) . "\"";
                 },
                 $page
             );
@@ -264,9 +264,9 @@ function publications_admin_display($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # If this is a bloccklayout page, then process it
-#
+    #
 
     if ($data['object']->properties['pagetype']->value == 2) {
         // Get a copy of the compiler
@@ -276,7 +276,7 @@ function publications_admin_display($args)
         // Get the data fields
         $fields = [];
         $sourcefields = ['title','description','summary','body1','body2','body3','body4','body5','notes'];
-        $prefix = strlen('publications.')-1;
+        $prefix = strlen('publications.') - 1;
         foreach ($data['object']->properties as $prop) {
             if (in_array(substr($prop->source, $prefix), $sourcefields)) {
                 $fields[] = $prop->name;
@@ -303,9 +303,9 @@ function publications_admin_display($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get the complete tree for this section of pages. We need this for blocks etc.
-#
+    #
 
     $tree = xarMod::apiFunc(
         'publications',
@@ -335,9 +335,9 @@ function publications_admin_display($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # Additional data
-#
+    #
     // Pass the layout to the template
     $data['layout'] = $layout;
 
@@ -348,17 +348,17 @@ function publications_admin_display($args)
     $data['objectname'] = $data['object']->name;
 
     # --------------------------------------------------------
-#
+    #
     # Set the theme if needed
-#
+    #
     if (!empty($data['object']->properties['theme']->value)) {
         xarTpl::setThemeName($data['object']->properties['theme']->value);
     }
 
     # --------------------------------------------------------
-#
+    #
     # Set the page template from the pubtype if needed
-#
+    #
     if (!empty($pubtypeobject->properties['page_template']->value)) {
         $pagename = $pubtypeobject->properties['page_template']->value;
         $position = strpos($pagename, '.');
@@ -382,9 +382,9 @@ function publications_admin_display($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # Cache data for blocks
-#
+    #
     // Now we can cache all this data away for the blocks.
     // The blocks should have access to most of the same data as the page.
     xarCoreCache::setCached('Blocks.publications', 'pagedata', $tree);
@@ -400,15 +400,15 @@ function publications_admin_display($args)
     xarCoreCache::setCached('Blocks.publications', 'author', $data['object']->properties['author']->value);
 
     # --------------------------------------------------------
-#
+    #
     # Make the properties available to the template
-#
-    $data['properties'] =& $data['object']->properties;
+    #
+    $data['properties'] = & $data['object']->properties;
 
     # --------------------------------------------------------
-#
+    #
     # Get information on next and previous items
-#
+    #
     $data['prevpublication'] = xarMod::apiFunc(
         'publications',
         'user',
@@ -426,8 +426,10 @@ function publications_admin_display($args)
                                        'sort' => 'tree',]
     );
     return $data;
+}
 
-
+function publications_admin_highlights(array $args = [], $context = null)
+{
     /*
         // TEST - highlight search terms
         if(!xarVar::fetch('q',     'str',  $q,     NULL, xarVar::NOT_REQUIRED)) {return;}
@@ -480,9 +482,9 @@ function publications_admin_display($args)
 
     */
     // keep original ptid (if any)
-//    $ptid = $publication['pubtype_id'];
-//    $pubtype_id = $publication->properties['itemtype']->value;
-//    $owner = $publication->properties['author']->value;
+    //    $ptid = $publication['pubtype_id'];
+    //    $pubtype_id = $publication->properties['itemtype']->value;
+    //    $owner = $publication->properties['author']->value;
     /*    if (!isset($publication['cids'])) {
             $publication['cids'] = array();
         }
@@ -492,7 +494,7 @@ function publications_admin_display($args)
     if (empty($ptid)) {
         $settings = unserialize(xarModVars::get('publications', 'settings'));
     } else {
-        $settings = unserialize(xarModVars::get('publications', 'settings.'.$ptid));
+        $settings = unserialize(xarModVars::get('publications', 'settings.' . $ptid));
     }
 
     // show the number of publications for each publication type
@@ -559,7 +561,7 @@ function publications_admin_display($args)
             if ($preview) {
                 $publication['body'] = preg_replace(
                     '/<!--pagebreak-->/',
-                    '<hr/><div style="text-align: center;">'.xarML('Page Break').'</div><hr/>',
+                    '<hr/><div style="text-align: center;">' . xarML('Page Break') . '</div><hr/>',
                     $publication->properties['body']->value
                 );
                 $data['previous'] = '';
@@ -667,7 +669,7 @@ function publications_admin_display($args)
                 } catch (Exception $e) {
                 }
                 // TODO: clean up this temporary fix
-                $data[$field.'_output'] = $properties[$field]->showOutput();
+                $data[$field . '_output'] = $properties[$field]->showOutput();
             }
         }
     }

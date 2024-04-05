@@ -107,7 +107,7 @@ class Diff_Renderer_Html_Array extends Diff_Renderer_Abstract
                             'lines' => [],
                         ],
                     ];
-                    $lastBlock = count($blocks)-1;
+                    $lastBlock = count($blocks) - 1;
                 }
 
                 $lastTag = $tag;
@@ -188,7 +188,7 @@ class Diff_Renderer_Html_Array extends Diff_Renderer_Abstract
      * @param string $spaces The string of spaces.
      * @return string The HTML representation of the string.
      */
-    public function fixSpaces($spaces='')
+    public function fixSpaces($spaces = '')
     {
         $count = strlen($spaces);
         if ($count == 0) {
@@ -197,7 +197,7 @@ class Diff_Renderer_Html_Array extends Diff_Renderer_Abstract
 
         $div = floor($count / 2);
         $mod = $count % 2;
-        return str_repeat('&nbsp; ', $div).str_repeat('&nbsp;', $mod);
+        return str_repeat('&nbsp; ', $div) . str_repeat('&nbsp;', $mod);
     }
 
     /**

@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_admin_clone()
+function publications_admin_clone(array $args = [], $context = null)
 {
     if (!xarSecurity::check('ManagePublications')) {
         return;
@@ -31,7 +31,7 @@ function publications_admin_clone()
     }
 
     if (empty($data['itemid'])) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     // If a pubtype ID was passed, get the name of the pub object
@@ -41,18 +41,18 @@ function publications_admin_clone()
         $objectname = $pubtypeobject->properties['name']->value;
     }
     if (empty($objectname)) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     sys::import('modules.dynamicdata.class.objects.factory');
     $data['object'] = DataObjectFactory::getObject(['name' => $objectname]);
     if (empty($data['object'])) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     // Security
     if (!$data['object']->checkAccess('update')) {
-        return xarResponse::Forbidden(xarML('Clone #(1) is forbidden', $object->label));
+        return xarController::forbidden(xarML('Clone #(1) is forbidden', $data['object']->label), $context);
     }
 
     $data['object']->getItem(['itemid' => $data['itemid']]);
@@ -91,7 +91,7 @@ function publications_admin_clone()
         if ($clone_translations) {
             // Get the info on all the objects to be cloned
             sys::import('xaraya.structures.query');
-            $tables =& xarDB::getTables();
+            $tables = & xarDB::getTables();
             $q = new Query();
             $q->addtable($tables['publications'], 'p');
             $q->addtable($tables['publications_types'], 'pt');
@@ -114,11 +114,11 @@ function publications_admin_clone()
         // Redirect if we came from somewhere else
         $current_listview = xarSession::getVar('publications_current_listview');
         if (!empty($return_url)) {
-            xarController::redirect($return_url);
+            xarController::redirect($return_url, null, $context);
         } elseif (!empty($current_listview)) {
-            xarController::redirect($current_listview);
+            xarController::redirect($current_listview, null, $context);
         } else {
-            xarController::redirect(xarController::URL('publications', 'user', 'view'));
+            xarController::redirect(xarController::URL('publications', 'user', 'view'), null, $context);
         }
         return true;
     }

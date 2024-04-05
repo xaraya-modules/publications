@@ -9,7 +9,7 @@
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @author mikespub
  */
-function publications_adminapi_browse($args)
+function publications_adminapi_browse(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);
@@ -47,7 +47,7 @@ function publications_adminapi_browse($args)
             while (($file = @readdir($dir)) !== false) {
                 $curfile = $curdir . '/' . $file;
                 if (preg_match("/\.$filetype$/", $file) && is_file($curfile) && filesize($curfile) > 0) {
-                    $curfile = preg_replace('#'.preg_quote($basedir, '#').'/#', '', $curfile);
+                    $curfile = preg_replace('#' . preg_quote($basedir, '#') . '/#', '', $curfile);
                     $filelist[] = $curfile;
                 } elseif ($file != '.' && $file != '..' && is_dir($curfile)) {
                     array_push($todo, $curfile);

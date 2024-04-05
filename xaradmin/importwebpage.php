@@ -12,7 +12,7 @@
 /**
  * manage publication types (all-in-one function for now)
  */
-function publications_admin_importwebpage()
+function publications_admin_importwebpage(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;
@@ -63,9 +63,9 @@ function publications_admin_importwebpage()
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get the URL of the web page to import
-#
+    #
     if (isset($refresh) || isset($test) || isset($import)) {
         // Confirm authorisation code
         if (!xarSec::confirmAuthKey()) {
@@ -76,9 +76,9 @@ function publications_admin_importwebpage()
     $data['authid'] = xarSec::genAuthKey();
 
     # --------------------------------------------------------
-#
+    #
     # Get the current publication types
-#
+    #
     $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
 
     $data['pubtypes'] = [];
@@ -89,9 +89,9 @@ function publications_admin_importwebpage()
     $data['cats'] = [];
     if (!empty($data['ptid'])) {
         # --------------------------------------------------------
-#
+        #
         # Get the fields of hte chosen pubtype
-#
+        #
         sys::import('modules.dynamicdata.class.objects.factory');
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
@@ -132,9 +132,9 @@ function publications_admin_importwebpage()
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get the data from the form
-#
+    #
     if (!isset($filterhead)) {
         $data['filterhead'] = '#^.*<body[^>]*>#is';
     } else {
@@ -171,9 +171,9 @@ function publications_admin_importwebpage()
     }
 
     # --------------------------------------------------------
-#
+    #
     # Perform the import
-#
+    #
     if (!empty($data['ptid']) && isset($data['contentfield'])
         && (isset($test) || isset($import))) {
         $mysearch = [];
@@ -192,9 +192,9 @@ function publications_admin_importwebpage()
         $data['logfile'] = '';
 
         # --------------------------------------------------------
-#
+        #
         # Get the page
-#
+        #
         $crl = curl_init();
         $timeout = 5;
         curl_setopt($crl, CURLOPT_URL, $data['url']);
@@ -206,9 +206,9 @@ function publications_admin_importwebpage()
             return $data;
         }
         # --------------------------------------------------------
-#
+        #
         # Manipulate the contents
-#
+        #
         if (!empty($data['findtitle']) && preg_match($data['findtitle'], $page, $matches)) {
             $title = $matches[1];
         } else {
@@ -233,9 +233,9 @@ function publications_admin_importwebpage()
         $pageobject->setFieldValues($args, 1);
 
         # --------------------------------------------------------
-#
+        #
         # Show or save the contents
-#
+        #
         if (isset($test)) {
             // preview the first file as a test
             $data['preview'] = xarMod::guiFunc(

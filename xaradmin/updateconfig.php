@@ -15,7 +15,7 @@
 
 sys::import('modules.dynamicdata.class.properties.master');
 
-function publications_admin_updateconfig()
+function publications_admin_updateconfig(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;
@@ -121,7 +121,7 @@ function publications_admin_updateconfig()
             if (empty($fulltext) && !empty($oldval)) {
                 // Get database setup
                 $dbconn = xarDB::getConn();
-                $xartable =& xarDB::getTables();
+                $xartable = & xarDB::getTables();
                 $publicationstable = $xartable['publications'];
                 // Drop fulltext index on publications table
                 $query = "ALTER TABLE $publicationstable DROP INDEX $index";
@@ -132,10 +132,10 @@ function publications_admin_updateconfig()
                 xarModVars::set('publications', 'fulltextsearch', '');
             } elseif (!empty($fulltext) && empty($oldval)) {
                 $searchfields = ['title','description','summary','body1'];
-//                $searchfields = explode(',',$fulltext);
+                //                $searchfields = explode(',',$fulltext);
                 // Get database setup
                 $dbconn = xarDB::getConn();
-                $xartable =& xarDB::getTables();
+                $xartable = & xarDB::getTables();
                 $publicationstable = $xartable['publications'];
                 // Add fulltext index on publications table
                 $query = "ALTER TABLE $publicationstable ADD FULLTEXT $index (" . join(', ', $searchfields) . ")";
@@ -217,6 +217,6 @@ function publications_admin_updateconfig()
         'admin',
         'modifyconfig',
         ['ptid' => $ptid, 'tab' => $data['tab']]
-    ));
+    ), null, $context);
     return true;
 }

@@ -40,7 +40,7 @@
  * @link http://github.com/chrisboulton/php-diff
  */
 
-require_once dirname(__FILE__).'/../Abstract.php';
+require_once dirname(__FILE__) . '/../Abstract.php';
 
 class Diff_Renderer_Text_Context extends Diff_Renderer_Abstract
 {
@@ -65,22 +65,22 @@ class Diff_Renderer_Text_Context extends Diff_Renderer_Abstract
         $opCodes = $this->diff->getGroupedOpcodes();
         foreach ($opCodes as $group) {
             $diff .= "***************\n";
-            $lastItem = count($group)-1;
+            $lastItem = count($group) - 1;
             $i1 = $group[0][1];
             $i2 = $group[$lastItem][2];
             $j1 = $group[0][3];
             $j2 = $group[$lastItem][4];
 
             if ($i2 - $i1 >= 2) {
-                $diff .= '*** '.($group[0][1] + 1).','.$i2." ****\n";
+                $diff .= '*** ' . ($group[0][1] + 1) . ',' . $i2 . " ****\n";
             } else {
-                $diff .= '*** '.$i2." ****\n";
+                $diff .= '*** ' . $i2 . " ****\n";
             }
 
             if ($j2 - $j1 >= 2) {
-                $separator = '--- '.($j1 + 1).','.$j2." ----\n";
+                $separator = '--- ' . ($j1 + 1) . ',' . $j2 . " ----\n";
             } else {
-                $separator = '--- '.$j2." ----\n";
+                $separator = '--- ' . $j2 . " ----\n";
             }
 
             $hasVisible = false;
@@ -97,7 +97,7 @@ class Diff_Renderer_Text_Context extends Diff_Renderer_Abstract
                     if ($tag == 'insert') {
                         continue;
                     }
-                    $diff .= $this->tagMap[$tag].' '.implode("\n".$this->tagMap[$tag].' ', $this->diff->GetA($i1, $i2))."\n";
+                    $diff .= $this->tagMap[$tag] . ' ' . implode("\n" . $this->tagMap[$tag] . ' ', $this->diff->GetA($i1, $i2)) . "\n";
                 }
             }
 
@@ -117,7 +117,7 @@ class Diff_Renderer_Text_Context extends Diff_Renderer_Abstract
                     if ($tag == 'delete') {
                         continue;
                     }
-                    $diff .= $this->tagMap[$tag].' '.implode("\n".$this->tagMap[$tag].' ', $this->diff->GetB($j1, $j2))."\n";
+                    $diff .= $this->tagMap[$tag] . ' ' . implode("\n" . $this->tagMap[$tag] . ' ', $this->diff->GetB($j1, $j2)) . "\n";
                 }
             }
         }

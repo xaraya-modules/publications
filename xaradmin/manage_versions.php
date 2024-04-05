@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_manage_versions($args)
+function publications_admin_manage_versions(array $args = [], $context = null)
 {
     if (!xarSecurity::check('ManagePublications')) {
         return;
@@ -26,7 +26,7 @@ function publications_admin_manage_versions($args)
         return;
     }
     if (empty($data['page_id'])) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     sys::import('modules.dynamicdata.class.objects.factory');
@@ -41,7 +41,7 @@ function publications_admin_manage_versions($args)
     if (!xarVar::fetch('version_1', 'int', $version_1, $data['versions'], xarVar::NOT_REQUIRED)) {
         return;
     }
-    if (!xarVar::fetch('version_2', 'int', $version_2, $data['versions']-1, xarVar::NOT_REQUIRED)) {
+    if (!xarVar::fetch('version_2', 'int', $version_2, $data['versions'] - 1, xarVar::NOT_REQUIRED)) {
         return;
     }
     $data['version_1'] = $version_1;
@@ -49,7 +49,7 @@ function publications_admin_manage_versions($args)
 
     // Assemple options for the version dropdowns
     $data['options'] = [];
-    for ($i=$data['versions'];$i>=1;$i--) {
+    for ($i = $data['versions'];$i >= 1;$i--) {
         $data['options'][] = ['id' => $i, 'name' => $i];
     }
 

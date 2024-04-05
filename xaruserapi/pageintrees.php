@@ -11,7 +11,7 @@
  * @todo This could probably be moved to the 'treeapi' since it is generic tree-related
  */
 
-function publications_userapi_pageintrees($args)
+function publications_userapi_pageintrees(array $args = [], $context = null)
 {
     extract($args);
 
@@ -19,7 +19,7 @@ function publications_userapi_pageintrees($args)
         return false;
     }
 
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $dbconn = xarDB::getConn();
 
     // For the page to be somewhere in a tree, identified by the root of that tree,
@@ -29,7 +29,7 @@ function publications_userapi_pageintrees($args)
         . ' FROM ' . $xartable['publications'] . ' AS testpage'
         . ' INNER JOIN ' . $xartable['publications'] . ' AS testtrees'
         . ' ON testpage.leftpage_id BETWEEN testtrees.leftpage_id AND testtrees.rightpage_id'
-        . ' AND testtrees.id IN (?' .str_repeat(',?', count($tree_roots)-1). ')'
+        . ' AND testtrees.id IN (?' . str_repeat(',?', count($tree_roots) - 1) . ')'
         . ' WHERE testpage.id = ?';
 
     // Add the pid onto the tree roots to form the full bind variable set.

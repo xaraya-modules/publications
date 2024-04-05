@@ -68,7 +68,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
         }
 
         // TODO: for multi-module pages, we'll need some other reference point(s)
-//       (e.g. cross-module categories defined in categories admin ?)
+        //       (e.g. cross-module categories defined in categories admin ?)
         // Get current module
         if (empty($module)) {
             if (xarVar::isCached('Blocks.categories', 'module')) {
@@ -127,8 +127,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 'user',
                 'countcatbases',
                 [
-                    'module'=>$modname,
-                    'itemtype'=>(empty($itemtype) ? null : $itemtype),
+                    'module' => $modname,
+                    'itemtype' => (empty($itemtype) ? null : $itemtype),
                 ]
             );
 
@@ -208,7 +208,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     );
                 } else {
                     // We want to display the deep counts.
-                    $catcount =& $deepcount;
+                    $catcount = & $deepcount;
                 }
 
                 xarCoreCache::setCached('Blocks.categories', 'catcount', $catcount);
@@ -347,12 +347,12 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                         'publications',
                         'user',
                         'getall',
-                        ['cid'=>$info['cid'],
-                                                  'ptid'=>$itemtype,
-                                                  'fields'=>['id','title'],
+                        ['cid' => $info['cid'],
+                                                  'ptid' => $itemtype,
+                                                  'fields' => ['id','title'],
                                                   ]
                     );
-                    foreach ($publications as $k=>$article) {
+                    foreach ($publications as $k => $article) {
                         $publications[$article['title']] = $article['id'];
                         unset($publications[$k]);
                     }// foreach
@@ -366,7 +366,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             'display',
                             ['ptid' => $itemtype,
                                             'catid' => $info['cid'],
-                                            'id'=>$publications[$label], ]
+                                            'id' => $publications[$label], ]
                         );
                     } else {
                         $link = xarController::URL(
@@ -442,12 +442,12 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     'publications',
                     'user',
                     'getall',
-                    ['cids'=>[$cid],
-                                                'fields'=>['id', 'pubtype_id', 'title'],
+                    ['cids' => [$cid],
+                                                'fields' => ['id', 'pubtype_id', 'title'],
                                                 ]
                 );
                 $tmpPublications = [];
-                foreach ($items as $k=>$item) {
+                foreach ($items as $k => $item) {
                     if (strtolower($item['title']) == strtolower($cat['name'])) {
                         unset($items[$k]);
                     } else {
@@ -465,7 +465,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                         $count = 0;
                         $items[$k] = ['label' => $label,
                                        'id' => $item['id'],
-                                       'class'=>$class,
+                                       'class' => $class,
                                        'link' => $link, ];
 
                         $tmpPublications[$pubtypes[$item['pubtype_id']]['description']][] = $items[$k];
@@ -486,12 +486,12 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             'publications',
                             'user',
                             'getall',
-                            ['cid'=>$child['cid'],
-                                                      'ptid'=>$itemtype,
-                                                      'fields'=>['id','title'],
+                            ['cid' => $child['cid'],
+                                                      'ptid' => $itemtype,
+                                                      'fields' => ['id','title'],
                                                       ]
                         );
-                        foreach ($publications as $k=>$article) {
+                        foreach ($publications as $k => $article) {
                             $publications[$article['title']] = $article['id'];
                             unset($publications[$k]);
                         }// foreach
@@ -505,7 +505,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                                 'display',
                                 ['ptid' => $itemtype,
                                                 'catid' => $child['cid'],
-                                                'id'=>$publications[$clabel], ]
+                                                'id' => $publications[$clabel], ]
                             );
                         } else {
                             $clink = xarController::URL(
@@ -526,7 +526,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                                              'catid' => $child['cid'],
                                              'catlink' => $clink,
                                              'catcount' => $ccount,
-                                             'catchildren'=>[], ];
+                                             'catchildren' => [], ];
                     }// foreach
                 }// if
 

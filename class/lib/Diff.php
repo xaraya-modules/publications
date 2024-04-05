@@ -81,7 +81,7 @@ class Diff
      * @param array $a Array containing the lines of the first string to compare.
      * @param array $b Array containing the lines for the second string to compare.
      */
-    public function __construct($a, $b, $options=[])
+    public function __construct($a, $b, $options = [])
     {
         $this->a = $a;
         $this->b = $b;
@@ -111,7 +111,7 @@ class Diff
      * @param int $end The ending number. If not supplied, only the item in $start will be returned.
      * @return array Array of all of the lines between the specified range.
      */
-    public function getA($start=0, $end=null)
+    public function getA($start = 0, $end = null)
     {
         if ($start == 0 && $end === null) {
             return $this->a;
@@ -136,7 +136,7 @@ class Diff
      * @param int $end The ending number. If not supplied, only the item in $start will be returned.
      * @return array Array of all of the lines between the specified range.
      */
-    public function getB($start=0, $end=null)
+    public function getB($start = 0, $end = null)
     {
         if ($start == 0 && $end === null) {
             return $this->b;

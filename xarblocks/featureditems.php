@@ -74,7 +74,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
         // Load the query class and the publications tables
         sys::import('xaraya.structures.query');
         xarMod::apiLoad('publications');
-        $tables =& xarDB::getTables();
+        $tables = & xarDB::getTables();
 
         // Get all the publications types
         sys::import('modules.dynamicdata.class.objects.factory');
@@ -83,7 +83,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
         # ------------------------------------------------------------
         # Set up the featured item
-#
+        #
         if ($data['featuredid'] > 0) {
             // Get the database entry of the featured item
             $q = new Query('SELECT', $tables['publications']);
@@ -96,7 +96,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
             $data['featured'] = DataObjectFactory::getObject(['name' => $featuredtype]);
             $data['featured']->getItem(['itemid' => $data['featuredid']]);
             $feature = $data['featured']->getFieldValues([], 1);
-            $data['properties'] =& $data['featured']->properties;
+            $data['properties'] = & $data['featured']->properties;
 
             $feature['link'] = xarController::URL(
                 'publications',
@@ -115,7 +115,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
         # ------------------------------------------------------------
         # Set up additional items
-#
+        #
         if (!empty($data['moreitems'])) {
             if ($data['toptype'] == 'rating') {
                 $fields[] = 'rating';
@@ -181,7 +181,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
         # ------------------------------------------------------------
         # Suppress the block and its title if there is nothing to display
-#
+        #
         if (empty($data['featuredid']) && empty($data['items'])) {
             return;
         }

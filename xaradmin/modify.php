@@ -19,7 +19,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_modify($args)
+function publications_admin_modify(array $args = [], $context = null)
 {
     if (!xarSecurity::check('EditPublications')) {
         return;
@@ -45,7 +45,7 @@ function publications_admin_modify($args)
     }
 
     if (empty($name) && empty($ptid)) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     if (!empty($ptid)) {
@@ -57,9 +57,9 @@ function publications_admin_modify($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get our object
-#
+    #
     $data['object'] = DataObjectFactory::getObject(['name' => $name]);
     $data['object']->getItem(['itemid' => $data['itemid']]);
     $data['ptid'] = $data['object']->properties['itemtype']->value;
@@ -71,9 +71,9 @@ function publications_admin_modify($args)
     $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
 
     # --------------------------------------------------------
-#
+    #
     # If creating a new translation get an empty copy
-#
+    #
     if ($data['tab'] == 'newtranslation') {
         $data['object']->properties['id']->setValue(0);
         $data['object']->properties['parent']->setValue($data['itemid']);
@@ -84,10 +84,10 @@ function publications_admin_modify($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get the base document. If this itemid is not the base doc,
     # then first find the correct itemid
-#
+    #
     $data['object']->getItem(['itemid' => $data['itemid']]);
     $fieldvalues = $data['object']->getFieldValues([], 1);
     if (!empty($fieldvalues['parent'])) {
@@ -98,9 +98,9 @@ function publications_admin_modify($args)
     $data['items'][$data['itemid']] = $fieldvalues;
 
     # --------------------------------------------------------
-#
+    #
     # Get any translations of the base document
-#
+    #
     $data['objectlist'] = DataObjectFactory::getObjectList(['name' => $name]);
     $where = "parent = " . $data['itemid'];
     $items = $data['objectlist']->getItems(['where' => $where]);
@@ -112,9 +112,9 @@ function publications_admin_modify($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get information on next and previous items
-#
+    #
     $data['prevpublication'] = xarMod::apiFunc(
         'publications',
         'user',

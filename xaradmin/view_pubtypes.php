@@ -13,7 +13,7 @@
  * Manage publication types (all-in-one function for now)
  */
 
-function publications_admin_view_pubtypes()
+function publications_admin_view_pubtypes(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;

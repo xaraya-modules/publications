@@ -94,7 +94,7 @@ class Publications_CrumbBlock extends BasicBlock implements iBlock
         }
 
         // If there is no pid, then we have no page or tree to display.
-//        if (empty($pagedata)) {return;}
+        //        if (empty($pagedata)) {return;}
 
         // If necessary, check whether the current page is under one of the
         // of the allowed root pids.

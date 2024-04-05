@@ -41,20 +41,20 @@ function publications_user_preview($data)
     extract($data);
 
     if (empty($data['object'])) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     # --------------------------------------------------------
-#
+    #
     # We have an object, now get the page
-#
+    #
     // Here we get the publication type first, and then from that the page
     // Perhaps more efficient to get the page directly?
     $ptid = $data['object']->properties['itemtype']->value;
 
     // An empty publication type means the page does not exist
     if (empty($ptid)) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -63,9 +63,9 @@ function publications_user_preview($data)
     xarCoreCache::setCached('Publications', 'current_pubtype_object', $pubtypeobject);
 
     # --------------------------------------------------------
-#
+    #
     # Are we allowed to see this page?
-#
+    #
     $accessconstraints = unserialize($data['object']->properties['access']->value);
     $access = DataPropertyMaster::getProperty(['name' => 'access']);
     $allow = $access->check($accessconstraints['display']);
@@ -77,7 +77,12 @@ function publications_user_preview($data)
         if ($accessconstraints['display']['failure']) {
             return xarResponse::Forbidden();
         } elseif ($nopermissionpage_id) {
-            xarController::redirect(xarController::URL('publications', 'user', 'display', ['itemid' => $nopermissionpage_id]));
+            xarController::redirect(xarController::URL(
+                'publications',
+                'user',
+                'display',
+                ['itemid' => $nopermissionpage_id]
+            ), null, $context);
         } else {
             return xarTpl::module('publications', 'user', 'empty');
         }
@@ -89,7 +94,12 @@ function publications_user_preview($data)
             if ($accessconstraints['display']['failure']) {
                 return xarResponse::Forbidden();
             } elseif ($nopermissionpage_id) {
-                xarController::redirect(xarController::URL('publications', 'user', 'display', ['itemid' => $nopermissionpage_id]));
+                xarController::redirect(xarController::URL(
+                    'publications',
+                    'user',
+                    'display',
+                    ['itemid' => $nopermissionpage_id]
+                ), null, $context);
             } else {
                 return xarTpl::module('publications', 'user', 'empty');
             }
@@ -97,9 +107,9 @@ function publications_user_preview($data)
     }
 
     # --------------------------------------------------------
-#
+    #
     # If this is a blocklayout page, then process it
-#
+    #
     if ($data['object']->properties['pagetype']->value == 2) {
         // Get a copy of the compiler
         sys::import('xaraya.templating.compiler');
@@ -108,7 +118,7 @@ function publications_user_preview($data)
         // Get the data fields
         $fields = [];
         $sourcefields = ['title','description','summary','body1','body2','body3','body4','body5','notes'];
-        $prefix = strlen('publications.')-1;
+        $prefix = strlen('publications.') - 1;
         foreach ($data['object']->properties as $prop) {
             if (in_array(substr($prop->source, $prefix), $sourcefields)) {
                 $fields[] = $prop->name;
@@ -135,9 +145,9 @@ function publications_user_preview($data)
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get the complete tree for this section of pages. We need this for blocks etc.
-#
+    #
     /*
         $tree = xarMod::apiFunc(
             'publications', 'user', 'getpagestree',
@@ -166,9 +176,9 @@ function publications_user_preview($data)
         }
     */
     # --------------------------------------------------------
-#
+    #
     # Additional data
-#
+    #
     // Pass the layout to the template
     $data['layout'] = $layout;
 
@@ -179,17 +189,17 @@ function publications_user_preview($data)
     $data['objectname'] = $data['object']->name;
 
     # --------------------------------------------------------
-#
+    #
     # Set the theme if needed
-#
+    #
     if (!empty($data['object']->properties['theme']->value)) {
         xarTpl::setThemeName($data['object']->properties['theme']->value);
     }
 
     # --------------------------------------------------------
-#
+    #
     # Set the page template from the pubtype if needed
-#
+    #
     if (!empty($pubtypeobject->properties['page_template']->value)) {
         $pagename = $pubtypeobject->properties['page_template']->value;
         $position = strpos($pagename, '.');
@@ -213,10 +223,10 @@ function publications_user_preview($data)
     }
 
     # --------------------------------------------------------
-#
+    #
     # Do the same for page title, page description and keywords
     # The values (if any) are then passed to the meta tag in the template
-#
+    #
     // Page title
     if (!empty($pubtypeobject->properties['page_title']->value)) {
         $data['page_title'] = $pubtypeobject->properties['page_title']->value;
@@ -244,12 +254,12 @@ function publications_user_preview($data)
         $data['keywords'] = $data['object']->properties['keywords']->value;
     }
     # --------------------------------------------------------
-#
+    #
     # Cache data for blocks
-#
+    #
     // Now we can cache all this data away for the blocks.
     // The blocks should have access to most of the same data as the page.
-//    xarCoreCache::setCached('Blocks.publications', 'pagedata', $tree);
+    //    xarCoreCache::setCached('Blocks.publications', 'pagedata', $tree);
 
     // The 'serialize' hack ensures we have a proper copy of the
     // paga data, which is a self-referencing array. If we don't
@@ -257,19 +267,19 @@ function publications_user_preview($data)
     $data = unserialize(serialize($data));
 
     // Save some values. These are used by blocks in 'automatic' mode.
-//    xarCoreCache::setCached('Blocks.publications', 'current_id', $id);
+    //    xarCoreCache::setCached('Blocks.publications', 'current_id', $id);
     xarCoreCache::setCached('Blocks.publications', 'ptid', $ptid);
     xarCoreCache::setCached('Blocks.publications', 'author', $data['object']->properties['author']->value);
 
     # --------------------------------------------------------
-#
+    #
     # Make the properties available to the template
-#
-    $data['properties'] =& $data['object']->properties;
+    #
+    $data['properties'] = & $data['object']->properties;
     # --------------------------------------------------------
-#
+    #
     # Tell the template(s) that this is a preview
-#
+    #
     $data['preview'] = 1;
 
     return xarTpl::module('publications', 'user', 'display', $data);

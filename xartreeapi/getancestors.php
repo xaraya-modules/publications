@@ -9,7 +9,7 @@
  * rootonly: (bool) whether to retrieve all ancestors or just the root (default false)
  */
 
-function publications_treeapi_getancestors($args)
+function publications_treeapi_getancestors(array $args = [], $context = null)
 {
     // Expand the arguments.
     extract($args);
@@ -33,7 +33,7 @@ function publications_treeapi_getancestors($args)
         if (isset($rootonly) && $rootonly == true) {
             $query .= " ASC LIMIT 1";
         }
-        $result = $dbconn->execute($query, [(int)$id]);
+        $result = $dbconn->execute($query, [(int) $id]);
 
         $ancestors = [];
 

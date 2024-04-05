@@ -12,13 +12,13 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_userapi_getpagestree($args)
+function publications_userapi_getpagestree(array $args = [], $context = null)
 {
     // First get the set of pages.
     // Check out 'getpages' for the complete range of parameters that can be
     // passed in to restrict the pages retrieved.
     // We only want the base pages
-//    $args['baseonly'] = 1;
+    //    $args['baseonly'] = 1;
     $pages = xarMod::apiFunc('publications', 'user', 'getpages', $args);
 
     // Return if no pages found.
@@ -89,7 +89,7 @@ function publications_userapi_getpagestree($args)
             // Create the references.
             $children_keys[$page['parent_key']][$key] = $key;
             $children_names[$page['parent_key']][$page['name']] = $key;
-            $children_pages[$page['parent_key']][$key] =& $pages[$key];
+            $children_pages[$page['parent_key']][$key] = & $pages[$key];
         }
 
         // Calculate the relative nesting level.
@@ -127,7 +127,7 @@ function publications_userapi_getpagestree($args)
         $finishedpages[] = $page;
     }
 
-    $tree['pages'] =& $finishedpages;
+    $tree['pages'] = & $finishedpages;
 
     $tree['child_refs'] = [
         'keys' => $children_keys,

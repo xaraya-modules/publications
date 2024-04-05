@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_user_new($args)
+function publications_user_new(array $args = [], $context = null)
 {
     // Xaraya security
     if (!xarSecurity::check('ModeratePublications')) {
@@ -39,9 +39,9 @@ function publications_user_new($args)
     $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
 
     # --------------------------------------------------------
-#
+    #
     # Are we allowed to add a page?
-#
+    #
     $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $data['object']->properties['access']]);
     $access = DataPropertyMaster::getProperty(['name' => 'access']);
     $allow = $access->check($accessconstraints['add']);
@@ -52,16 +52,21 @@ function publications_user_new($args)
         if ($accessconstraints['add']['failure']) {
             return xarResponse::Forbidden();
         } elseif ($nopermissionpage_id) {
-            xarController::redirect(xarController::URL('publications', 'user', 'display', ['itemid' => $nopermissionpage_id]));
+            xarController::redirect(xarController::URL(
+                'publications',
+                'user',
+                'display',
+                ['itemid' => $nopermissionpage_id]
+            ), null, $context);
         } else {
             return xarTpl::module('publications', 'user', 'empty');
         }
     }
 
     # --------------------------------------------------------
-#
+    #
     # Good to go. Continue
-#
+    #
     $data['properties'] = $data['object']->getProperties();
 
     if (!empty($data['ptid'])) {

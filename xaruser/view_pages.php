@@ -12,7 +12,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_user_view_pages($args)
+function publications_user_view_pages(array $args = [], $context = null)
 {
     extract($args);
 

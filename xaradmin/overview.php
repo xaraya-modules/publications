@@ -12,14 +12,14 @@
 /**
  * Overview displays standard Overview page
  */
-function publications_admin_overview()
+function publications_admin_overview(array $args = [], $context = null)
 {
     /* Security Check */
     if (!xarSecurity::check('EditPublications', 0)) {
         return;
     }
 
-    $data=[];
+    $data = [];
 
     /* if there is a separate overview function return data to it
      * else just call the main function that usually displays the overview

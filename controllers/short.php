@@ -48,7 +48,7 @@ class PublicationsShortController extends ShortActionController
 {
     public $pubtypes = [];
 
-    public function decode(array $data=[])
+    public function decode(array $data = [])
     {
         $token1 = $this->shorturl_decode($this->firstToken());
         switch ($token1) {
@@ -348,7 +348,7 @@ class PublicationsShortController extends ShortActionController
                 static $pages = null;
 
                 // The components of the path.
-            //    $get = $args;
+                //    $get = $args;
 
                 // Get the page tree that includes this page.
                 // TODO: Do some kind of cacheing on a tree-by-tree basis to prevent
@@ -380,7 +380,7 @@ class PublicationsShortController extends ShortActionController
                 unset($params['pid']);
 
                 // 'Consume' the function now we know we have enough information.
-//                unset($params['func']);
+                //                unset($params['func']);
 
                 // Follow the tree up to the root.
                 $pid_follow = $pid;
@@ -399,7 +399,7 @@ class PublicationsShortController extends ShortActionController
                 // If the base path component is not the module alias, then add the
                 // module name to the start of the path.
                 if (xarModAlias::resolve($pages[$pid_follow]['name']) != 'publications') {
-//                    array_unshift($path, 'publications');
+                    //                    array_unshift($path, 'publications');
                 }
 
                 // Now we have the basic path, we can check if there are any custom
@@ -437,7 +437,7 @@ class PublicationsShortController extends ShortActionController
         return parent::encode($request);
     }
 
-    private function decode_pubtype($token='')
+    private function decode_pubtype($token = '')
     {
         $token = $this->shorturl_decode($token);
         if (xarModVars::get('publications', 'usetitleforurl')) {
@@ -457,14 +457,14 @@ class PublicationsShortController extends ShortActionController
         }
     }
 
-    private function decode_page($token2='', $ptid)
+    private function decode_page($token2 = '', $ptid)
     {
-        $xartables =& xarDB::getTables();
+        $xartables = & xarDB::getTables();
         $q = new Query('SELECT', $xartables['publications']);
         $q->eq('pubtype_id', $ptid);
-        switch ((int)xarModVars::get('publications', 'usetitleforurl')) {
+        switch ((int) xarModVars::get('publications', 'usetitleforurl')) {
             case 0:
-                $q->eq('id', (int)$token2);
+                $q->eq('id', (int) $token2);
                 break;
             case 1:
                 $q->eq('name', $token2);
@@ -477,13 +477,13 @@ class PublicationsShortController extends ShortActionController
                 break;
             case 2:
                 $q->eq('name', $token2);
-                $token3 = (int)$this->nextToken();
+                $token3 = (int) $this->nextToken();
                 if ($token3) {
                     $q->eq('id', $token3);
                 }
                 break;
             case 3:
-                $q->eq('id', (int)$token2);
+                $q->eq('id', (int) $token2);
                 break;
             case 4:
                 $q->eq('name', $token2);
@@ -499,13 +499,13 @@ class PublicationsShortController extends ShortActionController
                 break;
             case 6:
                 $q->eq('title', $token2);
-                $token3 = (int)$this->nextToken();
+                $token3 = (int) $this->nextToken();
                 if ($token3) {
                     $q->eq('id', $token3);
                 }
                 break;
             case 7:
-                $q->eq('id', (int)$token2);
+                $q->eq('id', (int) $token2);
                 break;
             case 8:
                 $q->eq('title', $token2);
@@ -515,13 +515,13 @@ class PublicationsShortController extends ShortActionController
         $q->run();
         $result = $q->row();
         if (!empty($result['id'])) {
-            return (int)$result['id'];
+            return (int) $result['id'];
         } else {
             return 0;
         }
     }
 
-    private function encode_page($row=[])
+    private function encode_page($row = [])
     {
         $usetitles = xarModVars::get('publications', 'usetitleforurl');
         $path = [];
@@ -543,7 +543,7 @@ class PublicationsShortController extends ShortActionController
         } elseif (!empty($row['name']) && in_array($usetitles, [1,2,3])) {
             // Now come the cases where we distinguish duplicates in the URL
             // For this we need to do another SELECT on the name to see if there are actually duplicates
-            $xartables =& xarDB::getTables();
+            $xartables = & xarDB::getTables();
             $q = new Query('SELECT', $xartables['publications']);
             $q->eq('name', $row['name']);
             $q->eq('pubtype_id', $row['pubtype_id']);
@@ -573,10 +573,10 @@ class PublicationsShortController extends ShortActionController
         } elseif (!empty($row['title']) && in_array($usetitles, [5,6,7])) {
             // Now come the cases where we distinguish duplicates in the URL
             // For this we need to do another SELECT on the name to see if there are actually duplicates
-            $xartables =& xarDB::getTables();
+            $xartables = & xarDB::getTables();
             $q = new Query('SELECT', $xartables['publications']);
             $q->eq('title', $row['title']);
-            $q->eq('pubtype_id', (int)$row['pubtype_id']);
+            $q->eq('pubtype_id', (int) $row['pubtype_id']);
             $q->addfield('pubtype_id');
             $q->addfield('title');
             $q->addfield('start_date');
@@ -604,7 +604,7 @@ class PublicationsShortController extends ShortActionController
         return $path;
     }
 
-    private function encode_pubtype($ptid=0)
+    private function encode_pubtype($ptid = 0)
     {
         if (xarModVars::get('publications', 'usetitleforurl')) {
             // Get all publication types present
@@ -623,11 +623,11 @@ class PublicationsShortController extends ShortActionController
             return $ptid;
         }
     }
-    private function getpage($itemid=0)
+    private function getpage($itemid = 0)
     {
-        $xartables =& xarDB::getTables();
+        $xartables = & xarDB::getTables();
         $q = new Query('SELECT', $xartables['publications']);
-        $q->eq('id', (int)$itemid);
+        $q->eq('id', (int) $itemid);
         $q->addfield('pubtype_id');
         $q->addfield('name');
         $q->addfield('title');

@@ -12,7 +12,7 @@
 /**
  * Modify configuration
  */
-function publications_admin_modifyconfig()
+function publications_admin_modifyconfig(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;
@@ -97,7 +97,7 @@ function publications_admin_modifyconfig()
         }
 
         // Get the tree of all pages.
-//        $data['tree'] = xarMod::apiFunc('publications', 'user', 'getpagestree', array('dd_flag' => false));
+        //        $data['tree'] = xarMod::apiFunc('publications', 'user', 'getpagestree', array('dd_flag' => false));
         $data['tree'] = [];
 
         // Implode the names for each page into a path for display.

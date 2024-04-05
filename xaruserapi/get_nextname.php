@@ -19,7 +19,7 @@
  *         failure
  */
 
-function publications_userapi_get_nextname($args)
+function publications_userapi_get_nextname(array $args = [], $context = null)
 {
     if (empty($args['ptid'])) {
         return xarML('new_publication');
@@ -60,13 +60,13 @@ function publications_userapi_get_nextname($args)
 
     // Get the number of publications of this pubtype and increment by 1
     sys::import('xaraya.structures.query');
-    $tables =& xarDB::getTables();
+    $tables = & xarDB::getTables();
     $q = new Query('SELECT', $tables['publications']);
     $q->eq('pubtype_id', $args['ptid']);
     $q->addfield('COUNT(*)');
     $q->run();
     $count = $q->row();
-    $count = (int)reset($count);
+    $count = (int) reset($count);
     $count++;
 
     // Put them together

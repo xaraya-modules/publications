@@ -15,7 +15,7 @@
  * It currently redirects to the admin-view function
  * @return bool true on success
  */
-function publications_admin_main()
+function publications_admin_main(array $args = [], $context = null)
 {
     // Security Check
     if (!xarSecurity::check('EditPublications')) {
@@ -25,11 +25,11 @@ function publications_admin_main()
     $redirect = xarModVars::get('publications', 'backend_page');
     if (!empty($redirect)) {
         $truecurrenturl = xarServer::getCurrentURL([], false);
-        $urldata = xarMod::apiFunc('roles', 'user', 'parseuserhome', ['url'=> $redirect,'truecurrenturl'=>$truecurrenturl]);
-        xarController::redirect($urldata['redirecturl']);
+        $urldata = xarMod::apiFunc('roles', 'user', 'parseuserhome', ['url' => $redirect,'truecurrenturl' => $truecurrenturl]);
+        xarController::redirect($urldata['redirecturl'], null, $context);
         return true;
     } else {
-        xarController::redirect(xarController::URL('publications', 'admin', 'view'));
+        xarController::redirect(xarController::URL('publications', 'admin', 'view'), null, $context);
     }
     return true;
 }

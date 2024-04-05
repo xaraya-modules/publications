@@ -18,12 +18,12 @@
  * @return array Array containing the itemlink(s) for the item(s).
  */
 
-function publications_userapi_getitemlinks($args)
+function publications_userapi_getitemlinks(array $args = [], $context = null)
 {
     $itemlinks = [];
 
     sys::import('xaraya.structures.query');
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $q = new Query('SELECT', $xartable['publications']);
     $q->addfield('id');
     $q->addfield('title');

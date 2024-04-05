@@ -21,7 +21,7 @@
  * @return array array( $ptid => array( $cid => $count) ),
  *         or false on failure
  */
-function publications_userapi_getpubcatcount($args)
+function publications_userapi_getpubcatcount(array $args = [], $context = null)
 {
     /*
         static $pubcatcount = array();
@@ -51,14 +51,14 @@ function publications_userapi_getpubcatcount($args)
     $categoriesdef = xarMod::apiFunc('categories', 'user', 'leftjoin', $args);
 
     // Get count
-    $query = 'SELECT '. $publicationsdef['pubtype_id'] .', '. $categoriesdef['category_id']
-           .', COUNT(*)
-            FROM '. $publicationsdef['table'] . '
-            LEFT JOIN ' . $categoriesdef['table'] .'
-            ON '. $categoriesdef['field'] . ' = ' . $publicationsdef['field'] .
+    $query = 'SELECT ' . $publicationsdef['pubtype_id'] . ', ' . $categoriesdef['category_id']
+           . ', COUNT(*)
+            FROM ' . $publicationsdef['table'] . '
+            LEFT JOIN ' . $categoriesdef['table'] . '
+            ON ' . $categoriesdef['field'] . ' = ' . $publicationsdef['field'] .
             $categoriesdef['more'] . '
-            WHERE '. $categoriesdef['where'] .' AND '. $publicationsdef['where'] .'
-            GROUP BY '. $publicationsdef['pubtype_id'] .', '. $categoriesdef['category_id'];
+            WHERE ' . $categoriesdef['where'] . ' AND ' . $publicationsdef['where'] . '
+            GROUP BY ' . $publicationsdef['pubtype_id'] . ', ' . $categoriesdef['category_id'];
 
     $result = $dbconn->Execute($query);
     if (!$result) {

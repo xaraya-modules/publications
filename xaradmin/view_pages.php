@@ -12,7 +12,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_admin_view_pages($args)
+function publications_admin_view_pages(array $args = [], $context = null)
 {
     if (!xarSecurity::check('ManagePublications')) {
         return;

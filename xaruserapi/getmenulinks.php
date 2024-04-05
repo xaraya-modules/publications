@@ -14,7 +14,7 @@
  *
  * @return array Array containing the menulinks for the main menu items.
  */
-function publications_userapi_getmenulinks()
+function publications_userapi_getmenulinks(array $args = [], $context = null)
 {
     $menulinks = [];
     if (!xarSecurity::check('ViewPublications', 0)) {

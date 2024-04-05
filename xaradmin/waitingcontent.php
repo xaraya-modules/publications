@@ -12,7 +12,7 @@
 /**
  * display waiting content as a hook
  */
-function publications_admin_waitingcontent()
+function publications_admin_waitingcontent(array $args = [], $context = null)
 {
     if (!xarSecurity::check('EditPublications')) {
         return;

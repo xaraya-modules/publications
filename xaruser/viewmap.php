@@ -12,7 +12,7 @@
 /**
  * view article map
  */
-function publications_user_viewmap($args)
+function publications_user_viewmap(array $args = [], $context = null)
 {
     // Get parameters
     if (!xarVar::fetch('ptid', 'id', $ptid, xarModVars::get('publications', 'defaultpubtype'), xarVar::NOT_REQUIRED)) {
@@ -81,7 +81,7 @@ function publications_user_viewmap($args)
             $catid = null;
         }
         $url = xarController::URL('publications', 'user', 'view', ['ptid' => $ptid, 'catid' => $catid]);
-        xarController::redirect($url);
+        xarController::redirect($url, null, $context);
         return;
     }
 
@@ -268,9 +268,9 @@ function publications_user_viewmap($args)
         // build the list of root categories for all publication types
         // and save results in publinks as well
         $catlist = [];
-        for ($i=0;$i<count($publinks);$i++) {
+        for ($i = 0;$i < count($publinks);$i++) {
             $pubid = $publinks[$i]['pubid'];
-            $cidstring = xarModVars::get('publications', 'mastercids.'.$pubid);
+            $cidstring = xarModVars::get('publications', 'mastercids.' . $pubid);
             if (!empty($cidstring)) {
                 $rootcats = explode(';', $cidstring);
                 foreach ($rootcats as $cid) {
@@ -283,7 +283,7 @@ function publications_user_viewmap($args)
         }
 
         // for all publication types
-        for ($i=0;$i<count($publinks);$i++) {
+        for ($i = 0;$i < count($publinks);$i++) {
             $publinks[$i]['cats'] = [];
             $pubid = $publinks[$i]['pubid'];
             // for each root category of this publication type

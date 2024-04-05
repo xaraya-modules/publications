@@ -15,7 +15,7 @@
  * @param $args['itemtype'] item type (optional)
  * @return array Array containing the item field definitions
  */
-function publications_userapi_getitemfields($args)
+function publications_userapi_getitemfields(array $args = [], $context = null)
 {
     extract($args);
 

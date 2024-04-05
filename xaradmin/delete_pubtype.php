@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_admin_delete_pubtype()
+function publications_admin_delete_pubtype(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;
@@ -37,9 +37,9 @@ function publications_admin_delete_pubtype()
 
     if (empty($idlist)) {
         if (isset($returnurl)) {
-            xarController::redirect($returnurl);
+            xarController::redirect($returnurl, null, $context);
         } else {
-            xarController::redirect(xarController::URL('publications', 'admin', 'view_pubtypes'));
+            xarController::redirect(xarController::URL('publications', 'admin', 'view_pubtypes'), null, $context);
         }
     }
 
@@ -76,9 +76,9 @@ function publications_admin_delete_pubtype()
             $data['message'] = "Publication Type deleted [ID $id]";
         }
         if (isset($returnurl)) {
-            xarController::redirect($returnurl);
+            xarController::redirect($returnurl, null, $context);
         } else {
-            xarController::redirect(xarController::URL('publications', 'admin', 'view_pubtypes', $data));
+            xarController::redirect(xarController::URL('publications', 'admin', 'view_pubtypes', $data), null, $context);
         }
         return true;
     }

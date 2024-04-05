@@ -34,7 +34,7 @@
  * @param id $args['ptid'] same as 'pubtype_id'
  * @return array article array, or false on failure
  */
-function publications_userapi_get($args)
+function publications_userapi_get(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);
@@ -123,7 +123,7 @@ function publications_userapi_get($args)
 
     // Get database setup
     $dbconn = xarDB::getConn();
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $publicationstable = $xartable['publications'];
 
     // Get item

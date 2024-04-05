@@ -23,7 +23,7 @@
  *                         (unix timestamp format)
  * @return array of publication fields, or false on failure
  */
-function publications_userapi_getprevious($args)
+function publications_userapi_getprevious(array $args = [], $context = null)
 {
     // Security check
     if (!xarSecurity::check('ViewPublications')) {
@@ -51,7 +51,7 @@ function publications_userapi_getprevious($args)
 
     // Create the query
     sys::import('xaraya.structures.query');
-    $tables =& xarDB::getTables();
+    $tables = & xarDB::getTables();
     $q = new Query('SELECT', $tables['publications']);
     $q->addfield('id');
     $q->addfield('name');
@@ -65,12 +65,12 @@ function publications_userapi_getprevious($args)
     // Add the ordering
     switch ($sort) {
         case 'tree':
-            $q->lt('rightpage_id', (int)$current['leftpage_id']);
+            $q->lt('rightpage_id', (int) $current['leftpage_id']);
             $q->setorder('rightpage_id', 'DESC');
             break;
         case 'id':
             $q->eq('pubtype_id', $ptid);
-            $q->lt('id', (int)$current['id']);
+            $q->lt('id', (int) $current['id']);
             $q->setorder('id', 'DESC');
             break;
         case 'name':
@@ -86,7 +86,7 @@ function publications_userapi_getprevious($args)
         case 'date':
         default:
             $q->eq('pubtype_id', $ptid);
-            $q->lt('start_date', (int)$current['start_date']);
+            $q->lt('start_date', (int) $current['start_date']);
             $q->setorder('start_date', 'DESC');
     }
 

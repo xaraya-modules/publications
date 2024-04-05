@@ -17,7 +17,7 @@
  * @param $args['config'] configuration of the publication type
  * @return int publication type ID on success, false on failure
  */
-function publications_adminapi_createpubtype($args)
+function publications_adminapi_createpubtype(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);
@@ -71,7 +71,7 @@ function publications_adminapi_createpubtype($args)
 
     // Get database setup
     $dbconn = xarDB::getConn();
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $pubtypestable = $xartable['publication_types'];
 
     // Get next ID in table

@@ -12,7 +12,7 @@
 /**
  * Import an object definition or an object item from XML
  */
-function publications_admin_importpubtype($args)
+function publications_admin_importpubtype(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;

@@ -43,7 +43,7 @@
  * @param $args['locale'] language/locale (if not using multi-sites, categories etc.)
  * @return array Array of publications, or false on failure
  */
-function publications_userapi_getall($args)
+function publications_userapi_getall(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);
@@ -233,9 +233,9 @@ function publications_userapi_getall($args)
     //        this has been added to remove the error that not having it creates
     // FIXME: <mikespub> Oracle doesn't allow having the same field in a query twice if you
     //        don't specify an alias (at least in sub-queries, which is what SelectLimit uses)
-//    if (!in_array($publicationsdef['create_date'], $select)) {
-//        $select[] = $publicationsdef['create_date'];
-//    }
+    //    if (!in_array($publicationsdef['create_date'], $select)) {
+    //        $select[] = $publicationsdef['create_date'];
+    //    }
 
     // we need distinct for multi-category OR selects where publications fit in more than 1 category
     if (count($cids) > 0) {
@@ -332,8 +332,8 @@ function publications_userapi_getall($args)
             }
             if ($criteria == 'title') {
                 $sortparts[] = $publicationsdef['title'] . ' ' . (!empty($sortorder) ? $sortorder : 'ASC');
-//            } elseif ($criteria == 'create_date' || $criteria == 'date') {
-//                $sortparts[] = $publicationsdef['create_date'] . ' ' . (!empty($sortorder) ? $sortorder : 'DESC');
+                //            } elseif ($criteria == 'create_date' || $criteria == 'date') {
+                //                $sortparts[] = $publicationsdef['create_date'] . ' ' . (!empty($sortorder) ? $sortorder : 'DESC');
             } elseif ($criteria == 'hits' && !empty($hitcountdef['hits'])) {
                 $sortparts[] = $hitcountdef['hits'] . ' ' . (!empty($sortorder) ? $sortorder : 'DESC');
             } elseif ($criteria == 'rating' && !empty($ratingsdef['rating'])) {
@@ -345,7 +345,7 @@ function publications_userapi_getall($args)
             } elseif ($criteria == 'id') {
                 $sortparts[] = $publicationsdef['id'] . ' ' . (!empty($sortorder) ? $sortorder : 'ASC');
                 $seenid = 1;
-            // other publications fields, e.g. summary, notes, ...
+                // other publications fields, e.g. summary, notes, ...
             } elseif (!empty($publicationsdef[$criteria])) {
                 $sortparts[] = $publicationsdef[$criteria] . ' ' . (!empty($sortorder) ? $sortorder : 'ASC');
             } else {
@@ -370,7 +370,7 @@ function publications_userapi_getall($args)
     //echo $query;
     // Run the query - finally :-)
     if (isset($numitems) && is_numeric($numitems)) {
-        $result =& $dbconn->SelectLimit($query, $numitems, $startnum-1);
+        $result = & $dbconn->SelectLimit($query, $numitems, $startnum - 1);
     } else {
         $result = $dbconn->Execute($query);
     }
@@ -504,7 +504,7 @@ function publications_userapi_getall($args)
 
                     // TODO: clean up this temporary fix
                     if (!empty($value)) {
-                        $publications[$key][$name.'_output'] = $properties[$name]->showOutput(['value' => $value]);
+                        $publications[$key][$name . '_output'] = $properties[$name]->showOutput(['value' => $value]);
                     }
                 }
             }

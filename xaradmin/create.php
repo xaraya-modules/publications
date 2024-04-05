@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_create()
+function publications_admin_create(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AddPublications')) {
         return;
@@ -70,7 +70,7 @@ function publications_admin_create()
     // Redirect if we came from somewhere else
     $current_listview = xarSession::getVar('publications_current_listview');
     if (!empty($cuurent_listview)) {
-        xarController::redirect($current_listview);
+        xarController::redirect($current_listview, null, $context);
     }
 
     xarController::redirect(xarController::URL(
@@ -78,6 +78,6 @@ function publications_admin_create()
         'admin',
         'view',
         ['ptid' => $data['ptid']]
-    ));
+    ), null, $context);
     return true;
 }

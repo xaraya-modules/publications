@@ -19,7 +19,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_user_modify($args)
+function publications_user_modify(array $args = [], $context = null)
 {
     // Xaraya security
     if (!xarSecurity::check('ModeratePublications')) {
@@ -49,7 +49,7 @@ function publications_user_modify($args)
     }
 
     if (empty($data['itemid']) && empty($data['id'])) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
     // The itemid var takes precedence if it exiats
     if (!isset($data['itemid'])) {
@@ -69,7 +69,7 @@ function publications_user_modify($args)
         $name = $item['name'];
     }
     if (empty($name)) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     // Get our object
@@ -77,9 +77,9 @@ function publications_user_modify($args)
     $data['object']->getItem(['itemid' => $data['itemid']]);
 
     # --------------------------------------------------------
-#
+    #
     # Are we allowed to modify this page?
-#
+    #
     $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $data['object']->properties['access']]);
     $access = DataPropertyMaster::getProperty(['name' => 'access']);
     $allow = $access->check($accessconstraints['modify']);
@@ -105,16 +105,21 @@ function publications_user_modify($args)
         if ($accessconstraints['modify']['failure']) {
             return xarResponse::Forbidden();
         } elseif ($nopermissionpage_id) {
-            xarController::redirect(xarController::URL('publications', 'user', 'display', ['itemid' => $nopermissionpage_id]));
+            xarController::redirect(xarController::URL(
+                'publications',
+                'user',
+                'display',
+                ['itemid' => $nopermissionpage_id]
+            ), null, $context);
         } else {
             return xarTpl::module('publications', 'user', 'empty');
         }
     }
 
     # --------------------------------------------------------
-#
+    #
     # Good to go. Continue
-#
+    #
     $data['ptid'] = $data['object']->properties['itemtype']->value;
 
     // Send the publication type and the object properties to the template
@@ -156,9 +161,9 @@ function publications_user_modify($args)
     }
 
     # --------------------------------------------------------
-#
+    #
     # Cache data
-#
+    #
     // Now we can cache all data away for blocks, subitems etc.
     xarCoreCache::setCached('Publications', 'itemid', $data['itemid']);
 

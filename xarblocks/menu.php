@@ -47,28 +47,28 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
      * @return array $blockinfo array
      * @todo Option to display the menu even when not on a relevant page
      */
-    public function display(array $data=[])
+    public function display(array $data = [])
     {
         // TODO:
         // We want a few facilities:
         // 1. Set a root higher than the real tree root. Pages will only
-            //    be displayed once that root is reached. Effectively set one
-            //    or more trees, at any depth, that this menu will cover. [DONE]
+        //    be displayed once that root is reached. Effectively set one
+        //    or more trees, at any depth, that this menu will cover. [DONE]
         // 2. Set a 'max depth' value, so only a preset max number of levels
-            //    are rendered in a tree. [DONE]
+        //    are rendered in a tree. [DONE]
         // [1 and 2 are a kind of "view window" for levels]
         // 3. Set behaviour when no current page in the Publications module is
-            //    displayed, e.g. hide menu, show default tree or page etc. [DONE]
+        //    displayed, e.g. hide menu, show default tree or page etc. [DONE]
         // 4. Allow the page tree to be pruned at arbitrary specified
-            //    pages. That would allow sections of the tree to be pruned
-            //    from one menu and added to another (i.e. split menus).
-            //    This will also move the current page, if it happens to be in the
-            //    pruned section, down to the pruning page. [done]
+        //    pages. That would allow sections of the tree to be pruned
+        //    from one menu and added to another (i.e. split menus).
+        //    This will also move the current page, if it happens to be in the
+        //    pruned section, down to the pruning page. [done]
 
         $data = $this->getContent();
 
         // Pointer to simplify referencing.
-        $vars =& $data;
+        $vars = & $data;
 
         if (!empty($data['root_ids']) && is_array($data['root_ids'])) {
             $root_ids = $data['root_ids'];
@@ -259,7 +259,7 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
             'has_children' => true, 'is_ancestor' => true,
             ];
             unset($pagedata['root_page']);
-            $pagedata['root_page'] =& $pagedata['pages'][0];
+            $pagedata['root_page'] = & $pagedata['pages'][0];
         }
 
         // Pass the page data into the block.

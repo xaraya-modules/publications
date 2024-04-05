@@ -120,8 +120,8 @@ function publications_treeapi_array_maptree($items)
         // Make sure to $depth = $depth modulus _PUBLICATIONS_MAX_DEPTH  - because we are only ever showing
         // limited levels of depth.
         $current_depth  = @$items[$counter]['depth'] % _PUBLICATIONS_MAX_DEPTH;
-        $next_depth     = (($counter -1) < 0 ? -1 : @$items[$counter-1]['depth'] % _PUBLICATIONS_MAX_DEPTH);
-        $prev_depth     = (($counter +1) > $listsize ? -1 : @$items[$counter+1]['depth'] % _PUBLICATIONS_MAX_DEPTH);
+        $next_depth     = (($counter - 1) < 0 ? -1 : @$items[$counter - 1]['depth'] % _PUBLICATIONS_MAX_DEPTH);
+        $prev_depth     = (($counter + 1) > $listsize ? -1 : @$items[$counter + 1]['depth'] % _PUBLICATIONS_MAX_DEPTH);
 
         // first start by placing the depth point in the matrix
         // if the current comment has children place a P connetor
@@ -151,8 +151,8 @@ function publications_treeapi_array_maptree($items)
             if ($current_depth <= $prev_depth) {
                 // If there is a DepthBuoy set for (current depth -1) then
                 // we need a T connector.
-                if ($current_depth == 0 || $depth_flags[$current_depth-1]) {
-                    $depth_flags[$current_depth-1] = false;
+                if ($current_depth == 0 || $depth_flags[$current_depth - 1]) {
+                    $depth_flags[$current_depth - 1] = false;
                     $matrix[$current_depth - 1] = _PUBLICATIONS_T_CONNECTOR;
                 }
 
@@ -215,19 +215,19 @@ function publications_treeapi_array_image_substitution($node)
         $style = 'class="xar-publications-tree"';
 
         $image_list[_PUBLICATIONS_O_CONNECTOR] =
-            '<img '.$style.' src="' . xarTpl::getImage('n_nosub.gif', 'publications') . '" alt="0"/>';
+            '<img ' . $style . ' src="' . xarTpl::getImage('n_nosub.gif', 'publications') . '" alt="0"/>';
         $image_list[_PUBLICATIONS_P_CONNECTOR] =
-            '<img '.$style.' src="' . xarTpl::getImage('n_sub.gif', 'publications') . '" alt="P"/>';
+            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub.gif', 'publications') . '" alt="P"/>';
         $image_list[_PUBLICATIONS_T_CONNECTOR] =
-            '<img '.$style.' src="' . xarTpl::getImage('n_sub_branch_t.gif', 'publications') . '" alt="t"/>';
+            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_branch_t.gif', 'publications') . '" alt="t"/>';
         $image_list[_PUBLICATIONS_L_CONNECTOR] =
-            '<img '.$style.' src="' . xarTpl::getImage('n_sub_branch_l.gif', 'publications') . '" alt="L"/>';
+            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_branch_l.gif', 'publications') . '" alt="L"/>';
         $image_list[_PUBLICATIONS_I_CONNECTOR] =
-            '<img '.$style.' src="' . xarTpl::getImage('n_sub_line.gif', 'publications') . '" alt="|"/>';
+            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_line.gif', 'publications') . '" alt="|"/>';
         $image_list[_PUBLICATIONS_BLANK_CONNECTOR] =
-            '<img '.$style.' src="' . xarTpl::getImage('n_spacer.gif', 'publications') . '" alt="&#160;"/>';
+            '<img ' . $style . ' src="' . xarTpl::getImage('n_spacer.gif', 'publications') . '" alt="&#160;"/>';
         $image_list[_PUBLICATIONS_DASH_CONNECTOR] =
-            '<img '.$style.' src="' . xarTpl::getImage('n_sub_end.gif', 'publications') . '" alt="_"/>';
+            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_end.gif', 'publications') . '" alt="_"/>';
         $image_list[_PUBLICATIONS_NO_CONNECTOR] = '';
     }
 

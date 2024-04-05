@@ -17,13 +17,13 @@ sys::import('modules.publications.xarblocks.topitems');
 
 class Publications_TopitemsBlockAdmin extends Publications_TopitemsBlock
 {
-    public function modify(array $data=[])
+    public function modify(array $data = [])
     {
         $data = $this->getContent();
         return $data;
     }
 
-    public function update(array $data=[])
+    public function update(array $data = [])
     {
         $args = [];
 

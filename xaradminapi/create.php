@@ -25,7 +25,7 @@
  * @param array  $args['cids'] category IDs this item belongs to
  * @return int publications item ID on success, false on failure
  */
-function publications_adminapi_create($args)
+function publications_adminapi_create(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);
@@ -43,7 +43,7 @@ function publications_adminapi_create($args)
     }
 
     // Note : we use empty() here because we don't care whether it's set to ''
-//        or if it's not set at all - defaults will apply in either case !
+    //        or if it's not set at all - defaults will apply in either case !
 
     // Default publication type is defined in the admin interface
     if (empty($ptid) || !is_numeric($ptid)) {
@@ -127,7 +127,7 @@ function publications_adminapi_create($args)
 
     // Get database setup
     $dbconn = xarDB::getConn();
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $publicationstable = $xartable['publications'];
 
     // Get next ID in table
@@ -151,15 +151,15 @@ function publications_adminapi_create($args)
               locale)
               VALUES (?,?,?,?,?,?,?,?,?,?)";
     $bindvars = [$id,
-                      (string)  $title,
-                      (string)  $summary,
-                      (string)  $body,
-                      (int)     $owner,
-                      (int)     $pubdate,
-                      (int)     $ptid,
-                      (string)  $notes,
-                      (int)     $state,
-                      (string)  $locale, ];
+                      (string) $title,
+                      (string) $summary,
+                      (string) $body,
+                      (int) $owner,
+                      (int) $pubdate,
+                      (int) $ptid,
+                      (string) $notes,
+                      (int) $state,
+                      (string) $locale, ];
     $result = $dbconn->Execute($query, $bindvars);
     if (!$result) {
         return;

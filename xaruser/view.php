@@ -26,7 +26,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_user_view($args)
+function publications_user_view(array $args = [], $context = null)
 {
     // Get parameters
     if (!xarVar::fetch('ptid', 'id', $ptid, xarModVars::get('publications', 'defaultpubtype'), xarVar::NOT_REQUIRED)) {
@@ -85,7 +85,7 @@ function publications_user_view($args)
 
     // We need a valid pubtype number here
     if (!is_numeric($ptid) || !isset($pubtypes[$ptid])) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     // Constants used throughout.
@@ -122,7 +122,7 @@ function publications_user_view($args)
 
     // A non-active publication type means the page does not exist
     if ($data['pubtypeobject']->properties['state']->value < PUBLICATIONS_STATE_ACTIVE) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     // Get the settings of this publication type
@@ -170,13 +170,13 @@ function publications_user_view($args)
             'count' => $data['settings']['show_pubcount'],
         ]
     );
-//    $data['pager'] = '';
+    //    $data['pager'] = '';
 
     // Add Sort to data passed to template so that we can automatically turn on alpha pager, if needed
     $data['sort'] = $sort;
 
     // Add current display letter, so that we can highlight the current filter in the alpha pager
-    $data['letter']=$letter;
+    $data['letter'] = $letter;
 
     // Get the users requested number of stories per page.
     // If user doesn't care, use the site default
@@ -188,9 +188,9 @@ function publications_user_view($args)
     }
     if (empty($numitems)) {
         if (!empty($settings['items_per_page'])) {
-            $numitems = (int)$settings['items_per_page'];
+            $numitems = (int) $settings['items_per_page'];
         } else {
-            $numitems = (int)xarModVars::get('publications', 'items_per_page');
+            $numitems = (int) xarModVars::get('publications', 'items_per_page');
         }
     }
 
@@ -242,7 +242,7 @@ function publications_user_view($args)
 
     // every field you always wanted to know about but were afraid to ask for :)
     $extra = [];
-//    $extra[] = 'author';
+    //    $extra[] = 'author';
 
     // Note: we always include cids for security checks now (= performance impact if show_categories was 0)
     $extra[] = 'cids';
@@ -592,10 +592,10 @@ function publications_user_view($args)
     // Get the publications we want to view
     $data['object'] = DataObjectFactory::getObject(['name' => $data['pubtypeobject']->properties['name']->value]);
     $data['objectname'] = $data['pubtypeobject']->properties['name']->value;
-    $data['ptid'] = (int)$ptid;
+    $data['ptid'] = (int) $ptid;
 
-//    $object = DataObjectFactory::getObjectList(array('name' => $data['pubtypeobject']->properties['name']->value));
-//    $data['items'] = $object->getItems();
+    //    $object = DataObjectFactory::getObjectList(array('name' => $data['pubtypeobject']->properties['name']->value));
+    //    $data['items'] = $object->getItems();
     $data['object'] = DataObjectFactory::getObjectList(['name' => $data['pubtypeobject']->properties['name']->value]);
     // Set the itemtype to static for filtering
     $data['object']->modifyProperty('itemtype', ['type' => 1]);
@@ -615,8 +615,8 @@ function publications_user_view($args)
     }
 
     // Settings for the pager
-    $data['numitems'] = (int)$numitems;
-    $data['startnum'] = (int)$startnum;
+    $data['numitems'] = (int) $numitems;
+    $data['startnum'] = (int) $startnum;
     $q->setrowstodo($numitems);
 
     // Set the page template if needed

@@ -20,7 +20,7 @@
  * @param $args['filter'] additional categories we're filtering on (= catid)
  * @return array
  */
-function publications_userapi_getchildcats($args)
+function publications_userapi_getchildcats(array $args = [], $context = null)
 {
     extract($args);
 
@@ -66,7 +66,7 @@ function publications_userapi_getchildcats($args)
             $andcids = false;
         } else {
             // we'll combine the parent cid with the filter here
-            $childlist = ['_'.$cid,$filter];
+            $childlist = ['_' . $cid,$filter];
             $andcids = true;
         }
 
@@ -110,10 +110,10 @@ function publications_userapi_getchildcats($args)
         if ($count) {
             if (isset($pubcatcount[$info['id']][$curptid])) {
                 $info['count'] = $pubcatcount[$info['id']][$curptid];
-            } elseif (!empty($filter) && isset($pubcatcount[$filter.'+'.$info['id']][$curptid])) {
-                $info['count'] = $pubcatcount[$filter.'+'.$info['id']][$curptid];
-            } elseif (!empty($filter) && isset($pubcatcount[$info['id'].'+'.$filter][$curptid])) {
-                $info['count'] = $pubcatcount[$info['id'].'+'.$filter][$curptid];
+            } elseif (!empty($filter) && isset($pubcatcount[$filter . '+' . $info['id']][$curptid])) {
+                $info['count'] = $pubcatcount[$filter . '+' . $info['id']][$curptid];
+            } elseif (!empty($filter) && isset($pubcatcount[$info['id'] . '+' . $filter][$curptid])) {
+                $info['count'] = $pubcatcount[$info['id'] . '+' . $filter][$curptid];
             } else {
                 $info['count'] = '';
             }

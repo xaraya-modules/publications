@@ -21,7 +21,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_userapi_get_pubtypes($args)
+function publications_userapi_get_pubtypes(array $args = [], $context = null)
 {
     if (xarCoreCache::isCached('Publications.Data', 'producttypes')) {
         return xarCoreCache::getCached('Publications.Data', 'producttypes');

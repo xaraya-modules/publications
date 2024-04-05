@@ -16,7 +16,7 @@
  *
  */
 
-function publications_adminapi_promote_alias($args)
+function publications_adminapi_promote_alias(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);
@@ -54,7 +54,7 @@ function publications_adminapi_promote_alias($args)
 
     // Switch the linkages to categories
     sys::import('xaraya.structures.query');
-    $tables =& xarDB::getTables();
+    $tables = & xarDB::getTables();
 
     // Remove the old base publication into the tree
     $q = new Query('UPDATE', $tables['publications_publications']);

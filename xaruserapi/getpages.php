@@ -16,7 +16,7 @@
 // tree_contains_id: limit the search to the tree of pages containing the page of the given ID
 // tree_ancestors: boolean, when fetching trees, will limit to just ancestors (and self) of the page name or ID
 
-function publications_userapi_getpages($args)
+function publications_userapi_getpages(array $args = [], $context = null)
 {
     extract($args);
 
@@ -29,7 +29,7 @@ function publications_userapi_getpages($args)
 
     // Assemble the query
     sys::import('xaraya.structures.query');
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $q = new Query();
     $q->addtable($xartable['publications'], 'tpages');
     $q->addtable($xartable['publications_types'], 'pt');
@@ -58,7 +58,7 @@ function publications_userapi_getpages($args)
         $q->eq('tpages.parent_id', 0);
     }
     if (isset($name)) {
-        $q->eq('tpages.name', (string)$name);
+        $q->eq('tpages.name', (string) $name);
     }
     if (isset($status)) {
         // If a list of statuses have been provided, then select for any of them.
@@ -75,23 +75,23 @@ function publications_userapi_getpages($args)
         }
     }
     if (isset($id)) {
-        $q->eq('tpages.id', (int)$id);
+        $q->eq('tpages.id', (int) $id);
         $where[] = 'tpages.id = ?';
-        $bind[] = (int)$id;
+        $bind[] = (int) $id;
     } elseif (!empty($ids)) {
         $addwhere = [];
         foreach ($ids as $myid) {
             if (!empty($myid) && is_numeric($myid)) {
-                $addwhere[] = (int)$myid;
+                $addwhere[] = (int) $myid;
             }
         }
         $q->in('tpages.state', $addwhere);
     }
     if (isset($itemtype)) {
-        $q->eq('tpages.pubtype_id', (int)$itemtype);
+        $q->eq('tpages.pubtype_id', (int) $itemtype);
     }
     if (isset($parent)) {
-        $q->eq('tpages.parentpage_id', (int)$parent);
+        $q->eq('tpages.parentpage_id', (int) $parent);
     }
     // Used to retrieve descendants.
     if (isset($left_range) && is_array($left_range)) {
@@ -100,15 +100,15 @@ function publications_userapi_getpages($args)
     // Used to prune a single branch of the tree.
     if (isset($left_exclude) && is_array($left_exclude)) {
         //'tpages.leftpage_id NOT between ? AND ?' - does not work on some databases
-        $c[] = $q->plt('tpages.leftpage_id', (int)$left_exclude[0]);
-        $c[] = $q->pgt('tpages.leftpage_id', (int)$left_exclude[1]);
+        $c[] = $q->plt('tpages.leftpage_id', (int) $left_exclude[0]);
+        $c[] = $q->pgt('tpages.leftpage_id', (int) $left_exclude[1]);
         $q->qor($c);
         unset($c);
     }
     // Used to retrieve ancestors.
     if (isset($wrap_range) && is_numeric($wrap_range)) {
-        $c[] = $q->ple('tpages.leftpage_id', (int)$wrap_range[0]);
-        $c[] = $q->pge('tpages.leftpage_id', (int)$left_range[1]);   // can't be right: this is an array
+        $c[] = $q->ple('tpages.leftpage_id', (int) $wrap_range[0]);
+        $c[] = $q->pge('tpages.leftpage_id', (int) $left_range[1]);   // can't be right: this is an array
         $q->qand($c);
         unset($c);
     }
@@ -119,10 +119,10 @@ function publications_userapi_getpages($args)
         $q->addtable($xartable['publications'], 'tpages_member');
 
         if (!empty($tree_contains_id)) {
-            $q->eq('tpages_member.id', (int)$tree_contains_id);
+            $q->eq('tpages_member.id', (int) $tree_contains_id);
         }
         if (!empty($tree_contains_name)) {
-            $q->eq('tpages_member.name', (int)$tree_contains_name);
+            $q->eq('tpages_member.name', (int) $tree_contains_name);
         }
         if (!empty($tree_ancestors)) {
             // We don't want the complete tree for the matching pages - just
@@ -146,7 +146,7 @@ function publications_userapi_getpages($args)
         $q->setorder('tpages.leftpage_id', 'ASC');
     }
 
-//    $q->qecho();
+    //    $q->qecho();
     $q->run();
 
     if ($count) {
@@ -165,7 +165,7 @@ function publications_userapi_getpages($args)
         );
 
         foreach ($q->output() as $row) {
-            $id = (int)$row['id'];
+            $id = (int) $row['id'];
 
             // At this point check the privileges of the page fetched.
             // To prevent broken trees, if a page is not assessible, prune
@@ -257,9 +257,9 @@ function publications_userapi_getpages($args)
             // Note: ['parent_id'] is the parent page ID,
             // but ['parent'] is the parent item key in the
             // pages array.
-            $id2key[(int)$id] = $$key;
+            $id2key[(int) $id] = $$key;
             if ($key == 'id') {
-                $parent_key = (int)$row['parentpage'];
+                $parent_key = (int) $row['parentpage'];
             } else {
                 if (isset($id2key[$row['parentpage']])) {
                     $parent_key = $id2key[$row['parentpage']];
@@ -269,9 +269,9 @@ function publications_userapi_getpages($args)
             }
             $row['key'] = $$key;
             $row['access'] = $info;
-            $row['parent_key'] = (int)$parent_key;
-            $row['left'] = (int)$row['leftpage_id'];
-            $row['right'] = (int)$row['rightpage_id'];
+            $row['parent_key'] = (int) $parent_key;
+            $row['left'] = (int) $row['leftpage_id'];
+            $row['right'] = (int) $row['rightpage_id'];
             unset($row['leftpage_id']);
             unset($row['rightpage_id']);
             $pages[$$key] = $row;

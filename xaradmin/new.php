@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_new($args)
+function publications_admin_new(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AddPublications')) {
         return;
@@ -48,7 +48,7 @@ function publications_admin_new($args)
     $data['object']->properties['position']->initialization_celkoparent_id = 'parentpage_id';
     $data['object']->properties['position']->initialization_celkoright_id = 'rightpage_id';
     $data['object']->properties['position']->initialization_celkoleft_id  = 'leftpage_id';
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $data['object']->properties['position']->initialization_itemstable = $xartable['publications'];
 
     $data['properties'] = $data['object']->getProperties();

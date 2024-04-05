@@ -12,7 +12,7 @@
 /**
  * redirect to a site based on some URL field of the item
  */
-function publications_user_redirect($args)
+function publications_user_redirect(array $args = [], $context = null)
 {
     // Get parameters from user
     if (!xarVar::fetch('id', 'id', $id, null, xarVar::NOT_REQUIRED)) {
@@ -66,7 +66,7 @@ function publications_user_redirect($args)
                                           ],
                 'publications'
             );
-            xarController::redirect($article[$field]);
+            xarController::redirect($article[$field], null, $context);
             return true;
         } elseif ($value['format'] == 'urltitle' && !empty($publication[$field]) && substr($publication[$field], 0, 2) == 'a:') {
             $array = unserialize($publication[$field]);
@@ -80,7 +80,7 @@ function publications_user_redirect($args)
                                               ],
                     'publications'
                 );
-                xarController::redirect($array['link']);
+                xarController::redirect($array['link'], null, $context);
                 return true;
             }
         }

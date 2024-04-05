@@ -25,7 +25,7 @@
  *                         (unix timestamp format)
  * @return int number of items
  */
-function publications_userapi_countitems($args)
+function publications_userapi_countitems(array $args = [], $context = null)
 {
     // Database information
     $dbconn = xarDB::getConn();
@@ -39,8 +39,8 @@ function publications_userapi_countitems($args)
     // Start building the query
     if ($dbconn->databaseType == 'sqlite') {
         $query = 'SELECT COUNT(*)
-                  FROM ( SELECT DISTINCT '. $publicationsdef['field'].'
-                         FROM '. $publicationsdef['table']; // WATCH OUT, UNBALANCED
+                  FROM ( SELECT DISTINCT ' . $publicationsdef['field'] . '
+                         FROM ' . $publicationsdef['table']; // WATCH OUT, UNBALANCED
     } else {
         $query = 'SELECT COUNT(DISTINCT ' . $publicationsdef['field'] . ')';
         $query .= ' FROM ' . $publicationsdef['table'];
@@ -88,7 +88,7 @@ function publications_userapi_countitems($args)
 
     // Balance parentheses
     if ($dbconn->databaseType == 'sqlite') {
-        $query .=')';
+        $query .= ')';
     }
     // Run the query - finally :-)
     $result = $dbconn->Execute($query);

@@ -29,7 +29,7 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
      * @param $blockinfo array containing title,content
      */
 
-    public function modify(array $data=[])
+    public function modify(array $data = [])
     {
         $data = $this->getContent();
 
@@ -70,7 +70,7 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
             }
         }
 
-//            $vars['bid'] = $blockinfo['bid'];
+        //            $vars['bid'] = $blockinfo['bid'];
 
         return $data;
     }
@@ -79,7 +79,7 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
      * Updates the Block config from the Blocks Admin
      * @param $blockinfo array containing title,content
      */
-    public function update(array $data=[])
+    public function update(array $data = [])
     {
         xarVar::fetch('multi_homed', 'int', $args['multi_homed'], 0, xarVar::NOT_REQUIRED);
 

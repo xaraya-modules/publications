@@ -49,7 +49,7 @@ function publications_userapi_getsettings($data)
     return $settings;
 }
 
-function publications_userapi_getglobalsettings()
+function publications_userapi_getglobalsettings(array $args = [], $context = null)
 {
     $settings = [
                 'number_of_columns'     => 1,

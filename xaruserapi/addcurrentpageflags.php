@@ -15,7 +15,7 @@
  * @todo Look at the keys again: this function assumes the page keys will always be ids (not true).
  */
 
-function publications_userapi_addcurrentpageflags($args)
+function publications_userapi_addcurrentpageflags(array $args = [], $context = null)
 {
     extract($args);
 
@@ -61,7 +61,7 @@ function publications_userapi_addcurrentpageflags($args)
     // set in previous loops.
 
     // Point the current page at the page in the tree.
-    $pagedata['current_page'] =& $pagedata['pages'][$key];
+    $pagedata['current_page'] = & $pagedata['pages'][$key];
 
     // Create an ancestors array.
     // Shift the pages onto the start of the array, so the resultant array
@@ -90,7 +90,7 @@ function publications_userapi_addcurrentpageflags($args)
         // towards the root page, so will unshift each page to the front
         // of the ancestors array.
         array_unshift($pagedata['ancestors'], null);
-        $pagedata['ancestors'][0] =& $pagedata['pages'][$this_id];
+        $pagedata['ancestors'][0] = & $pagedata['pages'][$this_id];
 
         // Get the parent page.
         try {
@@ -111,7 +111,7 @@ function publications_userapi_addcurrentpageflags($args)
             $pagedata['pages'][$this_id]['parentpage_id'] = 0;
 
             // Reference the root page in the main structure.
-            $pagedata['root_page'] =& $pagedata['pages'][$root_id];
+            $pagedata['root_page'] = & $pagedata['pages'][$root_id];
 
             // Finished the loop.
             break;
@@ -129,7 +129,7 @@ function publications_userapi_addcurrentpageflags($args)
             // child of the 'current' page.
             $pagedata['pages'][$key]['is_child'] = true;
             // Reference the child page from the children array.
-            $pagedata['children'][$key] =& $pagedata['pages'][$child];
+            $pagedata['children'][$key] = & $pagedata['pages'][$child];
         }
     }
 
@@ -145,7 +145,7 @@ function publications_userapi_addcurrentpageflags($args)
             // Set flag for menus.
             $pagedata['pages'][$key]['is_sibling'] = true;
             // Reference the page.
-            $pagedata['siblings'][$key] =& $pagedata['pages'][$child];
+            $pagedata['siblings'][$key] = & $pagedata['pages'][$child];
         }
     }
 

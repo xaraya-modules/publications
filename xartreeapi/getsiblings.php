@@ -9,7 +9,7 @@
  * includeself: bool to include the given pid in the result (default false)
  */
 
-function publications_treeapi_getsiblings($args)
+function publications_treeapi_getsiblings(array $args = [], $context = null)
 {
     // Expand the arguments.
     extract($args);

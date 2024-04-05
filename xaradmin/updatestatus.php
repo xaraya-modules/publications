@@ -12,7 +12,7 @@
 /**
  * update item from publications_admin_modify
  */
-function publications_admin_updatestate()
+function publications_admin_updatestate(array $args = [], $context = null)
 {
     if (!xarSecurity::check('EditPublications')) {
         return;
@@ -127,10 +127,10 @@ function publications_admin_updatestate()
                 'admin',
                 'view',
                 ['ptid' => $ptid,
-                                                'catid' => $catid,
-                                                'state' => $state,
-                                                'startnum' => $startnum, ]
-            ));
+                'catid' => $catid,
+                'state' => $state,
+                'startnum' => $startnum, ]
+            ), null, $context);
             return true;
         }
     }
@@ -143,7 +143,7 @@ function publications_admin_updatestate()
         'admin',
         'view',
         ['ptid' => $ptid, 'catid' => $catid]
-    ));
+    ), null, $context);
 
     return true;
 }

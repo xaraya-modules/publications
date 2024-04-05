@@ -16,7 +16,7 @@
  * @param $args['state'] array of requested status(es) for the publications
  * @return array array(month => count), or false on failure
  */
-function publications_userapi_getmonthcount($args)
+function publications_userapi_getmonthcount(array $args = [], $context = null)
 {
     // Get database setup
     $dbconn = xarDB::getConn();
@@ -31,7 +31,7 @@ function publications_userapi_getmonthcount($args)
     switch ($dbtype) {
         case 'mysql':
             $query = "SELECT LEFT(FROM_UNIXTIME(start_date),7) AS mymonth, COUNT(*) FROM " . $publicationsdef['table'];
-//            echo $query;exit;
+            //            echo $query;exit;
             break;
         case 'postgres':
             $query = "SELECT TO_CHAR(ABSTIME(pubdate),'YYYY-MM') AS mymonth, COUNT(*) FROM " . $publicationsdef['table'];

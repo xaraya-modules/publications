@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_modify_pubtype($args)
+function publications_admin_modify_pubtype(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;
@@ -39,7 +39,7 @@ function publications_admin_modify_pubtype($args)
     }
 
     if (empty($name) && empty($itemid)) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     // Get our object
@@ -63,7 +63,7 @@ function publications_admin_modify_pubtype($args)
                             'modify' => [],
                             'delete' => [],
                             ];
-        $data['object']->properties['access']->value =serialize($data['access']);
+        $data['object']->properties['access']->value = serialize($data['access']);
     }
     // Get the settings of the publication type we are using
     $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['itemid']]);
@@ -88,7 +88,7 @@ function publications_admin_modify_pubtype($args)
             $itemid = $data['object']->updateItem(['itemid' => $data['itemid']]);
 
             // Jump to the next page
-            xarController::redirect(xarController::URL('publications', 'admin', 'view_pubtypes'));
+            xarController::redirect(xarController::URL('publications', 'admin', 'view_pubtypes'), null, $context);
             return true;
         }
     }

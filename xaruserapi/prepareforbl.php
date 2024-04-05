@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_userapi_prepareforbl($args)
+function publications_userapi_prepareforbl(array $args = [], $context = null)
 {
     if (empty($args['string'])) {
         return '';

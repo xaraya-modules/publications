@@ -20,7 +20,7 @@
                                     'input'  => 1),
                  ...);
  */
-function publications_userapi_getpubfields($args)
+function publications_userapi_getpubfields(array $args = [], $context = null)
 {
     return [
         'title'    => ['label'  => xarML('Title'),

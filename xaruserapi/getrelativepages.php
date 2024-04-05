@@ -21,7 +21,7 @@
  *
  */
 
-function publications_userapi_getrelativepages($args)
+function publications_userapi_getrelativepages(array $args = [], $context = null)
 {
     if (empty($args['itemid'])) {
         $args['itemid'] = 0;
@@ -54,7 +54,7 @@ function publications_userapi_getrelativepages($args)
     }
 
     // FIXME: Combine everything below to single query to avoid the two loops at the end
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     sys::import('xaraya.structures.query');
     $q = new Query();
     $q->addtable($xartable['publications'], 'p');
@@ -117,7 +117,7 @@ function publications_userapi_getrelativepages($args)
 
     // Add any fiters we found
     foreach ($filters as $k => $v) {
-        $q->eq('p.'.$k, $v);
+        $q->eq('p.' . $k, $v);
     }
 
     // We can force alpha sorting, or else sort according to tree position
@@ -127,7 +127,7 @@ function publications_userapi_getrelativepages($args)
         $q->setorder('p.leftpage_id');
     }
 
-//    $q->qecho();
+    //    $q->qecho();
     $q->run();
     $pages = $q->output();
 
@@ -224,7 +224,7 @@ function publications_userapi_getrelativepages($args)
             usort($indexedpages, 'multi_sort');
         }
 
-        $pages =& $indexedpages;
+        $pages = & $indexedpages;
     }
     return $pages;
 }

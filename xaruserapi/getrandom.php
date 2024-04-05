@@ -28,7 +28,7 @@
  * @param bool   $args['unique'] return unique results
  * @return array of publications, or false on failure
  */
-function publications_userapi_getrandom($args)
+function publications_userapi_getrandom(array $args = [], $context = null)
 {
     // 1. count the number of items that apply
     $count = xarMod::apiFunc('publications', 'user', 'countitems', $args);

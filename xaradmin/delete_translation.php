@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_admin_delete_translation()
+function publications_admin_delete_translation(array $args = [], $context = null)
 {
     if (!xarSecurity::check('ManagePublications')) {
         return;
@@ -29,9 +29,9 @@ function publications_admin_delete_translation()
 
     if (empty($data['itemid'])) {
         if (isset($returnurl)) {
-            xarController::redirect($returnurl);
+            xarController::redirect($returnurl, null, $context);
         } else {
-            xarController::redirect(xarController::URL('publications', 'admin', 'view'));
+            xarController::redirect(xarController::URL('publications', 'admin', 'view'), null, $context);
         }
     }
 
@@ -55,9 +55,9 @@ function publications_admin_delete_translation()
         $itemid = $publication->deleteItem(['itemid' => $data['itemid']]);
         $data['message'] = "Translation deleted [ID $itemid]";
         if (isset($returnurl)) {
-            xarController::redirect($returnurl);
+            xarController::redirect($returnurl, null, $context);
         } else {
-            xarController::redirect(xarController::URL('publications', 'admin', 'view', $data));
+            xarController::redirect(xarController::URL('publications', 'admin', 'view', $data), null, $context);
         }
         return true;
     }

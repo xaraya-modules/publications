@@ -97,7 +97,7 @@ class showdiff
                 }
             }
         }
-        if ($Flag =='Line') {
+        if ($Flag == 'Line') {
             $this->highlightLines($oldString, $newString);
 
             $this->orig_array = $this->change_orig_array;
@@ -110,15 +110,15 @@ class showdiff
 
         $this->highlight_old = "";
         foreach ($this->highlight_old_arr as $line) {
-            $this->highlight_old .= "\n".$line;
+            $this->highlight_old .= "\n" . $line;
         }
 
         $this->highlight_new = "";
         foreach ($this->highlight_new_arr as $line) {
-            $this->highlight_new .= "\n".$line;
+            $this->highlight_new .= "\n" . $line;
         }
 
-        $ReturnString=$this->highlight_old."<br>".$this->highlight_new;
+        $ReturnString = $this->highlight_old . "<br>" . $this->highlight_new;
 
         return $ReturnString;
     }
@@ -135,9 +135,9 @@ class showdiff
             $this->add_orig_array = [];
             $this->add_final_array = [];
             $this->delete_orig_array = [];
-            $this->delete_final_array =[];
+            $this->delete_final_array = [];
             $this->change_orig_array = [];
-            $this->change_final_array =[] ;
+            $this->change_final_array = [] ;
             $this->copy_orig_array = [];
             $this->copy_final_array = [];
 
@@ -159,9 +159,9 @@ class showdiff
         $words = $deleted;
         foreach ($words as $keyTop => $word) {
             foreach ($string as $key => $strItem) {
-                if ($word == $strItem && $checkFlag[$key]!=false) {
+                if ($word == $strItem && $checkFlag[$key] != false) {
                     $checkFlag[$key] = false;
-                    $strItem = str_ireplace($word, DELETED_BLUE_START_TAG.$word.DELETED_BLUE_END_TAG, $strItem);
+                    $strItem = str_ireplace($word, DELETED_BLUE_START_TAG . $word . DELETED_BLUE_END_TAG, $strItem);
                     $StringTemp[$key] = $strItem;
                     break;
                 }
@@ -172,12 +172,12 @@ class showdiff
         foreach ($words as $keyTop => $word) {
             foreach ($string as $key => $strItem) {
                 if ($word == $strItem && $checkFlag[$key] != false) {
-                    $strItem = str_ireplace($word, DELETED_BLUE_START_TAG.$word.DELETED_BLUE_END_TAG, $strItem);
+                    $strItem = str_ireplace($word, DELETED_BLUE_START_TAG . $word . DELETED_BLUE_END_TAG, $strItem);
 
                     $word = $this->change_final_array[$keyTop] ?? null;
 
                     $checkFlag[$key] = false;
-                    $strItem = str_ireplace($word, COPY_WHITE_START_TAG.$word.COPY_WHITE_END_TAG, $strItem);
+                    $strItem = str_ireplace($word, COPY_WHITE_START_TAG . $word . COPY_WHITE_END_TAG, $strItem);
                     $StringTemp[$key] = $strItem;
                     break;
                 }
@@ -186,17 +186,17 @@ class showdiff
 
         $str_highlighted = "";
         foreach ($StringTemp as $str) {
-            $str_highlighted .= $str." ";
+            $str_highlighted .= $str . " ";
         }
-        $str_highlighted = str_ireplace(DELETED_BLUE_START_TAG, '<span style="background-color:'.DELETED_BGCOLOR.'">', $str_highlighted);
+        $str_highlighted = str_ireplace(DELETED_BLUE_START_TAG, '<span style="background-color:' . DELETED_BGCOLOR . '">', $str_highlighted);
         $str_highlighted = str_ireplace(DELETED_BLUE_END_TAG, '</span>', $str_highlighted);
 
-        $str_highlighted = str_ireplace(COPY_WHITE_START_TAG, '<span style="background-color:'.COPY_BGCOLOR.'">', $str_highlighted);
+        $str_highlighted = str_ireplace(COPY_WHITE_START_TAG, '<span style="background-color:' . COPY_BGCOLOR . '">', $str_highlighted);
         $str_highlighted = str_ireplace(COPY_WHITE_END_TAG, '</span>', $str_highlighted);
 
-        foreach ($this->highlight_old_arr as $key =>$Line) {
+        foreach ($this->highlight_old_arr as $key => $Line) {
             if ($this->oldLineCheckFlag[$key]) {
-                $this->highlight_old_arr[$key]=str_ireplace($string_old, $str_highlighted, $Line);
+                $this->highlight_old_arr[$key] = str_ireplace($string_old, $str_highlighted, $Line);
             }
         }
 
@@ -212,9 +212,9 @@ class showdiff
 
         foreach ($words as $word) {
             foreach ($string as $key => $strItem) {
-                if ($word == $strItem && $checkFlag[$key]!=false) {
+                if ($word == $strItem && $checkFlag[$key] != false) {
                     $checkFlag[$key] = false;
-                    $strItem = str_ireplace($word, CHANGED_RED_START_TAG.$word.CHANGED_RED_END_TAG, $strItem);
+                    $strItem = str_ireplace($word, CHANGED_RED_START_TAG . $word . CHANGED_RED_END_TAG, $strItem);
                     $StringTempNew[$key] = $strItem;
                     break;
                 }
@@ -223,25 +223,25 @@ class showdiff
         $words = $added;
         foreach ($words as $word) {
             foreach ($string as $key => $strItem) {
-                if ($word==$strItem && $checkFlag[$key]!=false) {
-                    $checkFlag[$key]=false;
-                    $strItem = str_ireplace($word, ADDED_GREEN_START_TAG.$word.ADDED_GREEN_END_TAG, $strItem);
+                if ($word == $strItem && $checkFlag[$key] != false) {
+                    $checkFlag[$key] = false;
+                    $strItem = str_ireplace($word, ADDED_GREEN_START_TAG . $word . ADDED_GREEN_END_TAG, $strItem);
                     $StringTempNew[$key] = $strItem;
                     break;
                 }
             }
         }
 
-        $str_highlighted="";
+        $str_highlighted = "";
 
         foreach ($StringTempNew as $str) {
-            $str_highlighted .= $str." ";
+            $str_highlighted .= $str . " ";
         }
 
-        $str_highlighted = str_ireplace(CHANGED_RED_START_TAG, '<span style="background-color:'.CHANGED_BGCOLOR.'">', $str_highlighted);
+        $str_highlighted = str_ireplace(CHANGED_RED_START_TAG, '<span style="background-color:' . CHANGED_BGCOLOR . '">', $str_highlighted);
         $str_highlighted = str_ireplace(CHANGED_RED_END_TAG, '</span>', $str_highlighted);
 
-        $str_highlighted = str_ireplace(ADDED_GREEN_START_TAG, '<span style="background-color:'.ADDED_BGCOLOR.'">', $str_highlighted);
+        $str_highlighted = str_ireplace(ADDED_GREEN_START_TAG, '<span style="background-color:' . ADDED_BGCOLOR . '">', $str_highlighted);
         $str_highlighted = str_ireplace(ADDED_GREEN_END_TAG, '</span>', $str_highlighted);
 
         foreach ($this->highlight_new_arr as $key => $Line) {
@@ -260,7 +260,7 @@ class showdiff
             foreach ($string as $key => $strItem) {
                 if ($word == $strItem && $this->oldLineCheckFlag[$key] != false) {
                     $this->oldLineCheckFlag[$key] = false;
-                    $strItem = str_ireplace($word, DELETED_BLUE_START_TAG.$word.DELETED_BLUE_END_TAG, $strItem);
+                    $strItem = str_ireplace($word, DELETED_BLUE_START_TAG . $word . DELETED_BLUE_END_TAG, $strItem);
                     $StringTemp[$key] = $strItem;
                     break;
                 }
@@ -269,13 +269,13 @@ class showdiff
 
         $str_highlighted = "";
         foreach ($StringTemp as $str) {
-            $str_highlighted .= $str."\n";
+            $str_highlighted .= $str . "\n";
         }
 
-        $str_highlighted = str_ireplace(DELETED_BLUE_START_TAG, '<span style="background-color:'.DELETED_BGCOLOR.'">', $str_highlighted);
+        $str_highlighted = str_ireplace(DELETED_BLUE_START_TAG, '<span style="background-color:' . DELETED_BGCOLOR . '">', $str_highlighted);
         $str_highlighted = str_ireplace(DELETED_BLUE_END_TAG, '</span>', $str_highlighted);
 
-        $str_highlighted = substr($str_highlighted, 0, strlen($str_highlighted)-1);
+        $str_highlighted = substr($str_highlighted, 0, strlen($str_highlighted) - 1);
 
         return $str_highlighted;
     }
@@ -285,9 +285,9 @@ class showdiff
         $StringTempNew = $string;
         foreach ($words as $word) {
             foreach ($string as $key => $strItem) {
-                if ($word == $strItem && $this->newLineCheckFlag[$key]!=false) {
+                if ($word == $strItem && $this->newLineCheckFlag[$key] != false) {
                     $this->newLineCheckFlag[$key] = false;
-                    $strItem = str_ireplace($word, ADDED_GREEN_START_TAG.$word.ADDED_GREEN_END_TAG, $strItem);
+                    $strItem = str_ireplace($word, ADDED_GREEN_START_TAG . $word . ADDED_GREEN_END_TAG, $strItem);
                     $StringTempNew[$key] = $strItem;
                     break;
                 }
@@ -297,13 +297,13 @@ class showdiff
         $str_highlighted = "";
 
         foreach ($StringTempNew as $str) {
-            $str_highlighted .= $str."\n";
+            $str_highlighted .= $str . "\n";
         }
 
-        $str_highlighted = str_ireplace(ADDED_GREEN_START_TAG, '<span style="background-color:'.ADDED_BGCOLOR.'">', $str_highlighted);
+        $str_highlighted = str_ireplace(ADDED_GREEN_START_TAG, '<span style="background-color:' . ADDED_BGCOLOR . '">', $str_highlighted);
         $str_highlighted = str_ireplace(ADDED_GREEN_END_TAG, '</span>', $str_highlighted);
 
-        $str_highlighted = substr($str_highlighted, 0, strlen($str_highlighted)-1);
+        $str_highlighted = substr($str_highlighted, 0, strlen($str_highlighted) - 1);
         return $str_highlighted;
     }
 
@@ -313,7 +313,7 @@ class showdiff
             foreach ($string as $key => $strItem) {
                 $this->newLineCheckFlag[$key] ??= null;
                 if ($word == $strItem && $this->newLineCheckFlag[$key] != false) {
-                    $this->oldLineCheckFlag[$key]=false;
+                    $this->oldLineCheckFlag[$key] = false;
                     break;
                 }
             }
@@ -390,13 +390,13 @@ class showdiff
         $oldstr_lastcharcter = substr($str, -1, 1);
         $str_len = strlen($str);
 
-        if ($oldstr_lastcharcter=="\n") {
-            $str = substr($str, 0, strlen($str)-1);
+        if ($oldstr_lastcharcter == "\n") {
+            $str = substr($str, 0, strlen($str) - 1);
             $str = $this->check_lastcharacter($str);
         }
         if ($oldstr_lastcharcter == " ") {
-            $str = substr($str, 0, strlen($str)-1);
-            $str = $this->check_lastcharacter($str, $count+1);
+            $str = substr($str, 0, strlen($str) - 1);
+            $str = $this->check_lastcharacter($str, $count + 1);
         }
         return $str;
     }

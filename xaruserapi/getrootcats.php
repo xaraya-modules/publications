@@ -18,7 +18,7 @@
  * @return array
  * @TODO specify return format
  */
-function publications_userapi_getrootcats($args)
+function publications_userapi_getrootcats(array $args = [], $context = null)
 {
     extract($args);
 

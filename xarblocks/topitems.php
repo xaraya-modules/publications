@@ -52,7 +52,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
     public $pubstate            = '2,3';
 
 
-    public function display(array $data=[])
+    public function display(array $data = [])
     {
         $data = $this->getContent();
 
@@ -234,7 +234,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
                     if (!empty($article['rating'])) {
                         $article['value'] = intval($article['rating']);
                     } else {
-                        $article['value']=0;
+                        $article['value'] = 0;
                     }
                 } elseif ($data['toptype'] == 'hits') {
                     if (!empty($article['counter'])) {

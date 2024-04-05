@@ -10,12 +10,12 @@
 // TODO: need a bit more validation of parameters in here, to prevent corruption of the hierarchy.
 // TODO: include changes done to categories to support non-contiguous category ranges.
 
-function publications_treeapi_moveitem($args)
+function publications_treeapi_moveitem(array $args = [], $context = null)
 {
     extract($args);
 
     $dbconn = xarDB::getConn();
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
 
     // Obtain current information on the reference item
     $refitem = xarMod::apiFunc('publications', 'user', 'getpage', ['pid' => $refid]);
@@ -36,7 +36,7 @@ function publications_treeapi_moveitem($args)
     [$ref_left, $ref_right, $ref_parent] = $result->fields;
 
     // Run the query (item to be moved).
-    $result = $dbconn->execute($query, [(int)$itemid]);
+    $result = $dbconn->execute($query, [(int) $itemid]);
     if (!$result) {
         return;
     }
@@ -120,9 +120,9 @@ function publications_treeapi_moveitem($args)
         // Update parent id
         $query = 'UPDATE ' . $tablename
             . ' SET xar_parent = ?'
-            . ' WHERE ' .$idname. ' = ?';
+            . ' WHERE ' . $idname . ' = ?';
 
-        $result = $dbconn->execute($query, [(int)$parent_id, (int)$itemid]);
+        $result = $dbconn->execute($query, [(int) $parent_id, (int) $itemid]);
         if (!$result) {
             return;
         }

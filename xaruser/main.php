@@ -13,36 +13,41 @@
 /**
  * the main user function
  */
-function publications_user_main($args)
+function publications_user_main(array $args = [], $context = null)
 {
     # --------------------------------------------------------
-#
+    #
     # Try getting the id of the default page.
-#
+    #
     $id = xarModVars::get('publications', 'defaultpage');
 
     if (!empty($id)) {
         # --------------------------------------------------------
-#
+        #
         # Get the ID of the translation if required
-#
+        #
         if (!xarVar::fetch('translate', 'int:1', $translate, 1, xarVar::NOT_REQUIRED)) {
             return;
         }
-        return xarController::redirect(xarController::URL('publications', 'user', 'display', ['itemid' => $id,'translate' => $translate]));
+        return xarController::redirect(xarController::URL(
+            'publications',
+            'user',
+            'display',
+            ['itemid' => $id,'translate' => $translate]
+        ), null, $context);
     } else {
         # --------------------------------------------------------
-#
+        #
         # No default page, check for a redirect or just show the view page
-#
+        #
         $redirect = xarModVars::get('publications', 'frontend_page');
         if (!empty($redirect)) {
             $truecurrenturl = xarServer::getCurrentURL([], false);
-            $urldata = xarMod::apiFunc('roles', 'user', 'parseuserhome', ['url'=> $redirect,'truecurrenturl'=>$truecurrenturl]);
-            xarController::redirect($urldata['redirecturl']);
+            $urldata = xarMod::apiFunc('roles', 'user', 'parseuserhome', ['url' => $redirect,'truecurrenturl' => $truecurrenturl]);
+            xarController::redirect($urldata['redirecturl'], null, $context);
             return true;
         } else {
-            xarController::redirect(xarController::URL('publications', 'user', 'view'));
+            xarController::redirect(xarController::URL('publications', 'user', 'view'), null, $context);
         }
         return true;
     }

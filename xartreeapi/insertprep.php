@@ -10,7 +10,7 @@
  * Table must have columns: xar_parent, xar_left, xar_right and a specified ID column.
  */
 
-function publications_treeapi_insertprep($args)
+function publications_treeapi_insertprep(array $args = [], $context = null)
 {
     // An insertion point (an ID in the table) is required.
     // Special insertion point ID is 0, which refers to the

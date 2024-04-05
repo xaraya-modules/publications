@@ -17,7 +17,7 @@ sys::import('modules.publications.xarblocks.random');
 
 class Publications_RandomBlockAdmin extends Publications_RandomBlock
 {
-    public function modify(array $data=[])
+    public function modify(array $data = [])
     {
         $data = $this->getContent();
         if (!empty($data['catfilter'])) {
@@ -32,7 +32,7 @@ class Publications_RandomBlockAdmin extends Publications_RandomBlock
         return $data;
     }
 
-    public function update(array $data=[])
+    public function update(array $data = [])
     {
         xarVar::fetch('locale', 'str', $data['locale'], '', xarVar::NOT_REQUIRED);
         xarVar::fetch('alttitle', 'str', $data['alttitle'], '', xarVar::NOT_REQUIRED);

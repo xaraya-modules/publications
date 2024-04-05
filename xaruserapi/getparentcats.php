@@ -21,7 +21,7 @@
  * @return array
 // TODO: specify return format
  */
-function publications_userapi_getparentcats($args)
+function publications_userapi_getparentcats(array $args = [], $context = null)
 {
     extract($args);
 

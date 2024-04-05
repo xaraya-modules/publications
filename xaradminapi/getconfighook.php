@@ -10,7 +10,7 @@
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @author Marc Lutolf <mfl@netspan.ch>
  */
-function publications_adminapi_getconfighook($args)
+function publications_adminapi_getconfighook(array $args = [], $context = null)
 {
     extract($args);
     if (!isset($extrainfo['tabs'])) {

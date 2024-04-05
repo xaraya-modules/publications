@@ -3,7 +3,7 @@
  * Action for bulk operations
  */
 sys::import('modules.dynamicdata.class.objects.factory');
-function publications_admin_multiops()
+function publications_admin_multiops(array $args = [], $context = null)
 {
     // Get parameters
     if (!xarVar::fetch('idlist', 'isset', $idlist, null, xarVar::DONT_SET)) {

@@ -14,7 +14,7 @@
  * Download a template or stylesheet
  */
 
-function publications_user_download()
+function publications_user_download(array $args = [], $context = null)
 {
     if (!xarVar::fetch('filepath', 'str', $filepath, '', xarVar::NOT_REQUIRED)) {
         return;
@@ -22,7 +22,7 @@ function publications_user_download()
 
     # --------------------------------------------------------
     # Check the input
-#
+    #
     if (empty($filepath)) {
         throw new Exception(xarML('No file path passed'));
     }
@@ -38,7 +38,7 @@ function publications_user_download()
 
     # --------------------------------------------------------
     # Start buffering for the file
-#
+    #
     ob_start();
 
     $fp = @fopen($filepath, 'rb');
@@ -57,7 +57,7 @@ function publications_user_download()
 
     # --------------------------------------------------------
     # Send the header
-#
+    #
     // Headers -can- be sent after the actual data
     // Why do it this way? So we can capture any errors and return if need be :)
     // not that we would have any errors to catch at this point but, mine as well
@@ -71,6 +71,6 @@ function publications_user_download()
     }
     # --------------------------------------------------------
     # Stop here
-#
+    #
     exit(0);
 }

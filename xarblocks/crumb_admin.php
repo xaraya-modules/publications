@@ -21,7 +21,6 @@ class Publications_CrumbBlockAdmin extends Publications_CrumbBlock implements iB
 {
     /**
      * Modify Function to the Blocks Admin
-     * @param none
      * @return array template data
      */
     public function modify()
@@ -69,7 +68,6 @@ class Publications_CrumbBlockAdmin extends Publications_CrumbBlock implements iB
     }
     /**
      * Updates the Block config from the Blocks Admin
-     * @param none
      * @return bool true on success
      */
     public function update()

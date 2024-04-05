@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_templates_type($args)
+function publications_admin_templates_type(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;

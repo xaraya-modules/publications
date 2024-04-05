@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_display_version($args)
+function publications_admin_display_version(array $args = [], $context = null)
 {
     if (!xarSecurity::check('ManagePublications')) {
         return;
@@ -26,7 +26,7 @@ function publications_admin_display_version($args)
         return;
     }
     if (empty($data['page_id'])) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     sys::import('modules.dynamicdata.class.objects.factory');
@@ -72,14 +72,19 @@ function publications_admin_display_version($args)
         $data['content'] = $page->showDisplay();
         // Assemple options for the version dropdowns
         $data['options'] = [];
-        for ($i=$data['versions'];$i>=1;$i--) {
+        for ($i = $data['versions'];$i >= 1;$i--) {
             $data['options'][] = ['id' => $i, 'name' => $i];
         }
     } elseif ($confirm == 2) {
         $page->properties['version']->value = $data['versions'] + 1;
         $page->updateItem();
 
-        xarController::redirect(xarController::URL('publications', 'admin', 'modify', ['name' => $pubtype->properties['name']->value, 'itemid' => $content_array_1['id']]));
+        xarController::redirect(xarController::URL(
+            'publications',
+            'admin',
+            'modify',
+            ['name' => $pubtype->properties['name']->value, 'itemid' => $content_array_1['id']]
+        ), null, $context);
         return true;
     }
     return $data;

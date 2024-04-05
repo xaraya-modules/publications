@@ -18,11 +18,11 @@
  * @author mikespub
  * @access public
  */
-function publications_schedulerapi_makedigest($args)
+function publications_schedulerapi_makedigest(array $args = [], $context = null)
 {
     // TODO: get some configuration info about which pubtypes, categories, statees, ... are
-//       concerned, if there are any limits to the number of publications to put in the digest,
-//       etc. Then retrieve the relevant publications, create the digest and do whatever :-)
+    //       concerned, if there are any limits to the number of publications to put in the digest,
+    //       etc. Then retrieve the relevant publications, create the digest and do whatever :-)
 
     /* Simple example for HTML digests :
 

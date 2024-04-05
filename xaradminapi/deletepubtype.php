@@ -15,7 +15,7 @@
  * @param $args['ptid'] ID of the publication type
  * @return bool true on success, false on failure
  */
-function publications_adminapi_deletepubtype($args)
+function publications_adminapi_deletepubtype(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);
@@ -59,7 +59,7 @@ function publications_adminapi_deletepubtype($args)
 
     // Get database setup
     $dbconn = xarDB::getConn();
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $pubtypestable = $xartable['publication_types'];
 
     // Delete the publication type

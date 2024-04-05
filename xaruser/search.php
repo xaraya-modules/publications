@@ -16,7 +16,7 @@
  * @param $args['extrainfo'] all other parameters ? (currently unused)
  * @return array output
  */
-function publications_user_search($args)
+function publications_user_search(array $args = [], $context = null)
 {
     // pager stuff
     if (!xarVar::fetch('startnum', 'int:0', $startnum, null, xarVar::NOT_REQUIRED)) {
@@ -173,7 +173,7 @@ function publications_user_search($args)
     // default publication type(s) to search in
     if (!empty($ptid) && isset($pubtypes[$ptid])) {
         $ptids = [$ptid];
-        $settings = unserialize(xarModVars::get('publications', 'settings.'.$ptid));
+        $settings = unserialize(xarModVars::get('publications', 'settings.' . $ptid));
         if (empty($settings['show_categories'])) {
             $show_categories = 0;
         } else {

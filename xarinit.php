@@ -18,12 +18,12 @@
 function publications_init()
 {
     sys::import('xaraya.structures.query');
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
 
     # --------------------------------------------------------
-#
+    #
     # Set tables
-#
+    #
     $q = new Query();
     $prefix = xarDB::getPrefix();
 
@@ -134,9 +134,9 @@ function publications_init()
     }
 
     # --------------------------------------------------------
-#
+    #
     # Create DD objects
-#
+    #
     $module = 'publications';
     $objects = [
                      'publications_types',
@@ -185,9 +185,9 @@ function publications_init()
     }
 
     # --------------------------------------------------------
-#
+    #
     # Set up modvars
-#
+    #
     xarModVars::set('publications', 'items_per_page', 20);
     xarModVars::set('publications', 'use_module_alias', 0);
     xarModVars::set('publications', 'module_alias_name', 'Publications');
@@ -268,9 +268,9 @@ function publications_init()
         */
 
     # --------------------------------------------------------
-#
+    #
     # Set up hooks
-#
+    #
     xarHooks::registerSubject('ItemCreate', 'item', 'publications');
     xarHooks::registerSubject('ItemUpdate', 'item', 'publications');
     xarHooks::registerSubject('ItemDelete', 'item', 'publications');
@@ -326,7 +326,7 @@ function publications_init()
     *********************************************************************/
     $info = xarMod::getBaseInfo('publications');
     $sysid = $info['systemid'];
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     $instances = [
                        ['header' => 'external', // this keyword indicates an external "wizard"
                              'query'  => xarController::URL('publications', 'admin', 'privileges'),
@@ -345,9 +345,9 @@ function publications_init()
     xarPrivileges::defineInstance('publications', 'Block', $instances);
 
     # --------------------------------------------------------
-#
+    #
     # Set up masks
-#
+    #
     xarMasks::register('ViewPublications', 'All', 'publications', 'All', 'All', 'ACCESS_OVERVIEW');
     xarMasks::register('ReadPublications', 'All', 'publications', 'All', 'All', 'ACCESS_READ');
     xarMasks::register('SubmitPublications', 'All', 'publications', 'All', 'All', 'ACCESS_COMMENT');
@@ -358,9 +358,9 @@ function publications_init()
     xarMasks::register('AdminPublications', 'All', 'publications', 'All', 'All', 'ACCESS_ADMIN');
 
     # --------------------------------------------------------
-#
+    #
     # Set up privileges
-#
+    #
     xarPrivileges::register('ViewPublications', 'All', 'publications', 'All', 'All', 'ACCESS_OVERVIEW');
     xarPrivileges::register('ReadPublications', 'All', 'publications', 'All', 'All', 'ACCESS_READ');
     xarPrivileges::register('SubmitPublications', 'All', 'publications', 'All', 'All', 'ACCESS_COMMENT');

@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_adminapi_save_version($args)
+function publications_adminapi_save_version(array $args = [], $context = null)
 {
     if (empty($args['object'])) {
         throw new Exception(xarML('Missing object arg for saving version'));

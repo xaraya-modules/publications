@@ -14,7 +14,7 @@
  * return an array with coded states
  * @return array
  */
-function publications_userapi_getstates()
+function publications_userapi_getstates(array $args = [], $context = null)
 {
     // Simplistic getstates function
     // Obviously needs to be smarter along with the other state functions

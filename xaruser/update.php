@@ -22,7 +22,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_user_update()
+function publications_user_update(array $args = [], $context = null)
 {
     if (!xarSecurity::check('ModeratePublications')) {
         return;
@@ -59,7 +59,7 @@ function publications_user_update()
 
     // Confirm authorisation code
     // This has been disabled for now
-//    if (!xarSec::confirmAuthKey()) return;
+    //    if (!xarSec::confirmAuthKey()) return;
 
     $items = explode(',', $items);
     $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -166,20 +166,20 @@ function publications_user_update()
         if (!empty($return_url)) {
             // FIXME: this is a hack for short URLS
             $delimiter = (strpos($return_url, '&')) ? '&' : '?';
-            xarController::redirect($return_url . $delimiter . 'itemid=' . $data['itemid']);
+            xarController::redirect($return_url . $delimiter . 'itemid=' . $data['itemid'], null, $context);
         }
 
         // Redirect if we came from somewhere else
         $current_listview = xarSession::getVar('publications_current_listview');
         if (!empty($current_listview)) {
-            xarController::redirect($current_listview);
+            xarController::redirect($current_listview, null, $context);
         }
         xarController::redirect(xarController::URL(
             'publications',
             'user',
             'view',
             ['ptid' => $data['ptid']]
-        ));
+        ), null, $context);
         return true;
     } elseif ($data['front']) {
         xarController::redirect(xarController::URL(
@@ -187,17 +187,17 @@ function publications_user_update()
             'user',
             'display',
             ['name' => $pubtypeobject->properties['name']->value, 'itemid' => $data['itemid']]
-        ));
+        ), null, $context);
     } else {
         if (!empty($data['returnurl'])) {
-            xarController::redirect($data['returnurl']);
+            xarController::redirect($data['returnurl'], null, $context);
         } else {
             xarController::redirect(xarController::URL(
                 'publications',
                 'user',
                 'modify',
                 ['name' => $pubtypeobject->properties['name']->value, 'itemid' => $data['itemid']]
-            ));
+            ), null, $context);
         }
         return true;
     }

@@ -12,7 +12,7 @@
 /**
  * view statistics
  */
-function publications_admin_stats($args = [])
+function publications_admin_stats(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;

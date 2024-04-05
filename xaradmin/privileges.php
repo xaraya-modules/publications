@@ -14,7 +14,7 @@
  *
  * @return array for template
  */
-function publications_admin_privileges($args)
+function publications_admin_privileges(array $args = [], $context = null)
 {
     if (!xarSecurity::check('EditPublications')) {
         return;
@@ -197,7 +197,7 @@ function publications_admin_privileges($args)
             'admin',
             'modifyprivilege',
             ['id' => $id]
-        ));
+        ), null, $context);
         return true;
     }
 

@@ -23,7 +23,7 @@
  *
  * @return bool true if OK, false if not OK
  */
-function publications_userapi_checksecurity($args)
+function publications_userapi_checksecurity(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);

@@ -22,7 +22,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_update()
+function publications_admin_update(array $args = [], $context = null)
 {
     if (!xarSecurity::check('EditPublications')) {
         return;
@@ -59,7 +59,7 @@ function publications_admin_update()
 
     // Confirm authorisation code
     // This has been disabled for now
-//    if (!xarSec::confirmAuthKey()) return;
+    //    if (!xarSec::confirmAuthKey()) return;
 
     $items = explode(',', $items);
     $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -110,8 +110,8 @@ function publications_admin_update()
 
     // call transform input hooks
     $article['transform'] = ['summary','body','notes'];
-//    $article = xarModHooks::call('item', 'transform-input', $data['itemid'], $article,
-//                               'publications', $data['ptid']);
+    //    $article = xarModHooks::call('item', 'transform-input', $data['itemid'], $article,
+    //                               'publications', $data['ptid']);
 
     // Now talk to the database. Loop through all the translation pages
     foreach ($itemsdata as $id => $itemdata) {
@@ -155,7 +155,7 @@ function publications_admin_update()
         // Redirect if we came from somewhere else
         $current_listview = xarSession::getVar('publications_current_listview');
         if (!empty($current_listview)) {
-            xarController::redirect($current_listview);
+            xarController::redirect($current_listview, null, $context);
         }
 
         xarController::redirect(xarController::URL(
@@ -163,21 +163,21 @@ function publications_admin_update()
             'admin',
             'view',
             ['ptid' => $data['ptid']]
-        ));
+        ), null, $context);
     } elseif ($data['front']) {
         xarController::redirect(xarController::URL(
             'publications',
             'user',
             'display',
             ['name' => $pubtypeobject->properties['name']->value, 'itemid' => $data['itemid']]
-        ));
+        ), null, $context);
     } else {
         xarController::redirect(xarController::URL(
             'publications',
             'admin',
             'modify',
             ['name' => $pubtypeobject->properties['name']->value, 'itemid' => $data['itemid']]
-        ));
+        ), null, $context);
     }
     return true;
 }

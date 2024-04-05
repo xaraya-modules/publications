@@ -16,7 +16,7 @@
                  'summary' => 'text',
                  ...);
  */
-function publications_userapi_getpubfieldtypes($args)
+function publications_userapi_getpubfieldtypes(array $args = [], $context = null)
 {
     return [
         'title'    => 'string',

@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_adminapi_getpageaccessconstraints($args)
+function publications_adminapi_getpageaccessconstraints(array $args = [], $context = null)
 {
     if (!isset($args['property'])) {
         throw new Exception(xarML('Missing property param in publications_adminapi_getpageaccessconstraints'));

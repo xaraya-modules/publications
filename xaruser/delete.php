@@ -13,7 +13,7 @@
 /**
  * delete item
  */
-function publications_user_delete()
+function publications_user_delete(array $args = [], $context = null)
 {
     if (!xarSecurity::check('ModeratePublications')) {
         return;
@@ -40,9 +40,9 @@ function publications_user_delete()
 
     if (empty($idlist)) {
         if (isset($returnurl)) {
-            xarController::redirect($returnurl);
+            xarController::redirect($returnurl, null, $context);
         } else {
-            xarController::redirect(xarController::URL('publications', 'user', 'view'));
+            xarController::redirect(xarController::URL('publications', 'user', 'view'), null, $context);
         }
     }
 
@@ -70,9 +70,9 @@ function publications_user_delete()
             $item = $publication->getFieldValues();
 
             # --------------------------------------------------------
-#
+            #
             # Are we allowed to delete the page(s)?
-#
+            #
             $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $publication->properties['access']]);
             $allow = $access->check($accessconstraints['delete']);
 
@@ -97,7 +97,12 @@ function publications_user_delete()
                     if ($accessconstraints['delete']['failure']) {
                         return xarResponse::Forbidden();
                     } elseif ($nopermissionpage_id) {
-                        xarController::redirect(xarController::URL('publications', 'user', 'display', ['itemid' => $nopermissionpage_id]));
+                        xarController::redirect(xarController::URL(
+                            'publications',
+                            'user',
+                            'display',
+                            ['itemid' => $nopermissionpage_id]
+                        ), null, $context);
                     } else {
                         return xarTpl::module('publications', 'user', 'empty');
                     }
@@ -121,9 +126,9 @@ function publications_user_delete()
             $publication->getItem(['itemid' => $id]);
 
             # --------------------------------------------------------
-#
+            #
             # Are we allowed to delete the page(s)?
-#
+            #
             $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $publication->properties['access']]);
             $allow = $access->check($accessconstraints['delete']);
 
@@ -148,7 +153,12 @@ function publications_user_delete()
                     if ($accessconstraints['delete']['failure']) {
                         return xarResponse::Forbidden();
                     } elseif ($nopermissionpage_id) {
-                        xarController::redirect(xarController::URL('publications', 'user', 'display', ['itemid' => $nopermissionpage_id]));
+                        xarController::redirect(xarController::URL(
+                            'publications',
+                            'user',
+                            'display',
+                            ['itemid' => $nopermissionpage_id]
+                        ), null, $context);
                     } else {
                         return xarTpl::module('publications', 'user', 'empty');
                     }
@@ -168,9 +178,9 @@ function publications_user_delete()
         }
 
         if (isset($returnurl)) {
-            xarController::redirect($returnurl);
+            xarController::redirect($returnurl, null, $context);
         } else {
-            xarController::redirect(xarController::URL('publications', 'user', 'view', $data));
+            xarController::redirect(xarController::URL('publications', 'user', 'view', $data), null, $context);
         }
         return true;
     }

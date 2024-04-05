@@ -15,7 +15,7 @@
  * @param $args array containing text from an article
  * @return string
  */
-function publications_userapi_generatekeywords($args)
+function publications_userapi_generatekeywords(array $args = [], $context = null)
 {
     extract($args);
 

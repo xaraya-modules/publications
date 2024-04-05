@@ -12,7 +12,7 @@
 /**
  * manage publication types (all-in-one function for now)
  */
-function publications_admin_importpages()
+function publications_admin_importpages(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;
@@ -66,9 +66,9 @@ function publications_admin_importpages()
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get the base directory where the html files to be imported are located
-#
+    #
     if (empty($basedir)) {
         $data['basedir'] = realpath(sys::code() . 'modules/publications');
     } else {
@@ -93,9 +93,9 @@ function publications_admin_importpages()
     $data['authid'] = xarSec::genAuthKey();
 
     # --------------------------------------------------------
-#
+    #
     # Get the current publication types
-#
+    #
     $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
 
     $data['pubtypes'] = [];
@@ -106,9 +106,9 @@ function publications_admin_importpages()
     $data['cats'] = [];
     if (!empty($data['ptid'])) {
         # --------------------------------------------------------
-#
+        #
         # Get the fields of hte chosen pubtype
-#
+        #
         sys::import('modules.dynamicdata.class.objects.factory');
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
@@ -149,9 +149,9 @@ function publications_admin_importpages()
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get the data from the form
-#
+    #
     $data['selected'] = [];
     if (!isset($refresh) && isset($filelist) && is_array($filelist) && count($filelist) > 0) {
         foreach ($filelist as $file) {
@@ -197,9 +197,9 @@ function publications_admin_importpages()
     }
 
     # --------------------------------------------------------
-#
+    #
     # Perform the import
-#
+    #
     if (!empty($data['ptid']) && isset($data['contentfield']) && count($data['selected']) > 0
         && (isset($test) || isset($import))) {
         $mysearch = [];

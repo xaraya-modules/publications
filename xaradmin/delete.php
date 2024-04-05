@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_admin_delete()
+function publications_admin_delete(array $args = [], $context = null)
 {
     if (!xarSecurity::check('ManagePublications')) {
         return;
@@ -38,9 +38,9 @@ function publications_admin_delete()
 
     if (empty($idlist)) {
         if (isset($returnurl)) {
-            xarController::redirect($returnurl);
+            xarController::redirect($returnurl, null, $context);
         } else {
-            xarController::redirect(xarController::URL('publications', 'admin', 'view'));
+            xarController::redirect(xarController::URL('publications', 'admin', 'view'), null, $context);
         }
     }
 
@@ -81,9 +81,9 @@ function publications_admin_delete()
             xarHooks::notify('ItemDelete', $item);
         }
         if (isset($returnurl)) {
-            xarController::redirect($returnurl);
+            xarController::redirect($returnurl, null, $context);
         } else {
-            xarController::redirect(xarController::URL('publications', 'admin', 'view', $data));
+            xarController::redirect(xarController::URL('publications', 'admin', 'view', $data), null, $context);
         }
         return true;
     }

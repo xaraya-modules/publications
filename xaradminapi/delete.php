@@ -11,7 +11,7 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-function publications_adminapi_delete($args)
+function publications_adminapi_delete(array $args = [], $context = null)
 {
     // Get arguments from argument array
     extract($args);
@@ -33,7 +33,7 @@ function publications_adminapi_delete($args)
     }
 
     sys::import('xaraya.structures.query');
-    $table =& xarDB::getTables();
+    $table = & xarDB::getTables();
 
     switch ($deletetype) {
         case 0:

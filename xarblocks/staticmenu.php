@@ -45,23 +45,23 @@ class Publications_StaticmenuBlock extends BasicBlock implements iBlock
      * @param array $data $blockinfo array
      * @return array $blockinfo array
      */
-    public function display(array $data=[])
+    public function display(array $data = [])
     {
         $data = $this->getContent();
 
         // Pointer to simplify referencing.
-        $vars =& $data;
+        $vars = & $data;
 
         #------------------------------------------------------------
         # If we don't have any page data, then fetch it now
-#
+        #
         if (empty($pagedata)) {
             $pagedata = xarMod::apiFunc('publications', 'user', 'get_menu_pages');
         }
 
         #------------------------------------------------------------
         # Add the chosen pages as nodes to a graph
-#
+        #
         sys::import('xaraya.structures.graph');
         $g = new Graph();
         foreach ($pagedata as $page) {
@@ -73,8 +73,8 @@ class Publications_StaticmenuBlock extends BasicBlock implements iBlock
 
         #------------------------------------------------------------
         # Connect the nodes according to which page has which ancestor
-#
-        $allnodes =& $g->getNodes();
+        #
+        $allnodes = & $g->getNodes();
         foreach ($allnodes as $k => $n) {
             $ndata = $n->getData();
             $thisparent = $ndata['parentpage_id'];
@@ -124,13 +124,13 @@ class Publications_StaticmenuBlock extends BasicBlock implements iBlock
 
         #------------------------------------------------------------
         # Sort the nodes
-#
+        #
         // $sorter = new TopologicalSorter();
         // $result = $sorter->sort($g);
 
         #------------------------------------------------------------
         # Rearrange them as needed for menus
-#
+        #
         // Define some things we will need
         $data['menuarray'] = [];
 

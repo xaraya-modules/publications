@@ -121,14 +121,14 @@ function publications_admin_view(array $args = [], $context = null)
             return;
         }
     } elseif (!is_numeric($ptid) || !isset($pubtypes[$ptid])) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     } elseif (!xarSecurity::check('EditPublications', 1, 'Publication', "$ptid:All:All:All")) {
         return;
     }
 
     $settings = [];
     if (!empty($ptid)) {
-        $string = xarModVars::get('publications', 'settings.'.$ptid);
+        $string = xarModVars::get('publications', 'settings.' . $ptid);
         if (!empty($string)) {
             $settings = unserialize($string);
         }

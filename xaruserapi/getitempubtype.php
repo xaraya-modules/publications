@@ -14,14 +14,14 @@
  * Given an itemid, get the publication type
  * CHECKME: use get in place of this function?
  */
-function publications_userapi_getitempubtype($args)
+function publications_userapi_getitempubtype(array $args = [], $context = null)
 {
     if (empty($args['itemid'])) {
         throw new BadParameterException('itemid');
     }
 
     sys::import('xaraya.structures.query');
-    $xartables =& xarDB::getTables();
+    $xartables = & xarDB::getTables();
     $q = new Query('SELECT', $xartables['publications']);
     $q->addfield('pubtype_id');
     $q->eq('id', $args['itemid']);

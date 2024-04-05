@@ -12,7 +12,7 @@
 /**
  * show monthly archive (Archives-like)
  */
-function publications_user_archive($args)
+function publications_user_archive(array $args = [], $context = null)
 {
     // Xaraya security
     if (!xarSecurity::check('ModeratePublications')) {
@@ -51,7 +51,7 @@ function publications_user_archive($args)
         if (!xarSecurity::check('ViewPublications', 0, 'Publication', 'All:All:All:All')) {
             return xarML('You have no permission to view these items');
         }
-    } elseif (!xarSecurity::check('ViewPublications', 0, 'Publication', $ptid.':All:All:All')) {
+    } elseif (!xarSecurity::check('ViewPublications', 0, 'Publication', $ptid . ':All:All:All')) {
         return xarML('You have no permission to view these items');
     }
 
@@ -99,7 +99,7 @@ function publications_user_archive($args)
     if (!empty($month) && preg_match('/^(\d{4})-(\d+)$/', $month, $matches)) {
         $startdate = gmmktime(0, 0, 0, $matches[2], 1, $matches[1]);
         // PHP allows month > 12 :-)
-        $enddate = gmmktime(0, 0, 0, $matches[2]+1, 1, $matches[1]);
+        $enddate = gmmktime(0, 0, 0, $matches[2] + 1, 1, $matches[1]);
         if ($enddate > time()) {
             $enddate = time();
         }
@@ -401,7 +401,7 @@ function publications_user_archive($args)
     }
     //}
     if (!empty($ptid)) {
-        $settings = unserialize(xarModVars::get('publications', 'settings.'.$ptid));
+        $settings = unserialize(xarModVars::get('publications', 'settings.' . $ptid));
     } else {
         $string = xarModVars::get('publications', 'settings');
         if (!empty($string)) {
@@ -423,7 +423,7 @@ function publications_user_archive($args)
             $show_pubcount = 0;
         }
     }
-//    $show_catcount = 0; // unused here
+    //    $show_catcount = 0; // unused here
 
     // return template out
     $data = ['months' => $months,

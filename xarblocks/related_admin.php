@@ -19,14 +19,14 @@ sys::import('modules.publications.xarblocks.related');
 
 class Publications_RelatedBlockAdmin extends Publications_RelatedBlock
 {
-    public function modify(array $data=[])
+    public function modify(array $data = [])
     {
         $data = $this->getContent();
 
         return $data;
     }
 
-    public function update(array $data=[])
+    public function update(array $data = [])
     {
         $args = [];
         xarVar::fetch('numitems', 'int', $args['numitems'], $this->numitems, xarVar::NOT_REQUIRED);

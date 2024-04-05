@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_user_create()
+function publications_user_create(array $args = [], $context = null)
 {
     // Xaraya security
     if (!xarSecurity::check('ModeratePublications')) {
@@ -75,13 +75,13 @@ function publications_user_create()
     if (!empty($return_url)) {
         // FIXME: this is a hack for short URLS
         $delimiter = (strpos($return_url, '&')) ? '&' : '?';
-        xarController::redirect($return_url . $delimiter . 'itemid=' . $itemid);
+        xarController::redirect($return_url . $delimiter . 'itemid=' . $itemid, null, $context);
     }
 
     // Redirect if we came from somewhere else
     $current_listview = xarSession::getVar('publications_current_listview');
     if (!empty($current_listview)) {
-        xarController::redirect($current_listview);
+        xarController::redirect($current_listview, null, $context);
     }
 
     xarController::redirect(xarController::URL(
@@ -89,6 +89,6 @@ function publications_user_create()
         'user',
         'view',
         ['ptid' => $data['ptid']]
-    ));
+    ), null, $context);
     return true;
 }

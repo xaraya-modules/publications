@@ -38,7 +38,7 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
 
         # ------------------------------------------------------------
         # Set up the different conditions for getting the items that can be featured
-#
+        #
         $conditions = [];
 
         // Only include pubtype if a specific pubtype is selected
@@ -60,7 +60,7 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
 
         # ------------------------------------------------------------
         # Get the items for the dropdown based on the conditions
-#
+        #
         $items = xarMod::apiFunc('publications', 'user', 'getall', $conditions);
 
         // Limit the titles to less than 50 characters
@@ -80,7 +80,7 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
 
         # ------------------------------------------------------------
         # Get the data for other dropdowns
-#
+        #
         $data['pubtypes'] = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
         $data['categorylist'] = xarMod::apiFunc('categories', 'user', 'getcat');
         $data['sortoptions'] = [
@@ -94,7 +94,7 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
         return $data;
     }
 
-    public function update(array $data=[])
+    public function update(array $data = [])
     {
         $args = [];
         xarVar::fetch('pubtype_id', 'int', $args['pubtype_id'], 0, xarVar::NOT_REQUIRED);

@@ -12,7 +12,7 @@
 /**
  * Import an object definition or an object item from XML
  */
-function publications_adminapi_importpubtype($args)
+function publications_adminapi_importpubtype(array $args = [], $context = null)
 {
     // Security check - we require ADMIN rights here
     if (!xarSecurity::check('AdminPublications')) {
@@ -245,9 +245,9 @@ function publications_adminapi_importpubtype($args)
                 }
 
                 // 4. set the module variables
-                xarModVars::set('publications', 'settings.'.$ptid, $object['config']);
-                xarModVars::set('publications', 'number_of_categories.'.$ptid, 0);
-                xarModVars::set('publications', 'mastercids.'.$ptid, '');
+                xarModVars::set('publications', 'settings.' . $ptid, $object['config']);
+                xarModVars::set('publications', 'number_of_categories.' . $ptid, 0);
+                xarModVars::set('publications', 'mastercids.' . $ptid, '');
 
                 // 5. create a dynamic object if necessary
                 if (count($extra) > 0) {

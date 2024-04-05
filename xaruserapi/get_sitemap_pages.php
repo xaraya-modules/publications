@@ -21,7 +21,7 @@
  *
  */
 
-function publications_userapi_get_sitemap_pages($args)
+function publications_userapi_get_sitemap_pages(array $args = [], $context = null)
 {
     if (empty($args['itemid'])) {
         $args['itemid'] = 0;
@@ -50,7 +50,7 @@ function publications_userapi_get_sitemap_pages($args)
         }
     }
 
-    $xartable =& xarDB::getTables();
+    $xartable = & xarDB::getTables();
     sys::import('xaraya.structures.query');
     $q = new Query();
     $q->addtable($xartable['publications'], 'p');
@@ -92,7 +92,7 @@ function publications_userapi_get_sitemap_pages($args)
 
     // Add any fiters we found
     foreach ($filters as $k => $v) {
-        $q->eq('p.'.$k, $v);
+        $q->eq('p.' . $k, $v);
     }
 
     // We can force alpha sorting, or else sort according to tree position
@@ -101,7 +101,7 @@ function publications_userapi_get_sitemap_pages($args)
     } else {
         $q->setorder('p.leftpage_id');
     }
-//    $q->qecho();
+    //    $q->qecho();
     $q->run();
     $pages = $q->output();
 
@@ -166,7 +166,7 @@ function publications_userapi_get_sitemap_pages($args)
             // Add the entire row to the result pages
             $indexedpages[$row['parent_id']] = $row;
         }
-        $pages =& $indexedpages;
+        $pages = & $indexedpages;
     }
     return $pages;
 }

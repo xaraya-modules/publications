@@ -14,7 +14,7 @@
  * @param $args['state'] array of requested status(es) for the publications
  * @return array array(id => count), or false on failure
  */
-function publications_userapi_getpubcount($args)
+function publications_userapi_getpubcount(array $args = [], $context = null)
 {
     if (!empty($args['state'])) {
         $statestring = 'all';
@@ -31,7 +31,7 @@ function publications_userapi_getpubcount($args)
 
     $pubcount = [];
 
-    $tables =& xarDB::getTables();
+    $tables = & xarDB::getTables();
     sys::import('xaraya.structures.query');
     $q = new Query('SELECT', $tables['publications']);
     $q->addfield('pubtype_id');
@@ -43,7 +43,7 @@ function publications_userapi_getpubcount($args)
     } else {
         $q->eq('state', $args['state']);
     }
-//    $q->qecho();
+    //    $q->qecho();
     if (!$q->run()) {
         return;
     }

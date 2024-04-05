@@ -15,7 +15,7 @@
  * @param $args array containing the definition of the field (object, itemid, property, value, ...)
  * @return string containing the HTML (or other) text to output in the BL template
  */
-function publications_userapi_fieldoutput($args)
+function publications_userapi_fieldoutput(array $args = [], $context = null)
 {
     extract($args);
     if (!isset($object) || !isset($itemid) || !isset($field)) {

@@ -12,7 +12,7 @@
 /**
  * import pictures into publications
  */
-function publications_admin_importpictures()
+function publications_admin_importpictures(array $args = [], $context = null)
 {
     if (!xarSecurity::check('AdminPublications')) {
         return;
@@ -60,9 +60,9 @@ function publications_admin_importpictures()
     }
 
     # --------------------------------------------------------
-#
+    #
     # Get the base directory where the html files to be imported are located
-#
+    #
     if (!isset($baseurl)) {
         $data['baseurl'] = sys::code() . 'modules/publications/xarimages/';
     } else {
@@ -107,16 +107,16 @@ function publications_admin_importpictures()
                 $thumb = $data['thumbnail'] . $basename;
             }
             // subdir/tn_file.jpg
-            if (in_array($thumb.'.'.$extension, $data['filelist'])) {
-                $data['thumblist'][$file] = $thumb.'.'.$extension;
+            if (in_array($thumb . '.' . $extension, $data['filelist'])) {
+                $data['thumblist'][$file] = $thumb . '.' . $extension;
 
-            // subdir/tn_file_jpg.jpg
-            } elseif (in_array($thumb.'_'.$extension.'.'.$extension, $data['filelist'])) {
-                $data['thumblist'][$file] = $thumb.'_'.$extension.'.'.$extension;
+                // subdir/tn_file_jpg.jpg
+            } elseif (in_array($thumb . '_' . $extension . '.' . $extension, $data['filelist'])) {
+                $data['thumblist'][$file] = $thumb . '_' . $extension . '.' . $extension;
 
-            // subdir/tn_file.jpg.jpg
-            } elseif (in_array($thumb.'.'.$extension.'.'.$extension, $data['filelist'])) {
-                $data['thumblist'][$file] = $thumb.'.'.$extension.'.'.$extension;
+                // subdir/tn_file.jpg.jpg
+            } elseif (in_array($thumb . '.' . $extension . '.' . $extension, $data['filelist'])) {
+                $data['thumblist'][$file] = $thumb . '.' . $extension . '.' . $extension;
             }
         }
         if (count($data['thumblist']) > 0) {
@@ -151,9 +151,9 @@ function publications_admin_importpictures()
     $data['cats'] = [];
     if (!empty($data['ptid'])) {
         # --------------------------------------------------------
-#
+        #
         # Get the fields of hte chosen pubtype
-#
+        #
         sys::import('modules.dynamicdata.class.objects.factory');
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);

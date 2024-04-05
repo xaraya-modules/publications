@@ -24,7 +24,7 @@
  *                         (unix timestamp format)
  * @return array of author id => author name
  */
-function publications_userapi_getauthors($args)
+function publications_userapi_getauthors(array $args = [], $context = null)
 {
     // Database information
     $dbconn = xarDB::getConn();

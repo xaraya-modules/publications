@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_admin_templates_page($args)
+function publications_admin_templates_page(array $args = [], $context = null)
 {
     if (!xarSecurity::check('ManagePublications')) {
         return;
@@ -38,7 +38,7 @@ function publications_admin_templates_page($args)
     }
 
     if (empty($data['itemid']) || empty($data['ptid'])) {
-        return xarResponse::NotFound();
+        return xarController::notFound(null, $context);
     }
 
     $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);

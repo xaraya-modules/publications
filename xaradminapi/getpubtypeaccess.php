@@ -13,7 +13,7 @@
 
 sys::import('modules.dynamicdata.class.objects.factory');
 
-function publications_adminapi_getpubtypeaccess($args)
+function publications_adminapi_getpubtypeaccess(array $args = [], $context = null)
 {
     if (!isset($args['ptid'])) {
         throw new Exception(xarML('Missing ptid param in publications_adminapi_getpubtypeaccess'));

@@ -8,7 +8,7 @@
  * idname: name of the ID column
  */
 
-function publications_treeapi_getparent($args)
+function publications_treeapi_getparent(array $args = [], $context = null)
 {
     // Expand the arguments.
     extract($args);
@@ -21,10 +21,10 @@ function publications_treeapi_getparent($args)
         $query = 'SELECT xar_parent'
             . ' FROM ' . $tablename
             . ' WHERE ' . $idname . ' = ?';
-        $result = $dbconn->execute($query, [(int)$id]);
+        $result = $dbconn->execute($query, [(int) $id]);
         if (!$result->EOF) {
             [$parent] = $result->fields;
-            $return = [(int)$parent];
+            $return = [(int) $parent];
         } else {
             // Item not found.
             // TODO: raise error.

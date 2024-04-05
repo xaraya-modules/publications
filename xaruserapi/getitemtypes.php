@@ -14,7 +14,7 @@
  *
  * @return array Array containing the item types and their description
  */
-function publications_userapi_getitemtypes($args)
+function publications_userapi_getitemtypes(array $args = [], $context = null)
 {
     $itemtypes = [];
 
@@ -32,7 +32,7 @@ function publications_userapi_getitemtypes($args)
                                ];
     }
 
-    $extensionitemtypes = xarMod::apiFunc('dynamicdata', 'user', 'getmoduleitemtypes', ['moduleid' => 30065, 'native' =>false]);
+    $extensionitemtypes = xarMod::apiFunc('dynamicdata', 'user', 'getmoduleitemtypes', ['moduleid' => 30065, 'native' => false]);
 
     /* TODO: activate this code when we move to php5
     $keys = array_merge(array_keys($itemtypes),array_keys($extensionitemtypes));
