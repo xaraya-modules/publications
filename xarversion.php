@@ -26,37 +26,40 @@ $modversion['admin']        = true;
 $modversion['user']         = true;
 $modversion['class']        = 'Complete';
 $modversion['category']     = 'Content';
+//$modversion['namespace']      = 'Xaraya\Modules\Publications';
 $modversion['twigtemplates'] = false;  // not quite there yet ;-)
 $modversion['dependencyinfo'] = [
-                                    0 => [
-                                            'name' => 'Xaraya Core',
-                                            'version_ge' => '2.2.0',
-                                         ],
-                                    30066 => [
-                                            'name' => 'ckeditor',
-                                            'minversion' => '1.0.0',
-                                         ],
-                                      ];
+    0 => [
+        'name' => 'Xaraya Core',
+        'version_ge' => '2.4.1',
+    ],
+    /**
+    30066 => [
+        'name' => 'ckeditor',
+        'minversion' => '1.0.0',
+    ],
+     */
+];
 $modversion['propertyinfo'] = [
-                                    30039 => [
-                                        'name' => 'language',
-                                        ],
-                                    30059 => [
-                                        'name' => 'datetime',
-                                        ],
-                                    30099 => [
-                                        'name' => 'pager',
-                                        ],
-                                    30100 => [
-                                        'name' => 'listing',
-                                        ],
-                                    30101 => [
-                                        'name' => 'codemirror',
-                                        ],
-                                    30122 => [
-                                        'name' => 'iconcheckbox',
-                                        ],
-                                    30123 => [
-                                        'name' => 'icondropown',
-                                        ],
-                                    ];
+    30039 => [
+        'name' => 'language',
+    ],
+    30059 => [
+        'name' => 'datetime',
+    ],
+    30099 => [
+        'name' => 'pager',
+    ],
+    30100 => [
+        'name' => 'listing',
+    ],
+    30101 => [
+        'name' => 'codemirror',
+    ],
+    30122 => [
+        'name' => 'iconcheckbox',
+    ],
+    30123 => [
+        'name' => 'icondropown',
+    ],
+];

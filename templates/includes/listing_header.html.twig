@@ -6,7 +6,7 @@
         {% if letter %}
             {% set paramarray = paramarray|merge({'letter': letter}) %}
         {% endif %}
-        {{ include('@properties/listing/includes/listing_headerprefix.html.twig') }}
+        {{ include('@property/listing/includes/listing_headerprefix.html.twig') }}
         {% for field in fieldnames|keys %}
             {% set column = fieldnames[field] %}
             {% set paramarray = paramarray|merge({'order': column}) %}
@@ -22,10 +22,10 @@
                     {{ fieldlabels.column }}
                 </a>
                 {% set subdata = params|merge({'column': column}) %}
-                {{ include('@properties/listing/includes/sortarrows.html.twig', subdata) }}
+                {{ include('@property/listing/includes/sortarrows.html.twig', subdata) }}
             </th>
             {% endif %}
         {% endfor %}
-        {{ include('@properties/listing/includes/listing_headerprefix.html.twig') }}
+        {{ include('@property/listing/includes/listing_headerprefix.html.twig') }}
     </tr>
 {% endblock %}
