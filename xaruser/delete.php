@@ -85,7 +85,7 @@ function publications_user_delete(array $args = [], $context = null)
                     case 1:
                         $allow = xarRoles::isParent('Administrators', xarUser::getVar('uname'));
                         break;
-                    case 1:
+                    case 2:
                         $allow = xarModVars::get('roles', 'admin') == xarUser::getVar('id');
                         break;
                 }
@@ -104,7 +104,8 @@ function publications_user_delete(array $args = [], $context = null)
                             ['itemid' => $nopermissionpage_id]
                         ), null, $context);
                     } else {
-                        return xarTpl::module('publications', 'user', 'empty');
+                        $data = ['context' => $context];
+                        return xarTpl::module('publications', 'user', 'empty', $data);
                     }
                 }
             } else {
@@ -116,6 +117,7 @@ function publications_user_delete(array $args = [], $context = null)
         }
         $data['items'] = $items;
         $data['yes_action'] = xarController::URL('publications', 'user', 'delete', ['idlist' => $idlist]);
+        $data['context'] ??= $context;
         return xarTpl::module('publications', 'user', 'delete', $data);
     } else {
         if (!xarSec::confirmAuthKey()) {
@@ -141,7 +143,7 @@ function publications_user_delete(array $args = [], $context = null)
                     case 1:
                         $allow = xarRoles::isParent('Administrators', xarUser::getVar('uname'));
                         break;
-                    case 1:
+                    case 2:
                         $allow = xarModVars::get('roles', 'admin') == xarUser::getVar('id');
                         break;
                 }
@@ -160,7 +162,8 @@ function publications_user_delete(array $args = [], $context = null)
                             ['itemid' => $nopermissionpage_id]
                         ), null, $context);
                     } else {
-                        return xarTpl::module('publications', 'user', 'empty');
+                        $data = ['context' => $context];
+                        return xarTpl::module('publications', 'user', 'empty', $data);
                     }
                 }
             } else {

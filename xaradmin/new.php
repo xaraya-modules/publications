@@ -64,5 +64,6 @@ function publications_admin_new(array $args = [], $context = null)
     // Get the settings of the publication type we are using
     $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
 
+    $data['context'] ??= $context;
     return xarTpl::module('publications', 'admin', 'new', $data, $template);
 }

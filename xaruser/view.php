@@ -639,5 +639,6 @@ function publications_user_view(array $args = [], $context = null)
     // Flag this as the current list view
     xarSession::setVar('publications_current_listview', xarServer::getCurrentURL(['ptid' => $data['ptid']]));
 
+    $data['context'] ??= $context;
     return xarTpl::module('publications', 'user', 'view', $data, $data['template']);
 }

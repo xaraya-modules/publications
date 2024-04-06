@@ -57,6 +57,7 @@ function publications_admin_create(array $args = [], $context = null)
         if ($data['preview']) {
             $data['tab'] = 'preview';
         }
+        $data['context'] ??= $context;
         return xarTpl::module('publications', 'admin', 'new', $data);
     }
 

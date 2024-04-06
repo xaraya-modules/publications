@@ -112,7 +112,8 @@ function publications_user_modify(array $args = [], $context = null)
                 ['itemid' => $nopermissionpage_id]
             ), null, $context);
         } else {
-            return xarTpl::module('publications', 'user', 'empty');
+            $data = ['context' => $context];
+            return xarTpl::module('publications', 'user', 'empty', $data);
         }
     }
 

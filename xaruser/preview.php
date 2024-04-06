@@ -14,7 +14,7 @@
  * Display publication
  *
  * @param int itemid
- * @param str name
+ * @param string name
  * @param int page
  * @param int ptid The publication type ID
  * @return array with template information
@@ -84,7 +84,8 @@ function publications_user_preview($data)
                 ['itemid' => $nopermissionpage_id]
             ), null, $context);
         } else {
-            return xarTpl::module('publications', 'user', 'empty');
+            $data = ['context' => $context];
+            return xarTpl::module('publications', 'user', 'empty', $data);
         }
     }
 
@@ -101,7 +102,8 @@ function publications_user_preview($data)
                     ['itemid' => $nopermissionpage_id]
                 ), null, $context);
             } else {
-                return xarTpl::module('publications', 'user', 'empty');
+                $data = ['context' => $context];
+                return xarTpl::module('publications', 'user', 'empty', $data);
             }
         }
     }
@@ -282,5 +284,6 @@ function publications_user_preview($data)
     #
     $data['preview'] = 1;
 
+    $data['context'] ??= $context;
     return xarTpl::module('publications', 'user', 'display', $data);
 }

@@ -17,7 +17,7 @@ sys::import('modules.base.class.pager');
  * Display publication
  *
  * @param int itemid
- * @param str name
+ * @param string name
  * @param int page
  * @param int ptid The publication type ID
  * @return array with template information
@@ -697,6 +697,7 @@ function publications_admin_highlights(array $args = [], $context = null)
         }
     }
     $data = xarModHooks::call('item', 'transform', $id, $data, 'publications');
+    $data['context'] ??= $context;
 
     return xarTpl::module('publications', 'user', 'display', $data);
 
@@ -861,6 +862,7 @@ function publications_admin_highlights(array $args = [], $context = null)
     $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
     $id = xarMod::apiFunc('publications', 'user', 'getranslationid', ['id' => $id]);
     $data['object']->getItem(['itemid' => $id]);
+    $data['context'] ??= $context;
 
     return xarTpl::module('publications', 'user', 'display', $data, $template);
 }

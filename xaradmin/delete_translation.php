@@ -61,5 +61,4 @@ function publications_admin_delete_translation(array $args = [], $context = null
         }
         return true;
     }
-    return true;
 }

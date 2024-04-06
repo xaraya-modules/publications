@@ -12,10 +12,12 @@
 /**
  * Update a publication type
  *
- * @param id $args['ptid'] ID of the publication type
- * @param string $args['name'] name of the publication type (not allowed here)
- * @param string $args['description'] description of the publication type
- * @param array $args['config'] configuration of the publication type
+ * @param array $args
+ * with
+ *     id $args['ptid'] ID of the publication type
+ *     string $args['name'] name of the publication type (not allowed here)
+ *     string $args['description'] description of the publication type
+ *     array $args['config'] configuration of the publication type
  * @return bool true on success, false on failure
  */
 function publications_adminapi_updatepubtype(array $args = [], $context = null)

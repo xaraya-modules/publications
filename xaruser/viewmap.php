@@ -376,5 +376,6 @@ function publications_user_viewmap(array $args = [], $context = null)
     // Pass the type of map to the template, so we can decide what links to show
     $data['by'] = $by;
 
+    $data['context'] ??= $context;
     return xarTpl::module('publications', 'user', 'viewmap', $data, $template);
 }

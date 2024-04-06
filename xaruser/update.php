@@ -12,7 +12,7 @@
 /**
  * update item from publications_user_modify
  *
- * @param id     ptid       The publication Type ID for this new article
+ * @param int    ptid       The publication Type ID for this new article
  * @param array  new_cids   An array with the category ids for this new article (OPTIONAL)
  * @param string preview    Are we gonna see a preview? (OPTIONAL)
  * @param string save       Call the save action (OPTIONAL)
@@ -107,6 +107,7 @@ function publications_user_update(array $args = [], $context = null)
         // Get the settings of the publication type we are using
         $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
 
+        $data['context'] ??= $context;
         return xarTpl::module('publications', 'user', 'modify', $data);
     }
 

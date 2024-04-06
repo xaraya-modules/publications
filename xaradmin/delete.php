@@ -87,6 +87,4 @@ function publications_admin_delete(array $args = [], $context = null)
         }
         return true;
     }
-
-    return true;
 }

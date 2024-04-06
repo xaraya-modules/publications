@@ -59,7 +59,8 @@ function publications_user_new(array $args = [], $context = null)
                 ['itemid' => $nopermissionpage_id]
             ), null, $context);
         } else {
-            return xarTpl::module('publications', 'user', 'empty');
+            $data = ['context' => $context];
+            return xarTpl::module('publications', 'user', 'empty', $data);
         }
     }
 
@@ -79,5 +80,6 @@ function publications_user_new(array $args = [], $context = null)
     // Get the settings of the publication type we are using
     $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
 
+    $data['context'] ??= $context;
     return xarTpl::module('publications', 'user', 'new', $data, $template);
 }

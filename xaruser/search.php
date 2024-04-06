@@ -14,7 +14,7 @@
  *
  * @param $args['objectid'] could be the query ? (currently unused)
  * @param $args['extrainfo'] all other parameters ? (currently unused)
- * @return array output
+ * @return array|string|void output
  */
 function publications_user_search(array $args = [], $context = null)
 {
@@ -628,12 +628,14 @@ function publications_user_search(array $args = [], $context = null)
 
         if ($count > 0) {
             // bail out, we have what we needed
+            $data['context'] ??= $context;
             return xarTpl::module('publications', 'user', 'search', $data);
         }
 
         $data['state'] = xarML('No pages found matching this search');
     }
 
+    $data['context'] ??= $context;
     return xarTpl::module('publications', 'user', 'search', $data);
 }
 

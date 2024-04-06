@@ -12,26 +12,28 @@
 /**
  * get a specific article by id, or by a combination of other fields
  *
- * @param id $args['id'] id of article to get, or
- * @param id $args['pubtype_id'] pubtype id of article to get, and optional
- * @param string $args['title'] title of article to get, and optional
- * @param string $args['summary'] summary of article to get, and optional
- * @param string $args['body'] body of article to get, and optional
- * @param int $args['owner'] id of the author of article to get, and optional
- * @param $args['pubdate'] pubdate of article to get, and optional
- * @param string $args['notes'] notes of article to get, and optional
- * @param int $args['state'] status of article to get, and optional
- * @param string $args['locale'] language of article to get
- * @param bool $args['withcids'] (optional) if we want the cids too (default false)
- * @param array $args['fields'] array with all the fields to return per article
+ * @param array<string, mixed> $args
+ * with
+ *     id $args['id'] id of article to get, or
+ *     id $args['pubtype_id'] pubtype id of article to get, and optional
+ *     string $args['title'] title of article to get, and optional
+ *     string $args['summary'] summary of article to get, and optional
+ *     string $args['body'] body of article to get, and optional
+ *     int $args['owner'] id of the author of article to get, and optional
+ *     $args['pubdate'] pubdate of article to get, and optional
+ *     string $args['notes'] notes of article to get, and optional
+ *     int $args['state'] status of article to get, and optional
+ *     string $args['locale'] language of article to get
+ *     bool $args['withcids'] (optional) if we want the cids too (default false)
+ *     array $args['fields'] array with all the fields to return per article
  *                        Default list is : 'id','title','summary','owner',
  *                        'pubdate','pubtype_id','notes','state','body'
  *                        Optional fields : 'cids','author','counter','rating','dynamicdata'
- * @param array $args['extra'] array with extra fields to return per article (in addition
+ *     array $args['extra'] array with extra fields to return per article (in addition
  *                       to the default list). So you can EITHER specify *all* the
  *                       fields you want with 'fields', OR take all the default
  *                       ones and add some optional fields with 'extra'
- * @param id $args['ptid'] same as 'pubtype_id'
+ *     id $args['ptid'] same as 'pubtype_id'
  * @return array article array, or false on failure
  */
 function publications_userapi_get(array $args = [], $context = null)

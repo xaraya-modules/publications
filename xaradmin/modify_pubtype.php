@@ -82,6 +82,7 @@ function publications_admin_modify_pubtype(array $args = [], $context = null)
 
         if (!$isvalid) {
             // Bad data: redisplay the form with error messages
+            $data['context'] ??= $context;
             return xarTpl::module('publications', 'admin', 'modify_pubtype', $data);
         } else {
             // Good data: create the item

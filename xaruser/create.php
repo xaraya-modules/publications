@@ -58,6 +58,7 @@ function publications_user_create(array $args = [], $context = null)
         if ($data['preview']) {
             $data['tab'] = 'preview';
         }
+        $data['context'] ??= $context;
         return xarTpl::module('publications', 'user', 'new', $data);
     }
 

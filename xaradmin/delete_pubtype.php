@@ -66,6 +66,7 @@ function publications_admin_delete_pubtype(array $args = [], $context = null)
         }
         $data['items'] = $items;
         $data['yes_action'] = xarController::URL('publications', 'admin', 'delete_pubtype', ['idlist' => $idlist]);
+        $data['context'] ??= $context;
         return xarTpl::module('publications', 'admin', 'delete_pubtype', $data);
     } else {
         if (!xarSec::confirmAuthKey()) {
@@ -82,6 +83,4 @@ function publications_admin_delete_pubtype(array $args = [], $context = null)
         }
         return true;
     }
-
-    return true;
 }

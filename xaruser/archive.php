@@ -475,6 +475,7 @@ function publications_user_archive(array $args = [], $context = null)
         $template = null;
     }
 
+    $data['context'] ??= $context;
     return xarTpl::module('publications', 'user', 'archive', $data, $template);
 }
 

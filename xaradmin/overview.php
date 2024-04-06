@@ -25,5 +25,6 @@ function publications_admin_overview(array $args = [], $context = null)
      * else just call the main function that usually displays the overview
      */
 
-    return xarTpl::module('publications', 'admin', 'main', $data, 'main');
+     $data['context'] = $context;
+     return xarTpl::module('publications', 'admin', 'main', $data, 'main');
 }

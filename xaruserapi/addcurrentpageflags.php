@@ -7,9 +7,11 @@
  * and adds the necessary flags, returning the tree again.
  * TODO: would probably be more efficient if the pages tree
  * could be passed by reference.
- * @param pagedata array Structure produced by publications/user/getpagestree
- * @param id integer Page ID - the 'current' page.
- * @param root_ids array List of vertial root page IDs (optional)
+ * @param array $args
+ * with
+ *     pagedata array Structure produced by publications/user/getpagestree
+ *     id integer Page ID - the 'current' page.
+ *     root_ids array List of vertial root page IDs (optional)
  * @todo Support a 'maxlevels' value to prune anything above a certain level.
  * @todo Support a 'master root' virtual page (ID 0) pointing to the proper root page.
  * @todo Look at the keys again: this function assumes the page keys will always be ids (not true).

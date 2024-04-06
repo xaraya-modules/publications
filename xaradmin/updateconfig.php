@@ -152,6 +152,7 @@ function publications_admin_updateconfig(array $args = [], $context = null)
         $data['module_settings']->setFieldList('items_per_page, use_module_alias, module_alias_name, enable_short_urls, user_menu_link, use_module_icons, frontend_page, backend_page');
         $isvalid = $data['module_settings']->checkInput();
         if (!$isvalid) {
+            $data['context'] ??= $context;
             return xarTpl::module('base', 'admin', 'modifyconfig', $data);
         } else {
             $itemid = $data['module_settings']->updateItem();

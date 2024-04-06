@@ -117,7 +117,7 @@ class Publications_GlossaryBlock extends BasicBlock implements iBlock
         return $vars;
     }
 
-    public function update()
+    public function update($args = [])
     {
         xarVar::fetch('paramname', 'str:1:20', $vars['paramname'], 'glossaryterm', xarVar::NOT_REQUIRED);
         xarVar::fetch('ptid', 'int:0:', $vars['ptid'], 0, xarVar::NOT_REQUIRED);
