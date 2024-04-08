@@ -52,14 +52,14 @@
         {% if not fields['fileupload'] %}
             {# <!-- Nothing to display --> #}
 
-        {% elseif xar_coremethod('xarModHooks', 'isHooked', 'uploads','publications',fields['itemtype']) and fields['fileupload']|slice(0,1) == ';' %}
+        {% elseif xar_coremethod('xarModHooks', 'isHooked', 'uploads','publications', fields['itemtype']) and fields['fileupload']|slice(0,1) == ';' %}
             {# <!-- Hook output --> #}
-            {#  
+            {#
                 If you hook the uploads module to publications, then file upload fields will contain
                 a comma-separated list of file ids, and you will need to call an API function to
                 retrieve the file information. For dynamic extra fields, you can use [fieldname]_output
                 directly to access the file information.
-             #}
+            #}
             {% set fileupload_output = xar_apifunc('uploads','user','showoutput',{'value': fields['fileupload'], 'multiple': true}) %}
             {% for fileid, fileinfo in fileupload_output %}
                 <p>

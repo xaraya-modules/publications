@@ -103,7 +103,7 @@
             Show submit link             
         </label> 
     </div>
-    {% if xar_coremethod('xarModHooks', 'isHooked', 'dynamicdata','publications',pubtype_id) %}
+    {% if xar_coremethod('xarModHooks', 'isHooked', 'dynamicdata', 'publications', pubtype_id) %}
         <div class="xar-form-input-wrapper-after">
             {{ xar_data_input({type: "checkbox", name: "showdynamic", checked: showdynamic}) }}
             <label class="help" title="{{ xar_translate('Select this if you wish to show the dynamic data that you have included for your publication types.') }}" for="showdynamic{{ blockid }}"> 

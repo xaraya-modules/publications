@@ -14,7 +14,7 @@
 
     <div id="main-content">
         <ul>
-            {% if xar_coremethod('xarModHooks', 'isHooked', 'uploads','publications',fields['itemtype']) and body|slice(0,1) == ';' %}
+            {% if xar_coremethod('xarModHooks', 'isHooked', 'uploads', 'publications', fields['itemtype']) and body|slice(0,1) == ';' %}
         
                 {{ include('@publications/includes/editicons.html.twig') }}
         

@@ -39,7 +39,7 @@
             
             {% if not fields['fileupload'] %}
                 {# <!-- Nothing to display --> #}
-            {% elseif xar_coremethod('xarModHooks', 'isHooked', 'uploads','publications',fields['itemtype']) and fields['fileupload']|slice(0,1) == ';' %}
+            {% elseif xar_coremethod('xarModHooks', 'isHooked', 'uploads','publications', fields['itemtype']) and fields['fileupload']|slice(0,1) == ';' %}
                 {# <!-- If you hook the uploads module to publications, 
                 then file upload fields will contain a comma-separated list of file ids, 
                 and you will need to call an API function to retrieve the file information. 

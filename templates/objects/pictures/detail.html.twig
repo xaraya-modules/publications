@@ -40,7 +40,7 @@
                     </p>
                     {# <!--
                     <div id='photoholder'>
-                        {% if xar_coremethod('xarModHooks', 'isHooked', 'uploads','publications',pubtype_id) and body|slice(0,1) == ';' %}
+                        {% if xar_coremethod('xarModHooks', 'isHooked', 'uploads', 'publications', pubtype_id) and body|slice(0,1) == ';' %}
                             {% set img_output = xar_apifunc('uploads','user','showoutput',{'value': body, 'multiple': true}) %}
                             {% for fileId, fileInfo in img_output %}
                                 <a href="{{ fileInfo['fileDownload'] }}" alt="{{ xar_translate('View full sized image') }}">
