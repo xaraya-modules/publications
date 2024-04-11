@@ -48,17 +48,15 @@ class PublicationsShortController extends ShortActionController
 {
     public $pubtypes = [];
 
-    public function decode(array $data = [])
+    public function decode(array $data = []): array
     {
         $token1 = $this->shorturl_decode($this->firstToken());
         switch ($token1) {
             case 'admin':
                 return parent::decode($data);
-                break;
 
             case 'search':
                 return parent::decode($data);
-                break;
 
             case 'new':
                 $data['func'] = 'new';
@@ -199,7 +197,7 @@ class PublicationsShortController extends ShortActionController
                     if (!empty($decode_url)) {
                         // Attempt to invoke the custom decode URL function, suppressing errors.
                         try {
-                            $args2 = xarMod::apiFunc('publications', 'decode', $decode_url, $params);
+                            $args2 = xarMod::apiFunc('publications', 'decode', $decode_url, $data);
                         } catch (Exception $e) {
                             $args2 = [];
                         }
@@ -259,7 +257,7 @@ class PublicationsShortController extends ShortActionController
         return $data;
     }
 
-    public function encode(xarRequest $request)
+    public function encode(xarRequest $request): string
     {
         if ($request->getType() == 'admin') {
             return parent::encode($request);
@@ -342,7 +340,7 @@ class PublicationsShortController extends ShortActionController
                 // We need a page ID to continue, for now.
                 // TODO: allow this to be expanded to page names.
                 if (empty($params['pid'])) {
-                    return;
+                    return parent::encode($request);
                 }
 
                 static $pages = null;
@@ -369,7 +367,7 @@ class PublicationsShortController extends ShortActionController
 
                 // Check that the pid is a valid page.
                 if (!isset($pages[$params['pid']])) {
-                    return;
+                    return parent::encode($request);
                 }
 
 
@@ -408,7 +406,7 @@ class PublicationsShortController extends ShortActionController
                 // return two arrays: 'path' with path components and 'get' with
                 // any unconsumed (or new) get parameters.
                 if (!empty($pages[$pid]['encode_url'])) {
-                    $extra = xarMod::apiFunc('publications', 'encode', $pages[$pid]['encode_url'], $get, false);
+                    $extra = xarMod::apiFunc('publications', 'encode', $pages[$pid]['encode_url'], $params);
 
                     if (!empty($extra)) {
                         // The handler has supplied some further short URL path components.
@@ -426,8 +424,7 @@ class PublicationsShortController extends ShortActionController
                 break;
 
             default:
-                return;
-                break;
+                return parent::encode($request);
         }
         // Encode the processed params
         $request->setFunction($this->getFunction($path));
@@ -449,7 +446,6 @@ class PublicationsShortController extends ShortActionController
             foreach ($this->pubtypes as $id => $pubtype) {
                 if (strtolower($token) == strtolower($pubtype['description'])) {
                     return $id;
-                    break;
                 }
             }
         } else {
@@ -615,7 +611,6 @@ class PublicationsShortController extends ShortActionController
             foreach ($this->pubtypes as $id => $pubtype) {
                 if ($ptid == $id) {
                     return $this->shorturl_encode(strtolower($pubtype['description']));
-                    break;
                 }
             }
             return 0;
