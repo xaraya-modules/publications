@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sequence matcher for Diff
  *

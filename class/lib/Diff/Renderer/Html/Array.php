@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Base renderer for rendering HTML based diffs for PHP DiffLib.
  *

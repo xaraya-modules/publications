@@ -1,4 +1,5 @@
 <?php
+
 /**
  * rcs_id('$Id: difflib.php,v 1.5 2002/01/21 06:55:47 dairiki Exp $');
  *
