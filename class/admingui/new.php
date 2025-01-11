@@ -19,6 +19,7 @@ use xarModVars;
 use xarDB;
 use xarMod;
 use xarTpl;
+use DataObjectFactory;
 use sys;
 use BadParameterException;
 

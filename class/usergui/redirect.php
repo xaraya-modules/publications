@@ -17,7 +17,7 @@ use xarMod;
 use xarModHooks;
 use xarController;
 use sys;
-use BadParameterException;
+use DataNotFoundException;
 
 sys::import('xaraya.modules.method');
 

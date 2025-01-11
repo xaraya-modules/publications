@@ -24,6 +24,8 @@ use xarRoles;
 use xarUser;
 use xarServer;
 use xarTpl;
+use DataObjectFactory;
+use Query;
 use sys;
 use BadParameterException;
 

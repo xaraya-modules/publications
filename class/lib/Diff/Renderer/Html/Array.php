@@ -178,6 +178,7 @@ class Diff_Renderer_Html_Array extends Diff_Renderer_Abstract
         $lines = array_map([$this, 'ExpandTabs'], $lines);
         $lines = array_map([$this, 'HtmlSafe'], $lines);
         foreach ($lines as &$line) {
+            // @todo use preg_replace_callback to replace #...#e modifier
             $line = preg_replace('# ( +)|^ #e', "\$this->fixSpaces('\\1')", $line);
         }
         return $lines;

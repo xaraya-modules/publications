@@ -24,6 +24,7 @@ use xarModHooks;
 use xarCore;
 use xarSession;
 use xarServer;
+use DataObjectFactory;
 use sys;
 use BadParameterException;
 

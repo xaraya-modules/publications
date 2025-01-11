@@ -21,6 +21,9 @@ use xarMod;
 use xarTpl;
 use xarModAlias;
 use xarController;
+use DataObjectFactory;
+use DataPropertyMaster;
+use PropertyRegistration;
 use sys;
 use BadParameterException;
 

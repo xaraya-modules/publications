@@ -13,8 +13,9 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\MethodClass;
 use xarCore;
+use DataObjectFactory;
 use sys;
-use BadParameterException;
+use Exception;
 
 sys::import('xaraya.modules.method');
 
@@ -27,10 +28,10 @@ class GetsettingsMethod extends MethodClass
 
     /**
      * retrieve the settings of a publication type
-     * @param mixed $args array containing the publication type
+     * @param mixed $data array containing the publication type
      * @return array of setting keys and values
      */
-    public function __invoke($data)
+    public function __invoke(array $data = [])
     {
         if (empty($data['ptid'])) {
             throw new Exception('Missing publication type for caching');

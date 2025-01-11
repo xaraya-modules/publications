@@ -20,8 +20,14 @@ use xarController;
 use xarResponse;
 use xarTpl;
 use xarServer;
+use xarRequest;
+use xarRouter;
+use xarDispatcher;
+use DataObjectFactory;
+use DataPropertyMaster;
+use XarayaCompiler;
 use sys;
-use BadParameterException;
+use Exception;
 
 sys::import('xaraya.modules.method');
 

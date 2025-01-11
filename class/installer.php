@@ -22,6 +22,7 @@ use xarHooks;
 use xarPrivileges;
 use xarController;
 use xarMasks;
+use Query;
 use sys;
 use Exception;
 

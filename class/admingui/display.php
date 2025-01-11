@@ -23,8 +23,11 @@ use xarServer;
 use xarTpl;
 use xarTplPager;
 use xarModHooks;
+use DataObjectFactory;
+use DataPropertyMaster;
+use XarayaCompiler;
 use sys;
-use BadParameterException;
+use Exception;
 
 sys::import('xaraya.modules.method');
 

@@ -15,8 +15,11 @@ use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
 use xarController;
+use DataObjectFactory;
+use Diff;
+use Diff_Renderer_Html_Inline;
 use sys;
-use BadParameterException;
+use Exception;
 
 sys::import('xaraya.modules.method');
 

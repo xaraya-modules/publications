@@ -12,7 +12,10 @@
 namespace Xaraya\Modules\Publications\AdminApi;
 
 use Xaraya\Modules\MethodClass;
+use xarMod;
 use xarDB;
+use DataObjectFactory;
+use Query;
 use sys;
 use BadParameterException;
 
@@ -45,7 +48,7 @@ class PromoteAliasMethod extends MethodClass
             throw new BadParameterException(null, $msg);
         }
 
-        $base_id = gettranslationid(['itemid' => $itemid]);
+        $base_id = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['itemid' => $itemid]);
 
         // If the alias was already the base ID, then we're done
         if ($base_id == $itemid) {

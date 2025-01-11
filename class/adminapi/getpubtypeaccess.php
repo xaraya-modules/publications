@@ -12,8 +12,9 @@
 namespace Xaraya\Modules\Publications\AdminApi;
 
 use Xaraya\Modules\MethodClass;
+use DataObjectFactory;
 use sys;
-use BadParameterException;
+use Exception;
 
 sys::import('xaraya.modules.method');
 

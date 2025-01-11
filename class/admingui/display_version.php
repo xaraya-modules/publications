@@ -15,8 +15,9 @@ use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
 use xarController;
+use DataObjectFactory;
 use sys;
-use BadParameterException;
+use Exception;
 
 sys::import('xaraya.modules.method');
 

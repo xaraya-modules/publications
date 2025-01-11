@@ -23,6 +23,7 @@ use xarTpl;
 use xarHooks;
 use xarSession;
 use xarController;
+use DataObjectFactory;
 use sys;
 use BadParameterException;
 

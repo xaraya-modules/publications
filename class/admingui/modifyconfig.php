@@ -17,6 +17,8 @@ use xarVar;
 use xarModVars;
 use xarMod;
 use xarModAlias;
+use DataObjectFactory;
+use PropertyRegistration;
 use sys;
 use BadParameterException;
 
@@ -82,7 +84,7 @@ class ModifyconfigMethod extends MethodClass
             // Get the settings for this publication type
             sys::import('modules.publications.xaruserapi.getsettings');
             $settings = @unserialize((string) $pubtypeobject->properties['configuration']->getValue());
-            $globalsettings = publications_userapi_getglobalsettings();
+            $globalsettings = xarMod::apiFunc('publications', 'user', 'getglobalsettings');
             if (is_array($settings)) {
                 $data['settings'] = $settings + $globalsettings;
             } else {

@@ -19,8 +19,11 @@ use xarModVars;
 use xarResponse;
 use xarTpl;
 use xarMod;
+use DataObjectFactory;
+use DataPropertyMaster;
+use XarayaCompiler;
 use sys;
-use BadParameterException;
+use Exception;
 
 sys::import('xaraya.modules.method');
 
@@ -31,7 +34,7 @@ class PreviewMethod extends MethodClass
 {
     /** functions imported by bermuda_cleanup */
 
-    public function __invoke($data)
+    public function __invoke(array $data = [])
     {
         if (!xarVar::fetch('layout', 'str:1', $layout, 'detail', xarVar::NOT_REQUIRED)) {
             return;

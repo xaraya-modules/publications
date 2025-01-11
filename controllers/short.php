@@ -453,7 +453,7 @@ class PublicationsShortController extends ShortActionController
         }
     }
 
-    private function decode_page($token2 = '', $ptid)
+    private function decode_page($token2 = '', $ptid = 0)
     {
         $xartables = & xarDB::getTables();
         $q = new Query('SELECT', $xartables['publications']);

@@ -22,6 +22,8 @@ use xarUser;
 use xarResponse;
 use xarTpl;
 use xarCoreCache;
+use DataObjectFactory;
+use DataPropertyMaster;
 use sys;
 use BadParameterException;
 

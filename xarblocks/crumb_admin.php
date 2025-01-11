@@ -70,7 +70,7 @@ class Publications_CrumbBlockAdmin extends Publications_CrumbBlock implements iB
      * Updates the Block config from the Blocks Admin
      * @return bool true on success
      */
-    public function update()
+    public function update($data = [])
     {
         $vars = $this->getContent();
 

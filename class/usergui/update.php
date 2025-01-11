@@ -25,6 +25,8 @@ use xarModAlias;
 use xarSession;
 use xarHooks;
 use xarController;
+use DataObjectFactory;
+use DataPropertyMaster;
 use sys;
 use BadParameterException;
 

@@ -18,8 +18,10 @@ use xarDB;
 use xarVar;
 use xarModVars;
 use xarModHooks;
+use DataPropertyMaster;
 use sys;
 use BadParameterException;
+use DuplicateException;
 
 sys::import('xaraya.modules.method');
 

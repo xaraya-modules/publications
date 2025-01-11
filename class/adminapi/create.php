@@ -18,8 +18,10 @@ use xarUser;
 use xarMLS;
 use xarDB;
 use xarModHooks;
+use DataPropertyMaster;
 use sys;
 use BadParameterException;
+use ForbiddenOperationException;
 
 sys::import('xaraya.modules.method');
 

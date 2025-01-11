@@ -36,7 +36,6 @@ class WaitingcontentMethod extends MethodClass
         }
 
         // Get publication types
-        unset($publinks);
         $publinks = xarMod::apiFunc(
             'publications',
             'user',

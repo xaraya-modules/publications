@@ -15,6 +15,7 @@ use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarCoreCache;
 use xarDB;
+use Query;
 use sys;
 use BadParameterException;
 

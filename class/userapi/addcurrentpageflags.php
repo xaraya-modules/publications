@@ -13,7 +13,7 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\MethodClass;
 use sys;
-use BadParameterException;
+use Exception;
 
 sys::import('xaraya.modules.method');
 

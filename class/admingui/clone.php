@@ -19,6 +19,8 @@ use xarSec;
 use xarTpl;
 use xarDB;
 use xarSession;
+use DataObjectFactory;
+use Query;
 use sys;
 use BadParameterException;
 

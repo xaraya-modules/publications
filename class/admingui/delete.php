@@ -19,6 +19,7 @@ use xarVar;
 use xarSec;
 use xarTpl;
 use xarHooks;
+use DataObjectFactory;
 use sys;
 use BadParameterException;
 

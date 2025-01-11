@@ -13,7 +13,7 @@ namespace Xaraya\Modules\Publications\AdminApi;
 
 use Xaraya\Modules\MethodClass;
 use sys;
-use BadParameterException;
+use Exception;
 
 sys::import('xaraya.modules.method');
 
@@ -46,9 +46,6 @@ class WriteFileMethod extends MethodClass
             }
             $fp = fopen($args['file'], "wb");
 
-            if (get_magic_quotes_gpc()) {
-                $data = stripslashes($args['data']);
-            }
             fwrite($fp, $args['data']);
             fclose($fp);
             return true;

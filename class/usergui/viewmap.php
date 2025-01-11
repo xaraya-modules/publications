@@ -18,6 +18,7 @@ use xarController;
 use xarMod;
 use xarCoreCache;
 use xarTpl;
+use DataObjectFactory;
 use sys;
 use BadParameterException;
 

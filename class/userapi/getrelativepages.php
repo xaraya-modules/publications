@@ -16,6 +16,7 @@ use xarMod;
 use xarModVars;
 use xarDB;
 use xarUser;
+use Query;
 use sys;
 use BadParameterException;
 

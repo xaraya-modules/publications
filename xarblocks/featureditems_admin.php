@@ -94,7 +94,7 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
         return $data;
     }
 
-    public function update(array $data = [])
+    public function update($data = [])
     {
         $args = [];
         xarVar::fetch('pubtype_id', 'int', $args['pubtype_id'], 0, xarVar::NOT_REQUIRED);

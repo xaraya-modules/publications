@@ -17,6 +17,7 @@ use xarVar;
 use xarMod;
 use xarPrivileges;
 use xarController;
+use DataPropertyMaster;
 use sys;
 use BadParameterException;
 

@@ -41,6 +41,7 @@
  * @link http://github.com/chrisboulton/php-diff
  */
 
+#[\AllowDynamicProperties]
 class Diff_SequenceMatcher
 {
     /**
@@ -85,7 +86,7 @@ class Diff_SequenceMatcher
      * @param string|array $b A string or array containing the lines to compare.
      * @param string|array $junkCallback Either an array or string that references a callback function (if there is one) to determine 'junk' characters.
      */
-    public function __construct($a, $b, $junkCallback = null, $options)
+    public function __construct($a, $b, $junkCallback = null, $options = [])
     {
         $this->a = null;
         $this->b = null;
@@ -620,7 +621,7 @@ class Diff_SequenceMatcher
      * Quickly return an upper bound ratio for the similarity of the strings.
      * This is quicker to compute than Ratio().
      *
-     * @return float The calculated ratio.
+     * @return float|void The calculated ratio.
      */
     private function quickRatio()
     {
@@ -720,7 +721,7 @@ class Diff_SequenceMatcher
             }
         }
 
-        if (count($a) == $count($b)) {
+        if (count($a) == count($b)) {
             return 0;
         } elseif (count($a) < count($b)) {
             return -1;

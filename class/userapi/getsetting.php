@@ -27,10 +27,10 @@ class GetsettingMethod extends MethodClass
 
     /**
      * retrieve the settings of a publication type
-     * @param mixed $args array containing the publication type
+     * @param mixed $data array containing the publication type
      * @return array of setting keys and values
      */
-    public function __invoke($data)
+    public function __invoke(array $data = [])
     {
         $settings = xarMod::apiFunc('publications', 'user', 'getsettings', $data);
 

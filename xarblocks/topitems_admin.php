@@ -23,7 +23,7 @@ class Publications_TopitemsBlockAdmin extends Publications_TopitemsBlock
         return $data;
     }
 
-    public function update(array $data = [])
+    public function update($data = [])
     {
         $args = [];
 

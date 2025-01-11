@@ -26,7 +26,7 @@ class Publications_RelatedBlockAdmin extends Publications_RelatedBlock
         return $data;
     }
 
-    public function update(array $data = [])
+    public function update($data = [])
     {
         $args = [];
         xarVar::fetch('numitems', 'int', $args['numitems'], $this->numitems, xarVar::NOT_REQUIRED);

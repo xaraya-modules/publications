@@ -16,6 +16,8 @@ use xarVar;
 use xarDB;
 use xarMod;
 use xarSecurity;
+use DataPropertyMaster;
+use Query;
 use sys;
 use BadParameterException;
 

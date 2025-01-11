@@ -21,6 +21,8 @@ use xarSession;
 use xarController;
 use sys;
 use BadParameterException;
+use DataNotFoundException;
+use ForbiddenOperationException;
 
 sys::import('xaraya.modules.method');
 

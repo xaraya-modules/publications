@@ -132,6 +132,7 @@ class _DiffOp_Change extends _DiffOp
  * @author Geoffrey T. Dairiki
  * @access private
  */
+#[\AllowDynamicProperties]
 class _DiffEngine
 {
     public function diff($from_lines, $to_lines)

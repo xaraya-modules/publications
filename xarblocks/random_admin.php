@@ -32,7 +32,7 @@ class Publications_RandomBlockAdmin extends Publications_RandomBlock
         return $data;
     }
 
-    public function update(array $data = [])
+    public function update($data = [])
     {
         xarVar::fetch('locale', 'str', $data['locale'], '', xarVar::NOT_REQUIRED);
         xarVar::fetch('alttitle', 'str', $data['alttitle'], '', xarVar::NOT_REQUIRED);
