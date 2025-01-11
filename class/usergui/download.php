@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarSecurity;
@@ -21,6 +23,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user download function
+ * @extends MethodClass<UserGui>
  */
 class DownloadMethod extends MethodClass
 {

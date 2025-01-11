@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
+
+use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -26,6 +28,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications admin modify_pubtype function
+ * @extends MethodClass<AdminGui>
  */
 class ModifyPubtypeMethod extends MethodClass
 {

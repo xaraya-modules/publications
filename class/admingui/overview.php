@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
+
+use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarTpl;
@@ -21,6 +23,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications admin overview function
+ * @extends MethodClass<AdminGui>
  */
 class OverviewMethod extends MethodClass
 {

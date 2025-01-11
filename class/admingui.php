@@ -19,6 +19,38 @@ sys::import('modules.publications.class.adminapi');
 
 /**
  * Handle the publications admin GUI
+ *
+ * @method mixed clone(array $args)
+ * @method mixed create(array $args)
+ * @method mixed delete(array $args)
+ * @method mixed deletePubtype(array $args)
+ * @method mixed deleteTranslation(array $args)
+ * @method mixed display(array $args)
+ * @method mixed displayVersion(array $args)
+ * @method mixed importpages(array $args)
+ * @method mixed importpictures(array $args)
+ * @method mixed importpubtype(array $args)
+ * @method mixed importwebpage(array $args)
+ * @method mixed main(array $args)
+ * @method mixed manageVersions(array $args)
+ * @method mixed modify(array $args)
+ * @method mixed modifyPubtype(array $args)
+ * @method mixed modifyconfig(array $args)
+ * @method mixed multiops(array $args)
+ * @method mixed new(array $args)
+ * @method mixed overview(array $args)
+ * @method mixed privileges(array $args)
+ * @method mixed stats(array $args)
+ * @method mixed stylesheetType(array $args)
+ * @method mixed templatesPage(array $args)
+ * @method mixed templatesType(array $args)
+ * @method mixed update(array $args)
+ * @method mixed updateconfig(array $args)
+ * @method mixed updatestatus(array $args)
+ * @method mixed view(array $args)
+ * @method mixed viewPages(array $args)
+ * @method mixed viewPubtypes(array $args)
+ * @method mixed waitingcontent(array $args)
  * @extends AdminGuiClass<Module>
  */
 class AdminGui extends AdminGuiClass

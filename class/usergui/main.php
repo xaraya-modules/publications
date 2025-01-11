@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarModVars;
 use xarVar;
@@ -24,6 +26,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user main function
+ * @extends MethodClass<UserGui>
  */
 class MainMethod extends MethodClass
 {

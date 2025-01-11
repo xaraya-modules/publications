@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarCore;
 use DataObjectFactory;
@@ -21,6 +23,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getsettings function
+ * @extends MethodClass<UserApi>
  */
 class GetsettingsMethod extends MethodClass
 {

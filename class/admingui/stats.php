@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
+
+use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -22,6 +24,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications admin stats function
+ * @extends MethodClass<AdminGui>
  */
 class StatsMethod extends MethodClass
 {

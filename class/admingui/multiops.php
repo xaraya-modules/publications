@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
+
+use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarSec;
@@ -22,6 +24,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications admin multiops function
+ * @extends MethodClass<AdminGui>
  */
 class MultiopsMethod extends MethodClass
 {

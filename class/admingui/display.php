@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
+use Xaraya\Modules\Publications\Defines;
+use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -33,6 +35,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications admin display function
+ * @extends MethodClass<AdminGui>
  */
 class DisplayMethod extends MethodClass
 {
@@ -537,7 +540,7 @@ class DisplayMethod extends MethodClass
                                     array('cids' => $cids));
             foreach ($catlist as $cat) {
                 $link = xarController::URL('publications','user','view',
-                                 array(//'state' => array(PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED).
+                                 array(//'state' => array(Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED).
                                        'ptid' => $ptid,
                                        'catid' => $cat['cid']));
                 $name = xarVar::prepForDisplay($cat['name']);
@@ -727,7 +730,7 @@ class DisplayMethod extends MethodClass
         // Navigation links
         $data['publabel'] = xarML('Publication');
         $data['publinks'] = []; //xarMod::apiFunc('publications','user','getpublinks',
-        //    array('state' => array(PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED),
+        //    array('state' => array(Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED),
         //          'count' => $show_pubcount));
         if (isset($show_map)) {
             $settings['show_map'] = $show_map;
@@ -836,7 +839,7 @@ class DisplayMethod extends MethodClass
                 'user',
                 'getpubcatcount',
                 // frontpage or approved
-                ['state' => [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED],
+                ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                     'ptid' => $ptid, ]
             );
             if (!empty($pubcatcount[$ptid])) {

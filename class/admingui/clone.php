@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
+
+use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -28,6 +30,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications admin clone function
+ * @extends MethodClass<AdminGui>
  */
 class CloneMethod extends MethodClass
 {

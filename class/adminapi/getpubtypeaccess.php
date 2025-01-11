@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
+
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use DataObjectFactory;
 use sys;
@@ -20,6 +22,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi getpubtypeaccess function
+ * @extends MethodClass<AdminApi>
  */
 class GetpubtypeaccessMethod extends MethodClass
 {

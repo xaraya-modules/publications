@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
+
+use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -26,6 +28,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications admin modifyconfig function
+ * @extends MethodClass<AdminGui>
  */
 class ModifyconfigMethod extends MethodClass
 {
@@ -82,7 +85,6 @@ class ModifyconfigMethod extends MethodClass
             $pubtypeobject->getItem(['itemid' => $data['ptid']]);
 
             // Get the settings for this publication type
-            sys::import('modules.publications.xaruserapi.getsettings');
             $settings = @unserialize((string) $pubtypeobject->properties['configuration']->getValue());
             $globalsettings = xarMod::apiFunc('publications', 'user', 'getglobalsettings');
             if (is_array($settings)) {

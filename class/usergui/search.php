@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+use Xaraya\Modules\Publications\Defines;
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarMod;
@@ -28,6 +30,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user search function
+ * @extends MethodClass<UserGui>
  */
 class SearchMethod extends MethodClass
 {
@@ -165,7 +168,7 @@ class SearchMethod extends MethodClass
 
         // frontpage or approved state
         if (!$isadmin || !isset($state)) {
-            $state = [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED];
+            $state = [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED];
         } elseif (is_string($state)) {
             if (strpos($state, ' ')) {
                 $state = explode(' ', $state);
@@ -183,7 +186,7 @@ class SearchMethod extends MethodClass
             $seenstate[$that] = 1;
         }
         $state = array_keys($seenstate);
-        if (count($state) != 2 || !in_array(PUBLICATIONS_STATE_APPROVED, $state) || !in_array(PUBLICATIONS_STATE_FRONTPAGE, $state)) {
+        if (count($state) != 2 || !in_array(Defines::STATE_APPROVED, $state) || !in_array(Defines::STATE_FRONTPAGE, $state)) {
             $stateline = implode('+', $state);
         } else {
             $stateline = null;

@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use sys;
@@ -20,6 +22,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getrandom function
+ * @extends MethodClass<UserApi>
  */
 class GetrandomMethod extends MethodClass
 {

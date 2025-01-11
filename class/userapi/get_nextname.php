@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use xarDB;
@@ -22,6 +24,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi get_nextname function
+ * @extends MethodClass<UserApi>
  */
 class GetNextnameMethod extends MethodClass
 {

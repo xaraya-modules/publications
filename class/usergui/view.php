@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+use Xaraya\Modules\Publications\Defines;
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarModVars;
@@ -32,6 +34,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user view function
+ * @extends MethodClass<UserGui>
  */
 class ViewMethod extends MethodClass
 {
@@ -104,7 +107,7 @@ class ViewMethod extends MethodClass
         // publications module ID
         $c_modid = xarMod::getID('publications');
         // state: front page or approved
-        $c_posted = [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED];
+        $c_posted = [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED];
 
         // Default parameters
         if (!isset($startnum)) {
@@ -117,7 +120,7 @@ class ViewMethod extends MethodClass
             // default publication type
             $ptid = xarModVars::get('publications', 'defaultpubtype');
             // frontpage state
-            $state = [PUBLICATIONS_STATE_FRONTPAGE];
+            $state = [Defines::STATE_FRONTPAGE];
         } else {
             $ishome = false;
             // frontpage or approved state
@@ -132,7 +135,7 @@ class ViewMethod extends MethodClass
         xarCoreCache::setCached('Publications', 'pubtype_access', $data['pubtypeobject']->properties['access']->getValue());
 
         // A non-active publication type means the page does not exist
-        if ($data['pubtypeobject']->properties['state']->value < PUBLICATIONS_STATE_ACTIVE) {
+        if ($data['pubtypeobject']->properties['state']->value < Defines::STATE_ACTIVE) {
             return xarController::notFound(null, $this->getContext());
         }
 

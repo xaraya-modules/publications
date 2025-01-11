@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
+
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use xarDB;
@@ -23,6 +25,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi promote_alias function
+ * @extends MethodClass<AdminApi>
  */
 class PromoteAliasMethod extends MethodClass
 {

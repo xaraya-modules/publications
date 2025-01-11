@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarModUserVars;
 use xarModVars;
@@ -24,6 +26,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getrootcats function
+ * @extends MethodClass<UserApi>
  */
 class GetrootcatsMethod extends MethodClass
 {

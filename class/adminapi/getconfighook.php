@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
+
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use sys;
@@ -20,6 +22,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi getconfighook function
+ * @extends MethodClass<AdminApi>
  */
 class GetconfighookMethod extends MethodClass
 {

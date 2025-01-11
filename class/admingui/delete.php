@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
+
+use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarController;
@@ -27,6 +29,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications admin delete function
+ * @extends MethodClass<AdminGui>
  */
 class DeleteMethod extends MethodClass
 {

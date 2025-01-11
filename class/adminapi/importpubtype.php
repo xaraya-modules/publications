@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
+
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarMod;
@@ -27,6 +29,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi importpubtype function
+ * @extends MethodClass<AdminApi>
  */
 class ImportpubtypeMethod extends MethodClass
 {

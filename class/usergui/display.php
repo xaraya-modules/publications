@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+use Xaraya\Modules\Publications\Defines;
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarModVars;
@@ -33,6 +35,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user display function
+ * @extends MethodClass<UserGui>
  */
 class DisplayMethod extends MethodClass
 {
@@ -140,7 +143,7 @@ class DisplayMethod extends MethodClass
         $pubtypeobject->getItem(['itemid' => $ptid]);
 
         // A non-active publication type means the page does not exist
-        if ($pubtypeobject->properties['state']->value < PUBLICATIONS_STATE_ACTIVE) {
+        if ($pubtypeobject->properties['state']->value < Defines::STATE_ACTIVE) {
             return xarController::notFound(null, $this->getContext());
         }
 

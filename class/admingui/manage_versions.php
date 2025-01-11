@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
+
+use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -25,6 +27,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications admin manage_versions function
+ * @extends MethodClass<AdminGui>
  */
 class ManageVersionsMethod extends MethodClass
 {

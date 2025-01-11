@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarCoreCache;
@@ -23,6 +25,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getpubcount function
+ * @extends MethodClass<UserApi>
  */
 class GetpubcountMethod extends MethodClass
 {

@@ -9,7 +9,7 @@
 
     {% set publication_state = properties['state'].value %}
 
-    {% if (publication_state < PUBLICATIONS_STATE_ACTIVE) and (not xar_security_check('ManagePublications',0)) %}
+    {% if (publication_state < constant('Xaraya\\Modules\\Publications\\Defines::STATE_ACTIVE')) and (not xar_security_check('ManagePublications',0)) %}
         This item cannot be viewed
     {% else %}
 

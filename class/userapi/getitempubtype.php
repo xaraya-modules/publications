@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarDB;
 use Query;
@@ -21,6 +23,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getitempubtype function
+ * @extends MethodClass<UserApi>
  */
 class GetitempubtypeMethod extends MethodClass
 {

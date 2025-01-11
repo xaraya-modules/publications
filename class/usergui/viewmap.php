@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+use Xaraya\Modules\Publications\Defines;
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarModVars;
@@ -26,6 +28,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user viewmap function
+ * @extends MethodClass<UserGui>
  */
 class ViewmapMethod extends MethodClass
 {
@@ -139,7 +142,7 @@ class ViewmapMethod extends MethodClass
                     'user',
                     'getchildcats',
                     // frontpage or approved
-                    ['state' => [PUBLICATIONS_STATE_APPROVED,PUBLICATIONS_STATE_FRONTPAGE],
+                    ['state' => [Defines::STATE_APPROVED,Defines::STATE_FRONTPAGE],
                         'cid' => $cid,
                         'ptid' => null,
                         // keep a link to the parent cid
@@ -179,7 +182,7 @@ class ViewmapMethod extends MethodClass
                         'user',
                         'getchildcats',
                         // frontpage or approved
-                        ['state' => [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED],
+                        ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                             'cid' => $cid,
                             'ptid' => $ptid,
                             // keep a link to the parent cid
@@ -235,7 +238,7 @@ class ViewmapMethod extends MethodClass
                     'user',
                     'getpubcatcount',
                     // frontpage or approved
-                    ['state' => [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED],
+                    ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                         'ptid' => $ptid,
                         'groupcids' => 2,
                         'reverse' => 1, ]
@@ -283,7 +286,7 @@ class ViewmapMethod extends MethodClass
                 'publications',
                 'user',
                 'getpublinks',
-                ['state' => [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED],
+                ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                     'all' => 1, ]
             );
 
@@ -316,7 +319,7 @@ class ViewmapMethod extends MethodClass
                         'user',
                         'getchildcats',
                         // frontpage or approved
-                        ['state' => [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED],
+                        ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                             'cid' => $cid,
                             'ptid' => $pubid,
                             // keep a link to the parent cid

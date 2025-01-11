@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
+
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use sys;
 use Exception;
@@ -19,6 +21,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi getpageaccessconstraints function
+ * @extends MethodClass<AdminApi>
  */
 class GetpageaccessconstraintsMethod extends MethodClass
 {

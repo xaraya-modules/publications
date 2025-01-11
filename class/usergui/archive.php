@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+use Xaraya\Modules\Publications\Defines;
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -27,6 +29,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user archive function
+ * @extends MethodClass<UserGui>
  */
 class ArchiveMethod extends MethodClass
 {
@@ -78,7 +81,7 @@ class ArchiveMethod extends MethodClass
             return xarML('You have no permission to view these items');
         }
 
-        $state = [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED];
+        $state = [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED];
 
         $seencid = [];
         $andcids = false;
@@ -471,7 +474,7 @@ class ArchiveMethod extends MethodClass
                 'user',
                 'getpublinks',
                 ['ptid' => $ptid,
-                    'state' => [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED],
+                    'state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                     'count' => $show_pubcount,
                     // override default 'view'
                     'func' => 'archive', ]

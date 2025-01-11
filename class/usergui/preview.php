@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarController;
@@ -29,6 +31,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user preview function
+ * @extends MethodClass<UserGui>
  */
 class PreviewMethod extends MethodClass
 {

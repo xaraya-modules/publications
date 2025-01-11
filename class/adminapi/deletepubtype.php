@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
+
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarMod;
@@ -23,6 +25,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi deletepubtype function
+ * @extends MethodClass<AdminApi>
  */
 class DeletepubtypeMethod extends MethodClass
 {

@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+use Xaraya\Modules\Publications\Defines;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarModVars;
@@ -24,6 +26,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getprevious function
+ * @extends MethodClass<UserApi>
  */
 class GetpreviousMethod extends MethodClass
 {
@@ -61,7 +64,7 @@ class GetpreviousMethod extends MethodClass
         if (!isset($state)) {
             // frontpage or approved or placeholder
             xarMod::load('publications');
-            $state = [PUBLICATIONS_STATE_ACTIVE,PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_PLACEHOLDER];
+            $state = [Defines::STATE_ACTIVE,Defines::STATE_FRONTPAGE,Defines::STATE_PLACEHOLDER];
         }
 
         // Default fields in publications (for now)

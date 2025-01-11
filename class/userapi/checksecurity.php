@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use xarSecurity;
@@ -21,6 +23,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi checksecurity function
+ * @extends MethodClass<UserApi>
  */
 class ChecksecurityMethod extends MethodClass
 {

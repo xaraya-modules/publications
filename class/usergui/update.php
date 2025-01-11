@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -34,6 +36,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user update function
+ * @extends MethodClass<UserGui>
  */
 class UpdateMethod extends MethodClass
 {

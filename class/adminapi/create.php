@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
+
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use xarModVars;
@@ -27,6 +29,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi create function
+ * @extends MethodClass<AdminApi>
  */
 class CreateMethod extends MethodClass
 {

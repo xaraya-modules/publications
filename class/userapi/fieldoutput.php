@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use DataObjectFactory;
@@ -21,6 +23,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi fieldoutput function
+ * @extends MethodClass<UserApi>
  */
 class FieldoutputMethod extends MethodClass
 {

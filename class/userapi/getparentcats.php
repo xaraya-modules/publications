@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+use Xaraya\Modules\Publications\Defines;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use xarController;
@@ -22,6 +24,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getparentcats function
+ * @extends MethodClass<UserApi>
  */
 class GetparentcatsMethod extends MethodClass
 {
@@ -50,7 +53,7 @@ class GetparentcatsMethod extends MethodClass
         }
         if (!isset($state)) {
             // frontpage or approved
-            $state = [PUBLICATIONS_STATE_FRONTPAGE,PUBLICATIONS_STATE_APPROVED];
+            $state = [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED];
         }
         if (!isset($showcids)) {
             $showcids = true;

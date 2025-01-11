@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarDB;
@@ -23,6 +25,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getall function
+ * @extends MethodClass<UserApi>
  */
 class GetallMethod extends MethodClass
 {

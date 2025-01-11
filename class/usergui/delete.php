@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarController;
@@ -32,6 +34,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user delete function
+ * @extends MethodClass<UserGui>
  */
 class DeleteMethod extends MethodClass
 {

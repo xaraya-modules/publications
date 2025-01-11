@@ -18,6 +18,22 @@ sys::import('xaraya.modules.adminapi');
 
 /**
  * Handle the publications admin API
+ *
+ * @method mixed browse(array $args)
+ * @method mixed create(array $args)
+ * @method mixed createpubtype(array $args)
+ * @method mixed delete(array $args)
+ * @method mixed deletepubtype(array $args)
+ * @method mixed getconfighook(array $args)
+ * @method mixed getpageaccessconstraints(array $args)
+ * @method mixed getpubtypeaccess(array $args)
+ * @method mixed getstats(array $args)
+ * @method mixed importpubtype(array $args)
+ * @method mixed promoteAlias(array $args)
+ * @method mixed readFile(array $args)
+ * @method mixed saveVersion(array $args)
+ * @method mixed updatepubtype(array $args)
+ * @method mixed writeFile(array $args)
  * @extends AdminApiClass<Module>
  */
 class AdminApi extends AdminApiClass

@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarModVars;
 use xarUser;
@@ -23,6 +25,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi gettranslationid function
+ * @extends MethodClass<UserApi>
  */
 class GettranslationidMethod extends MethodClass
 {

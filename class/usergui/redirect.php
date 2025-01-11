@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
+
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarMod;
@@ -23,6 +25,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications user redirect function
+ * @extends MethodClass<UserGui>
  */
 class RedirectMethod extends MethodClass
 {

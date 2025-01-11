@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use sys;
 use Exception;
@@ -19,6 +21,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi addcurrentpageflags function
+ * @extends MethodClass<UserApi>
  */
 class AddcurrentpageflagsMethod extends MethodClass
 {

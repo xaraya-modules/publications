@@ -11,6 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
+
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarController;
 use xarMod;
@@ -22,6 +24,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getitemtypes function
+ * @extends MethodClass<UserApi>
  */
 class GetitemtypesMethod extends MethodClass
 {
