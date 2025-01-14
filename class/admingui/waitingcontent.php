@@ -34,7 +34,7 @@ class WaitingcontentMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('EditPublications')) {
+        if (!$this->checkAccess('EditPublications')) {
             return;
         }
 

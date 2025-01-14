@@ -46,20 +46,21 @@ class LeftjoinMethod extends MethodClass
      *                 AND $where
      *
      * Note : the following arguments are all optional :
-     * @param mixed $args ['ids'] optional array of ids that we are selecting on
-     * @param mixed $args ['owner'] the ID of the author
-     * @param mixed $args ['ptid'] publication type ID (for news, sections, reviews, ...) or array of pubtype IDs
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @param mixed $args ['search'] search text parameter(s)
-     * @param mixed $args ['searchfields'] array of fields to search in
-     * @param mixed $args ['searchtype'] start, end, like, eq, gt, ... (TODO)
-     * @param mixed $args ['pubdate'] publications published in a certain year (YYYY), month (YYYY-MM) or day (YYYY-MM-DD)
-     * @param mixed $args ['startdate'] publications published at startdate or later
+     * @param array<mixed> $args
+     * @var mixed $ids optional array of ids that we are selecting on
+     * @var mixed $owner the ID of the author
+     * @var mixed $ptid publication type ID (for news, sections, reviews, ...) or array of pubtype IDs
+     * @var mixed $state array of requested status(es) for the publications
+     * @var mixed $search search text parameter(s)
+     * @var mixed $searchfields array of fields to search in
+     * @var mixed $searchtype start, end, like, eq, gt, ... (TODO)
+     * @var mixed $pubdate publications published in a certain year (YYYY), month (YYYY-MM) or day (YYYY-MM-DD)
+     * @var mixed $startdate publications published at startdate or later
      * (unix timestamp format)
-     * @param mixed $args ['enddate'] publications published before enddate
+     * @var mixed $enddate publications published before enddate
      * (unix timestamp format)
-     * @param mixed $args ['where'] additional where clauses (myfield gt 1234)
-     * @param mixed $args ['locale'] language/locale (if not using multi-sites, categories etc.)
+     * @var mixed $where additional where clauses (myfield gt 1234)
+     * @var mixed $locale language/locale (if not using multi-sites, categories etc.)
      * @return array array('table' => 'nuke_publications',
      * 'field' => 'nuke_publications.id',
      * 'where' => 'nuke_publications.id IN (...)',
@@ -263,7 +264,7 @@ class LeftjoinMethod extends MethodClass
             // 0. Check for fulltext or fulltext boolean searchtypes (MySQL only)
             // CHECKME: switch to other search type if $search is less than min. length ?
             if (!empty($searchtype) && substr($searchtype, 0, 8) == 'fulltext') {
-                $fulltext = xarModVars::get('publications', 'fulltextsearch');
+                $fulltext = $this->getModVar('fulltextsearch');
                 if (!empty($fulltext)) {
                     $fulltextfields = explode(',', $fulltext);
                 } else {

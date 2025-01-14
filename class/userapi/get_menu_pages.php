@@ -56,7 +56,7 @@ class GetMenuPagesMethod extends MethodClass
 
         // Make sure we have the base translation id
         if (!empty($args['itemid'])) {
-            $args['itemid'] = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $args['itemid'], 'locale' => xarModVars::get('publications', 'defaultlanguage')]);
+            $args['itemid'] = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $args['itemid'], 'locale' => $this->getModVar('defaultlanguage')]);
         }
 
         // Identify any filters
@@ -173,7 +173,7 @@ class GetMenuPagesMethod extends MethodClass
         // CHECKME: is there a better way?
         // If there is no translation the base document remains. Is this desired outcome?
 
-        if (!empty($pages) && xarModVars::get('publications', 'defaultlanguage') != xarUser::getNavigationLocale()) {
+        if (!empty($pages) && $this->getModVar('defaultlanguage') != xarUser::getNavigationLocale()) {
             $indexedpages = [];
             foreach ($pages as $v) {
                 $indexedpages[$v['id']] = $v;

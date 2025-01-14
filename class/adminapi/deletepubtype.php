@@ -33,8 +33,9 @@ class DeletepubtypeMethod extends MethodClass
 
     /**
      * Delete a publication type
-     * @param mixed $args ['ptid'] ID of the publication type
-     * @return bool true on success, false on failure
+     * @param array<mixed> $args
+     * @var mixed $ptid ID of the publication type
+     * @return bool|void true on success, false on failure
      */
     public function __invoke(array $args = [])
     {
@@ -45,7 +46,7 @@ class DeletepubtypeMethod extends MethodClass
         // and in the right format, if not then set an appropriate error
         // message and return
         if (!isset($ptid) || !is_numeric($ptid) || $ptid < 1) {
-            $msg = xarML(
+            $msg = $this->translate(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 'publication type ID',
                 'admin',
@@ -68,7 +69,7 @@ class DeletepubtypeMethod extends MethodClass
         // Get current publication types
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
         if (!isset($pubtypes[$ptid])) {
-            $msg = xarML(
+            $msg = $this->translate(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 'publication type ID',
                 'admin',

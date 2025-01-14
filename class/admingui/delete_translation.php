@@ -45,25 +45,25 @@ class DeleteTranslationMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('ManagePublications')) {
+        if (!$this->checkAccess('ManagePublications')) {
             return;
         }
 
-        if (!xarVar::fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('itemid', 'str', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('itemid', 'str', $data['itemid'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
             return;
         }
 
         if (empty($data['itemid'])) {
             if (isset($returnurl)) {
-                xarController::redirect($returnurl, null, $this->getContext());
+                $this->redirect($returnurl);
             } else {
-                xarController::redirect(xarController::URL('publications', 'admin', 'view'), null, $this->getContext());
+                $this->redirect($this->getUrl('admin', 'view'));
             }
         }
 
@@ -74,22 +74,22 @@ class DeleteTranslationMethod extends MethodClass
         sys::import('modules.dynamicdata.class.objects.factory');
         $publication = DataObjectFactory::getObject(['name' => 'publications_publications']);
         if (!isset($confirmed)) {
-            $data['title'] = xarML("Delete Translation");
-            $data['authid'] = xarSec::genAuthKey();
+            $data['title'] = $this->translate("Delete Translation");
+            $data['authid'] = $this->genAuthKey();
             $publication->getItem(['itemid' => $data['itemid']]);
             $data['item'] = $publication->getFieldValues();
-            $data['yes_action'] = xarController::URL('publications', 'admin', 'delete', ['itemid' => $data['itemid']]);
+            $data['yes_action'] = $this->getUrl( 'admin', 'delete', ['itemid' => $data['itemid']]);
             return xarTpl::module('publications', 'admin', 'delete_translation', $data);
         } else {
-            if (!xarSec::confirmAuthKey()) {
+            if (!$this->confirmAuthKey()) {
                 return;
             }
             $itemid = $publication->deleteItem(['itemid' => $data['itemid']]);
             $data['message'] = "Translation deleted [ID $itemid]";
             if (isset($returnurl)) {
-                xarController::redirect($returnurl, null, $this->getContext());
+                $this->redirect($returnurl);
             } else {
-                xarController::redirect(xarController::URL('publications', 'admin', 'view', $data), null, $this->getContext());
+                $this->redirect($this->getUrl( 'admin', 'view', $data));
             }
             return true;
         }

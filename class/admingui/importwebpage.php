@@ -37,51 +37,51 @@ class ImportwebpageMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('AdminPublications')) {
+        if (!$this->checkAccess('AdminPublications')) {
             return;
         }
 
         // Get parameters
-        if (!xarVar::fetch('url', 'str', $data['url'], '', xarVar::DONT_SET)) {
+        if (!$this->fetch('url', 'str', $data['url'], '', xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('refresh', 'isset', $refresh, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('refresh', 'isset', $refresh, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'int', $data['ptid'], 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptid', 'int', $data['ptid'], 0, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('contentfield', 'str', $data['contentfield'], '', xarVar::DONT_SET)) {
+        if (!$this->fetch('contentfield', 'str', $data['contentfield'], '', xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('titlefield', 'str', $data['titlefield'], '', xarVar::DONT_SET)) {
+        if (!$this->fetch('titlefield', 'str', $data['titlefield'], '', xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('cids', 'isset', $cids, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('cids', 'isset', $cids, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('filterhead', 'isset', $filterhead, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('filterhead', 'isset', $filterhead, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('filtertail', 'isset', $filtertail, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('filtertail', 'isset', $filtertail, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('findtitle', 'isset', $findtitle, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('findtitle', 'isset', $findtitle, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('numrules', 'isset', $numrules, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('numrules', 'isset', $numrules, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('search', 'isset', $search, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('search', 'isset', $search, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('replace', 'isset', $replace, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('replace', 'isset', $replace, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('test', 'isset', $test, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('test', 'isset', $test, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('import', 'isset', $import, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('import', 'isset', $import, null, xarVar::DONT_SET)) {
             return;
         }
 
@@ -91,12 +91,12 @@ class ImportwebpageMethod extends MethodClass
         #
         if (isset($refresh) || isset($test) || isset($import)) {
             // Confirm authorisation code
-            if (!xarSec::confirmAuthKey()) {
+            if (!$this->confirmAuthKey()) {
                 return;
             }
         }
 
-        $data['authid'] = xarSec::genAuthKey();
+        $data['authid'] = $this->genAuthKey();
 
         # --------------------------------------------------------
         #
@@ -272,7 +272,7 @@ class ImportwebpageMethod extends MethodClass
                 if (empty($id)) {
                     return; // throw back
                 } else {
-                    $data['logfile'] .= xarML('URL #(1) was imported as #(2) with ID #(3)', $data['url'], $pubtypes[$data['ptid']]['description'], $id);
+                    $data['logfile'] .= $this->translate('URL #(1) was imported as #(2) with ID #(3)', $data['url'], $pubtypes[$data['ptid']]['description'], $id);
                     $data['logfile'] .= '<br />';
                 }
             }

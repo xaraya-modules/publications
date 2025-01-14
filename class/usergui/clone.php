@@ -49,20 +49,20 @@ class CloneMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Xaraya security
-        if (!xarSecurity::check('ModeratePublications')) {
+        if (!$this->checkAccess('ModeratePublications')) {
             return;
         }
 
-        if (!xarVar::fetch('name', 'isset', $objectname, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('name', 'isset', $objectname, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('confirm', 'int', $confirm, 0, xarVar::DONT_SET)) {
+        if (!$this->fetch('confirm', 'int', $confirm, 0, xarVar::DONT_SET)) {
             return;
         }
 
@@ -88,18 +88,18 @@ class CloneMethod extends MethodClass
 
         $data['object']->getItem(['itemid' => $data['itemid']]);
 
-        $data['authid'] = xarSec::genAuthKey();
+        $data['authid'] = $this->genAuthKey();
         $data['name'] = $data['object']->properties['name']->value;
         $data['label'] = $data['object']->label;
-        xarTpl::setPageTitle(xarML('Clone Publication #(1) in #(2)', $data['itemid'], $data['label']));
+        xarTpl::setPageTitle($this->translate('Clone Publication #(1) in #(2)', $data['itemid'], $data['label']));
 
         if ($confirm) {
-            if (!xarSec::confirmAuthKey()) {
+            if (!$this->confirmAuthKey()) {
                 return;
             }
 
             // Get the name for the clone
-            if (!xarVar::fetch('newname', 'str', $newname, "", xarVar::NOT_REQUIRED)) {
+            if (!$this->fetch('newname', 'str', $newname, "", xarVar::NOT_REQUIRED)) {
                 return;
             }
             if (empty($newname)) {
@@ -116,7 +116,7 @@ class CloneMethod extends MethodClass
             $cloneid = $data['object']->createItem(['itemid' => 0]);
 
             // Create the clone's translations
-            if (!xarVar::fetch('clone_translations', 'int', $clone_translations, 0, xarVar::NOT_REQUIRED)) {
+            if (!$this->fetch('clone_translations', 'int', $clone_translations, 0, xarVar::NOT_REQUIRED)) {
                 return;
             }
             if ($clone_translations) {
@@ -145,16 +145,15 @@ class CloneMethod extends MethodClass
             // Redirect if we came from somewhere else
             //$current_listview = xarSession::getVar('publications_current_listview');
             if (!empty($return_url)) {
-                xarController::redirect($return_url, null, $this->getContext());
+                $this->redirect($return_url);
             } elseif (!empty($current_listview)) {
-                xarController::redirect($current_listview, null, $this->getContext());
+                $this->redirect($current_listview);
             } else {
-                xarController::redirect(xarController::URL(
-                    'publications',
+                $this->redirect($this->getUrl(
                     'user',
                     'modify',
                     ['itemid' => $cloneid, 'name' => $objectname]
-                ), null, $this->getContext());
+                ));
             }
             return true;
         }

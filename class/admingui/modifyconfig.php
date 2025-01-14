@@ -39,15 +39,15 @@ class ModifyconfigMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('AdminPublications')) {
+        if (!$this->checkAccess('AdminPublications')) {
             return;
         }
 
         // Get parameters
-        if (!xarVar::fetch('tab', 'str:1:100', $data['tab'], 'global', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('tab', 'str:1:100', $data['tab'], 'global', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'int', $data['ptid'], xarModVars::get('publications', 'defaultpubtype'), xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'int', $data['ptid'], $this->getModVar('defaultpubtype'), xarVar::DONT_SET)) {
             return;
         }
 
@@ -58,7 +58,7 @@ class ModifyconfigMethod extends MethodClass
             }
 
             $viewoptions = [];
-            $viewoptions[] = ['id' => 1, 'name' => xarML('Latest Items')];
+            $viewoptions[] = ['id' => 1, 'name' => $this->translate('Latest Items')];
 
             if (!isset($data['usetitleforurl'])) {
                 $data['usetitleforurl'] = 0;
@@ -74,7 +74,7 @@ class ModifyconfigMethod extends MethodClass
                 //       need to use something like 'c15+32'
                 foreach ($catlinks as $catlink) {
                     $viewoptions[] = ['id' => 'c' . $catlink['category_id'],
-                        'name' => xarML('Browse in') . ' ' .
+                        'name' => $this->translate('Browse in') . ' ' .
                                    $catlink['name'], ];
                 }
             }
@@ -96,10 +96,10 @@ class ModifyconfigMethod extends MethodClass
         } elseif ($data['tab'] == 'redirects') {
             // Redirect configuration
             // FIXME: remove this?
-            $data['redirects'] = unserialize(xarModVars::get('publications', 'redirects'));
+            $data['redirects'] = unserialize($this->getModVar('redirects'));
         } else {
             // Global configuration
-            if (!xarSecurity::check('AdminPublications')) {
+            if (!$this->checkAccess('AdminPublications')) {
                 return;
             }
 
@@ -108,16 +108,16 @@ class ModifyconfigMethod extends MethodClass
             $data['module_settings']->setFieldList('items_per_page, use_module_alias, module_alias_name, user_menu_link, use_module_icons, frontend_page, backend_page');
             $data['module_settings']->getItem();
 
-            $data['shorturls'] = xarModVars::get('publications', 'SupportShortURLs') ? true : false;
+            $data['shorturls'] = $this->getModVar('SupportShortURLs') ? true : false;
 
-            $data['defaultpubtype'] = xarModVars::get('publications', 'defaultpubtype');
+            $data['defaultpubtype'] = $this->getModVar('defaultpubtype');
             if (empty($data['defaultpubtype'])) {
                 $data['defaultpubtype'] = '';
             }
-            $data['sortpubtypes'] = xarModVars::get('publications', 'sortpubtypes');
+            $data['sortpubtypes'] = $this->getModVar('sortpubtypes');
             if (empty($data['sortpubtypes'])) {
                 $data['sortpubtypes'] = 'id';
-                xarModVars::set('publications', 'sortpubtypes', 'id');
+                $this->setModVar('sortpubtypes', 'id');
             }
 
             // Get the tree of all pages.

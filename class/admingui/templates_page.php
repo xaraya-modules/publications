@@ -35,31 +35,32 @@ class TemplatesPageMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('ManagePublications')) {
+        if (!$this->checkAccess('ManagePublications')) {
             return;
         }
 
         extract($args);
 
-        if (!xarVar::fetch('confirm', 'int', $confirm, 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('confirm', 'int', $confirm, 0, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'id', $data['ptid'], 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptid', 'id', $data['ptid'], 0, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('itemid', 'id', $data['itemid'], 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('itemid', 'id', $data['itemid'], 0, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('file', 'str', $data['file'], 'summary', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('file', 'str', $data['file'], 'summary', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('source_data', 'str', $data['source_data'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('source_data', 'str', $data['source_data'], '', xarVar::NOT_REQUIRED)) {
             return;
         }
 
         if (empty($data['itemid']) || empty($data['ptid'])) {
             return xarController::notFound(null, $this->getContext());
         }
+        $admingui = $this->getParent();
 
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
@@ -86,7 +87,7 @@ class TemplatesPageMethod extends MethodClass
         } else {
             $data['filetype'] = 'module';
             $filepath = $sourcefile;
-            $data['writable'] = $this->getParent()->is_writeable_dir($overridepath);
+            $data['writable'] = $admingui->is_writeable_dir($overridepath);
         }
 
         $data['source_data'] = trim(xarMod::apiFunc('publications', 'admin', 'read_file', ['file' => $filepath]));

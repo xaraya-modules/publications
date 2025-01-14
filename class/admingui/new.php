@@ -37,27 +37,27 @@ class NewMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('AddPublications')) {
+        if (!$this->checkAccess('AddPublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!xarVar::fetch('ptid', 'id', $data['ptid'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptid', 'id', $data['ptid'], null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('itemtype', 'id', $itemtype, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('itemtype', 'id', $itemtype, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         if (null === $data['ptid']) {
             $data['ptid'] = xarSession::getVar('publications_current_pubtype');
             if (empty($data['ptid'])) {
-                $data['ptid'] = xarModVars::get('publications', 'defaultpubtype');
+                $data['ptid'] = $this->getModVar('defaultpubtype');
             }
         }
         xarSession::setVar('publications_current_pubtype', $data['ptid']);

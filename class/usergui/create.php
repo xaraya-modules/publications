@@ -42,26 +42,26 @@ class CreateMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Xaraya security
-        if (!xarSecurity::check('ModeratePublications')) {
+        if (!$this->checkAccess('ModeratePublications')) {
             return;
         }
 
-        if (!xarVar::fetch('ptid', 'id', $data['ptid'])) {
+        if (!$this->fetch('ptid', 'id', $data['ptid'])) {
             return;
         }
-        if (!xarVar::fetch('new_cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('new_cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('preview', 'str', $data['preview'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('preview', 'str', $data['preview'], null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('save', 'str', $save, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('save', 'str', $save, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // Confirm authorisation code
         // This has been disabled for now
-        // if (!xarSec::confirmAuthKey()) return;
+        // if (!$this->confirmAuthKey()) return;
 
         $data['items'] = [];
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -75,7 +75,7 @@ class CreateMethod extends MethodClass
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
             if (!$isvalid &&
-                xarModVars::get('publications', 'debugmode') &&
+                $this->getModVar('debugmode') &&
                 in_array(xarUser::getVar('id'), xarConfigVars::get(null, 'Site.User.DebugAdmins'))) {
                 var_dump($data['object']->getInvalids());
             }
@@ -96,27 +96,26 @@ class CreateMethod extends MethodClass
         xarHooks::notify('ItemCreate', $item);
 
         // Redirect if needed
-        if (!xarVar::fetch('return_url', 'str', $return_url, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('return_url', 'str', $return_url, '', xarVar::NOT_REQUIRED)) {
             return;
         }
         if (!empty($return_url)) {
             // FIXME: this is a hack for short URLS
             $delimiter = (strpos($return_url, '&')) ? '&' : '?';
-            xarController::redirect($return_url . $delimiter . 'itemid=' . $itemid, null, $this->getContext());
+            $this->redirect($return_url . $delimiter . 'itemid=' . $itemid);
         }
 
         // Redirect if we came from somewhere else
         $current_listview = xarSession::getVar('publications_current_listview');
         if (!empty($current_listview)) {
-            xarController::redirect($current_listview, null, $this->getContext());
+            $this->redirect($current_listview);
         }
 
-        xarController::redirect(xarController::URL(
-            'publications',
+        $this->redirect($this->getUrl(
             'user',
             'view',
             ['ptid' => $data['ptid']]
-        ), null, $this->getContext());
+        ));
         return true;
     }
 }

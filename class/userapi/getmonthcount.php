@@ -31,10 +31,11 @@ class GetmonthcountMethod extends MethodClass
 
     /**
      * count the number of items per month
-     * @param mixed $args ['cids'] not supported here (yet ?)
-     * @param mixed $args ['ptid'] publication type ID we're interested in
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @return array array(month => count), or false on failure
+     * @param array<mixed> $args
+     * @var mixed $cids not supported here (yet ?)
+     * @var mixed $ptid publication type ID we're interested in
+     * @var mixed $state array of requested status(es) for the publications
+     * @return array|void array(month => count), or false on failure
      */
     public function __invoke(array $args = [])
     {

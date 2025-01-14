@@ -41,37 +41,37 @@ class UpdatestatusMethod extends MethodClass
      */
     public function updatestate(array $args = [])
     {
-        if (!xarSecurity::check('EditPublications')) {
+        if (!$this->checkAccess('EditPublications')) {
             return;
         }
 
         // Get parameters
-        if (!xarVar::fetch('ids', 'isset', $ids, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ids', 'isset', $ids, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('state', 'isset', $state, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('state', 'isset', $state, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('catid', 'isset', $catid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('catid', 'isset', $catid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
             return;
         }
 
 
         // Confirm authorisation code
-        if (!xarSec::confirmAuthKey()) {
+        if (!$this->confirmAuthKey()) {
             return;
         }
 
         if (!isset($ids) || count($ids) == 0) {
-            $msg = xarML('No publications selected');
+            $msg = $this->translate('No publications selected');
             throw new DataNotFoundException(null, $msg);
         }
         $states = xarMod::apiFunc('publications', 'user', 'getstates');
         if (!isset($state) || !is_numeric($state) || $state < -1 || ($state != -1 && !isset($states[$state]))) {
-            $msg = xarML('Invalid state');
+            $msg = $this->translate('Invalid state');
             throw new BadParameterException(null, $msg);
         }
 
@@ -79,7 +79,7 @@ class UpdatestatusMethod extends MethodClass
         if (!empty($ptid)) {
             $descr = $pubtypes[$ptid]['description'];
         } else {
-            $descr = xarML('Publications');
+            $descr = $this->translate('Publications');
             $ptid = null;
         }
 
@@ -101,7 +101,7 @@ class UpdatestatusMethod extends MethodClass
                     'withcids' => 1, ]
             );
             if (!isset($article) || !is_array($article)) {
-                $msg = xarML(
+                $msg = $this->translate(
                     'Unable to find #(1) item #(2)',
                     $descr,
                     xarVar::prepForDisplay($id)
@@ -118,7 +118,7 @@ class UpdatestatusMethod extends MethodClass
                 $input['mask'] = 'EditPublications';
             }
             if (!xarMod::apiFunc('publications', 'user', 'checksecurity', $input)) {
-                $msg = xarML(
+                $msg = $this->translate(
                     'You have no permission to modify #(1) item #(2)',
                     $descr,
                     xarVar::prepForDisplay($id)
@@ -149,15 +149,14 @@ class UpdatestatusMethod extends MethodClass
             $lastviewarray = unserialize($lastview);
             if (!empty($lastviewarray['ptid']) && $lastviewarray['ptid'] == $ptid) {
                 extract($lastviewarray);
-                xarController::redirect(xarController::URL(
-                    'publications',
+                $this->redirect($this->getUrl(
                     'admin',
                     'view',
                     ['ptid' => $ptid,
                         'catid' => $catid,
                         'state' => $state,
                         'startnum' => $startnum, ]
-                ), null, $this->getContext());
+                ));
                 return true;
             }
         }
@@ -165,12 +164,11 @@ class UpdatestatusMethod extends MethodClass
         if (empty($catid)) {
             $catid = null;
         }
-        xarController::redirect(xarController::URL(
-            'publications',
+        $this->redirect($this->getUrl(
             'admin',
             'view',
             ['ptid' => $ptid, 'catid' => $catid]
-        ), null, $this->getContext());
+        ));
 
         return true;
     }

@@ -32,13 +32,14 @@ class GetpublinksMethod extends MethodClass
 
     /**
      * get array of links and counts for publication types
-     * @param mixed $args ['ptid'] optional publication type ID for which you *don't*
+     * @param array<mixed> $args
+     * @var mixed $ptid optional publication type ID for which you *don't*
      * want a link (e.g. for the current publication type)
-     * @param mixed $args ['all'] optional flag (1) if you want to include publication
+     * @var mixed $all optional flag (1) if you want to include publication
      * types that don't have publications too (default 0)
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @param mixed $args ['func'] optional function to be called with the link
-     * @param mixed $args ['count'] true (default) means counting the number of publications
+     * @var mixed $state array of requested status(es) for the publications
+     * @var mixed $func optional function to be called with the link
+     * @var mixed $count true (default) means counting the number of publications
      * @return array of array('pubtitle' => descr,
      * 'pubid' => id,
      * 'publink' => link,
@@ -100,7 +101,7 @@ class GetpublinksMethod extends MethodClass
                 if (isset($ptid) && $ptid == $id) {
                     $item['publink'] = '';
                 } else {
-                    $item['publink'] = xarController::URL('publications', $typemod, $func, ['ptid' => $id]);
+                    $item['publink'] = $this->getUrl( $typemod, $func, ['ptid' => $id]);
                 }
                 if ($count && isset($pubcount[$id])) {
                     $item['pubcount'] = $pubcount[$id];

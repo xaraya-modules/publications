@@ -32,19 +32,20 @@ class GetrandomMethod extends MethodClass
      * Get Random Publication(s)
      * Note : the following parameters are all optional
      * @author Michel Dalle <mikespub@xaraya.com>
-     * @param int $args ['numitems'] number of publications to get
-     * @param int $args ['ptid'] publication type ID (for news, sections, reviews, ...)
-     * @param array $args ['state'] array of requested status(es) for the publications
-     * @param array $args ['cids'] array of category IDs for which to get publications (OR/AND)
+     * @param array<mixed> $args
+     * @var int $numitems number of publications to get
+     * @var int $ptid publication type ID (for news, sections, reviews, ...)
+     * @var array $state array of requested status(es) for the publications
+     * @var array $cids array of category IDs for which to get publications (OR/AND)
      * (for all categories don?t set it)
-     * @param bool $args ['andcids'] true means AND-ing categories listed in cids
-     * @param array $args ['fields'] array with all the fields to return per article
+     * @var bool $andcids true means AND-ing categories listed in cids
+     * @var array $fields array with all the fields to return per article
      * Default list is : 'id','title','summary','owner',
      * 'pubdate','pubtype_id','notes','state','body'
      * Optional fields : 'cids','author','counter','rating','dynamicdata'
-     * @param string $args ['locale'] language/locale (if not using multi-sites, categories etc.)
-     * @param bool $args ['unique'] return unique results
-     * @return array of publications, or false on failure
+     * @var string $locale language/locale (if not using multi-sites, categories etc.)
+     * @var bool $unique return unique results
+     * @return array|void of publications, or false on failure
      */
     public function __invoke(array $args = [])
     {

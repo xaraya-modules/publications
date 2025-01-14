@@ -34,28 +34,27 @@ class GetMethod extends MethodClass
     /**
      * get a specific article by id, or by a combination of other fields
      * @param array<string,mixed> $args
-     * with
-     *     id $args['id'] id of article to get, or
-     *     id $args['pubtype_id'] pubtype id of article to get, and optional
-     *     string $args['title'] title of article to get, and optional
-     *     string $args['summary'] summary of article to get, and optional
-     *     string $args['body'] body of article to get, and optional
-     *     int $args['owner'] id of the author of article to get, and optional
+     * @var int $args['id'] id of article to get, or
+     * @var int $args['pubtype_id'] pubtype id of article to get, and optional
+     * @var string $args['title'] title of article to get, and optional
+     * @var string $args['summary'] summary of article to get, and optional
+     * @var string $args['body'] body of article to get, and optional
+     * @var int $args['owner'] id of the author of article to get, and optional
      *     $args['pubdate'] pubdate of article to get, and optional
-     *     string $args['notes'] notes of article to get, and optional
-     *     int $args['state'] status of article to get, and optional
-     *     string $args['locale'] language of article to get
-     *     bool $args['withcids'] (optional) if we want the cids too (default false)
-     *     array $args['fields'] array with all the fields to return per article
+     * @var string $args['notes'] notes of article to get, and optional
+     * @var int $args['state'] status of article to get, and optional
+     * @var string $args['locale'] language of article to get
+     * @var bool $args['withcids'] (optional) if we want the cids too (default false)
+     * @var array $args['fields'] array with all the fields to return per article
      *                        Default list is : 'id','title','summary','owner',
      *                        'pubdate','pubtype_id','notes','state','body'
      *                        Optional fields : 'cids','author','counter','rating','dynamicdata'
-     *     array $args['extra'] array with extra fields to return per article (in addition
+     * @var array $args['extra'] array with extra fields to return per article (in addition
      *                       to the default list). So you can EITHER specify *all* the
      *                       fields you want with 'fields', OR take all the default
      *                       ones and add some optional fields with 'extra'
-     *     id $args['ptid'] same as 'pubtype_id'
-     * @return array article array, or false on failure
+     * @var int $args['ptid'] same as 'pubtype_id'
+     * @return array|false|void article array, or false on failure
      */
     public function __invoke(array $args = [])
     {
@@ -64,7 +63,7 @@ class GetMethod extends MethodClass
 
         // Argument check
         if (isset($id) && (!is_numeric($id) || $id < 1)) {
-            $msg = xarML(
+            $msg = $this->translate(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 'article ID',
                 'user',

@@ -33,14 +33,14 @@ class DisplayVersionMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('ManagePublications')) {
+        if (!$this->checkAccess('ManagePublications')) {
             return;
         }
 
-        if (!xarVar::fetch('itemid', 'id', $data['page_id'], 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('itemid', 'id', $data['page_id'], 0, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('name', 'str', $data['objectname'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('name', 'str', $data['objectname'], '', xarVar::NOT_REQUIRED)) {
             return;
         }
         if (empty($data['page_id'])) {
@@ -56,10 +56,10 @@ class DisplayVersionMethod extends MethodClass
             return $data;
         }
 
-        if (!xarVar::fetch('confirm', 'int', $confirm, 1, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('confirm', 'int', $confirm, 1, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('version_1', 'int', $version_1, $data['versions'], xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('version_1', 'int', $version_1, $data['versions'], xarVar::NOT_REQUIRED)) {
             return;
         }
         $data['version_1'] = $version_1;
@@ -70,7 +70,7 @@ class DisplayVersionMethod extends MethodClass
         $version->dataquery->eq($version->properties['version_number']->source, $version_1);
         $items = $version->getItems();
         if (count($items) > 1) {
-            throw new Exception(xarML('More than one instance with the version number #(1)', $version_1));
+            throw new Exception($this->translate('More than one instance with the version number #(1)', $version_1));
         }
         $item = current($items);
         $content_array_1 = unserialize($item['content']);
@@ -97,12 +97,11 @@ class DisplayVersionMethod extends MethodClass
             $page->properties['version']->value = $data['versions'] + 1;
             $page->updateItem();
 
-            xarController::redirect(xarController::URL(
-                'publications',
+            $this->redirect($this->getUrl(
                 'admin',
                 'modify',
                 ['name' => $pubtype->properties['name']->value, 'itemid' => $content_array_1['id']]
-            ), null, $this->getContext());
+            ));
             return true;
         }
         return $data;

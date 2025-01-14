@@ -30,7 +30,8 @@ class GetitemfieldsMethod extends MethodClass
 
     /**
      * utility function to pass item field definitions to whoever
-     * @param mixed $args ['itemtype'] item type (optional)
+     * @param array<mixed> $args
+     * @var mixed $itemtype item type (optional)
      * @return array Array containing the item field definitions
      */
     public function __invoke(array $args = [])

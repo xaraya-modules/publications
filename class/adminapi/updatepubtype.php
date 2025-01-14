@@ -32,13 +32,12 @@ class UpdatepubtypeMethod extends MethodClass
 
     /**
      * Update a publication type
-     * @param array $args
-     * with
-     *     id $args['ptid'] ID of the publication type
-     *     string $args['name'] name of the publication type (not allowed here)
-     *     string $args['description'] description of the publication type
-     *     array $args['config'] configuration of the publication type
-     * @return bool true on success, false on failure
+     * @param array<mixed> $args
+     * @var int $args['ptid'] ID of the publication type
+     * @var string $args['name'] name of the publication type (not allowed here)
+     * @var string $args['description'] description of the publication type
+     * @var array $args['config'] configuration of the publication type
+     * @return bool|void true on success, false on failure
      */
     public function __invoke(array $args = [])
     {
@@ -66,7 +65,7 @@ class UpdatepubtypeMethod extends MethodClass
             $invalid[] = 'configuration';
         }
         if (count($invalid) > 0) {
-            $msg = xarML(
+            $msg = $this->translate(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 join(', ', $invalid),
                 'admin',
@@ -89,7 +88,7 @@ class UpdatepubtypeMethod extends MethodClass
         // Get current publication types
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
         if (!isset($pubtypes[$ptid])) {
-            $msg = xarML(
+            $msg = $this->translate(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 'publication type ID',
                 'admin',

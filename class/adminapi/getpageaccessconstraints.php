@@ -30,7 +30,7 @@ class GetpageaccessconstraintsMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         if (!isset($args['property'])) {
-            throw new Exception(xarML('Missing property param in publications_adminapi_getpageaccessconstraints'));
+            throw new Exception($this->translate('Missing property param in publications_adminapi_getpageaccessconstraints'));
         }
 
         $constraints = [

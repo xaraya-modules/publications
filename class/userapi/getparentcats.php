@@ -32,12 +32,13 @@ class GetparentcatsMethod extends MethodClass
 
     /**
      * get an array of parent categories with links and counts
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @param mixed $args ['ptid'] publication type ID
-     * @param mixed $args ['cids'] array of category IDs
-     * @param mixed $args ['showcids'] true (default) means keeping a link for the cids
-     * @param mixed $args ['sort'] currently used only to override default start view
-     * @param mixed $args ['count'] true (default) means counting the number of publications
+     * @param array<mixed> $args
+     * @var mixed $state array of requested status(es) for the publications
+     * @var mixed $ptid publication type ID
+     * @var mixed $cids array of category IDs
+     * @var mixed $showcids true (default) means keeping a link for the cids
+     * @var mixed $sort currently used only to override default start view
+     * @var mixed $count true (default) means counting the number of publications
      * @return array
      * // TODO: specify return format
      */
@@ -106,20 +107,18 @@ class GetparentcatsMethod extends MethodClass
 
             $trailitem['parentlinks'] = [];
             $item = [];
-            $item['plink'] = xarController::URL(
-                'publications',
+            $item['plink'] = $this->getUrl(
                 'user',
                 'view',
                 ['ptid' => $ptid,
                     'sort' => $sort, ]
             );
-            $item['ptitle'] = xarML('All');
+            $item['ptitle'] = $this->translate('All');
             $item['pjoin'] = ' &gt; ';
             $trailitem['parentlinks'][] = $item;
             // TODO: make sure permissions are taken into account here !
             foreach ($trail as $info) {
-                $item['plink'] = xarController::URL(
-                    'publications',
+                $item['plink'] = $this->getUrl(
                     'user',
                     'view',
                     ['ptid' => $ptid,
@@ -140,8 +139,7 @@ class GetparentcatsMethod extends MethodClass
                         $trailitem['icon'] = ['image' => $info['image'],
                             'text' => $item['ptitle'],
                             'link' =>
-                              xarController::URL(
-                                  'publications',
+                              $this->getUrl(
                                   'user',
                                   'view',
                                   ['ptid' => $ptid,

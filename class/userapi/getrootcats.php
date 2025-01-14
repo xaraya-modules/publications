@@ -34,10 +34,11 @@ class GetrootcatsMethod extends MethodClass
 
     /**
      * get an array of root categories with links
-     * @param int $args ['ptid'] publication type ID
-     * @param mixed $args ['all'] boolean if we need to return all root categories when
+     * @param array<mixed> $args
+     * @var int $ptid publication type ID
+     * @var mixed $all boolean if we need to return all root categories when
      * ptid is empty (default false)
-     * @return array
+     * @return array|void
      * @TODO specify return format
      */
     public function __invoke(array $args = [])
@@ -53,7 +54,7 @@ class GetrootcatsMethod extends MethodClass
         if (!empty($ptid)) {
             $rootcats = unserialize(xarModUserVars::get('publications', 'basecids', $ptid));
         } elseif (empty($all)) {
-            $rootcats = unserialize(xarModVars::get('publications', 'basecids'));
+            $rootcats = unserialize($this->getModVar('basecids'));
         } else {
             // Get publication types
             $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
@@ -65,7 +66,7 @@ class GetrootcatsMethod extends MethodClass
             $catlist = [];
             foreach ($publist as $pubid) {
                 if (empty($pubid)) {
-                    $cidstring = xarModVars::get('publications', 'basecids');
+                    $cidstring = $this->getModVar('basecids');
                 } else {
                     $cidstring = xarModUserVars::get('publications', 'basecids', $pubid);
                 }
@@ -114,8 +115,7 @@ class GetrootcatsMethod extends MethodClass
             $item = [];
             $item['catid'] = $info['cid'];
             $item['cattitle'] = xarVar::prepForDisplay($info['name']);
-            $item['catlink'] = xarController::URL(
-                'publications',
+            $item['catlink'] = $this->getUrl(
                 'user',
                 'view',
                 ['ptid' => $ptid,

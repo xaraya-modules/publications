@@ -34,26 +34,26 @@ class ModifyMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('EditPublications')) {
+        if (!$this->checkAccess('EditPublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!xarVar::fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('name', 'str:1', $name, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('name', 'str:1', $name, '', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
             return;
         }
 

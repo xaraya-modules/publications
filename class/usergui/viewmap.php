@@ -40,26 +40,26 @@ class ViewmapMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Get parameters
-        if (!xarVar::fetch('ptid', 'id', $ptid, xarModVars::get('publications', 'defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptid', 'id', $ptid, $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('by', 'enum:pub:cat:grid', $by, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('by', 'enum:pub:cat:grid', $by, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('go', 'str', $go, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('go', 'str', $go, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // Override if needed from argument array
         extract($args);
 
-        $default = xarModVars::get('publications', 'defaultpubtype');
+        $default = $this->getModVar('defaultpubtype');
         if (empty($by)) {
             if (empty($default) && empty($ptid)) {
                 $by = 'cat';
@@ -105,8 +105,8 @@ class ViewmapMethod extends MethodClass
             } else {
                 $catid = null;
             }
-            $url = xarController::URL('publications', 'user', 'view', ['ptid' => $ptid, 'catid' => $catid]);
-            xarController::redirect($url, null, $this->getContext());
+            $url = $this->getUrl( 'user', 'view', ['ptid' => $ptid, 'catid' => $catid]);
+            $this->redirect($url);
             return;
         }
 
@@ -119,7 +119,7 @@ class ViewmapMethod extends MethodClass
         $publinks = [];
 
         if ($by == 'cat') {
-            $data['maplink'] = xarController::URL('publications', 'user', 'viewmap', ['by' => 'cat']);
+            $data['maplink'] = $this->getUrl( 'user', 'viewmap', ['by' => 'cat']);
 
             // TODO: re-evaluate this after user feedback...
             // *trick* Use the 'default' categories here, instead of all rootcats
@@ -162,7 +162,7 @@ class ViewmapMethod extends MethodClass
             }
 
             if (count($rootcats) != 2) {
-                $data['catgrid'][0][0] = xarML('You need 2 base categories in order to use this grid view');
+                $data['catgrid'][0][0] = $this->translate('You need 2 base categories in order to use this grid view');
             } else {
                 $catlist = [];
                 if (!empty($rootcats) && is_array($rootcats)) {
@@ -253,8 +253,7 @@ class ViewmapMethod extends MethodClass
                 foreach ($pubcatcount as $cids => $counts) {
                     [$ca, $cb] = explode('+', $cids);
                     if (isset($rowcid[$ca]) && isset($colcid[$cb])) {
-                        $link = xarController::URL(
-                            'publications',
+                        $link = $this->getUrl(
                             'user',
                             'view',
                             ['ptid' => $ptid,
@@ -263,8 +262,7 @@ class ViewmapMethod extends MethodClass
                         $data['catgrid'][$rowcid[$ca]][$colcid[$cb]] = '<a href="' . $link . '"> ' . $counts[$what] . ' </a>';
                     }
                     if (isset($rowcid[$cb]) && isset($colcid[$ca])) {
-                        $link = xarController::URL(
-                            'publications',
+                        $link = $this->getUrl(
                             'user',
                             'view',
                             ['ptid' => $ptid,
@@ -279,7 +277,7 @@ class ViewmapMethod extends MethodClass
                 $descr = $data['pubtypes'][$ptid]['description'];
             }
         } else {
-            $data['maplink'] = xarController::URL('publications', 'user', 'viewmap', ['by' => 'pub']);
+            $data['maplink'] = $this->getUrl( 'user', 'viewmap', ['by' => 'pub']);
 
             // get the links and counts for all publication types
             $publinks = xarMod::apiFunc(
@@ -295,7 +293,7 @@ class ViewmapMethod extends MethodClass
             $catlist = [];
             for ($i = 0;$i < count($publinks);$i++) {
                 $pubid = $publinks[$i]['pubid'];
-                $cidstring = xarModVars::get('publications', 'mastercids.' . $pubid);
+                $cidstring = $this->getModVar('mastercids.' . $pubid);
                 if (!empty($cidstring)) {
                     $rootcats = explode(';', $cidstring);
                     foreach ($rootcats as $cid) {
@@ -349,7 +347,7 @@ class ViewmapMethod extends MethodClass
         }
 
         if (empty($descr)) {
-            $descr = xarML('Publications');
+            $descr = $this->translate('Publications');
             $data['descr'] = '';
         } else {
             $data['descr'] = $descr;
@@ -362,7 +360,7 @@ class ViewmapMethod extends MethodClass
         xarCoreCache::setCached('Blocks.categories', 'itemtype', $ptid);
         if (!empty($descr)) {
             xarCoreCache::setCached('Blocks.categories', 'title', $descr);
-            xarTpl::setPageTitle(xarML('Map'), xarVar::prepForDisplay($descr));
+            xarTpl::setPageTitle($this->translate('Map'), xarVar::prepForDisplay($descr));
         }
         //}
 
@@ -371,16 +369,14 @@ class ViewmapMethod extends MethodClass
         }
         $data['publinks'] = $publinks;
         $data['ptid'] = $ptid;
-        $data['viewlabel'] = xarML('Back to') . ' ' . $descr;
-        $data['viewlink'] = xarController::URL(
-            'publications',
+        $data['viewlabel'] = $this->translate('Back to') . ' ' . $descr;
+        $data['viewlink'] = $this->getUrl(
             'user',
             'view',
             ['ptid' => $ptid]
         );
-        $data['archivelabel'] = xarML('View Archives');
-        $data['archivelink'] = xarController::URL(
-            'publications',
+        $data['archivelabel'] = $this->translate('View Archives');
+        $data['archivelink'] = $this->getUrl(
             'user',
             'archive',
             ['ptid' => $ptid]

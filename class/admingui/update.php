@@ -44,42 +44,42 @@ class UpdateMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('EditPublications')) {
+        if (!$this->checkAccess('EditPublications')) {
             return;
         }
 
         // Get parameters
-        if (!xarVar::fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('items', 'str', $items, '', xarVar::DONT_SET)) {
+        if (!$this->fetch('items', 'str', $items, '', xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'isset', $data['ptid'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'isset', $data['ptid'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('modify_cids', 'isset', $cids, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('modify_cids', 'isset', $cids, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('preview', 'isset', $data['preview'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('preview', 'isset', $data['preview'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('quit', 'isset', $data['quit'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('quit', 'isset', $data['quit'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('front', 'isset', $data['front'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('front', 'isset', $data['front'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // Confirm authorisation code
         // This has been disabled for now
-        //    if (!xarSec::confirmAuthKey()) return;
+        //    if (!$this->confirmAuthKey()) return;
 
         $items = explode(',', $items);
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -112,7 +112,7 @@ class UpdateMethod extends MethodClass
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
             if (!$isvalid &&
-                xarModVars::get('publications', 'debugmode') &&
+                $this->getModVar('debugmode') &&
                 in_array(xarUser::getVar('id'), xarConfigVars::get(null, 'Site.User.DebugAdmins'))) {
                 var_dump($data['object']->getInvalids());
             }
@@ -165,7 +165,7 @@ class UpdateMethod extends MethodClass
         }
 
         // Success
-        xarSession::setVar('statusmsg', xarML('Publication Updated'));
+        xarSession::setVar('statusmsg', $this->translate('Publication Updated'));
 
         // Inform the world via hooks
         $item = ['module' => 'publications', 'itemid' => $data['itemid'], 'itemtype' => $data['object']->properties['itemtype']->value];
@@ -176,29 +176,26 @@ class UpdateMethod extends MethodClass
             // Redirect if we came from somewhere else
             $current_listview = xarSession::getVar('publications_current_listview');
             if (!empty($current_listview)) {
-                xarController::redirect($current_listview, null, $this->getContext());
+                $this->redirect($current_listview);
             }
 
-            xarController::redirect(xarController::URL(
-                'publications',
+            $this->redirect($this->getUrl(
                 'admin',
                 'view',
                 ['ptid' => $data['ptid']]
-            ), null, $this->getContext());
+            ));
         } elseif ($data['front']) {
-            xarController::redirect(xarController::URL(
-                'publications',
+            $this->redirect($this->getUrl(
                 'user',
                 'display',
                 ['name' => $pubtypeobject->properties['name']->value, 'itemid' => $data['itemid']]
-            ), null, $this->getContext());
+            ));
         } else {
-            xarController::redirect(xarController::URL(
-                'publications',
+            $this->redirect($this->getUrl(
                 'admin',
                 'modify',
                 ['name' => $pubtypeobject->properties['name']->value, 'itemid' => $data['itemid']]
-            ), null, $this->getContext());
+            ));
         }
         return true;
     }

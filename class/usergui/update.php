@@ -44,42 +44,42 @@ class UpdateMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('ModeratePublications')) {
+        if (!$this->checkAccess('ModeratePublications')) {
             return;
         }
 
         // Get parameters
-        if (!xarVar::fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('items', 'str', $items, '', xarVar::DONT_SET)) {
+        if (!$this->fetch('items', 'str', $items, '', xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'isset', $data['ptid'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'isset', $data['ptid'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('modify_cids', 'isset', $cids, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('modify_cids', 'isset', $cids, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('preview', 'isset', $data['preview'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('preview', 'isset', $data['preview'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('returnurl', 'str:1', $data['returnurl'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('returnurl', 'str:1', $data['returnurl'], '', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('quit', 'isset', $data['quit'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('quit', 'isset', $data['quit'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('front', 'isset', $data['front'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('front', 'isset', $data['front'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // Confirm authorisation code
         // This has been disabled for now
-        //    if (!xarSec::confirmAuthKey()) return;
+        //    if (!$this->confirmAuthKey()) return;
 
         $items = explode(',', $items);
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -112,9 +112,9 @@ class UpdateMethod extends MethodClass
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
             if (!$isvalid &&
-                xarModVars::get('publications', 'debugmode') &&
+                $this->getModVar('debugmode') &&
                 in_array(xarUser::getVar('id'), xarConfigVars::get(null, 'Site.User.DebugAdmins'))) {
-                echo xarML('The following were invalid fields:');
+                echo $this->translate('The following were invalid fields:');
                 echo "<br/>";
                 var_dump($data['object']->getInvalids());
             }
@@ -173,7 +173,7 @@ class UpdateMethod extends MethodClass
         }
 
         // Success
-        xarSession::setVar('statusmsg', xarML('Publication Updated'));
+        xarSession::setVar('statusmsg', $this->translate('Publication Updated'));
 
         // Inform the world via hooks
         $item = ['module' => 'publications', 'itemid' => $data['itemid'], 'itemtype' => $data['object']->properties['itemtype']->value];
@@ -181,44 +181,41 @@ class UpdateMethod extends MethodClass
 
         if ($data['quit']) {
             // Redirect if needed
-            if (!xarVar::fetch('return_url', 'str', $return_url, '', xarVar::NOT_REQUIRED)) {
+            if (!$this->fetch('return_url', 'str', $return_url, '', xarVar::NOT_REQUIRED)) {
                 return;
             }
             if (!empty($return_url)) {
                 // FIXME: this is a hack for short URLS
                 $delimiter = (strpos($return_url, '&')) ? '&' : '?';
-                xarController::redirect($return_url . $delimiter . 'itemid=' . $data['itemid'], null, $this->getContext());
+                $this->redirect($return_url . $delimiter . 'itemid=' . $data['itemid']);
             }
 
             // Redirect if we came from somewhere else
             $current_listview = xarSession::getVar('publications_current_listview');
             if (!empty($current_listview)) {
-                xarController::redirect($current_listview, null, $this->getContext());
+                $this->redirect($current_listview);
             }
-            xarController::redirect(xarController::URL(
-                'publications',
+            $this->redirect($this->getUrl(
                 'user',
                 'view',
                 ['ptid' => $data['ptid']]
-            ), null, $this->getContext());
+            ));
             return true;
         } elseif ($data['front']) {
-            xarController::redirect(xarController::URL(
-                'publications',
+            $this->redirect($this->getUrl(
                 'user',
                 'display',
                 ['name' => $pubtypeobject->properties['name']->value, 'itemid' => $data['itemid']]
-            ), null, $this->getContext());
+            ));
         } else {
             if (!empty($data['returnurl'])) {
-                xarController::redirect($data['returnurl'], null, $this->getContext());
+                $this->redirect($data['returnurl']);
             } else {
-                xarController::redirect(xarController::URL(
-                    'publications',
+                $this->redirect($this->getUrl(
                     'user',
                     'modify',
                     ['name' => $pubtypeobject->properties['name']->value, 'itemid' => $data['itemid']]
-                ), null, $this->getContext());
+                ));
             }
             return true;
         }

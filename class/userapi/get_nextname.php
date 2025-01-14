@@ -32,15 +32,16 @@ class GetNextnameMethod extends MethodClass
 
     /**
      * Get a default name for the current document
-     * @param mixed $args ['ptid'] int publication type ID (optional) OR
-     * @param mixed $args ['name'] string publication type name (optional)
-     * @return array|false array(id => array('name' => name, 'description' => description)), or false on
+     * @param array<mixed> $args
+     * @var mixed $ptid int publication type ID (optional) OR
+     * @var mixed $name string publication type name (optional)
+     * @return array|string|false array(id => array('name' => name, 'description' => description)), or false on
      * failure
      */
     public function __invoke(array $args = [])
     {
         if (empty($args['ptid'])) {
-            return xarML('new_publication');
+            return $this->translate('new_publication');
         }
 
         // Get the namestring for this pubtype
@@ -53,7 +54,7 @@ class GetNextnameMethod extends MethodClass
                 break;    // review
             case 4: $namestring = 'faq';
                 break;    // FAQ
-            case 1: $namestring = 'pic';
+            case 5: $namestring = 'pic';
                 break;    // picture
             case 6: $namestring = 'web';
                 break;    // web page

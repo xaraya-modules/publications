@@ -37,7 +37,7 @@ class RedirectMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Get parameters from user
-        if (!xarVar::fetch('id', 'id', $id, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('id', 'id', $id, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
@@ -45,7 +45,7 @@ class RedirectMethod extends MethodClass
         extract($args);
 
         if (!isset($id) || !is_numeric($id) || $id < 1) {
-            return xarML('Invalid publication ID');
+            return $this->translate('Invalid publication ID');
         }
 
         // Load API
@@ -62,7 +62,7 @@ class RedirectMethod extends MethodClass
         );
 
         if (!is_array($publication)) {
-            $msg = xarML('Failed to retrieve publication in #(3)_#(1)_#(2).php', 'user', 'get', 'publications');
+            $msg = $this->translate('Failed to retrieve publication in #(3)_#(1)_#(2).php', 'user', 'get', 'publications');
             throw new DataNotFoundException(null, $msg);
         }
 
@@ -88,7 +88,7 @@ class RedirectMethod extends MethodClass
                     ],
                     'publications'
                 );
-                xarController::redirect($article[$field], null, $this->getContext());
+                $this->redirect($article[$field]);
                 return true;
             } elseif ($value['format'] == 'urltitle' && !empty($publication[$field]) && substr($publication[$field], 0, 2) == 'a:') {
                 $array = unserialize($publication[$field]);
@@ -102,12 +102,12 @@ class RedirectMethod extends MethodClass
                         ],
                         'publications'
                     );
-                    xarController::redirect($array['link'], null, $this->getContext());
+                    $this->redirect($array['link']);
                     return true;
                 }
             }
         }
 
-        return xarML('Unable to find valid redirect field');
+        return $this->translate('Unable to find valid redirect field');
     }
 }

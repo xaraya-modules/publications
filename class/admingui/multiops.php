@@ -33,27 +33,27 @@ class MultiopsMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Get parameters
-        if (!xarVar::fetch('idlist', 'isset', $idlist, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('idlist', 'isset', $idlist, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('operation', 'isset', $operation, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('operation', 'isset', $operation, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('redirecttarget', 'isset', $redirecttarget, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('redirecttarget', 'isset', $redirecttarget, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('objectname', 'str', $objectname, 'listings_listing', xarVar::DONT_SET)) {
+        if (!$this->fetch('objectname', 'str', $objectname, 'listings_listing', xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('localmodule', 'str', $module, 'listings', xarVar::DONT_SET)) {
+        if (!$this->fetch('localmodule', 'str', $module, 'listings', xarVar::DONT_SET)) {
             return;
         }
 
         // Confirm authorisation code
-        //if (!xarSec::confirmAuthKey()) return;
+        //if (!$this->confirmAuthKey()) return;
 
         // Catch missing params here, rather than below
         if (empty($idlist)) {

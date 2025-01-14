@@ -43,7 +43,7 @@ class DisplayMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('EditPublications')) {
+        if (!$this->checkAccess('EditPublications')) {
             return;
         }
 
@@ -51,25 +51,25 @@ class DisplayMethod extends MethodClass
         // this is used to determine whether we come from a pubtype-based view or a
         // categories-based navigation
         // Note we support both id and itemid
-        if (!xarVar::fetch('name', 'str', $name, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('name', 'str', $name, '', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'id', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'id', $ptid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('itemid', 'id', $itemid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('itemid', 'id', $itemid, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('id', 'id', $id, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('id', 'id', $id, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('page', 'int:1', $page, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('page', 'int:1', $page, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('translate', 'int:1', $translate, 1, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('translate', 'int:1', $translate, 1, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('layout', 'str:1', $layout, 'detail', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('layout', 'str:1', $layout, 'detail', xarVar::NOT_REQUIRED)) {
             return;
         }
 
@@ -86,7 +86,7 @@ class DisplayMethod extends MethodClass
         # If no ID supplied, try getting the id of the default page.
         #
         if (empty($id)) {
-            $id = xarModVars::get('publications', 'defaultpage');
+            $id = $this->getModVar('defaultpage');
         }
 
         # --------------------------------------------------------
@@ -106,10 +106,10 @@ class DisplayMethod extends MethodClass
         #
         if (empty($name) && empty($ptid) && empty($id)) {
             // Nothing to be done
-            $id = xarModVars::get('publications', 'notfoundpage');
+            $id = $this->getModVar('notfoundpage');
         } elseif (empty($id)) {
             // We're missing an id but can get a pubtype: jump to the pubtype view
-            xarController::redirect(xarController::URL('publications', 'user', 'view'), null, $this->getContext());
+            $this->redirect($this->getUrl('user', 'view'));
         }
 
         # --------------------------------------------------------
@@ -183,14 +183,14 @@ class DisplayMethod extends MethodClass
                     eval('$url = ' . $url . ';');
                 }
 
-                xarController::redirect($url, 301, $this->getContext());
+                $this->redirect($url, 301, $this->getContext());
             } catch (Exception $e) {
                 return xarController::notFound(null, $this->getContext());
             }
         } elseif ($redirect_type == 2) {
             // This displays a page of a different module
             // If this is from a link of a redirect child page, use the child param as new URL
-            if (!xarVar::fetch('child', 'str', $child, null, xarVar::NOT_REQUIRED)) {
+            if (!$this->fetch('child', 'str', $child, null, xarVar::NOT_REQUIRED)) {
                 return;
             }
             if (!empty($child)) {
@@ -216,7 +216,7 @@ class DisplayMethod extends MethodClass
 
             // If this is an external link, show it without further processing
             if (!empty($params['host']) && $params['host'] != xarServer::getHost() && $params['host'] . ":" . $params['port'] != xarServer::getHost()) {
-                xarController::redirect($url, 301, $this->getContext());
+                $this->redirect($url, 301, $this->getContext());
             } else {
                 parse_str($params['query'], $info);
                 $other_params = $info;
@@ -439,7 +439,7 @@ class DisplayMethod extends MethodClass
     {
         /*
             // TEST - highlight search terms
-            if(!xarVar::fetch('q',     'str',  $q,     NULL, xarVar::NOT_REQUIRED)) {return;}
+            if(!$this->fetch('q',     'str',  $q,     NULL, xarVar::NOT_REQUIRED)) {return;}
         */
 
         // Override if needed from argument array (e.g. preview)
@@ -458,11 +458,11 @@ class DisplayMethod extends MethodClass
         /*
             if ($preview) {
                 if (!isset($publication)) {
-                    return xarML('Invalid publication');
+                    return $this->translate('Invalid publication');
                 }
                 $id = $publication->properties['id']->value;
             } elseif (!isset($id) || !is_numeric($id) || $id < 1) {
-                return xarML('Invalid publication ID');
+                return $this->translate('Invalid publication ID');
             }
         */
 
@@ -476,7 +476,7 @@ class DisplayMethod extends MethodClass
             }
 
             if (!is_array($publication)) {
-                $msg = xarML('Failed to retrieve publication in #(3)_#(1)_#(2).php', 'userapi', 'get', 'publications');
+                $msg = $this->translate('Failed to retrieve publication in #(3)_#(1)_#(2).php', 'userapi', 'get', 'publications');
                 throw new DataNotFoundException(null, $msg);
             }
             // Get publication types
@@ -499,9 +499,9 @@ class DisplayMethod extends MethodClass
         */
         // Get the publication settings for this publication type
         if (empty($ptid)) {
-            $settings = unserialize(xarModVars::get('publications', 'settings'));
+            $settings = unserialize($this->getModVar('settings'));
         } else {
-            $settings = unserialize(xarModVars::get('publications', 'settings.' . $ptid));
+            $settings = unserialize($this->getModVar('settings.' . $ptid));
         }
 
         // show the number of publications for each publication type
@@ -539,7 +539,7 @@ class DisplayMethod extends MethodClass
                                     'getcatinfo',
                                     array('cids' => $cids));
             foreach ($catlist as $cat) {
-                $link = xarController::URL('publications','user','view',
+                $link = $this->getUrl('user','view',
                                  array(//'state' => array(Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED).
                                        'ptid' => $ptid,
                                        'catid' => $cat['cid']));
@@ -568,7 +568,7 @@ class DisplayMethod extends MethodClass
                 if ($preview) {
                     $publication['body'] = preg_replace(
                         '/<!--pagebreak-->/',
-                        '<hr/><div style="text-align: center;">' . xarML('Page Break') . '</div><hr/>',
+                        '<hr/><div style="text-align: center;">' . $this->translate('Page Break') . '</div><hr/>',
                         $publication->properties['body']->value
                     );
                     $data['previous'] = '';
@@ -604,8 +604,7 @@ class DisplayMethod extends MethodClass
                     // Get the rendered pager.
                     // The pager template (last parameter) could be an
                     // option for the publication type.
-                    $urlmask = xarController::URL(
-                        'publications',
+                    $urlmask = $this->getUrl(
                         'user',
                         'display',
                         ['ptid' => $ptid, 'id' => $id, 'page' => '%%']
@@ -728,7 +727,7 @@ class DisplayMethod extends MethodClass
         */
 
         // Navigation links
-        $data['publabel'] = xarML('Publication');
+        $data['publabel'] = $this->translate('Publication');
         $data['publinks'] = []; //xarMod::apiFunc('publications','user','getpublinks',
         //    array('state' => array(Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED),
         //          'count' => $show_pubcount));
@@ -736,9 +735,8 @@ class DisplayMethod extends MethodClass
             $settings['show_map'] = $show_map;
         }
         if (!empty($settings['show_map'])) {
-            $data['maplabel'] = xarML('View Publication Map');
-            $data['maplink'] = xarController::URL(
-                'publications',
+            $data['maplabel'] = $this->translate('View Publication Map');
+            $data['maplink'] = $this->getUrl(
                 'user',
                 'viewmap',
                 ['ptid' => $ptid]
@@ -748,9 +746,8 @@ class DisplayMethod extends MethodClass
             $settings['show_archives'] = $show_archives;
         }
         if (!empty($settings['show_archives'])) {
-            $data['archivelabel'] = xarML('View Archives');
-            $data['archivelink'] = xarController::URL(
-                'publications',
+            $data['archivelabel'] = $this->translate('View Archives');
+            $data['archivelink'] = $this->getUrl(
                 'user',
                 'archive',
                 ['ptid' => $ptid]

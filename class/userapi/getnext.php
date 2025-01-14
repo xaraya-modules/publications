@@ -35,19 +35,20 @@ class GetnextMethod extends MethodClass
     /**
      * get next publication
      * Note : the following parameters are all optional (except id and ptid)
-     * @param mixed $args ['id'] the publications ID we want to have the next publication of
-     * @param mixed $args ['ptid'] publication type ID (for news, sections, reviews, ...)
-     * @param mixed $args ['sort'] sort order ('date','title','hits','rating',...)
-     * @param mixed $args ['owner'] the ID of the author
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @param mixed $args ['enddate'] publications published before enddate
+     * @param array<mixed> $args
+     * @var mixed $id the publications ID we want to have the next publication of
+     * @var mixed $ptid publication type ID (for news, sections, reviews, ...)
+     * @var mixed $sort sort order ('date','title','hits','rating',...)
+     * @var mixed $owner the ID of the author
+     * @var mixed $state array of requested status(es) for the publications
+     * @var mixed $enddate publications published before enddate
      * (unix timestamp format)
-     * @return array of publications fields, or false on failure
+     * @return array|void of publications fields, or false on failure
      */
     public function __invoke(array $args = [])
     {
         // Security check
-        if (!xarSecurity::check('ViewPublications')) {
+        if (!$this->checkAccess('ViewPublications')) {
             return;
         }
 
@@ -56,7 +57,7 @@ class GetnextMethod extends MethodClass
 
         // Optional argument
         if (empty($ptid)) {
-            $ptid = xarModVars::get('publications', 'defaultpubtype');
+            $ptid = $this->getModVar('defaultpubtype');
         }
         if (empty($sort)) {
             $sort = 'date';

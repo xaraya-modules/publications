@@ -36,26 +36,26 @@ class ModifyPubtypeMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('AdminPublications')) {
+        if (!$this->checkAccess('AdminPublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!xarVar::fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('name', 'str:1', $name, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('name', 'str:1', $name, '', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('confirm', 'bool', $data['confirm'], false, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('confirm', 'bool', $data['confirm'], false, xarVar::NOT_REQUIRED)) {
             return;
         }
 
@@ -94,7 +94,7 @@ class ModifyPubtypeMethod extends MethodClass
 
         if ($data['confirm']) {
             // Check for a valid confirmation key
-            if (!xarSec::confirmAuthKey()) {
+            if (!$this->confirmAuthKey()) {
                 return;
             }
 
@@ -110,7 +110,7 @@ class ModifyPubtypeMethod extends MethodClass
                 $itemid = $data['object']->updateItem(['itemid' => $data['itemid']]);
 
                 // Jump to the next page
-                xarController::redirect(xarController::URL('publications', 'admin', 'view_pubtypes'), null, $this->getContext());
+                $this->redirect($this->getUrl('admin', 'view_pubtypes'));
                 return true;
             }
         }

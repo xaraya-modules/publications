@@ -47,25 +47,25 @@ class DisplayMethod extends MethodClass
         // this is used to determine whether we come from a pubtype-based view or a
         // categories-based navigation
         // Note we support both id and itemid
-        if (!xarVar::fetch('name', 'str', $name, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('name', 'str', $name, '', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'id', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'id', $ptid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('itemid', 'id', $itemid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('itemid', 'id', $itemid, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('id', 'id', $id, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('id', 'id', $id, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('page', 'int:1', $page, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('page', 'int:1', $page, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('translate', 'int:1', $translate, 1, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('translate', 'int:1', $translate, 1, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('layout', 'str:1', $layout, 'detail', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('layout', 'str:1', $layout, 'detail', xarVar::NOT_REQUIRED)) {
             return;
         }
 
@@ -82,7 +82,7 @@ class DisplayMethod extends MethodClass
         # If no ID supplied, try getting the id of the default page.
         #
         if (empty($id)) {
-            $id = xarModVars::get('publications', 'defaultpage');
+            $id = $this->getModVar('defaultpage');
         }
 
         # --------------------------------------------------------
@@ -100,8 +100,8 @@ class DisplayMethod extends MethodClass
                 // We do a full redirect rather than just continuing with the new id so that
                 // anything working off the itemid of the page to be displayed will automatically
                 // use the new one
-                xarController::redirect(xarController::URL('publications', 'user', 'display',
-                    array('itemid' => $newid, 'translate' => 0)), null, $this->getContext());
+                $this->redirect($this->getUrl( 'user', 'display',
+                    array('itemid' => $newid, 'translate' => 0)));
             }
             */
         }
@@ -112,10 +112,10 @@ class DisplayMethod extends MethodClass
         #
         if (empty($name) && empty($ptid) && empty($id)) {
             // Nothing to be done
-            $id = xarModVars::get('publications', 'notfoundpage');
+            $id = $this->getModVar('notfoundpage');
         } elseif (empty($id)) {
             // We're missing an id but can get a pubtype: jump to the pubtype view
-            xarController::redirect(xarController::URL('publications', 'user', 'view'), null, $this->getContext());
+            $this->redirect($this->getUrl('user', 'view'));
         }
 
         # --------------------------------------------------------
@@ -164,17 +164,16 @@ class DisplayMethod extends MethodClass
         $nopublish = (time() < $data['object']->properties['start_date']->value) || ((time() > $data['object']->properties['end_date']->value) && !$data['object']->properties['no_end']->value);
 
         // If no access, then bail showing a forbidden or the "no permission" page or an empty page
-        $nopermissionpage_id = xarModVars::get('publications', 'noprivspage');
+        $nopermissionpage_id = $this->getModVar('noprivspage');
         if (!$allow || $nopublish) {
             if ($accessconstraints['display']['failure']) {
                 return xarResponse::Forbidden();
             } elseif ($nopermissionpage_id) {
-                xarController::redirect(xarController::URL(
-                    'publications',
+                $this->redirect($this->getUrl(
                     'user',
                     'display',
                     ['itemid' => $nopermissionpage_id]
-                ), null, $this->getContext());
+                ));
             } else {
                 $data = ['context' => $this->getContext()];
                 return xarTpl::module('publications', 'user', 'empty', $data);
@@ -182,17 +181,16 @@ class DisplayMethod extends MethodClass
         }
 
         // If we use process states, then also check that
-        if (xarModVars::get('publications', 'use_process_states')) {
+        if ($this->getModVar('use_process_states')) {
             if ($data['object']->properties['process_state']->value < 3) {
                 if ($accessconstraints['display']['failure']) {
                     return xarResponse::Forbidden();
                 } elseif ($nopermissionpage_id) {
-                    xarController::redirect(xarController::URL(
-                        'publications',
+                    $this->redirect($this->getUrl(
                         'user',
                         'display',
                         ['itemid' => $nopermissionpage_id]
-                    ), null, $this->getContext());
+                    ));
                 } else {
                     $data = ['context' => $this->getContext()];
                     return xarTpl::module('publications', 'user', 'empty', $data);
@@ -217,14 +215,14 @@ class DisplayMethod extends MethodClass
                 if ($pos === 0) {
                     eval('$url = ' . $url . ';');
                 }
-                xarController::redirect($url, 301, $this->getContext());
+                $this->redirect($url, 301);
             } catch (Exception $e) {
                 return xarController::notFound(null, $this->getContext());
             }
         } elseif ($redirect_type == 2) {
             // This displays a page of a different module
             // If this is from a link of a redirect child page, use the child param as new URL
-            if (!xarVar::fetch('child', 'str', $child, null, xarVar::NOT_REQUIRED)) {
+            if (!$this->fetch('child', 'str', $child, null, xarVar::NOT_REQUIRED)) {
                 return;
             }
             if (!empty($child)) {
@@ -256,11 +254,11 @@ class DisplayMethod extends MethodClass
 
             // If this is an external link, show it without further processing
             if (!empty($params['host']) && $params['host'] != xarServer::getHost() && $params['host'] . ":" . $params['port'] != xarServer::getHost()) {
-                xarController::redirect($url, 301, $this->getContext());
+                $this->redirect($url, 301);
             } elseif (strpos(xarServer::getCurrentURL(), $url) === 0) {
                 // CHECKME: is this robust enough?
                 // Redirect to avoid recursion if $url is already our present URL
-                xarController::redirect($url, 301, $this->getContext());
+                $this->redirect($url, 301);
             } else {
                 // This is a local URL. We need to parse it, but parse_url is no longer good enough here
                 $request = new xarRequest($url);

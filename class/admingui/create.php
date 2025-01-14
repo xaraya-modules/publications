@@ -41,26 +41,26 @@ class CreateMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('AddPublications')) {
+        if (!$this->checkAccess('AddPublications')) {
             return;
         }
 
-        if (!xarVar::fetch('ptid', 'id', $data['ptid'])) {
+        if (!$this->fetch('ptid', 'id', $data['ptid'])) {
             return;
         }
-        if (!xarVar::fetch('new_cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('new_cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('preview', 'str', $data['preview'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('preview', 'str', $data['preview'], null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('save', 'str', $save, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('save', 'str', $save, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // Confirm authorisation code
         // This has been disabled for now
-        // if (!xarSec::confirmAuthKey()) return;
+        // if (!$this->confirmAuthKey()) return;
 
         $data['items'] = [];
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -74,7 +74,7 @@ class CreateMethod extends MethodClass
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
             if (!$isvalid &&
-                xarModVars::get('publications', 'debugmode') &&
+                $this->getModVar('debugmode') &&
                 in_array(xarUser::getVar('id'), xarConfigVars::get(null, 'Site.User.DebugAdmins'))) {
                 var_dump($data['object']->getInvalids());
             }
@@ -97,15 +97,14 @@ class CreateMethod extends MethodClass
         // Redirect if we came from somewhere else
         $current_listview = xarSession::getVar('publications_current_listview');
         if (!empty($cuurent_listview)) {
-            xarController::redirect($current_listview, null, $this->getContext());
+            $this->redirect($current_listview);
         }
 
-        xarController::redirect(xarController::URL(
-            'publications',
+        $this->redirect($this->getUrl(
             'admin',
             'view',
             ['ptid' => $data['ptid']]
-        ), null, $this->getContext());
+        ));
         return true;
     }
 }

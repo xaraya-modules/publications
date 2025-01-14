@@ -45,20 +45,20 @@ class DeletePubtypeMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('AdminPublications')) {
+        if (!$this->checkAccess('AdminPublications')) {
             return;
         }
 
-        if (!xarVar::fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('itemid', 'str', $itemid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('itemid', 'str', $itemid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('idlist', 'str', $idlist, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('idlist', 'str', $idlist, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
             return;
         }
 
@@ -69,9 +69,9 @@ class DeletePubtypeMethod extends MethodClass
 
         if (empty($idlist)) {
             if (isset($returnurl)) {
-                xarController::redirect($returnurl, null, $this->getContext());
+                $this->redirect($returnurl);
             } else {
-                xarController::redirect(xarController::URL('publications', 'admin', 'view_pubtypes'), null, $this->getContext());
+                $this->redirect($this->getUrl('admin', 'view_pubtypes'));
             }
         }
 
@@ -85,11 +85,11 @@ class DeletePubtypeMethod extends MethodClass
         if (!isset($confirmed)) {
             $data['idlist'] = $idlist;
             if (count($ids) > 1) {
-                $data['title'] = xarML("Delete Publication Types");
+                $data['title'] = $this->translate("Delete Publication Types");
             } else {
-                $data['title'] = xarML("Delete Publication Type");
+                $data['title'] = $this->translate("Delete Publication Type");
             }
-            $data['authid'] = xarSec::genAuthKey();
+            $data['authid'] = $this->genAuthKey();
             $items = [];
             foreach ($ids as $i) {
                 $pubtype->getItem(['itemid' => $i]);
@@ -97,11 +97,11 @@ class DeletePubtypeMethod extends MethodClass
                 $items[] = $item;
             }
             $data['items'] = $items;
-            $data['yes_action'] = xarController::URL('publications', 'admin', 'delete_pubtype', ['idlist' => $idlist]);
+            $data['yes_action'] = $this->getUrl( 'admin', 'delete_pubtype', ['idlist' => $idlist]);
             $data['context'] ??= $this->getContext();
             return xarTpl::module('publications', 'admin', 'delete_pubtype', $data);
         } else {
-            if (!xarSec::confirmAuthKey()) {
+            if (!$this->confirmAuthKey()) {
                 return;
             }
             foreach ($ids as $id) {
@@ -109,9 +109,9 @@ class DeletePubtypeMethod extends MethodClass
                 $data['message'] = "Publication Type deleted [ID $id]";
             }
             if (isset($returnurl)) {
-                xarController::redirect($returnurl, null, $this->getContext());
+                $this->redirect($returnurl);
             } else {
-                xarController::redirect(xarController::URL('publications', 'admin', 'view_pubtypes', $data), null, $this->getContext());
+                $this->redirect($this->getUrl( 'admin', 'view_pubtypes', $data));
             }
             return true;
         }

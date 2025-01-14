@@ -31,7 +31,7 @@ class GetpubtypeaccessMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         if (!isset($args['ptid'])) {
-            throw new Exception(xarML('Missing ptid param in publications_adminapi_getpubtypeaccess'));
+            throw new Exception($this->translate('Missing ptid param in publications_adminapi_getpubtypeaccess'));
         }
 
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);

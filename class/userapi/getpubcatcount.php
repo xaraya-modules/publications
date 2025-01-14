@@ -31,13 +31,14 @@ class GetpubcatcountMethod extends MethodClass
 
     /**
      * get the number of publications per publication type and category
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @param mixed $args ['ptid'] publication type ID
-     * @param mixed $args ['cids'] array of category IDs (OR/AND)
-     * @param mixed $args ['andcids'] true means AND-ing categories listed in cids
-     * @param mixed $args ['groupcids'] the number of categories you want items grouped by
-     * @param mixed $args ['reverse'] default is ptid => cid, reverse (1) is cid => ptid
-     * @return array array( $ptid => array( $cid => $count) ),
+     * @param array<mixed> $args
+     * @var mixed $state array of requested status(es) for the publications
+     * @var mixed $ptid publication type ID
+     * @var mixed $cids array of category IDs (OR/AND)
+     * @var mixed $andcids true means AND-ing categories listed in cids
+     * @var mixed $groupcids the number of categories you want items grouped by
+     * @var mixed $reverse default is ptid => cid, reverse (1) is cid => ptid
+     * @return array|void array( $ptid => array( $cid => $count) ),
      * or false on failure
      */
     public function __invoke(array $args = [])

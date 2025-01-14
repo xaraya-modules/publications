@@ -39,50 +39,50 @@ class PrivilegesMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('EditPublications')) {
+        if (!$this->checkAccess('EditPublications')) {
             return;
         }
 
         extract($args);
 
         // fixed params
-        if (!xarVar::fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('cid', 'isset', $cid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('cid', 'isset', $cid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('uid', 'isset', $uid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('uid', 'isset', $uid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('author', 'isset', $author, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('author', 'isset', $author, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('id', 'isset', $id, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('id', 'isset', $id, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('apply', 'isset', $apply, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('apply', 'isset', $apply, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('extpid', 'isset', $extpid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('extpid', 'isset', $extpid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('extname', 'isset', $extname, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('extname', 'isset', $extname, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('extrealm', 'isset', $extrealm, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('extrealm', 'isset', $extrealm, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('extmodule', 'isset', $extmodule, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('extmodule', 'isset', $extmodule, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('extcomponent', 'isset', $extcomponent, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('extcomponent', 'isset', $extcomponent, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('extinstance', 'isset', $extinstance, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('extinstance', 'isset', $extinstance, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('extlevel', 'isset', $extlevel, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('extlevel', 'isset', $extlevel, null, xarVar::DONT_SET)) {
             return;
         }
 
@@ -108,7 +108,7 @@ class PrivilegesMethod extends MethodClass
 
         if (empty($ptid) || $ptid == 'All' || !is_numeric($ptid)) {
             $ptid = 0;
-            if (!xarSecurity::check('AdminPublications')) {
+            if (!$this->checkAccess('AdminPublications')) {
                 return;
             }
         } else {
@@ -215,12 +215,12 @@ class PrivilegesMethod extends MethodClass
             } // throw back
 
             // redirect to the privilege
-            xarController::redirect(xarController::URL(
+            $this->redirect(xarController::URL(
                 'privileges',
                 'admin',
                 'modifyprivilege',
                 ['id' => $id]
-            ), null, $this->getContext());
+            ));
             return true;
         }
 
@@ -297,8 +297,8 @@ class PrivilegesMethod extends MethodClass
 
         $data['cids'] = $cids;
         $data['cats'] = $catlist;
-        $data['refreshlabel'] = xarML('Refresh');
-        $data['applylabel'] = xarML('Finish and Apply to Privilege');
+        $data['refreshlabel'] = $this->translate('Refresh');
+        $data['applylabel'] = $this->translate('Finish and Apply to Privilege');
         return $data;
     }
 }

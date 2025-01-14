@@ -34,35 +34,36 @@ class GetallMethod extends MethodClass
     /**
      * get overview of all publications
      * Note : the following parameters are all optional
-     * @param mixed $args ['numitems'] number of publications to get
-     * @param mixed $args ['sort'] sort order ('create_date','title','hits','rating','author','id','summary','notes',...)
-     * @param mixed $args ['startnum'] starting article number
-     * @param mixed $args ['ids'] array of article ids to get
-     * @param mixed $args ['owner'] the ID of the author
-     * @param mixed $args ['ptid'] publication type ID (for news, sections, reviews, ...)
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @param mixed $args ['search'] search parameter(s)
-     * @param mixed $args ['searchfields'] array of fields to search in
-     * @param mixed $args ['searchtype'] start, end, like, eq, gt, ... (TODO)
-     * @param mixed $args ['cids'] array of category IDs for which to get publications (OR/AND)
+     * @param array<mixed> $args
+     * @var mixed $numitems number of publications to get
+     * @var mixed $sort sort order ('create_date','title','hits','rating','author','id','summary','notes',...)
+     * @var mixed $startnum starting article number
+     * @var mixed $ids array of article ids to get
+     * @var mixed $owner the ID of the author
+     * @var mixed $ptid publication type ID (for news, sections, reviews, ...)
+     * @var mixed $state array of requested status(es) for the publications
+     * @var mixed $search search parameter(s)
+     * @var mixed $searchfields array of fields to search in
+     * @var mixed $searchtype start, end, like, eq, gt, ... (TODO)
+     * @var mixed $cids array of category IDs for which to get publications (OR/AND)
      * (for all categories don?t set it)
-     * @param mixed $args ['andcids'] true means AND-ing categories listed in cids
-     * @param mixed $args ['create_date'] publications published in a certain year (YYYY), month (YYYY-MM) or day (YYYY-MM-DD)
-     * @param mixed $args ['startdate'] publications published at startdate or later
+     * @var mixed $andcids true means AND-ing categories listed in cids
+     * @var mixed $create_date publications published in a certain year (YYYY), month (YYYY-MM) or day (YYYY-MM-DD)
+     * @var mixed $startdate publications published at startdate or later
      * (unix timestamp format)
-     * @param mixed $args ['enddate'] publications published before enddate
+     * @var mixed $enddate publications published before enddate
      * (unix timestamp format)
-     * @param mixed $args ['fields'] array with all the fields to return per publication
+     * @var mixed $fields array with all the fields to return per publication
      * Default list is : 'id','title','summary','owner',
      * 'create_date','pubtype_id','notes','state','body1'
      * Optional fields : 'cids','author','counter','rating','dynamicdata'
-     * @param mixed $args ['extra'] array with extra fields to return per article (in addition
+     * @var mixed $extra array with extra fields to return per article (in addition
      * to the default list). So you can EITHER specify *all* the
      * fields you want with 'fields', OR take all the default
      * ones and add some optional fields with 'extra'
-     * @param mixed $args ['where'] additional where clauses (e.g. myfield gt 1234)
-     * @param mixed $args ['locale'] language/locale (if not using multi-sites, categories etc.)
-     * @return array Array of publications, or false on failure
+     * @var mixed $where additional where clauses (e.g. myfield gt 1234)
+     * @var mixed $locale language/locale (if not using multi-sites, categories etc.)
+     * @return array|void Array of publications, or false on failure
      */
     public function __invoke(array $args = [])
     {
@@ -124,7 +125,7 @@ class GetallMethod extends MethodClass
         $publications = [];
 
         // Security check
-        if (!xarSecurity::check('ViewPublications')) {
+        if (!$this->checkAccess('ViewPublications')) {
             return;
         }
 

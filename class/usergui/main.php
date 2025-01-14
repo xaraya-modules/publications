@@ -41,35 +41,34 @@ class MainMethod extends MethodClass
         #
         # Try getting the id of the default page.
         #
-        $id = xarModVars::get('publications', 'defaultpage');
+        $id = $this->getModVar('defaultpage');
 
         if (!empty($id)) {
             # --------------------------------------------------------
             #
             # Get the ID of the translation if required
             #
-            if (!xarVar::fetch('translate', 'int:1', $translate, 1, xarVar::NOT_REQUIRED)) {
+            if (!$this->fetch('translate', 'int:1', $translate, 1, xarVar::NOT_REQUIRED)) {
                 return;
             }
-            return xarController::redirect(xarController::URL(
-                'publications',
+            return $this->redirect($this->getUrl(
                 'user',
                 'display',
                 ['itemid' => $id,'translate' => $translate]
-            ), null, $this->getContext());
+            ));
         } else {
             # --------------------------------------------------------
             #
             # No default page, check for a redirect or just show the view page
             #
-            $redirect = xarModVars::get('publications', 'frontend_page');
+            $redirect = $this->getModVar('frontend_page');
             if (!empty($redirect)) {
                 $truecurrenturl = xarServer::getCurrentURL([], false);
                 $urldata = xarMod::apiFunc('roles', 'user', 'parseuserhome', ['url' => $redirect,'truecurrenturl' => $truecurrenturl]);
-                xarController::redirect($urldata['redirecturl'], null, $this->getContext());
+                $this->redirect($urldata['redirecturl']);
                 return true;
             } else {
-                xarController::redirect(xarController::URL('publications', 'user', 'view'), null, $this->getContext());
+                $this->redirect($this->getUrl('user', 'view'));
             }
             return true;
         }

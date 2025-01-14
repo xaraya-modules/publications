@@ -37,32 +37,24 @@ class GetmenulinksMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         $menulinks = [];
-        if (!xarSecurity::check('ViewPublications', 0)) {
+        if (!$this->checkAccess('ViewPublications', 0)) {
             return $menulinks;
         }
 
-        $menulinks[] = ['url'   => xarController::URL(
-            'publications',
-            'user',
-            'main'
-        ),
-            'title' => xarML('Highlighted Publications'),
-            'label' => xarML('Front Page'), ];
+        $menulinks[] = ['url'   => $this->getUrl('user', 'main'),
+            'title' => $this->translate('Highlighted Publications'),
+            'label' => $this->translate('Front Page'), ];
 
         $items = xarMod::apiFunc('publications', 'user', 'get_menu_pages');
         foreach ($items as $item) {
-            $menulinks[] = ['url'   => xarController::URL('publications', 'user', 'display', ['itemid' => $item['id']]),
-                'title' => xarML('Display #(1)', $item['description']),
+            $menulinks[] = ['url'   => $this->getUrl( 'user', 'display', ['itemid' => $item['id']]),
+                'title' => $this->translate('Display #(1)', $item['description']),
                 'label' => $item['title'], ];
         }
 
-        $menulinks[] = ['url'   => xarController::URL(
-            'publications',
-            'user',
-            'viewmap'
-        ),
-            'title' => xarML('Displays a map of all published content'),
-            'label' => xarML('Publication Map'), ];
+        $menulinks[] = ['url'   => $this->getUrl('user', 'viewmap'),
+            'title' => $this->translate('Displays a map of all published content'),
+            'label' => $this->translate('Publication Map'), ];
 
         return $menulinks;
     }

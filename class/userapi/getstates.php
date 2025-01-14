@@ -35,12 +35,12 @@ class GetstatesMethod extends MethodClass
     {
         // Simplistic getstates function
         // Obviously needs to be smarter along with the other state functions
-        return [0 => xarML('Deleted'),
-            1 => xarML('Inactive'),
-            2 => xarML('Draft'),
-            3 => xarML('Active'),
-            4 => xarML('Frontpage'),
-            5 => xarML('Empty'),
+        return [0 => $this->translate('Deleted'),
+            1 => $this->translate('Inactive'),
+            2 => $this->translate('Draft'),
+            3 => $this->translate('Active'),
+            4 => $this->translate('Frontpage'),
+            5 => $this->translate('Empty'),
         ];
     }
 }

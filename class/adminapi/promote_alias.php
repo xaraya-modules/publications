@@ -41,7 +41,7 @@ class PromoteAliasMethod extends MethodClass
 
         // Argument check
         if (!isset($itemid)) {
-            $msg = xarML(
+            $msg = $this->translate(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 'publication ID',
                 'admin',

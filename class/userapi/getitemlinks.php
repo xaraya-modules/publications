@@ -32,7 +32,8 @@ class GetitemlinksMethod extends MethodClass
 
     /**
      * utility function to pass individual item links to a caller
-     * @param mixed $args ['itemids'] array of item ids to get
+     * @param array<mixed> $args
+     * @var mixed $itemids array of item ids to get
      * @return array Array containing the itemlink(s) for the item(s).
      */
     public function __invoke(array $args = [])
@@ -66,10 +67,9 @@ class GetitemlinksMethod extends MethodClass
 
         foreach ($result as $item) {
             if (empty($item['title'])) {
-                $item['title'] = xarML('Display Publication');
+                $item['title'] = $this->translate('Display Publication');
             }
-            $itemlinks[$item['id']] = ['url'   => xarController::URL(
-                'publications',
+            $itemlinks[$item['id']] = ['url'   => $this->getUrl(
                 'user',
                 'display',
                 ['itemid' => $item['id']]

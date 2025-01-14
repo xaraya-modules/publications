@@ -234,26 +234,26 @@ class Installer extends InstallerClass
         #
         # Set up modvars
         #
-        xarModVars::set('publications', 'items_per_page', 20);
-        xarModVars::set('publications', 'use_module_alias', 0);
-        xarModVars::set('publications', 'module_alias_name', 'Publications');
-        xarModVars::set('publications', 'defaultmastertable', 'publications_documents');
-        xarModVars::set('publications', 'use_module_icons', 1);
-        xarModVars::set('publications', 'fulltextsearch', '');
-        xarModVars::set('publications', 'defaultpubtype', 2);
-        xarModVars::set('publications', 'defaultlanguage', 'en_US.utf-8');
-        xarModVars::set('publications', 'defaultpage', 1);
-        xarModVars::set('publications', 'errorpage', 2);
-        xarModVars::set('publications', 'notfoundpage', 3);
-        xarModVars::set('publications', 'noprivspage', 4);
-        xarModVars::set('publications', 'debugmode', false);
-        xarModVars::get('publications', 'multilanguage', true);
-        xarModVars::set('publications', 'frontend_page', '[publications:user:display]&id=1');
-        xarModVars::set('publications', 'backend_page', '[publications:admin:view_pages]');
-        xarModVars::set('publications', 'use_process_states', 0);
-        xarModVars::set('publications', 'use_versions', 0);
-        xarModVars::set('publications', 'hide_tree_display', 0);
-        xarModVars::set('publications', 'admin_override', 0);
+        $this->setModVar('items_per_page', 20);
+        $this->setModVar('use_module_alias', 0);
+        $this->setModVar('module_alias_name', 'Publications');
+        $this->setModVar('defaultmastertable', 'publications_documents');
+        $this->setModVar('use_module_icons', 1);
+        $this->setModVar('fulltextsearch', '');
+        $this->setModVar('defaultpubtype', 2);
+        $this->setModVar('defaultlanguage', 'en_US.utf-8');
+        $this->setModVar('defaultpage', 1);
+        $this->setModVar('errorpage', 2);
+        $this->setModVar('notfoundpage', 3);
+        $this->setModVar('noprivspage', 4);
+        $this->setModVar('debugmode', false);
+        $this->setModVar('multilanguage', true);
+        $this->setModVar('frontend_page', '[publications:user:display]&id=1');
+        $this->setModVar('backend_page', '[publications:admin:view_pages]');
+        $this->setModVar('use_process_states', 0);
+        $this->setModVar('use_versions', 0);
+        $this->setModVar('hide_tree_display', 0);
+        $this->setModVar('admin_override', 0);
 
         // Save publications settings for each publication type
         /*
@@ -271,18 +271,18 @@ class Installer extends InstallerClass
                 }
                 unset($values['categories']);
                 if (!empty($id)) {
-                    xarModVars::set('publications', 'number_of_categories.'.$id, count($cidlist));
-                    xarModVars::set('publications', 'mastercids.'.$id, join(';',$cidlist));
+                    $this->setModVar('number_of_categories.'.$id, count($cidlist));
+                    $this->setModVar('mastercids.'.$id, join(';',$cidlist));
                 } else {
-                    xarModVars::set('publications', 'number_of_categories', count($cidlist));
-                    xarModVars::set('publications', 'mastercids', join(';',$cidlist));
+                    $this->setModVar('number_of_categories', count($cidlist));
+                    $this->setModVar('mastercids', join(';',$cidlist));
                 }
             } elseif (!empty($id)) {
-                xarModVars::set('publications', 'number_of_categories.'.$id, 0);
-                xarModVars::set('publications', 'mastercids.'.$id, '');
+                $this->setModVar('number_of_categories.'.$id, 0);
+                $this->setModVar('mastercids.'.$id, '');
             } else {
-                xarModVars::set('publications', 'number_of_categories', 0);
-                xarModVars::set('publications', 'mastercids', '');
+                $this->setModVar('number_of_categories', 0);
+                $this->setModVar('mastercids', '');
             }
             if (isset($values['defaultview']) && !is_numeric($values['defaultview'])) {
                 if (isset($cid[$values['defaultview']])) {
@@ -292,9 +292,9 @@ class Installer extends InstallerClass
                 }
             }
             if (!empty($id)) {
-                xarModVars::set('publications', 'settings.'.$id,serialize($values));
+                $this->setModVar('settings.'.$id,serialize($values));
             } else {
-                xarModVars::set('publications', 'settings',serialize($values));
+                $this->setModVar('settings',serialize($values));
             }
         }
 
@@ -375,7 +375,7 @@ class Installer extends InstallerClass
         $xartable = & xarDB::getTables();
         $instances = [
             ['header' => 'external', // this keyword indicates an external "wizard"
-                'query'  => xarController::URL('publications', 'admin', 'privileges'),
+                'query'  => $this->getUrl('admin', 'privileges'),
                 'limit'  => 0,
             ],
         ];

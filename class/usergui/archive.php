@@ -41,24 +41,24 @@ class ArchiveMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Xaraya security
-        if (!xarSecurity::check('ModeratePublications')) {
+        if (!$this->checkAccess('ModeratePublications')) {
             return;
         }
 
         // Get parameters from user
-        if (!xarVar::fetch('ptid', 'id', $ptid, xarModVars::get('publications', 'defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptid', 'id', $ptid, $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('sort', 'enum:d:t:1:2', $sort, 'd', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('sort', 'enum:d:t:1:2', $sort, 'd', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('month', 'str', $month, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('month', 'str', $month, '', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('catid', 'str', $catid, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('catid', 'str', $catid, '', xarVar::NOT_REQUIRED)) {
             return;
         }
 
@@ -75,10 +75,10 @@ class ArchiveMethod extends MethodClass
 
         if (empty($ptid)) {
             if (!xarSecurity::check('ViewPublications', 0, 'Publication', 'All:All:All:All')) {
-                return xarML('You have no permission to view these items');
+                return $this->translate('You have no permission to view these items');
             }
         } elseif (!xarSecurity::check('ViewPublications', 0, 'Publication', $ptid . ':All:All:All')) {
-            return xarML('You have no permission to view these items');
+            return $this->translate('You have no permission to view these items');
         }
 
         $state = [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED];
@@ -174,8 +174,7 @@ class ArchiveMethod extends MethodClass
             if ($thismonth == $month) {
                 $mlink = '';
             } else {
-                $mlink = xarController::URL(
-                    'publications',
+                $mlink = $this->getUrl(
                     'user',
                     'archive',
                     ['ptid' => $ptid,
@@ -188,15 +187,14 @@ class ArchiveMethod extends MethodClass
             $total += $count;
         }
         if (empty($ptid)) {
-            $thismonth = xarML('All Publications');
+            $thismonth = $this->translate('All Publications');
         } else {
-            $thismonth = xarML('All') . ' ' . $pubtypes[$ptid]['description'];
+            $thismonth = $this->translate('All') . ' ' . $pubtypes[$ptid]['description'];
         }
         if ($month == 'all') {
             $mlink = '';
         } else {
-            $mlink = xarController::URL(
-                'publications',
+            $mlink = $this->getUrl(
                 'user',
                 'archive',
                 ['ptid' => $ptid,
@@ -248,8 +246,7 @@ class ArchiveMethod extends MethodClass
                 if ($sort == $count) {
                     $link = '';
                 } else {
-                    $link = xarController::URL(
-                        'publications',
+                    $link = $this->getUrl(
                         'user',
                         'archive',
                         ['ptid' => $ptid,
@@ -294,7 +291,7 @@ class ArchiveMethod extends MethodClass
                 ]
             );
             if (!is_array($publications)) {
-                $msg = xarML('Failed to retrieve publications in #(3)_#(1)_#(2).php', 'user', 'getall', 'publications');
+                $msg = $this->translate('Failed to retrieve publications in #(3)_#(1)_#(2).php', 'user', 'getall', 'publications');
                 throw new DataNotFoundException(null, $msg);
             }
         } else {
@@ -304,15 +301,14 @@ class ArchiveMethod extends MethodClass
         // TODO: add print / recommend_us link for each article ?
         // TODO: add view count to table/query/template someday ?
         foreach ($publications as $key => $article) {
-            $publications[$key]['link'] = xarController::URL(
-                'publications',
+            $publications[$key]['link'] = $this->getUrl(
                 'user',
                 'display',
                 ['ptid' => isset($ptid) ? $publications[$key]['pubtype_id'] : null,
                     'id' => $publications[$key]['id'], ]
             );
             if (empty($publications[$key]['title'])) {
-                $publications[$key]['title'] = xarML('(none)');
+                $publications[$key]['title'] = $this->translate('(none)');
             }
             /* TODO: move date formatting to template, delete this code after testing
                     if ($showdate && !empty($publications[$key]['pubdate'])) {
@@ -378,8 +374,7 @@ class ArchiveMethod extends MethodClass
         if ($sort == 't') {
             $link = '';
         } else {
-            $link = xarController::URL(
-                'publications',
+            $link = $this->getUrl(
                 'user',
                 'archive',
                 ['ptid' => $ptid,
@@ -388,17 +383,16 @@ class ArchiveMethod extends MethodClass
             );
         }
         $catlist[] = ['cid' => 0,
-            'name' => xarML('Title'),
+            'name' => $this->translate('Title'),
             'link' => $link, ];
-        $catsel[] = '<input type="submit" value="' . xarML('Filter') . '" />';
+        $catsel[] = '<input type="submit" value="' . $this->translate('Filter') . '" />';
 
         if ($showdate) {
             // add date header
             if ($sort == 'd') {
                 $link = '';
             } else {
-                $link = xarController::URL(
-                    'publications',
+                $link = $this->getUrl(
                     'user',
                     'archive',
                     ['ptid' => $ptid,
@@ -406,7 +400,7 @@ class ArchiveMethod extends MethodClass
                 );
             }
             $catlist[] = ['cid' => 0,
-                'name' => xarML('Date'),
+                'name' => $this->translate('Date'),
                 'link' => $link, ];
             $catsel[] = '&#160;';
         }
@@ -421,15 +415,15 @@ class ArchiveMethod extends MethodClass
         xarCoreCache::setCached('Blocks.categories', 'itemtype', $ptid);
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
             xarCoreCache::setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
-            xarTpl::setPageTitle(xarML('Archive'), $pubtypes[$ptid]['description']);
+            xarTpl::setPageTitle($this->translate('Archive'), $pubtypes[$ptid]['description']);
         } else {
-            xarTpl::setPageTitle(xarML('Archive'));
+            xarTpl::setPageTitle($this->translate('Archive'));
         }
         //}
         if (!empty($ptid)) {
-            $settings = unserialize(xarModVars::get('publications', 'settings.' . $ptid));
+            $settings = unserialize($this->getModVar('settings.' . $ptid));
         } else {
-            $string = xarModVars::get('publications', 'settings');
+            $string = $this->getModVar('settings');
             if (!empty($string)) {
                 $settings = unserialize($string);
             }
@@ -458,8 +452,7 @@ class ArchiveMethod extends MethodClass
             'catsel' => $catsel,
             'ptid' => $ptid,
             'month' => $month,
-            'curlink' => xarController::URL(
-                'publications',
+            'curlink' => $this->getUrl(
                 'user',
                 'archive',
                 ['ptid' => $ptid,
@@ -468,7 +461,7 @@ class ArchiveMethod extends MethodClass
             ),
             'showdate' => $showdate,
             'show_publinks' => $show_publinks,
-            'publabel' => xarML('Publication'),
+            'publabel' => $this->translate('Publication'),
             'publinks' => xarMod::apiFunc(
                 'publications',
                 'user',
@@ -479,16 +472,14 @@ class ArchiveMethod extends MethodClass
                     // override default 'view'
                     'func' => 'archive', ]
             ),
-            'maplabel' => xarML('View Publication Map'),
-            'maplink' => xarController::URL(
-                'publications',
+            'maplabel' => $this->translate('View Publication Map'),
+            'maplink' => $this->getUrl(
                 'user',
                 'viewmap',
                 ['ptid' => $ptid]
             ),
-            'viewlabel' => (empty($ptid) ? xarML('Back to Publications') : xarML('Back to') . ' ' . $pubtypes[$ptid]['description']),
-            'viewlink' => xarController::URL(
-                'publications',
+            'viewlabel' => (empty($ptid) ? $this->translate('Back to Publications') : $this->translate('Back to') . ' ' . $pubtypes[$ptid]['description']),
+            'viewlink' => $this->getUrl(
                 'user',
                 'view',
                 ['ptid' => $ptid]

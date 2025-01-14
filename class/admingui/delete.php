@@ -47,21 +47,21 @@ class DeleteMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('ManagePublications')) {
+        if (!$this->checkAccess('ManagePublications')) {
             return;
         }
 
-        //$return = xarController::URL('publications', 'admin','view',array('ptid' => xarModVars::get('publications', 'defaultpubtype')));
-        if (!xarVar::fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
+        //$return = $this->getUrl( 'admin','view',array('ptid' => $this->getModVar('defaultpubtype')));
+        if (!$this->fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('itemid', 'int', $itemid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('itemid', 'int', $itemid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('idlist', 'str', $idlist, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('idlist', 'str', $idlist, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
             return;
         }
 
@@ -72,9 +72,9 @@ class DeleteMethod extends MethodClass
 
         if (empty($idlist)) {
             if (isset($returnurl)) {
-                xarController::redirect($returnurl, null, $this->getContext());
+                $this->redirect($returnurl);
             } else {
-                xarController::redirect(xarController::URL('publications', 'admin', 'view'), null, $this->getContext());
+                $this->redirect($this->getUrl('admin', 'view'));
             }
         }
 
@@ -88,11 +88,11 @@ class DeleteMethod extends MethodClass
         if (!isset($confirmed)) {
             $data['idlist'] = $idlist;
             if (count($ids) > 1) {
-                $data['title'] = xarML("Delete Publications");
+                $data['title'] = $this->translate("Delete Publications");
             } else {
-                $data['title'] = xarML("Delete Publication");
+                $data['title'] = $this->translate("Delete Publication");
             }
-            $data['authid'] = xarSec::genAuthKey();
+            $data['authid'] = $this->genAuthKey();
             $items = [];
             foreach ($ids as $i) {
                 $publication->getItem(['itemid' => $i]);
@@ -100,10 +100,10 @@ class DeleteMethod extends MethodClass
                 $items[] = $item;
             }
             $data['items'] = $items;
-            $data['yes_action'] = xarController::URL('publications', 'admin', 'delete', ['idlist' => $idlist]);
+            $data['yes_action'] = $this->getUrl( 'admin', 'delete', ['idlist' => $idlist]);
             return xarTpl::module('publications', 'admin', 'delete', $data);
         } else {
-            if (!xarSec::confirmAuthKey()) {
+            if (!$this->confirmAuthKey()) {
                 return;
             }
             foreach ($ids as $id) {
@@ -115,9 +115,9 @@ class DeleteMethod extends MethodClass
                 xarHooks::notify('ItemDelete', $item);
             }
             if (isset($returnurl)) {
-                xarController::redirect($returnurl, null, $this->getContext());
+                $this->redirect($returnurl);
             } else {
-                xarController::redirect(xarController::URL('publications', 'admin', 'view', $data), null, $this->getContext());
+                $this->redirect($this->getUrl( 'admin', 'view', $data));
             }
             return true;
         }

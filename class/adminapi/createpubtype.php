@@ -33,10 +33,11 @@ class CreatepubtypeMethod extends MethodClass
 
     /**
      * Create a new publication type
-     * @param mixed $args ['name'] name of the publication type
-     * @param mixed $args ['descr'] description of the publication type
-     * @param mixed $args ['config'] configuration of the publication type
-     * @return int publication type ID on success, false on failure
+     * @param array<mixed> $args
+     * @var mixed $name name of the publication type
+     * @var mixed $descr description of the publication type
+     * @var mixed $config configuration of the publication type
+     * @return int|void publication type ID on success, false on failure
      */
     public function __invoke(array $args = [])
     {
@@ -56,7 +57,7 @@ class CreatepubtypeMethod extends MethodClass
             $invalid[] = 'configuration';
         }
         if (count($invalid) > 0) {
-            $msg = xarML(
+            $msg = $this->translate(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 join(', ', $invalid),
                 'admin',
@@ -74,7 +75,7 @@ class CreatepubtypeMethod extends MethodClass
         $name = strtolower($name);
 
         // Security check - we require ADMIN rights here
-        if (!xarSecurity::check('AdminPublications')) {
+        if (!$this->checkAccess('AdminPublications')) {
             return;
         }
 

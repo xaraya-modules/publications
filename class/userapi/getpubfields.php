@@ -30,10 +30,10 @@ class GetpubfieldsMethod extends MethodClass
     /**
      * get array of configurable fields for publication types
      * @TODO : add dynamic fields here for .81+
-     * @return array array('title'   => array('label'  => xarML('...'),
+     * @return array array('title'   => array('label'  => $this->translate('...'),
      * 'format' => '...',
      * 'input'  => 1),
-     * 'summary' => array('label'  => xarML('...'),
+     * 'summary' => array('label'  => $this->translate('...'),
      * 'format' => '...',
      * 'input'  => 1),
      * ...);
@@ -41,25 +41,25 @@ class GetpubfieldsMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         return [
-            'title'    => ['label'  => xarML('Title'),
+            'title'    => ['label'  => $this->translate('Title'),
                 'format' => 'textbox',
                 'input'  => 1, ],
-            'summary'  => ['label'  => xarML('Summary'),
+            'summary'  => ['label'  => $this->translate('Summary'),
                 'format' => 'textarea_medium',
                 'input'  => 1, ],
-            'body' => ['label'  => xarML('Body'),
+            'body' => ['label'  => $this->translate('Body'),
                 'format' => 'textarea_large',
                 'input'  => 1, ],
-            'notes'    => ['label'  => xarML('Notes'),
+            'notes'    => ['label'  => $this->translate('Notes'),
                 'format' => 'textarea',
                 'input'  => 0, ],
-            'owner' => ['label'  => xarML('Author'),
+            'owner' => ['label'  => $this->translate('Author'),
                 'format' => 'username',
                 'input'  => 0, ],
-            'pubdate'  => ['label'  => xarML('Publication Date'),
+            'pubdate'  => ['label'  => $this->translate('Publication Date'),
                 'format' => 'calendar',
                 'input'  => 0, ],
-            'state'   => ['label'  => xarML('Status'),
+            'state'   => ['label'  => $this->translate('Status'),
                 'format' => 'state',
                 'input'  => 0, ],
         ];

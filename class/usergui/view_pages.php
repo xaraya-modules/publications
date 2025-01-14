@@ -45,12 +45,12 @@ class ViewPagesMethod extends MethodClass
     {
         extract($args);
 
-        if (!xarSecurity::check('ManagePublications')) {
+        if (!$this->checkAccess('ManagePublications')) {
             return;
         }
 
         // Accept a parameter to allow selection of a single tree.
-        xarVar::fetch('contains', 'id', $contains, 0, xarVar::NOT_REQUIRED);
+        $this->fetch('contains', 'id', $contains, 0, xarVar::NOT_REQUIRED);
 
         $data = xarMod::apiFunc(
             'publications',
@@ -61,7 +61,7 @@ class ViewPagesMethod extends MethodClass
 
         if (empty($data['pages'])) {
             // TODO: pass to template.
-            return $data; //xarML('NO PAGES DEFINED');
+            return $data; //$this->translate('NO PAGES DEFINED');
         } else {
             $data['pages'] = xarMod::apiFunc('publications', 'tree', 'array_maptree', $data['pages']);
         }

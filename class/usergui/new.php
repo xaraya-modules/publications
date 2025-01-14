@@ -39,20 +39,20 @@ class NewMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Xaraya security
-        if (!xarSecurity::check('ModeratePublications')) {
+        if (!$this->checkAccess('ModeratePublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!xarVar::fetch('ptid', 'int', $data['ptid'], xarModVars::get('publications', 'defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptid', 'int', $data['ptid'], $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('itemtype', 'id', $itemtype, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('itemtype', 'id', $itemtype, null, xarVar::NOT_REQUIRED)) {
             return;
         }
         $data['items'] = [];
@@ -70,17 +70,16 @@ class NewMethod extends MethodClass
         $allow = $access->check($accessconstraints['add']);
 
         // If no access, then bail showing a forbidden or the "no permission" page or an empty page
-        $nopermissionpage_id = xarModVars::get('publications', 'noprivspage');
+        $nopermissionpage_id = $this->getModVar('noprivspage');
         if (!$allow) {
             if ($accessconstraints['add']['failure']) {
                 return xarResponse::Forbidden();
             } elseif ($nopermissionpage_id) {
-                xarController::redirect(xarController::URL(
-                    'publications',
+                $this->redirect($this->getUrl(
                     'user',
                     'display',
                     ['itemid' => $nopermissionpage_id]
-                ), null, $this->getContext());
+                ));
             } else {
                 $data = ['context' => $this->getContext()];
                 return xarTpl::module('publications', 'user', 'empty', $data);

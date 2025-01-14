@@ -42,29 +42,29 @@ class ModifyMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Xaraya security
-        if (!xarSecurity::check('ModeratePublications')) {
+        if (!$this->checkAccess('ModeratePublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!xarVar::fetch('itemid', 'id', $data['itemid'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('itemid', 'id', $data['itemid'], null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('id', 'id', $data['id'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('id', 'id', $data['id'], null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('name', 'str:1', $name, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('name', 'str:1', $name, '', xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
             return;
         }
 
@@ -106,7 +106,7 @@ class ModifyMethod extends MethodClass
 
         // If not allowed, check if admins or the designated site admin can modify even if not the owner
         if (!$allow) {
-            $admin_override = xarModVars::get('publications', 'admin_override');
+            $admin_override = $this->getModVar('admin_override');
             switch ($admin_override) {
                 case 0:
                     break;
@@ -120,17 +120,16 @@ class ModifyMethod extends MethodClass
         }
 
         // If no access, then bail showing a forbidden or the "no permission" page or an empty page
-        $nopermissionpage_id = xarModVars::get('publications', 'noprivspage');
+        $nopermissionpage_id = $this->getModVar('noprivspage');
         if (!$allow) {
             if ($accessconstraints['modify']['failure']) {
                 return xarResponse::Forbidden();
             } elseif ($nopermissionpage_id) {
-                xarController::redirect(xarController::URL(
-                    'publications',
+                $this->redirect($this->getUrl(
                     'user',
                     'display',
                     ['itemid' => $nopermissionpage_id]
-                ), null, $this->getContext());
+                ));
             } else {
                 $data = ['context' => $this->getContext()];
                 return xarTpl::module('publications', 'user', 'empty', $data);

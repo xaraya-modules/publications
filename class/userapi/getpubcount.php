@@ -33,8 +33,9 @@ class GetpubcountMethod extends MethodClass
 
     /**
      * get the number of publications per publication type
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @return array array(id => count), or false on failure
+     * @param array<mixed> $args
+     * @var mixed $state array of requested status(es) for the publications
+     * @return array|void array(id => count), or false on failure
      */
     public function __invoke(array $args = [])
     {

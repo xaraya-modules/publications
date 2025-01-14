@@ -31,15 +31,16 @@ class CountitemsMethod extends MethodClass
 
     /**
      * count number of items depending on additional module criteria
-     * @param mixed $args ['catid'] string of category id(s) that we're counting in, or
-     * @param mixed $args ['cids'] array of cids that we are counting in (OR/AND)
-     * @param mixed $args ['andcids'] true means AND-ing categories listed in cids
-     * @param mixed $args ['owner'] the ID of the author
-     * @param mixed $args ['ptid'] publication type ID (for news, sections, reviews, ...)
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @param mixed $args ['startdate'] publications published at startdate or later
+     * @param array<mixed> $args
+     * @var mixed $catid string of category id(s) that we're counting in, or
+     * @var mixed $cids array of cids that we are counting in (OR/AND)
+     * @var mixed $andcids true means AND-ing categories listed in cids
+     * @var mixed $owner the ID of the author
+     * @var mixed $ptid publication type ID (for news, sections, reviews, ...)
+     * @var mixed $state array of requested status(es) for the publications
+     * @var mixed $startdate publications published at startdate or later
      * (unix timestamp format)
-     * @param mixed $args ['enddate'] publications published before enddate
+     * @var mixed $enddate publications published before enddate
      * (unix timestamp format)
      * @return int number of items
      */

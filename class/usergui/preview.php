@@ -39,7 +39,7 @@ class PreviewMethod extends MethodClass
 
     public function __invoke(array $data = [])
     {
-        if (!xarVar::fetch('layout', 'str:1', $layout, 'detail', xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('layout', 'str:1', $layout, 'detail', xarVar::NOT_REQUIRED)) {
             return;
         }
 
@@ -78,17 +78,16 @@ class PreviewMethod extends MethodClass
         $nopublish = (time() < $data['object']->properties['start_date']->value) || ((time() > $data['object']->properties['end_date']->value) && !$data['object']->properties['no_end']->value);
 
         // If no access, then bail showing a forbidden or the "no permission" page or an empty page
-        $nopermissionpage_id = xarModVars::get('publications', 'noprivspage');
+        $nopermissionpage_id = $this->getModVar('noprivspage');
         if (!$allow || $nopublish) {
             if ($accessconstraints['display']['failure']) {
                 return xarResponse::Forbidden();
             } elseif ($nopermissionpage_id) {
-                xarController::redirect(xarController::URL(
-                    'publications',
+                $this->redirect($this->getUrl(
                     'user',
                     'display',
                     ['itemid' => $nopermissionpage_id]
-                ), null, $this->getContext());
+                ));
             } else {
                 $data = ['context' => $this->getContext()];
                 return xarTpl::module('publications', 'user', 'empty', $data);
@@ -96,17 +95,16 @@ class PreviewMethod extends MethodClass
         }
 
         // If we use process states, then also check that
-        if (xarModVars::get('publications', 'use_process_states')) {
+        if ($this->getModVar('use_process_states')) {
             if ($data['object']->properties['process_state']->value < 3) {
                 if ($accessconstraints['display']['failure']) {
                     return xarResponse::Forbidden();
                 } elseif ($nopermissionpage_id) {
-                    xarController::redirect(xarController::URL(
-                        'publications',
+                    $this->redirect($this->getUrl(
                         'user',
                         'display',
                         ['itemid' => $nopermissionpage_id]
-                    ), null, $this->getContext());
+                    ));
                 } else {
                     $data = ['context' => $this->getContext()];
                     return xarTpl::module('publications', 'user', 'empty', $data);

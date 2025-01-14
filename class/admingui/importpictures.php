@@ -38,48 +38,48 @@ class ImportpicturesMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('AdminPublications')) {
+        if (!$this->checkAccess('AdminPublications')) {
             return;
         }
 
         // Get parameters
-        if (!xarVar::fetch('basedir', 'isset', $basedir, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('basedir', 'isset', $basedir, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('baseurl', 'isset', $baseurl, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('baseurl', 'isset', $baseurl, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('thumbnail', 'isset', $thumbnail, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('thumbnail', 'isset', $thumbnail, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('filelist', 'isset', $filelist, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('filelist', 'isset', $filelist, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('refresh', 'isset', $refresh, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('refresh', 'isset', $refresh, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('ptid', 'int', $data['ptid'], 5, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptid', 'int', $data['ptid'], 5, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('title', 'isset', $title, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('title', 'isset', $title, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('summary', 'isset', $summary, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('summary', 'isset', $summary, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('content', 'isset', $content, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('content', 'isset', $content, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('usefilemtime', 'isset', $usefilemtime, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('usefilemtime', 'isset', $usefilemtime, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('cids', 'isset', $cids, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('cids', 'isset', $cids, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('test', 'isset', $test, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('test', 'isset', $test, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('import', 'isset', $import, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('import', 'isset', $import, null, xarVar::DONT_SET)) {
             return;
         }
 
@@ -151,12 +151,12 @@ class ImportpicturesMethod extends MethodClass
 
         if (isset($refresh) || isset($test) || isset($import)) {
             // Confirm authorisation code
-            if (!xarSec::confirmAuthKey()) {
+            if (!$this->confirmAuthKey()) {
                 return;
             }
         }
 
-        $data['authid'] = xarSec::genAuthKey();
+        $data['authid'] = $this->genAuthKey();
 
         // Get current publication types
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
@@ -308,7 +308,7 @@ class ImportpicturesMethod extends MethodClass
                     if (empty($id)) {
                         return; // throw back
                     } else {
-                        $data['logfile'] .= xarML('File #(1) was imported as #(2) #(3)', $curfile, $pubtypes[$data['ptid']]['description'], $id);
+                        $data['logfile'] .= $this->translate('File #(1) was imported as #(2) #(3)', $curfile, $pubtypes[$data['ptid']]['description'], $id);
                         $data['logfile'] .= '<br />';
                     }
                 }

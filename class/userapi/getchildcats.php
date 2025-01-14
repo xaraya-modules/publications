@@ -32,13 +32,14 @@ class GetchildcatsMethod extends MethodClass
 
     /**
      * get an array of child categories with links and optional counts
-     * @param mixed $args ['state'] array of requested status(es) for the publications
-     * @param mixed $args ['ptid'] publication type ID
-     * @param mixed $args ['cid'] parent category ID
-     * @param mixed $args ['showcid'] false (default) means skipping the parent cid
-     * @param mixed $args ['count'] true (default) means counting the number of publications
-     * @param mixed $args ['filter'] additional categories we're filtering on (= catid)
-     * @return array
+     * @param array<mixed> $args
+     * @var mixed $state array of requested status(es) for the publications
+     * @var mixed $ptid publication type ID
+     * @var mixed $cid parent category ID
+     * @var mixed $showcid false (default) means skipping the parent cid
+     * @var mixed $count true (default) means counting the number of publications
+     * @var mixed $filter additional categories we're filtering on (= catid)
+     * @return array|void
      */
     public function __invoke(array $args = [])
     {
@@ -119,8 +120,7 @@ class GetchildcatsMethod extends MethodClass
                 $catid = $info['id'];
             }
             // TODO: show icons instead of (or in addition to) a link if available ?
-            $info['link'] = xarController::URL(
-                'publications',
+            $info['link'] = $this->getUrl(
                 'user',
                 'view',
                 ['ptid' => $ptid,

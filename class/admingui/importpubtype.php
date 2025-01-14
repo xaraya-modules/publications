@@ -36,21 +36,21 @@ class ImportpubtypeMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!xarSecurity::check('AdminPublications')) {
+        if (!$this->checkAccess('AdminPublications')) {
             return;
         }
 
-        if (!xarVar::fetch('import', 'isset', $import, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('import', 'isset', $import, null, xarVar::DONT_SET)) {
             return;
         }
-        if (!xarVar::fetch('xml', 'isset', $xml, null, xarVar::DONT_SET)) {
+        if (!$this->fetch('xml', 'isset', $xml, null, xarVar::DONT_SET)) {
             return;
         }
 
         extract($args);
 
         $data = [];
-        $data['menutitle'] = xarML('Dynamic Data Utilities');
+        $data['menutitle'] = $this->translate('Dynamic Data Utilities');
 
         $data['warning'] = '';
         $data['options'] = [];
@@ -66,11 +66,11 @@ class ImportpubtypeMethod extends MethodClass
         );
         if (!isset($files) || count($files) < 1) {
             $files = [];
-            $data['warning'] = xarML('There are currently no XML files available for import in "#(1)"', $basedir);
+            $data['warning'] = $this->translate('There are currently no XML files available for import in "#(1)"', $basedir);
         }
 
         if (!empty($import) || !empty($xml)) {
-            if (!xarSec::confirmAuthKey()) {
+            if (!$this->confirmAuthKey()) {
                 return;
             }
 
@@ -83,7 +83,7 @@ class ImportpubtypeMethod extends MethodClass
                     }
                 }
                 if (empty($found) || !file_exists($basedir . '/' . $file)) {
-                    $msg = xarML('File not found');
+                    $msg = $this->translate('File not found');
                     throw new BadParameterException(null, $msg);
                 }
                 $ptid = xarMod::apiFunc(
@@ -104,7 +104,7 @@ class ImportpubtypeMethod extends MethodClass
                 return;
             }
 
-            $data['warning'] = xarML('Publication type #(1) was successfully imported', $ptid);
+            $data['warning'] = $this->translate('Publication type #(1) was successfully imported', $ptid);
         }
 
         natsort($files);
@@ -114,7 +114,7 @@ class ImportpubtypeMethod extends MethodClass
                 'name' => $file, ];
         }
 
-        $data['authid'] = xarSec::genAuthKey();
+        $data['authid'] = $this->genAuthKey();
         return $data;
     }
 }

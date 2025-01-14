@@ -38,91 +38,92 @@ class SearchMethod extends MethodClass
 
     /**
      * search publications (called as hook from search module, or directly with pager)
-     * @param mixed $args ['objectid'] could be the query ? (currently unused)
-     * @param mixed $args ['extrainfo'] all other parameters ? (currently unused)
+     * @param array<mixed> $args
+     * @var mixed $objectid could be the query ? (currently unused)
+     * @var mixed $extrainfo all other parameters ? (currently unused)
      * @return array|string|void output
      */
     public function __invoke(array $args = [])
     {
         // pager stuff
-        if (!xarVar::fetch('startnum', 'int:0', $startnum, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('startnum', 'int:0', $startnum, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // categories stuff
-        if (!xarVar::fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('andcids', 'str', $andcids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('andcids', 'str', $andcids, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // single publication type when called via the pager
-        if (!xarVar::fetch('ptid', 'id', $ptid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptid', 'id', $ptid, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // multiple publication types when called via search hooks
-        if (!xarVar::fetch('ptids', 'array', $ptids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptids', 'array', $ptids, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // date stuff via forms
-        if (!xarVar::fetch('publications_startdate', 'str', $startdate, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('publications_startdate', 'str', $startdate, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('publications_enddate', 'str', $enddate, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('publications_enddate', 'str', $enddate, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // date stuff via URLs
-        if (!xarVar::fetch('start', 'int:0', $start, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('start', 'int:0', $start, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('end', 'int:0', $end, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('end', 'int:0', $end, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // search button was pressed
-        if (!xarVar::fetch('search', 'str', $search, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('search', 'str', $search, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // select by article state (array or string)
-        if (!xarVar::fetch('state', 'isset', $state, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('state', 'isset', $state, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // yes, this is the query
-        if (!xarVar::fetch('q', 'str', $q, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('q', 'str', $q, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('author', 'str', $author, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('author', 'str', $author, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // filter by category
-        if (!xarVar::fetch('by', 'str', $by, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('by', 'str', $by, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // can't use list enum here, because we don't know which sorts might be used
-        if (!xarVar::fetch('sort', 'regexp:/^[\w,]*$/', $sort, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('sort', 'regexp:/^[\w,]*$/', $sort, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // boolean AND/OR for words (no longer used)
-        //if(!xarVar::fetch('bool',     'str',   $bool,   NULL, xarVar::NOT_REQUIRED)) {return;}
+        //if(!$this->fetch('bool',     'str',   $bool,   NULL, xarVar::NOT_REQUIRED)) {return;}
 
         // search in specific fields
-        if (!xarVar::fetch('publications_fields', 'isset', $fields, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('publications_fields', 'isset', $fields, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
-        if (!xarVar::fetch('searchtype', 'isset', $searchtype, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('searchtype', 'isset', $searchtype, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
@@ -132,7 +133,7 @@ class SearchMethod extends MethodClass
             $ishooked = 0;
             if (empty($fields)) {
                 // search in specific fields via URLs
-                if (!xarVar::fetch('fields', 'isset', $fields, null, xarVar::NOT_REQUIRED)) {
+                if (!$this->fetch('fields', 'isset', $fields, null, xarVar::NOT_REQUIRED)) {
                     return;
                 }
             }
@@ -160,7 +161,7 @@ class SearchMethod extends MethodClass
         // Get publication types
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
 
-        if (xarSecurity::check('AdminPublications', 0)) {
+        if ($this->checkAccess('AdminPublications', 0)) {
             $isadmin = true;
         } else {
             $isadmin = false;
@@ -199,7 +200,7 @@ class SearchMethod extends MethodClass
         // default publication type(s) to search in
         if (!empty($ptid) && isset($pubtypes[$ptid])) {
             $ptids = [$ptid];
-            $settings = unserialize(xarModVars::get('publications', 'settings.' . $ptid));
+            $settings = unserialize($this->getModVar('settings.' . $ptid));
             if (empty($settings['show_categories'])) {
                 $show_categories = 0;
             } else {
@@ -211,7 +212,7 @@ class SearchMethod extends MethodClass
             }
             $show_categories = 1;
         } elseif (!isset($ptids)) {
-            //    $ptids = array(xarModVars::get('publications','defaultpubtype'));
+            //    $ptids = array($this->getModVar('defaultpubtype'));
             $ptids = [];
             foreach ($pubtypes as $pubid => $pubtype) {
                 $ptids[] = $pubid;
@@ -307,7 +308,7 @@ class SearchMethod extends MethodClass
         }
 
         // Set default searchtype to 'fulltext' if necessary
-        $fulltext = xarModVars::get('publications', 'fulltextsearch');
+        $fulltext = $this->getModVar('fulltextsearch');
         if (!isset($searchtype) && !empty($fulltext)) {
             $searchtype = 'fulltext';
         }
@@ -336,11 +337,11 @@ class SearchMethod extends MethodClass
 
         // TODO: show field labels when we're dealing with only 1 pubtype
         $data['fieldlist'] = [
-            ['id' => 'title', 'name' => xarML('title'), 'checked' => in_array('title', $fieldlist)],
-            ['id' => 'description', 'name' => xarML('description'), 'checked' => in_array('description', $fieldlist)],
-            ['id' => 'summary', 'name' => xarML('summary'), 'checked' => in_array('summary', $fieldlist)],
-            ['id' => 'body1', 'name' => xarML('body1'), 'checked' => in_array('body1', $fieldlist)],
-            //                                     array('id' => 'notes', 'name' => xarML('notes'), 'checked' => in_array('notes',$fieldlist)),
+            ['id' => 'title', 'name' => $this->translate('title'), 'checked' => in_array('title', $fieldlist)],
+            ['id' => 'description', 'name' => $this->translate('description'), 'checked' => in_array('description', $fieldlist)],
+            ['id' => 'summary', 'name' => $this->translate('summary'), 'checked' => in_array('summary', $fieldlist)],
+            ['id' => 'body1', 'name' => $this->translate('body1'), 'checked' => in_array('body1', $fieldlist)],
+            //                                     array('id' => 'notes', 'name' => $this->translate('notes'), 'checked' => in_array('notes',$fieldlist)),
         ];
 
         $data['publications'] = [];
@@ -482,8 +483,7 @@ class SearchMethod extends MethodClass
                         }
                         foreach ($catinfo as $cid => $info) {
                             $catinfo[$cid]['name'] = xarVar::prepForDisplay($info['name']);
-                            $catinfo[$cid]['link'] = xarController::URL(
-                                'publications',
+                            $catinfo[$cid]['link'] = $this->getUrl(
                                 'user',
                                 'view',
                                 ['ptid' => $curptid,
@@ -515,8 +515,7 @@ class SearchMethod extends MethodClass
                     foreach ($publications as $article) {
                         $count++;
                         $curptid = $article['pubtype_id'];
-                        $link = xarController::URL(
-                            'publications',
+                        $link = $this->getUrl(
                             'user',
                             'display',
                             ['ptid' => $article['pubtype_id'],
@@ -532,7 +531,7 @@ class SearchMethod extends MethodClass
                             $startdate = 0;
                         }
                         if (empty($article['title'])) {
-                            $article['title'] = xarML('(none)');
+                            $article['title'] = $this->translate('(none)');
                         }
 
                         // categories this article belongs to
@@ -598,8 +597,7 @@ class SearchMethod extends MethodClass
                         /* trick : use *this* publications search instead of global search for pager :-)
                                                                 xarController::URL('search', 'user', 'main',
                         */
-                        xarController::URL(
-                            'publications',
+                        $this->getUrl(
                             'user',
                             'search',
                             ['ptid' => $curptid,
@@ -623,8 +621,7 @@ class SearchMethod extends MethodClass
                         } else {
                             $othersort = 'date';
                         }
-                        $sortlink = xarController::URL(
-                            'publications',
+                        $sortlink = $this->getUrl(
                             'user',
                             'search',
                             ['ptid' => $curptid,
@@ -640,7 +637,7 @@ class SearchMethod extends MethodClass
                         );
 
                         $pager .= '&#160;&#160;<a href="' . $sortlink . '">' .
-                                  xarML('sort by') . ' ' . xarML($othersort) . '</a>';
+                                  $this->translate('sort by') . ' ' . $this->translate($othersort) . '</a>';
                     }
 
                     $data['results'][] = ['description' => xarVar::prepForDisplay($pubtypes[$curptid]['description']),
@@ -658,7 +655,7 @@ class SearchMethod extends MethodClass
                 return xarTpl::module('publications', 'user', 'search', $data);
             }
 
-            $data['state'] = xarML('No pages found matching this search');
+            $data['state'] = $this->translate('No pages found matching this search');
         }
 
         $data['context'] ??= $this->getContext();

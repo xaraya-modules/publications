@@ -37,7 +37,7 @@ class GettranslationidMethod extends MethodClass
      * $partiallocale: 1 if locales are of the form de_DE, else 0
      * $locale: a partial or full locale that we want the page ID of
      *
-     * N.B. set $locale to xarModVars::get('publications', 'defaultlanguage') to force returning the base translation ID
+     * N.B. set $locale to $this->getModVar('defaultlanguage') to force returning the base translation ID
      */
     public function __invoke(array $args = [])
     {
@@ -105,7 +105,7 @@ class GettranslationidMethod extends MethodClass
         } elseif ($args['locale'] == xarUser::getNavigationLocale()) {
             // No need to look further
             return $args['id'];
-        } elseif ($args['locale'] == xarModVars::get('publications', 'defaultlanguage')) {
+        } elseif ($args['locale'] == $this->getModVar('defaultlanguage')) {
             // Force getting the base document
             $q = new Query('SELECT', $xartable['publications']);
             $q->addfield('parent_id');

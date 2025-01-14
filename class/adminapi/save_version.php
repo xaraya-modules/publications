@@ -41,7 +41,7 @@ class SaveVersionMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         if (empty($args['object'])) {
-            throw new Exception(xarML('Missing object arg for saving version'));
+            throw new Exception($this->translate('Missing object arg for saving version'));
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');

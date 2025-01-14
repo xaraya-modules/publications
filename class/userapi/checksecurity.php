@@ -31,14 +31,15 @@ class ChecksecurityMethod extends MethodClass
 
     /**
      * check security for a particular article
-     * @param mixed $args ['mask'] the requested security mask
-     * @param mixed $args ['article'] the article array (if already retrieved)
-     * @param mixed $args ['id'] the article ID (if known, and article array not
+     * @param array<mixed> $args
+     * @var mixed $mask the requested security mask
+     * @var mixed $article the article array (if already retrieved)
+     * @var mixed $id the article ID (if known, and article array not
      * already retrieved)
-     * @param mixed $args ['owner'] the user ID of the author (if not already included)
-     * @param mixed $args ['ptid'] the publication type ID (if not already included)
-     * @param mixed $args ['cids'] array of additional required category checks
-     * @return bool true if OK, false if not OK
+     * @var mixed $owner the user ID of the author (if not already included)
+     * @var mixed $ptid the publication type ID (if not already included)
+     * @var mixed $cids array of additional required category checks
+     * @return bool|void true if OK, false if not OK
      */
     public function __invoke(array $args = [])
     {

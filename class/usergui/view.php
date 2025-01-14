@@ -43,26 +43,26 @@ class ViewMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Get parameters
-        if (!xarVar::fetch('ptid', 'id', $ptid, xarModVars::get('publications', 'defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('ptid', 'id', $ptid, $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('startnum', 'int:0', $startnum, 1, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('startnum', 'int:0', $startnum, 1, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('andcids', 'str', $andcids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('andcids', 'str', $andcids, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('itemtype', 'id', $itemtype, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('itemtype', 'id', $itemtype, null, xarVar::NOT_REQUIRED)) {
             return;
         }
         // TODO: put the query string through a proper parser, so searches on multiple words can be done.
-        if (!xarVar::fetch('q', 'pre:trim:passthru:str:1:200', $q, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('q', 'pre:trim:passthru:str:1:200', $q, null, xarVar::NOT_REQUIRED)) {
             return;
         }
         // can't use list enum here, because we don't know which sorts might be used
@@ -70,25 +70,25 @@ class ViewMethod extends MethodClass
         // The original 'regexp:/^[\w,]*$/' lets through *any* non-space character.
         // This validation will accept a list of comma-separated words, and will lower-case, trim
         // and strip out non-alphanumeric characters from each word.
-        if (!xarVar::fetch('sort', 'strlist:,:pre:trim:lower:alnum', $sort, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('sort', 'strlist:,:pre:trim:lower:alnum', $sort, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('numcols', 'int:0', $numcols, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('numcols', 'int:0', $numcols, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('owner', 'id', $owner, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('owner', 'id', $owner, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!xarVar::fetch('pubdate', 'str:1', $pubdate, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('pubdate', 'str:1', $pubdate, null, xarVar::NOT_REQUIRED)) {
             return;
         }
         // This may not be set via user input, only e.g. via template tags, API calls, blocks etc.
-        //    if(!xarVar::fetch('startdate','int:0', $startdate, NULL, xarVar::NOT_REQUIRED)) {return;}
-        //    if(!xarVar::fetch('enddate',  'int:0', $enddate,   NULL, xarVar::NOT_REQUIRED)) {return;}
-        //    if(!xarVar::fetch('where',    'str',   $where,     NULL, xarVar::NOT_REQUIRED)) {return;}
+        //    if(!$this->fetch('startdate','int:0', $startdate, NULL, xarVar::NOT_REQUIRED)) {return;}
+        //    if(!$this->fetch('enddate',  'int:0', $enddate,   NULL, xarVar::NOT_REQUIRED)) {return;}
+        //    if(!$this->fetch('where',    'str',   $where,     NULL, xarVar::NOT_REQUIRED)) {return;}
 
         // Added to implement an Alpha Pager
-        if (!xarVar::fetch('letter', 'pre:lower:passthru:str:1:20', $letter, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->fetch('letter', 'pre:lower:passthru:str:1:20', $letter, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
@@ -118,7 +118,7 @@ class ViewMethod extends MethodClass
         if (!isset($catid) && !isset($cids) && empty($ptid) && !isset($owner)) {
             $ishome = true;
             // default publication type
-            $ptid = xarModVars::get('publications', 'defaultpubtype');
+            $ptid = $this->getModVar('defaultpubtype');
             // frontpage state
             $state = [Defines::STATE_FRONTPAGE];
         } else {
@@ -173,7 +173,7 @@ class ViewMethod extends MethodClass
 
         // TODO: show this *after* category list when we start from categories :)
         // Navigation links
-        $data['publabel'] = xarML('Publication');
+        $data['publabel'] = $this->translate('Publication');
         $data['publinks'] = xarMod::apiFunc(
             'publications',
             'user',
@@ -204,7 +204,7 @@ class ViewMethod extends MethodClass
             if (!empty($settings['items_per_page'])) {
                 $numitems = (int) $settings['items_per_page'];
             } else {
-                $numitems = (int) xarModVars::get('publications', 'items_per_page');
+                $numitems = (int) $this->getModVar('items_per_page');
             }
         }
 
@@ -336,7 +336,7 @@ class ViewMethod extends MethodClass
         if (!empty($owner)) {
             $data['author'] = xarUser::getVar('name', $owner);
             if (empty($data['author'])) {
-                $data['author'] = xarML('Unknown');
+                $data['author'] = $this->translate('Unknown');
             }
         }
         if (!empty($pubdate)) {
@@ -357,8 +357,8 @@ class ViewMethod extends MethodClass
         // TODO: add this to publications configuration ?
         if ($ishome) {
             $data['ptid'] = null;
-            if (xarSecurity::check('SubmitPublications', 0)) {
-                $data['submitlink'] = xarController::URL('publications', 'admin', 'new');
+            if ($this->checkAccess('SubmitPublications', 0)) {
+                $data['submitlink'] = $this->getUrl('admin', 'new');
             }
         } else {
             $data['ptid'] = $ptid;
@@ -370,12 +370,12 @@ class ViewMethod extends MethodClass
             if (count($cids) > 0) {
                 foreach ($cids as $cid) {
                     if (xarSecurity::check('SubmitPublications', 0, 'Publication', "$curptid:$cid:All:All")) {
-                        $data['submitlink'] = xarController::URL('publications', 'admin', 'new', ['ptid' => $ptid, 'catid' => $catid]);
+                        $data['submitlink'] = $this->getUrl( 'admin', 'new', ['ptid' => $ptid, 'catid' => $catid]);
                         break;
                     }
                 }
             } elseif (xarSecurity::check('SubmitPublications', 0, 'Publication', "$curptid:All:All:All")) {
-                $data['submitlink'] = xarController::URL('publications', 'admin', 'new', ['ptid' => $ptid]);
+                $data['submitlink'] = $this->getUrl( 'admin', 'new', ['ptid' => $ptid]);
             }
         }
         $data['cids'] = $cids;
@@ -483,7 +483,7 @@ class ViewMethod extends MethodClass
                 }
                 foreach ($catinfo as $cid => $info) {
                     $catinfo[$cid]['name'] = xarVar::prepForDisplay($info['name']);
-                    $catinfo[$cid]['link'] = xarController::URL('publications', 'user', 'view',
+                    $catinfo[$cid]['link'] = $this->getUrl( 'user', 'view',
                         array('ptid' => $ptid, 'catid' => (($catid && $andcids) ? $catid . '+' . $cid : $cid) )
                     );
 
@@ -513,7 +513,7 @@ class ViewMethod extends MethodClass
             {
                 // TODO: don't include ptid and catid if we don't use short URLs
                 // link to article
-                $article['link'] = xarController::URL('publications', 'user', 'display',
+                $article['link'] = $this->getUrl( 'user', 'display',
                     // don't include pubtype id if we're navigating by category
                     array(
                         'ptid' => empty($ptid) ? null : $article['pubtype_id'],
@@ -539,7 +539,7 @@ class ViewMethod extends MethodClass
                 $curptid = $article['pubtype_id'];
 
                 // TODO: make configurable?
-                $article['redirect'] = xarController::URL('publications', 'user', 'redirect',
+                $article['redirect'] = $this->getUrl( 'user', 'redirect',
                     array('ptid' => $curptid, 'id' => $article['id'])
                 );
 
