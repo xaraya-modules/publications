@@ -94,6 +94,7 @@ class ViewMethod extends MethodClass
 
         // Override if needed from argument array (e.g. ptid, numitems etc.)
         extract($args);
+        $usergui = $this->getParent();
 
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
 
@@ -386,7 +387,7 @@ class ViewMethod extends MethodClass
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
             xarCoreCache::setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
             // Note : this gets overriden by the categories navigation if necessary
-            xarTpl::setPageTitle(xarVar::prepForDisplay($pubtypes[$ptid]['description']));
+            $usergui->setPageTitle(xarVar::prepForDisplay($pubtypes[$ptid]['description']));
         }
 
         // optional category count

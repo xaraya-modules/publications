@@ -75,6 +75,7 @@ class DisplayMethod extends MethodClass
 
         // Override xarVar::fetch
         extract($args);
+        $admingui = $this->getParent();
 
         //The itemid var takes precedence if it exiata
         if (isset($itemid)) {
@@ -183,7 +184,7 @@ class DisplayMethod extends MethodClass
                     eval('$url = ' . $url . ';');
                 }
 
-                $this->redirect($url, 301, $this->getContext());
+                $this->redirect($url, 301);
             } catch (Exception $e) {
                 return xarController::notFound(null, $this->getContext());
             }
@@ -216,7 +217,7 @@ class DisplayMethod extends MethodClass
 
             // If this is an external link, show it without further processing
             if (!empty($params['host']) && $params['host'] != xarServer::getHost() && $params['host'] . ":" . $params['port'] != xarServer::getHost()) {
-                $this->redirect($url, 301, $this->getContext());
+                $this->redirect($url, 301);
             } else {
                 parse_str($params['query'], $info);
                 $other_params = $info;

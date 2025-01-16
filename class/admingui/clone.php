@@ -64,6 +64,7 @@ class CloneMethod extends MethodClass
         if (!$this->fetch('confirm', 'int', $confirm, 0, xarVar::DONT_SET)) {
             return;
         }
+        $admingui = $this->getParent();
 
         if (empty($data['itemid'])) {
             return xarController::notFound(null, $this->getContext());
@@ -95,7 +96,7 @@ class CloneMethod extends MethodClass
         $data['authid'] = $this->genAuthKey();
         $data['name'] = $data['object']->properties['name']->value;
         $data['label'] = $data['object']->label;
-        xarTpl::setPageTitle($this->translate('Clone Publication #(1) in #(2)', $data['itemid'], $data['label']));
+        $usergui->setPageTitleis->translate('Clone Publication #(1) in #(2)', $data['itemid'], $data['label']));
 
         if ($confirm) {
             if (!$this->confirmAuthKey()) {

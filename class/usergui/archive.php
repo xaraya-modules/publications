@@ -64,6 +64,7 @@ class ArchiveMethod extends MethodClass
 
         // Override if needed from argument array
         extract($args);
+        $usergui = $this->getParent();
 
         // Get publication types
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
@@ -417,7 +418,7 @@ class ArchiveMethod extends MethodClass
             xarCoreCache::setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
             xarTpl::setPageTitle($this->translate('Archive'), $pubtypes[$ptid]['description']);
         } else {
-            xarTpl::setPageTitle($this->translate('Archive'));
+            $usergui->setPageTitle($this->translate('Archive'));
         }
         //}
         if (!empty($ptid)) {

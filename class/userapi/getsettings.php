@@ -14,7 +14,7 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarCore;
+use xarCoreCache;
 use DataObjectFactory;
 use sys;
 use Exception;
@@ -41,8 +41,8 @@ class GetsettingsMethod extends MethodClass
         }
 
         // If already cached, then get that
-        if (xarCore::isCached('publications', 'settings_' . $data['ptid'])) {
-            return xarCore::getCached('publications', 'settings_' . $data['ptid']);
+        if (xarCoreCache::isCached('publications', 'settings_' . $data['ptid'])) {
+            return xarCoreCache::getCached('publications', 'settings_' . $data['ptid']);
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');
@@ -62,7 +62,7 @@ class GetsettingsMethod extends MethodClass
             $settings = $globalsettings;
         }
 
-        xarCore::setCached('publications', 'settings_' . $data['ptid'], $settings);
+        xarCoreCache::setCached('publications', 'settings_' . $data['ptid'], $settings);
         return $settings;
     }
 
