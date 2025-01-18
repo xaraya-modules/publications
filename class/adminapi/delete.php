@@ -46,7 +46,7 @@ class DeleteMethod extends MethodClass
 
         // Argument check
         if (!isset($itemid)) {
-            $msg = $this->translate(
+            $msg = $this->ml(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 'publication ID',
                 'admin',

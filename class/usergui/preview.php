@@ -39,7 +39,7 @@ class PreviewMethod extends MethodClass
 
     public function __invoke(array $data = [])
     {
-        if (!$this->fetch('layout', 'str:1', $layout, 'detail', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('layout', $layout, 'str:1', 'detail')) {
             return;
         }
 
@@ -66,7 +66,7 @@ class PreviewMethod extends MethodClass
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $ptid]);
         // Save this as the current pubtype
-        xarCoreCache::setCached('Publications', 'current_pubtype_object', $pubtypeobject);
+        $this->var()->setCached('Publications', 'current_pubtype_object', $pubtypeobject);
 
         # --------------------------------------------------------
         #
@@ -78,36 +78,36 @@ class PreviewMethod extends MethodClass
         $nopublish = (time() < $data['object']->properties['start_date']->value) || ((time() > $data['object']->properties['end_date']->value) && !$data['object']->properties['no_end']->value);
 
         // If no access, then bail showing a forbidden or the "no permission" page or an empty page
-        $nopermissionpage_id = $this->getModVar('noprivspage');
+        $nopermissionpage_id = $this->mod()->getVar('noprivspage');
         if (!$allow || $nopublish) {
             if ($accessconstraints['display']['failure']) {
                 return xarResponse::Forbidden();
             } elseif ($nopermissionpage_id) {
-                $this->redirect($this->getUrl(
+                $this->ctl()->redirect($this->mod()->getURL(
                     'user',
                     'display',
                     ['itemid' => $nopermissionpage_id]
                 ));
             } else {
                 $data = ['context' => $this->getContext()];
-                return xarTpl::module('publications', 'user', 'empty', $data);
+                return $this->mod()->template('empty', $data);
             }
         }
 
         // If we use process states, then also check that
-        if ($this->getModVar('use_process_states')) {
+        if ($this->mod()->getVar('use_process_states')) {
             if ($data['object']->properties['process_state']->value < 3) {
                 if ($accessconstraints['display']['failure']) {
                     return xarResponse::Forbidden();
                 } elseif ($nopermissionpage_id) {
-                    $this->redirect($this->getUrl(
+                    $this->ctl()->redirect($this->mod()->getURL(
                         'user',
                         'display',
                         ['itemid' => $nopermissionpage_id]
                     ));
                 } else {
                     $data = ['context' => $this->getContext()];
-                    return xarTpl::module('publications', 'user', 'empty', $data);
+                    return $this->mod()->template('empty', $data);
                 }
             }
         }
@@ -265,7 +265,7 @@ class PreviewMethod extends MethodClass
         #
         // Now we can cache all this data away for the blocks.
         // The blocks should have access to most of the same data as the page.
-        //    xarCoreCache::setCached('Blocks.publications', 'pagedata', $tree);
+        //    $this->var()->setCached('Blocks.publications', 'pagedata', $tree);
 
         // The 'serialize' hack ensures we have a proper copy of the
         // paga data, which is a self-referencing array. If we don't
@@ -273,9 +273,9 @@ class PreviewMethod extends MethodClass
         $data = unserialize(serialize($data));
 
         // Save some values. These are used by blocks in 'automatic' mode.
-        //    xarCoreCache::setCached('Blocks.publications', 'current_id', $id);
-        xarCoreCache::setCached('Blocks.publications', 'ptid', $ptid);
-        xarCoreCache::setCached('Blocks.publications', 'author', $data['object']->properties['author']->value);
+        //    $this->var()->setCached('Blocks.publications', 'current_id', $id);
+        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
+        $this->var()->setCached('Blocks.publications', 'author', $data['object']->properties['author']->value);
 
         # --------------------------------------------------------
         #
@@ -289,6 +289,6 @@ class PreviewMethod extends MethodClass
         $data['preview'] = 1;
 
         $data['context'] ??= $this->getContext();
-        return xarTpl::module('publications', 'user', 'display', $data);
+        return $this->mod()->template('display', $data);
     }
 }

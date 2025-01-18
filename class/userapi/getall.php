@@ -125,7 +125,7 @@ class GetallMethod extends MethodClass
         $publications = [];
 
         // Security check
-        if (!$this->checkAccess('ViewPublications')) {
+        if (!$this->sec()->checkAccess('ViewPublications')) {
             return;
         }
 

@@ -41,37 +41,37 @@ class UpdatestatusMethod extends MethodClass
      */
     public function updatestate(array $args = [])
     {
-        if (!$this->checkAccess('EditPublications')) {
+        if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
 
         // Get parameters
-        if (!$this->fetch('ids', 'isset', $ids, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('ids', $ids)) {
             return;
         }
-        if (!$this->fetch('state', 'isset', $state, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('state', $state)) {
             return;
         }
-        if (!$this->fetch('catid', 'isset', $catid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('catid', $catid)) {
             return;
         }
-        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('ptid', $ptid)) {
             return;
         }
 
 
         // Confirm authorisation code
-        if (!$this->confirmAuthKey()) {
+        if (!$this->sec()->confirmAuthKey()) {
             return;
         }
 
         if (!isset($ids) || count($ids) == 0) {
-            $msg = $this->translate('No publications selected');
+            $msg = $this->ml('No publications selected');
             throw new DataNotFoundException(null, $msg);
         }
         $states = xarMod::apiFunc('publications', 'user', 'getstates');
         if (!isset($state) || !is_numeric($state) || $state < -1 || ($state != -1 && !isset($states[$state]))) {
-            $msg = $this->translate('Invalid state');
+            $msg = $this->ml('Invalid state');
             throw new BadParameterException(null, $msg);
         }
 
@@ -79,14 +79,14 @@ class UpdatestatusMethod extends MethodClass
         if (!empty($ptid)) {
             $descr = $pubtypes[$ptid]['description'];
         } else {
-            $descr = $this->translate('Publications');
+            $descr = $this->ml('Publications');
             $ptid = null;
         }
 
         // We need to tell some hooks that we are coming from the update state screen
         // and not the update the actual article screen.  Right now, the keywords vanish
         // into thin air.  Bug 1960 and 3161
-        xarCoreCache::setCached('Hooks.all', 'noupdate', 1);
+        $this->var()->setCached('Hooks.all', 'noupdate', 1);
 
         foreach ($ids as $id => $val) {
             if ($val != 1) {
@@ -101,7 +101,7 @@ class UpdatestatusMethod extends MethodClass
                     'withcids' => 1, ]
             );
             if (!isset($article) || !is_array($article)) {
-                $msg = $this->translate(
+                $msg = $this->ml(
                     'Unable to find #(1) item #(2)',
                     $descr,
                     xarVar::prepForDisplay($id)
@@ -118,7 +118,7 @@ class UpdatestatusMethod extends MethodClass
                 $input['mask'] = 'EditPublications';
             }
             if (!xarMod::apiFunc('publications', 'user', 'checksecurity', $input)) {
-                $msg = $this->translate(
+                $msg = $this->ml(
                     'You have no permission to modify #(1) item #(2)',
                     $descr,
                     xarVar::prepForDisplay($id)
@@ -149,7 +149,7 @@ class UpdatestatusMethod extends MethodClass
             $lastviewarray = unserialize($lastview);
             if (!empty($lastviewarray['ptid']) && $lastviewarray['ptid'] == $ptid) {
                 extract($lastviewarray);
-                $this->redirect($this->getUrl(
+                $this->ctl()->redirect($this->mod()->getURL(
                     'admin',
                     'view',
                     ['ptid' => $ptid,
@@ -164,7 +164,7 @@ class UpdatestatusMethod extends MethodClass
         if (empty($catid)) {
             $catid = null;
         }
-        $this->redirect($this->getUrl(
+        $this->ctl()->redirect($this->mod()->getURL(
             'admin',
             'view',
             ['ptid' => $ptid, 'catid' => $catid]

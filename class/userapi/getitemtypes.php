@@ -38,17 +38,17 @@ class GetitemtypesMethod extends MethodClass
     {
         $itemtypes = [];
 
-        $itemtypes[300] = ['label' => $this->translate('Bare Publication'),
-            'title' => $this->translate('View Bare Publication'),
-            'url'   => $this->getUrl('user', 'view'),
+        $itemtypes[300] = ['label' => $this->ml('Bare Publication'),
+            'title' => $this->ml('View Bare Publication'),
+            'url'   => $this->mod()->getURL('user', 'view'),
         ];
         // Get publication types
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
 
         foreach ($pubtypes as $id => $pubtype) {
             $itemtypes[$id] = ['label' => xarVar::prepForDisplay($pubtype['description']),
-                'title' => xarVar::prepForDisplay($this->translate('Display #(1)', $pubtype['description'])),
-                'url'   => $this->getUrl( 'user', 'view', ['ptid' => $id]),
+                'title' => xarVar::prepForDisplay($this->ml('Display #(1)', $pubtype['description'])),
+                'url'   => $this->mod()->getURL( 'user', 'view', ['ptid' => $id]),
             ];
         }
 

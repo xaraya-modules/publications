@@ -58,7 +58,7 @@ class CreateMethod extends MethodClass
 
         // Argument check (all the rest is optional, and set to defaults below)
         if (empty($title)) {
-            $msg = $this->translate(
+            $msg = $this->ml(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 'title',
                 'admin',
@@ -73,9 +73,9 @@ class CreateMethod extends MethodClass
 
         // Default publication type is defined in the admin interface
         if (empty($ptid) || !is_numeric($ptid)) {
-            $ptid = $this->getModVar('defaultpubtype');
+            $ptid = $this->mod()->getVar('defaultpubtype');
             if (empty($ptid)) {
-                $msg = $this->translate(
+                $msg = $this->ml(
                     'Invalid #(1) for #(2) function #(3)() in module #(4)',
                     'ptid',
                     'admin',
@@ -114,7 +114,7 @@ class CreateMethod extends MethodClass
 
         $args['mask'] = 'SubmitPublications';
         if (!xarMod::apiFunc('publications', 'user', 'checksecurity', $args)) {
-            $msg = $this->translate(
+            $msg = $this->ml(
                 'Not authorized to add #(1) items',
                 'Publication'
             );

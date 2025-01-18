@@ -39,50 +39,50 @@ class PrivilegesMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('EditPublications')) {
+        if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
 
         extract($args);
 
         // fixed params
-        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('ptid', $ptid)) {
             return;
         }
-        if (!$this->fetch('cid', 'isset', $cid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('cid', $cid)) {
             return;
         }
-        if (!$this->fetch('uid', 'isset', $uid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('uid', $uid)) {
             return;
         }
-        if (!$this->fetch('author', 'isset', $author, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('author', $author)) {
             return;
         }
-        if (!$this->fetch('id', 'isset', $id, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('id', $id)) {
             return;
         }
-        if (!$this->fetch('apply', 'isset', $apply, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('apply', $apply)) {
             return;
         }
-        if (!$this->fetch('extpid', 'isset', $extpid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('extpid', $extpid)) {
             return;
         }
-        if (!$this->fetch('extname', 'isset', $extname, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('extname', $extname)) {
             return;
         }
-        if (!$this->fetch('extrealm', 'isset', $extrealm, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('extrealm', $extrealm)) {
             return;
         }
-        if (!$this->fetch('extmodule', 'isset', $extmodule, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('extmodule', $extmodule)) {
             return;
         }
-        if (!$this->fetch('extcomponent', 'isset', $extcomponent, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('extcomponent', $extcomponent)) {
             return;
         }
-        if (!$this->fetch('extinstance', 'isset', $extinstance, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('extinstance', $extinstance)) {
             return;
         }
-        if (!$this->fetch('extlevel', 'isset', $extlevel, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('extlevel', $extlevel)) {
             return;
         }
 
@@ -108,7 +108,7 @@ class PrivilegesMethod extends MethodClass
 
         if (empty($ptid) || $ptid == 'All' || !is_numeric($ptid)) {
             $ptid = 0;
-            if (!$this->checkAccess('AdminPublications')) {
+            if (!$this->sec()->checkAccess('AdminPublications')) {
                 return;
             }
         } else {
@@ -215,7 +215,7 @@ class PrivilegesMethod extends MethodClass
             } // throw back
 
             // redirect to the privilege
-            $this->redirect(xarController::URL(
+            $this->ctl()->redirect(xarController::URL(
                 'privileges',
                 'admin',
                 'modifyprivilege',
@@ -297,8 +297,8 @@ class PrivilegesMethod extends MethodClass
 
         $data['cids'] = $cids;
         $data['cats'] = $catlist;
-        $data['refreshlabel'] = $this->translate('Refresh');
-        $data['applylabel'] = $this->translate('Finish and Apply to Privilege');
+        $data['refreshlabel'] = $this->ml('Refresh');
+        $data['applylabel'] = $this->ml('Finish and Apply to Privilege');
         return $data;
     }
 }

@@ -33,7 +33,7 @@ class ViewPubtypesMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 

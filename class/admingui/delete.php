@@ -47,21 +47,21 @@ class DeleteMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('ManagePublications')) {
+        if (!$this->sec()->checkAccess('ManagePublications')) {
             return;
         }
 
-        //$return = $this->getUrl( 'admin','view',array('ptid' => $this->getModVar('defaultpubtype')));
-        if (!$this->fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
+        //$return = $this->mod()->getURL( 'admin','view',array('ptid' => $this->mod()->getVar('defaultpubtype')));
+        if (!$this->var()->find('confirmed', $confirmed, 'int')) {
             return;
         }
-        if (!$this->fetch('itemid', 'int', $itemid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('itemid', $itemid, 'int')) {
             return;
         }
-        if (!$this->fetch('idlist', 'str', $idlist, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('idlist', $idlist, 'str')) {
             return;
         }
-        if (!$this->fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('returnurl', $returnurl, 'str')) {
             return;
         }
 
@@ -72,9 +72,9 @@ class DeleteMethod extends MethodClass
 
         if (empty($idlist)) {
             if (isset($returnurl)) {
-                $this->redirect($returnurl);
+                $this->ctl()->redirect($returnurl);
             } else {
-                $this->redirect($this->getUrl('admin', 'view'));
+                $this->ctl()->redirect($this->mod()->getURL('admin', 'view'));
             }
         }
 
@@ -88,11 +88,11 @@ class DeleteMethod extends MethodClass
         if (!isset($confirmed)) {
             $data['idlist'] = $idlist;
             if (count($ids) > 1) {
-                $data['title'] = $this->translate("Delete Publications");
+                $data['title'] = $this->ml("Delete Publications");
             } else {
-                $data['title'] = $this->translate("Delete Publication");
+                $data['title'] = $this->ml("Delete Publication");
             }
-            $data['authid'] = $this->genAuthKey();
+            $data['authid'] = $this->sec()->genAuthKey();
             $items = [];
             foreach ($ids as $i) {
                 $publication->getItem(['itemid' => $i]);
@@ -100,10 +100,10 @@ class DeleteMethod extends MethodClass
                 $items[] = $item;
             }
             $data['items'] = $items;
-            $data['yes_action'] = $this->getUrl( 'admin', 'delete', ['idlist' => $idlist]);
-            return xarTpl::module('publications', 'admin', 'delete', $data);
+            $data['yes_action'] = $this->mod()->getURL( 'admin', 'delete', ['idlist' => $idlist]);
+            return $this->mod()->template('delete', $data);
         } else {
-            if (!$this->confirmAuthKey()) {
+            if (!$this->sec()->confirmAuthKey()) {
                 return;
             }
             foreach ($ids as $id) {
@@ -115,9 +115,9 @@ class DeleteMethod extends MethodClass
                 xarHooks::notify('ItemDelete', $item);
             }
             if (isset($returnurl)) {
-                $this->redirect($returnurl);
+                $this->ctl()->redirect($returnurl);
             } else {
-                $this->redirect($this->getUrl( 'admin', 'view', $data));
+                $this->ctl()->redirect($this->mod()->getURL( 'admin', 'view', $data));
             }
             return true;
         }

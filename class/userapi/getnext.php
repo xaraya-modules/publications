@@ -48,7 +48,7 @@ class GetnextMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Security check
-        if (!$this->checkAccess('ViewPublications')) {
+        if (!$this->sec()->checkAccess('ViewPublications')) {
             return;
         }
 
@@ -57,7 +57,7 @@ class GetnextMethod extends MethodClass
 
         // Optional argument
         if (empty($ptid)) {
-            $ptid = $this->getModVar('defaultpubtype');
+            $ptid = $this->mod()->getVar('defaultpubtype');
         }
         if (empty($sort)) {
             $sort = 'date';

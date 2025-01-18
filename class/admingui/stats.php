@@ -35,11 +35,11 @@ class StatsMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 
-        if (!$this->fetch('group', 'isset', $group, [], xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('group', $group, 'isset', [])) {
             return;
         }
         extract($args);
@@ -68,13 +68,13 @@ class StatsMethod extends MethodClass
         );
         $data['pubtypes'] = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
         $data['statelist'] = xarMod::apiFunc('publications', 'user', 'getstates');
-        $data['fields'] = ['pubtype_id'     => $this->translate('Publication Type'),
-            'state'        => $this->translate('Status'),
-            'owner'      => $this->translate('Author'),
-            'pubdate_year'  => $this->translate('Publication Year'),
-            'pubdate_month' => $this->translate('Publication Month'),
-            'pubdate_day'   => $this->translate('Publication Day'),
-            'locale'      => $this->translate('Language'), ];
+        $data['fields'] = ['pubtype_id'     => $this->ml('Publication Type'),
+            'state'        => $this->ml('Status'),
+            'owner'      => $this->ml('Author'),
+            'pubdate_year'  => $this->ml('Publication Year'),
+            'pubdate_month' => $this->ml('Publication Month'),
+            'pubdate_day'   => $this->ml('Publication Day'),
+            'locale'      => $this->ml('Language'), ];
         return $data;
     }
 }

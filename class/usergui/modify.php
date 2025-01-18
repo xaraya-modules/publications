@@ -42,29 +42,29 @@ class ModifyMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Xaraya security
-        if (!$this->checkAccess('ModeratePublications')) {
+        if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!$this->fetch('itemid', 'id', $data['itemid'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('itemid', $data['itemid'], 'id')) {
             return;
         }
-        if (!$this->fetch('id', 'id', $data['id'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('id', $data['id'], 'id')) {
             return;
         }
-        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('ptid', $ptid)) {
             return;
         }
-        if (!$this->fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('returnurl', $data['returnurl'], 'str:1', 'view')) {
             return;
         }
-        if (!$this->fetch('name', 'str:1', $name, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('name', $name, 'str:1', '')) {
             return;
         }
-        if (!$this->fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('tab', $data['tab'], 'str:1', '')) {
             return;
         }
 
@@ -106,7 +106,7 @@ class ModifyMethod extends MethodClass
 
         // If not allowed, check if admins or the designated site admin can modify even if not the owner
         if (!$allow) {
-            $admin_override = $this->getModVar('admin_override');
+            $admin_override = $this->mod()->getVar('admin_override');
             switch ($admin_override) {
                 case 0:
                     break;
@@ -120,19 +120,19 @@ class ModifyMethod extends MethodClass
         }
 
         // If no access, then bail showing a forbidden or the "no permission" page or an empty page
-        $nopermissionpage_id = $this->getModVar('noprivspage');
+        $nopermissionpage_id = $this->mod()->getVar('noprivspage');
         if (!$allow) {
             if ($accessconstraints['modify']['failure']) {
                 return xarResponse::Forbidden();
             } elseif ($nopermissionpage_id) {
-                $this->redirect($this->getUrl(
+                $this->ctl()->redirect($this->mod()->getURL(
                     'user',
                     'display',
                     ['itemid' => $nopermissionpage_id]
                 ));
             } else {
                 $data = ['context' => $this->getContext()];
-                return xarTpl::module('publications', 'user', 'empty', $data);
+                return $this->mod()->template('empty', $data);
             }
         }
 
@@ -185,7 +185,7 @@ class ModifyMethod extends MethodClass
         # Cache data
         #
         // Now we can cache all data away for blocks, subitems etc.
-        xarCoreCache::setCached('Publications', 'itemid', $data['itemid']);
+        $this->var()->setCached('Publications', 'itemid', $data['itemid']);
 
         return $data;
     }

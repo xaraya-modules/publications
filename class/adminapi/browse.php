@@ -46,7 +46,7 @@ class BrowseMethod extends MethodClass
         // and in the right format, if not then set an appropriate error
         // message and return
         if (empty($basedir) || empty($filetype)) {
-            $msg = $this->translate(
+            $msg = $this->ml(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 'base directory',
                 'admin',
@@ -59,7 +59,7 @@ class BrowseMethod extends MethodClass
         $filelist = [];
 
         // Security Check
-        if (!$this->checkAccess('SubmitPublications', 0)) {
+        if (!$this->sec()->checkAccess('SubmitPublications', 0)) {
             return $filelist;
         }
 

@@ -48,7 +48,7 @@ class GetconfighookMethod extends MethodClass
         $tabinfo = [
             'module'  => $module,
             'configarea'  => 'general',
-            'configtitle'  => $this->translate('Publications'),
+            'configtitle'  => $this->ml('Publications'),
             'configcontent' => xarMod::guiFunc(
                 $module,
                 'admin',

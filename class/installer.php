@@ -234,26 +234,26 @@ class Installer extends InstallerClass
         #
         # Set up modvars
         #
-        $this->setModVar('items_per_page', 20);
-        $this->setModVar('use_module_alias', 0);
-        $this->setModVar('module_alias_name', 'Publications');
-        $this->setModVar('defaultmastertable', 'publications_documents');
-        $this->setModVar('use_module_icons', 1);
-        $this->setModVar('fulltextsearch', '');
-        $this->setModVar('defaultpubtype', 2);
-        $this->setModVar('defaultlanguage', 'en_US.utf-8');
-        $this->setModVar('defaultpage', 1);
-        $this->setModVar('errorpage', 2);
-        $this->setModVar('notfoundpage', 3);
-        $this->setModVar('noprivspage', 4);
-        $this->setModVar('debugmode', false);
-        $this->setModVar('multilanguage', true);
-        $this->setModVar('frontend_page', '[publications:user:display]&id=1');
-        $this->setModVar('backend_page', '[publications:admin:view_pages]');
-        $this->setModVar('use_process_states', 0);
-        $this->setModVar('use_versions', 0);
-        $this->setModVar('hide_tree_display', 0);
-        $this->setModVar('admin_override', 0);
+        $this->mod()->setVar('items_per_page', 20);
+        $this->mod()->setVar('use_module_alias', 0);
+        $this->mod()->setVar('module_alias_name', 'Publications');
+        $this->mod()->setVar('defaultmastertable', 'publications_documents');
+        $this->mod()->setVar('use_module_icons', 1);
+        $this->mod()->setVar('fulltextsearch', '');
+        $this->mod()->setVar('defaultpubtype', 2);
+        $this->mod()->setVar('defaultlanguage', 'en_US.utf-8');
+        $this->mod()->setVar('defaultpage', 1);
+        $this->mod()->setVar('errorpage', 2);
+        $this->mod()->setVar('notfoundpage', 3);
+        $this->mod()->setVar('noprivspage', 4);
+        $this->mod()->setVar('debugmode', false);
+        $this->mod()->setVar('multilanguage', true);
+        $this->mod()->setVar('frontend_page', '[publications:user:display]&id=1');
+        $this->mod()->setVar('backend_page', '[publications:admin:view_pages]');
+        $this->mod()->setVar('use_process_states', 0);
+        $this->mod()->setVar('use_versions', 0);
+        $this->mod()->setVar('hide_tree_display', 0);
+        $this->mod()->setVar('admin_override', 0);
 
         // Save publications settings for each publication type
         /*
@@ -271,18 +271,18 @@ class Installer extends InstallerClass
                 }
                 unset($values['categories']);
                 if (!empty($id)) {
-                    $this->setModVar('number_of_categories.'.$id, count($cidlist));
-                    $this->setModVar('mastercids.'.$id, join(';',$cidlist));
+                    $this->mod()->setVar('number_of_categories.'.$id, count($cidlist));
+                    $this->mod()->setVar('mastercids.'.$id, join(';',$cidlist));
                 } else {
-                    $this->setModVar('number_of_categories', count($cidlist));
-                    $this->setModVar('mastercids', join(';',$cidlist));
+                    $this->mod()->setVar('number_of_categories', count($cidlist));
+                    $this->mod()->setVar('mastercids', join(';',$cidlist));
                 }
             } elseif (!empty($id)) {
-                $this->setModVar('number_of_categories.'.$id, 0);
-                $this->setModVar('mastercids.'.$id, '');
+                $this->mod()->setVar('number_of_categories.'.$id, 0);
+                $this->mod()->setVar('mastercids.'.$id, '');
             } else {
-                $this->setModVar('number_of_categories', 0);
-                $this->setModVar('mastercids', '');
+                $this->mod()->setVar('number_of_categories', 0);
+                $this->mod()->setVar('mastercids', '');
             }
             if (isset($values['defaultview']) && !is_numeric($values['defaultview'])) {
                 if (isset($cid[$values['defaultview']])) {
@@ -292,9 +292,9 @@ class Installer extends InstallerClass
                 }
             }
             if (!empty($id)) {
-                $this->setModVar('settings.'.$id,serialize($values));
+                $this->mod()->setVar('settings.'.$id,serialize($values));
             } else {
-                $this->setModVar('settings',serialize($values));
+                $this->mod()->setVar('settings',serialize($values));
             }
         }
 
@@ -324,7 +324,7 @@ class Installer extends InstallerClass
         sys::import('xaraya.structures.hooks.observer');
 
         // Enable publications hooks for search
-        if (xarMod::isAvailable('search')) {
+        if ($this->mod()->isAvailable('search')) {
             xarMod::apiFunc(
                 'modules',
                 'admin',
@@ -338,7 +338,7 @@ class Installer extends InstallerClass
                           array('callerModName' => 'publications', 'hookModName' => 'categories'));
         */
         // Enable comments hooks for publications
-        if (xarMod::isAvailable('comments')) {
+        if ($this->mod()->isAvailable('comments')) {
             xarMod::apiFunc(
                 'modules',
                 'admin',
@@ -347,7 +347,7 @@ class Installer extends InstallerClass
             );
         }
         // Enable hitcount hooks for publications
-        if (xarMod::isAvailable('hitcount')) {
+        if ($this->mod()->isAvailable('hitcount')) {
             xarMod::apiFunc(
                 'modules',
                 'admin',
@@ -356,7 +356,7 @@ class Installer extends InstallerClass
             );
         }
         // Enable ratings hooks for publications
-        if (xarMod::isAvailable('ratings')) {
+        if ($this->mod()->isAvailable('ratings')) {
             xarMod::apiFunc(
                 'modules',
                 'admin',
@@ -375,7 +375,7 @@ class Installer extends InstallerClass
         $xartable = & xarDB::getTables();
         $instances = [
             ['header' => 'external', // this keyword indicates an external "wizard"
-                'query'  => $this->getUrl('admin', 'privileges'),
+                'query'  => $this->mod()->getURL('admin', 'privileges'),
                 'limit'  => 0,
             ],
         ];

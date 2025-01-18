@@ -39,15 +39,15 @@ class ModifyconfigMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 
         // Get parameters
-        if (!$this->fetch('tab', 'str:1:100', $data['tab'], 'global', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('tab', $data['tab'], 'str:1:100', 'global')) {
             return;
         }
-        if (!$this->fetch('ptid', 'int', $data['ptid'], $this->getModVar('defaultpubtype'), xarVar::DONT_SET)) {
+        if (!$this->var()->check('ptid', $data['ptid'], 'int', $this->mod()->getVar('defaultpubtype'))) {
             return;
         }
 
@@ -58,7 +58,7 @@ class ModifyconfigMethod extends MethodClass
             }
 
             $viewoptions = [];
-            $viewoptions[] = ['id' => 1, 'name' => $this->translate('Latest Items')];
+            $viewoptions[] = ['id' => 1, 'name' => $this->ml('Latest Items')];
 
             if (!isset($data['usetitleforurl'])) {
                 $data['usetitleforurl'] = 0;
@@ -74,7 +74,7 @@ class ModifyconfigMethod extends MethodClass
                 //       need to use something like 'c15+32'
                 foreach ($catlinks as $catlink) {
                     $viewoptions[] = ['id' => 'c' . $catlink['category_id'],
-                        'name' => $this->translate('Browse in') . ' ' .
+                        'name' => $this->ml('Browse in') . ' ' .
                                    $catlink['name'], ];
                 }
             }
@@ -96,10 +96,10 @@ class ModifyconfigMethod extends MethodClass
         } elseif ($data['tab'] == 'redirects') {
             // Redirect configuration
             // FIXME: remove this?
-            $data['redirects'] = unserialize($this->getModVar('redirects'));
+            $data['redirects'] = unserialize($this->mod()->getVar('redirects'));
         } else {
             // Global configuration
-            if (!$this->checkAccess('AdminPublications')) {
+            if (!$this->sec()->checkAccess('AdminPublications')) {
                 return;
             }
 
@@ -108,16 +108,16 @@ class ModifyconfigMethod extends MethodClass
             $data['module_settings']->setFieldList('items_per_page, use_module_alias, module_alias_name, user_menu_link, use_module_icons, frontend_page, backend_page');
             $data['module_settings']->getItem();
 
-            $data['shorturls'] = $this->getModVar('SupportShortURLs') ? true : false;
+            $data['shorturls'] = $this->mod()->getVar('SupportShortURLs') ? true : false;
 
-            $data['defaultpubtype'] = $this->getModVar('defaultpubtype');
+            $data['defaultpubtype'] = $this->mod()->getVar('defaultpubtype');
             if (empty($data['defaultpubtype'])) {
                 $data['defaultpubtype'] = '';
             }
-            $data['sortpubtypes'] = $this->getModVar('sortpubtypes');
+            $data['sortpubtypes'] = $this->mod()->getVar('sortpubtypes');
             if (empty($data['sortpubtypes'])) {
                 $data['sortpubtypes'] = 'id';
-                $this->setModVar('sortpubtypes', 'id');
+                $this->mod()->setVar('sortpubtypes', 'id');
             }
 
             // Get the tree of all pages.

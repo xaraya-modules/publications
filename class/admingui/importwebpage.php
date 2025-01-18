@@ -37,51 +37,51 @@ class ImportwebpageMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 
         // Get parameters
-        if (!$this->fetch('url', 'str', $data['url'], '', xarVar::DONT_SET)) {
+        if (!$this->var()->check('url', $data['url'], 'str', '')) {
             return;
         }
-        if (!$this->fetch('refresh', 'isset', $refresh, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('refresh', $refresh)) {
             return;
         }
-        if (!$this->fetch('ptid', 'int', $data['ptid'], 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $data['ptid'], 'int', 0)) {
             return;
         }
-        if (!$this->fetch('contentfield', 'str', $data['contentfield'], '', xarVar::DONT_SET)) {
+        if (!$this->var()->check('contentfield', $data['contentfield'], 'str', '')) {
             return;
         }
-        if (!$this->fetch('titlefield', 'str', $data['titlefield'], '', xarVar::DONT_SET)) {
+        if (!$this->var()->check('titlefield', $data['titlefield'], 'str', '')) {
             return;
         }
-        if (!$this->fetch('cids', 'isset', $cids, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('cids', $cids)) {
             return;
         }
-        if (!$this->fetch('filterhead', 'isset', $filterhead, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('filterhead', $filterhead)) {
             return;
         }
-        if (!$this->fetch('filtertail', 'isset', $filtertail, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('filtertail', $filtertail)) {
             return;
         }
-        if (!$this->fetch('findtitle', 'isset', $findtitle, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('findtitle', $findtitle)) {
             return;
         }
-        if (!$this->fetch('numrules', 'isset', $numrules, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('numrules', $numrules)) {
             return;
         }
-        if (!$this->fetch('search', 'isset', $search, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('search', $search)) {
             return;
         }
-        if (!$this->fetch('replace', 'isset', $replace, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('replace', $replace)) {
             return;
         }
-        if (!$this->fetch('test', 'isset', $test, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('test', $test)) {
             return;
         }
-        if (!$this->fetch('import', 'isset', $import, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('import', $import)) {
             return;
         }
 
@@ -91,12 +91,12 @@ class ImportwebpageMethod extends MethodClass
         #
         if (isset($refresh) || isset($test) || isset($import)) {
             // Confirm authorisation code
-            if (!$this->confirmAuthKey()) {
+            if (!$this->sec()->confirmAuthKey()) {
                 return;
             }
         }
 
-        $data['authid'] = $this->genAuthKey();
+        $data['authid'] = $this->sec()->genAuthKey();
 
         # --------------------------------------------------------
         #
@@ -272,7 +272,7 @@ class ImportwebpageMethod extends MethodClass
                 if (empty($id)) {
                     return; // throw back
                 } else {
-                    $data['logfile'] .= $this->translate('URL #(1) was imported as #(2) with ID #(3)', $data['url'], $pubtypes[$data['ptid']]['description'], $id);
+                    $data['logfile'] .= $this->ml('URL #(1) was imported as #(2) with ID #(3)', $data['url'], $pubtypes[$data['ptid']]['description'], $id);
                     $data['logfile'] .= '<br />';
                 }
             }

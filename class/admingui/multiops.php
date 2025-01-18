@@ -33,27 +33,27 @@ class MultiopsMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Get parameters
-        if (!$this->fetch('idlist', 'isset', $idlist, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('idlist', $idlist)) {
             return;
         }
-        if (!$this->fetch('operation', 'isset', $operation, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('operation', $operation)) {
             return;
         }
-        if (!$this->fetch('redirecttarget', 'isset', $redirecttarget, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('redirecttarget', $redirecttarget)) {
             return;
         }
-        if (!$this->fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('returnurl', $returnurl, 'str')) {
             return;
         }
-        if (!$this->fetch('objectname', 'str', $objectname, 'listings_listing', xarVar::DONT_SET)) {
+        if (!$this->var()->check('objectname', $objectname, 'str', 'listings_listing')) {
             return;
         }
-        if (!$this->fetch('localmodule', 'str', $module, 'listings', xarVar::DONT_SET)) {
+        if (!$this->var()->check('localmodule', $module, 'str', 'listings')) {
             return;
         }
 
         // Confirm authorisation code
-        //if (!$this->confirmAuthKey()) return;
+        //if (!$this->sec()->confirmAuthKey()) return;
 
         // Catch missing params here, rather than below
         if (empty($idlist)) {

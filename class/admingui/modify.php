@@ -34,26 +34,26 @@ class ModifyMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('EditPublications')) {
+        if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!$this->fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('itemid', $data['itemid'])) {
             return;
         }
-        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('ptid', $ptid)) {
             return;
         }
-        if (!$this->fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('returnurl', $data['returnurl'], 'str:1', 'view')) {
             return;
         }
-        if (!$this->fetch('name', 'str:1', $name, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('name', $name, 'str:1', '')) {
             return;
         }
-        if (!$this->fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('tab', $data['tab'], 'str:1', '')) {
             return;
         }
 

@@ -30,7 +30,7 @@ function publications_treeapi_moveitem(array $args = [], $context = null)
     }
 
     if ($result->EOF) {
-        $msg = xarML('Reference item "#(1)" does not exist', $refid);
+        $msg = xarMLS::translate('Reference item "#(1)" does not exist', $refid);
         throw new BadParameterException(null, $msg);
     }
     [$ref_left, $ref_right, $ref_parent] = $result->fields;
@@ -42,14 +42,14 @@ function publications_treeapi_moveitem(array $args = [], $context = null)
     }
 
     if ($result->EOF) {
-        $msg = xarML('Moving item "#(1)" does not exist', $itemid);
+        $msg = xarMLS::translate('Moving item "#(1)" does not exist', $itemid);
         throw new BadParameterException(null, $msg);
     }
     [$item_left, $item_right, $item_parent] = $result->fields;
 
     // Checking if the reference ID is of a child or itself
     if ($ref_left >= $item_left && $ref_left <= $item_right) {
-        $msg = xarML('Group references siblings');
+        $msg = xarMLS::translate('Group references siblings');
         throw new BadParameterException(null, $msg);
     }
 
@@ -68,7 +68,7 @@ function publications_treeapi_moveitem(array $args = [], $context = null)
             $insertion_point = $ref_left;
             break;
         default:
-            $msg = xarML('Offset not "#(1)" valid', $offset);
+            $msg = xarMLS::translate('Offset not "#(1)" valid', $offset);
             throw new BadParameterException(null, $msg);
     };
 

@@ -45,25 +45,25 @@ class DeleteTranslationMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('ManagePublications')) {
+        if (!$this->sec()->checkAccess('ManagePublications')) {
             return;
         }
 
-        if (!$this->fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('confirmed', $confirmed, 'int')) {
             return;
         }
-        if (!$this->fetch('itemid', 'str', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('itemid', $data['itemid'], 'str')) {
             return;
         }
-        if (!$this->fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('returnurl', $returnurl, 'str')) {
             return;
         }
 
         if (empty($data['itemid'])) {
             if (isset($returnurl)) {
-                $this->redirect($returnurl);
+                $this->ctl()->redirect($returnurl);
             } else {
-                $this->redirect($this->getUrl('admin', 'view'));
+                $this->ctl()->redirect($this->mod()->getURL('admin', 'view'));
             }
         }
 
@@ -74,22 +74,22 @@ class DeleteTranslationMethod extends MethodClass
         sys::import('modules.dynamicdata.class.objects.factory');
         $publication = DataObjectFactory::getObject(['name' => 'publications_publications']);
         if (!isset($confirmed)) {
-            $data['title'] = $this->translate("Delete Translation");
-            $data['authid'] = $this->genAuthKey();
+            $data['title'] = $this->ml("Delete Translation");
+            $data['authid'] = $this->sec()->genAuthKey();
             $publication->getItem(['itemid' => $data['itemid']]);
             $data['item'] = $publication->getFieldValues();
-            $data['yes_action'] = $this->getUrl( 'admin', 'delete', ['itemid' => $data['itemid']]);
-            return xarTpl::module('publications', 'admin', 'delete_translation', $data);
+            $data['yes_action'] = $this->mod()->getURL( 'admin', 'delete', ['itemid' => $data['itemid']]);
+            return $this->mod()->template('delete_translation', $data);
         } else {
-            if (!$this->confirmAuthKey()) {
+            if (!$this->sec()->confirmAuthKey()) {
                 return;
             }
             $itemid = $publication->deleteItem(['itemid' => $data['itemid']]);
             $data['message'] = "Translation deleted [ID $itemid]";
             if (isset($returnurl)) {
-                $this->redirect($returnurl);
+                $this->ctl()->redirect($returnurl);
             } else {
-                $this->redirect($this->getUrl( 'admin', 'view', $data));
+                $this->ctl()->redirect($this->mod()->getURL( 'admin', 'view', $data));
             }
             return true;
         }

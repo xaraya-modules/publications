@@ -41,7 +41,7 @@ class GetNextnameMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         if (empty($args['ptid'])) {
-            return $this->translate('new_publication');
+            return $this->ml('new_publication');
         }
 
         // Get the namestring for this pubtype

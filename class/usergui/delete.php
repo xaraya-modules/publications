@@ -45,21 +45,21 @@ class DeleteMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('ModeratePublications')) {
+        if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
         }
 
-        $return = $this->getUrl( 'user', 'view', ['ptid' => $this->getModVar('defaultpubtype')]);
-        if (!$this->fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
+        $return = $this->mod()->getURL( 'user', 'view', ['ptid' => $this->mod()->getVar('defaultpubtype')]);
+        if (!$this->var()->find('confirmed', $confirmed, 'int')) {
             return;
         }
-        if (!$this->fetch('itemid', 'int', $itemid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('itemid', $itemid, 'int')) {
             return;
         }
-        if (!$this->fetch('idlist', 'str', $idlist, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('idlist', $idlist, 'str')) {
             return;
         }
-        if (!$this->fetch('returnurl', 'str', $returnurl, $return, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('returnurl', $returnurl, 'str', $return)) {
             return;
         }
 
@@ -70,9 +70,9 @@ class DeleteMethod extends MethodClass
 
         if (empty($idlist)) {
             if (isset($returnurl)) {
-                $this->redirect($returnurl);
+                $this->ctl()->redirect($returnurl);
             } else {
-                $this->redirect($this->getUrl('user', 'view'));
+                $this->ctl()->redirect($this->mod()->getURL('user', 'view'));
             }
         }
 
@@ -84,16 +84,16 @@ class DeleteMethod extends MethodClass
         sys::import('modules.dynamicdata.class.objects.factory');
         $publication = DataObjectFactory::getObject(['name' => 'publications_documents']);
         $access = DataPropertyMaster::getProperty(['name' => 'access']);
-        $nopermissionpage_id = $this->getModVar('noprivspage');
+        $nopermissionpage_id = $this->mod()->getVar('noprivspage');
 
         if (!isset($confirmed)) {
             $data['idlist'] = $idlist;
             if (count($ids) > 1) {
-                $data['title'] = $this->translate("Delete Publications");
+                $data['title'] = $this->ml("Delete Publications");
             } else {
-                $data['title'] = $this->translate("Delete Publication");
+                $data['title'] = $this->ml("Delete Publication");
             }
-            $data['authid'] = $this->genAuthKey();
+            $data['authid'] = $this->sec()->genAuthKey();
             $items = [];
             foreach ($ids as $id) {
                 $publication->getItem(['itemid' => $id]);
@@ -108,7 +108,7 @@ class DeleteMethod extends MethodClass
 
                 // If not allowed, check if admins or the designated site admin can modify even if not the owner
                 if (!$allow) {
-                    $admin_override = $this->getModVar('admin_override');
+                    $admin_override = $this->mod()->getVar('admin_override');
                     switch ($admin_override) {
                         case 0:
                             break;
@@ -127,14 +127,14 @@ class DeleteMethod extends MethodClass
                         if ($accessconstraints['delete']['failure']) {
                             return xarResponse::Forbidden();
                         } elseif ($nopermissionpage_id) {
-                            $this->redirect($this->getUrl(
+                            $this->ctl()->redirect($this->mod()->getURL(
                                 'user',
                                 'display',
                                 ['itemid' => $nopermissionpage_id]
                             ));
                         } else {
                             $data = ['context' => $this->getContext()];
-                            return xarTpl::module('publications', 'user', 'empty', $data);
+                            return $this->mod()->template('empty', $data);
                         }
                     }
                 } else {
@@ -145,11 +145,11 @@ class DeleteMethod extends MethodClass
                 $items[] = $item;
             }
             $data['items'] = $items;
-            $data['yes_action'] = $this->getUrl( 'user', 'delete', ['idlist' => $idlist]);
+            $data['yes_action'] = $this->mod()->getURL( 'user', 'delete', ['idlist' => $idlist]);
             $data['context'] ??= $this->getContext();
-            return xarTpl::module('publications', 'user', 'delete', $data);
+            return $this->mod()->template('delete', $data);
         } else {
-            if (!$this->confirmAuthKey()) {
+            if (!$this->sec()->confirmAuthKey()) {
                 return;
             }
 
@@ -165,7 +165,7 @@ class DeleteMethod extends MethodClass
 
                 // If not allowed, check if admins or the designated site admin can modify even if not the owner
                 if (!$allow) {
-                    $admin_override = $this->getModVar('admin_override');
+                    $admin_override = $this->mod()->getVar('admin_override');
                     switch ($admin_override) {
                         case 0:
                             break;
@@ -184,14 +184,14 @@ class DeleteMethod extends MethodClass
                         if ($accessconstraints['delete']['failure']) {
                             return xarResponse::Forbidden();
                         } elseif ($nopermissionpage_id) {
-                            $this->redirect($this->getUrl(
+                            $this->ctl()->redirect($this->mod()->getURL(
                                 'user',
                                 'display',
                                 ['itemid' => $nopermissionpage_id]
                             ));
                         } else {
                             $data = ['context' => $this->getContext()];
-                            return xarTpl::module('publications', 'user', 'empty', $data);
+                            return $this->mod()->template('empty', $data);
                         }
                     }
                 } else {
@@ -209,9 +209,9 @@ class DeleteMethod extends MethodClass
             }
 
             if (isset($returnurl)) {
-                $this->redirect($returnurl);
+                $this->ctl()->redirect($returnurl);
             } else {
-                $this->redirect($this->getUrl( 'user', 'view', $data));
+                $this->ctl()->redirect($this->mod()->getURL( 'user', 'view', $data));
             }
             return true;
         }

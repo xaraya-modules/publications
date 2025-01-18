@@ -35,12 +35,12 @@ class GetstatesMethod extends MethodClass
     {
         // Simplistic getstates function
         // Obviously needs to be smarter along with the other state functions
-        return [0 => $this->translate('Deleted'),
-            1 => $this->translate('Inactive'),
-            2 => $this->translate('Draft'),
-            3 => $this->translate('Active'),
-            4 => $this->translate('Frontpage'),
-            5 => $this->translate('Empty'),
+        return [0 => $this->ml('Deleted'),
+            1 => $this->ml('Inactive'),
+            2 => $this->ml('Draft'),
+            3 => $this->ml('Active'),
+            4 => $this->ml('Frontpage'),
+            5 => $this->ml('Empty'),
         ];
     }
 }

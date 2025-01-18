@@ -46,84 +46,84 @@ class SearchMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // pager stuff
-        if (!$this->fetch('startnum', 'int:0', $startnum, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('startnum', $startnum, 'int:0')) {
             return;
         }
 
         // categories stuff
-        if (!$this->fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('cids', $cids, 'array')) {
             return;
         }
-        if (!$this->fetch('andcids', 'str', $andcids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('andcids', $andcids, 'str')) {
             return;
         }
-        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('catid', $catid, 'str')) {
             return;
         }
 
         // single publication type when called via the pager
-        if (!$this->fetch('ptid', 'id', $ptid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $ptid, 'id')) {
             return;
         }
 
         // multiple publication types when called via search hooks
-        if (!$this->fetch('ptids', 'array', $ptids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptids', $ptids, 'array')) {
             return;
         }
 
         // date stuff via forms
-        if (!$this->fetch('publications_startdate', 'str', $startdate, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('publications_startdate', $startdate, 'str')) {
             return;
         }
-        if (!$this->fetch('publications_enddate', 'str', $enddate, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('publications_enddate', $enddate, 'str')) {
             return;
         }
 
         // date stuff via URLs
-        if (!$this->fetch('start', 'int:0', $start, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('start', $start, 'int:0')) {
             return;
         }
-        if (!$this->fetch('end', 'int:0', $end, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('end', $end, 'int:0')) {
             return;
         }
 
         // search button was pressed
-        if (!$this->fetch('search', 'str', $search, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('search', $search, 'str')) {
             return;
         }
 
         // select by article state (array or string)
-        if (!$this->fetch('state', 'isset', $state, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('state', $state)) {
             return;
         }
 
         // yes, this is the query
-        if (!$this->fetch('q', 'str', $q, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('q', $q, 'str')) {
             return;
         }
-        if (!$this->fetch('author', 'str', $author, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('author', $author, 'str')) {
             return;
         }
 
         // filter by category
-        if (!$this->fetch('by', 'str', $by, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('by', $by, 'str')) {
             return;
         }
 
         // can't use list enum here, because we don't know which sorts might be used
-        if (!$this->fetch('sort', 'regexp:/^[\w,]*$/', $sort, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->get('sort', ]*$/', 'regexp:/^[\w, $sort, null, xarVar::NOT_REQUIRED)) {
             return;
         }
 
         // boolean AND/OR for words (no longer used)
-        //if(!$this->fetch('bool',     'str',   $bool,   NULL, xarVar::NOT_REQUIRED)) {return;}
+        //if(!$this->var()->find('bool', $bool, 'str', NULL)) {return;}
 
         // search in specific fields
-        if (!$this->fetch('publications_fields', 'isset', $fields, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('publications_fields', $fields)) {
             return;
         }
 
-        if (!$this->fetch('searchtype', 'isset', $searchtype, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('searchtype', $searchtype)) {
             return;
         }
 
@@ -133,7 +133,7 @@ class SearchMethod extends MethodClass
             $ishooked = 0;
             if (empty($fields)) {
                 // search in specific fields via URLs
-                if (!$this->fetch('fields', 'isset', $fields, null, xarVar::NOT_REQUIRED)) {
+                if (!$this->var()->find('fields', $fields)) {
                     return;
                 }
             }
@@ -161,7 +161,7 @@ class SearchMethod extends MethodClass
         // Get publication types
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
 
-        if ($this->checkAccess('AdminPublications', 0)) {
+        if ($this->sec()->checkAccess('AdminPublications', 0)) {
             $isadmin = true;
         } else {
             $isadmin = false;
@@ -200,7 +200,7 @@ class SearchMethod extends MethodClass
         // default publication type(s) to search in
         if (!empty($ptid) && isset($pubtypes[$ptid])) {
             $ptids = [$ptid];
-            $settings = unserialize($this->getModVar('settings.' . $ptid));
+            $settings = unserialize($this->mod()->getVar('settings.' . $ptid));
             if (empty($settings['show_categories'])) {
                 $show_categories = 0;
             } else {
@@ -212,7 +212,7 @@ class SearchMethod extends MethodClass
             }
             $show_categories = 1;
         } elseif (!isset($ptids)) {
-            //    $ptids = array($this->getModVar('defaultpubtype'));
+            //    $ptids = array($this->mod()->getVar('defaultpubtype'));
             $ptids = [];
             foreach ($pubtypes as $pubid => $pubtype) {
                 $ptids[] = $pubid;
@@ -308,7 +308,7 @@ class SearchMethod extends MethodClass
         }
 
         // Set default searchtype to 'fulltext' if necessary
-        $fulltext = $this->getModVar('fulltextsearch');
+        $fulltext = $this->mod()->getVar('fulltextsearch');
         if (!isset($searchtype) && !empty($fulltext)) {
             $searchtype = 'fulltext';
         }
@@ -337,11 +337,11 @@ class SearchMethod extends MethodClass
 
         // TODO: show field labels when we're dealing with only 1 pubtype
         $data['fieldlist'] = [
-            ['id' => 'title', 'name' => $this->translate('title'), 'checked' => in_array('title', $fieldlist)],
-            ['id' => 'description', 'name' => $this->translate('description'), 'checked' => in_array('description', $fieldlist)],
-            ['id' => 'summary', 'name' => $this->translate('summary'), 'checked' => in_array('summary', $fieldlist)],
-            ['id' => 'body1', 'name' => $this->translate('body1'), 'checked' => in_array('body1', $fieldlist)],
-            //                                     array('id' => 'notes', 'name' => $this->translate('notes'), 'checked' => in_array('notes',$fieldlist)),
+            ['id' => 'title', 'name' => $this->ml('title'), 'checked' => in_array('title', $fieldlist)],
+            ['id' => 'description', 'name' => $this->ml('description'), 'checked' => in_array('description', $fieldlist)],
+            ['id' => 'summary', 'name' => $this->ml('summary'), 'checked' => in_array('summary', $fieldlist)],
+            ['id' => 'body1', 'name' => $this->ml('body1'), 'checked' => in_array('body1', $fieldlist)],
+            //                                     array('id' => 'notes', 'name' => $this->ml('notes'), 'checked' => in_array('notes',$fieldlist)),
         ];
 
         $data['publications'] = [];
@@ -483,7 +483,7 @@ class SearchMethod extends MethodClass
                         }
                         foreach ($catinfo as $cid => $info) {
                             $catinfo[$cid]['name'] = xarVar::prepForDisplay($info['name']);
-                            $catinfo[$cid]['link'] = $this->getUrl(
+                            $catinfo[$cid]['link'] = $this->mod()->getURL(
                                 'user',
                                 'view',
                                 ['ptid' => $curptid,
@@ -515,7 +515,7 @@ class SearchMethod extends MethodClass
                     foreach ($publications as $article) {
                         $count++;
                         $curptid = $article['pubtype_id'];
-                        $link = $this->getUrl(
+                        $link = $this->mod()->getURL(
                             'user',
                             'display',
                             ['ptid' => $article['pubtype_id'],
@@ -531,7 +531,7 @@ class SearchMethod extends MethodClass
                             $startdate = 0;
                         }
                         if (empty($article['title'])) {
-                            $article['title'] = $this->translate('(none)');
+                            $article['title'] = $this->ml('(none)');
                         }
 
                         // categories this article belongs to
@@ -597,7 +597,7 @@ class SearchMethod extends MethodClass
                         /* trick : use *this* publications search instead of global search for pager :-)
                                                                 xarController::URL('search', 'user', 'main',
                         */
-                        $this->getUrl(
+                        $this->mod()->getURL(
                             'user',
                             'search',
                             ['ptid' => $curptid,
@@ -621,7 +621,7 @@ class SearchMethod extends MethodClass
                         } else {
                             $othersort = 'date';
                         }
-                        $sortlink = $this->getUrl(
+                        $sortlink = $this->mod()->getURL(
                             'user',
                             'search',
                             ['ptid' => $curptid,
@@ -637,7 +637,7 @@ class SearchMethod extends MethodClass
                         );
 
                         $pager .= '&#160;&#160;<a href="' . $sortlink . '">' .
-                                  $this->translate('sort by') . ' ' . $this->translate($othersort) . '</a>';
+                                  $this->ml('sort by') . ' ' . $this->ml($othersort) . '</a>';
                     }
 
                     $data['results'][] = ['description' => xarVar::prepForDisplay($pubtypes[$curptid]['description']),
@@ -652,14 +652,14 @@ class SearchMethod extends MethodClass
             if ($count > 0) {
                 // bail out, we have what we needed
                 $data['context'] ??= $this->getContext();
-                return xarTpl::module('publications', 'user', 'search', $data);
+                return $this->mod()->template('search', $data);
             }
 
-            $data['state'] = $this->translate('No pages found matching this search');
+            $data['state'] = $this->ml('No pages found matching this search');
         }
 
         $data['context'] ??= $this->getContext();
-        return xarTpl::module('publications', 'user', 'search', $data);
+        return $this->mod()->template('search', $data);
     }
 
     /**

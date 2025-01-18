@@ -48,23 +48,22 @@ class CloneMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('ManagePublications')) {
+        if (!$this->sec()->checkAccess('ManagePublications')) {
             return;
         }
 
-        if (!$this->fetch('name', 'isset', $objectname, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('name', $objectname)) {
             return;
         }
-        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('ptid', $ptid)) {
             return;
         }
-        if (!$this->fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('itemid', $data['itemid'])) {
             return;
         }
-        if (!$this->fetch('confirm', 'int', $confirm, 0, xarVar::DONT_SET)) {
+        if (!$this->var()->check('confirm', $confirm, 'int', 0)) {
             return;
         }
-        $admingui = $this->getParent();
 
         if (empty($data['itemid'])) {
             return xarController::notFound(null, $this->getContext());
@@ -88,23 +87,23 @@ class CloneMethod extends MethodClass
 
         // Security
         if (!$data['object']->checkAccess('update')) {
-            return xarController::forbidden($this->translate('Clone #(1) is forbidden', $data['object']->label), $this->getContext());
+            return xarController::forbidden($this->ml('Clone #(1) is forbidden', $data['object']->label), $this->getContext());
         }
 
         $data['object']->getItem(['itemid' => $data['itemid']]);
 
-        $data['authid'] = $this->genAuthKey();
+        $data['authid'] = $this->sec()->genAuthKey();
         $data['name'] = $data['object']->properties['name']->value;
         $data['label'] = $data['object']->label;
-        $usergui->setPageTitleis->translate('Clone Publication #(1) in #(2)', $data['itemid'], $data['label']));
+        $this->tpl()->setPageTitle($this->ml('Clone Publication #(1) in #(2)', $data['itemid'], $data['label']));
 
         if ($confirm) {
-            if (!$this->confirmAuthKey()) {
+            if (!$this->sec()->confirmAuthKey()) {
                 return;
             }
 
             // Get the name for the clone
-            if (!$this->fetch('newname', 'str', $newname, "", xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('newname', $newname, 'str', "")) {
                 return;
             }
             if (empty($newname)) {
@@ -121,7 +120,7 @@ class CloneMethod extends MethodClass
             $cloneid = $data['object']->createItem(['itemid' => 0]);
 
             // Create the clone's translations
-            if (!$this->fetch('clone_translations', 'int', $clone_translations, 0, xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('clone_translations', $clone_translations, 'int', 0)) {
                 return;
             }
             if ($clone_translations) {
@@ -150,11 +149,11 @@ class CloneMethod extends MethodClass
             // Redirect if we came from somewhere else
             $current_listview = xarSession::getVar('publications_current_listview');
             if (!empty($return_url)) {
-                $this->redirect($return_url);
+                $this->ctl()->redirect($return_url);
             } elseif (!empty($current_listview)) {
-                $this->redirect($current_listview);
+                $this->ctl()->redirect($current_listview);
             } else {
-                $this->redirect($this->getUrl('user', 'view'));
+                $this->ctl()->redirect($this->mod()->getURL('user', 'view'));
             }
             return true;
         }

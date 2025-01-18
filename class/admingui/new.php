@@ -37,27 +37,27 @@ class NewMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AddPublications')) {
+        if (!$this->sec()->checkAccess('AddPublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!$this->fetch('ptid', 'id', $data['ptid'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $data['ptid'], 'id')) {
             return;
         }
-        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('catid', $catid, 'str')) {
             return;
         }
-        if (!$this->fetch('itemtype', 'id', $itemtype, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('itemtype', $itemtype, 'id')) {
             return;
         }
 
         if (null === $data['ptid']) {
             $data['ptid'] = xarSession::getVar('publications_current_pubtype');
             if (empty($data['ptid'])) {
-                $data['ptid'] = $this->getModVar('defaultpubtype');
+                $data['ptid'] = $this->mod()->getVar('defaultpubtype');
             }
         }
         xarSession::setVar('publications_current_pubtype', $data['ptid']);
@@ -87,6 +87,6 @@ class NewMethod extends MethodClass
         $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
 
         $data['context'] ??= $this->getContext();
-        return xarTpl::module('publications', 'admin', 'new', $data, $template);
+        return $this->mod()->template('new', $data, $template);
     }
 }

@@ -30,10 +30,10 @@ class GetpubfieldsMethod extends MethodClass
     /**
      * get array of configurable fields for publication types
      * @TODO : add dynamic fields here for .81+
-     * @return array array('title'   => array('label'  => $this->translate('...'),
+     * @return array array('title'   => array('label'  => $this->ml('...'),
      * 'format' => '...',
      * 'input'  => 1),
-     * 'summary' => array('label'  => $this->translate('...'),
+     * 'summary' => array('label'  => $this->ml('...'),
      * 'format' => '...',
      * 'input'  => 1),
      * ...);
@@ -41,25 +41,25 @@ class GetpubfieldsMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         return [
-            'title'    => ['label'  => $this->translate('Title'),
+            'title'    => ['label'  => $this->ml('Title'),
                 'format' => 'textbox',
                 'input'  => 1, ],
-            'summary'  => ['label'  => $this->translate('Summary'),
+            'summary'  => ['label'  => $this->ml('Summary'),
                 'format' => 'textarea_medium',
                 'input'  => 1, ],
-            'body' => ['label'  => $this->translate('Body'),
+            'body' => ['label'  => $this->ml('Body'),
                 'format' => 'textarea_large',
                 'input'  => 1, ],
-            'notes'    => ['label'  => $this->translate('Notes'),
+            'notes'    => ['label'  => $this->ml('Notes'),
                 'format' => 'textarea',
                 'input'  => 0, ],
-            'owner' => ['label'  => $this->translate('Author'),
+            'owner' => ['label'  => $this->ml('Author'),
                 'format' => 'username',
                 'input'  => 0, ],
-            'pubdate'  => ['label'  => $this->translate('Publication Date'),
+            'pubdate'  => ['label'  => $this->ml('Publication Date'),
                 'format' => 'calendar',
                 'input'  => 0, ],
-            'state'   => ['label'  => $this->translate('Status'),
+            'state'   => ['label'  => $this->ml('Status'),
                 'format' => 'state',
                 'input'  => 0, ],
         ];

@@ -45,20 +45,20 @@ class DeletePubtypeMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 
-        if (!$this->fetch('confirmed', 'int', $confirmed, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('confirmed', $confirmed, 'int')) {
             return;
         }
-        if (!$this->fetch('itemid', 'str', $itemid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('itemid', $itemid, 'str')) {
             return;
         }
-        if (!$this->fetch('idlist', 'str', $idlist, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('idlist', $idlist, 'str')) {
             return;
         }
-        if (!$this->fetch('returnurl', 'str', $returnurl, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('returnurl', $returnurl, 'str')) {
             return;
         }
 
@@ -69,9 +69,9 @@ class DeletePubtypeMethod extends MethodClass
 
         if (empty($idlist)) {
             if (isset($returnurl)) {
-                $this->redirect($returnurl);
+                $this->ctl()->redirect($returnurl);
             } else {
-                $this->redirect($this->getUrl('admin', 'view_pubtypes'));
+                $this->ctl()->redirect($this->mod()->getURL('admin', 'view_pubtypes'));
             }
         }
 
@@ -85,11 +85,11 @@ class DeletePubtypeMethod extends MethodClass
         if (!isset($confirmed)) {
             $data['idlist'] = $idlist;
             if (count($ids) > 1) {
-                $data['title'] = $this->translate("Delete Publication Types");
+                $data['title'] = $this->ml("Delete Publication Types");
             } else {
-                $data['title'] = $this->translate("Delete Publication Type");
+                $data['title'] = $this->ml("Delete Publication Type");
             }
-            $data['authid'] = $this->genAuthKey();
+            $data['authid'] = $this->sec()->genAuthKey();
             $items = [];
             foreach ($ids as $i) {
                 $pubtype->getItem(['itemid' => $i]);
@@ -97,11 +97,11 @@ class DeletePubtypeMethod extends MethodClass
                 $items[] = $item;
             }
             $data['items'] = $items;
-            $data['yes_action'] = $this->getUrl( 'admin', 'delete_pubtype', ['idlist' => $idlist]);
+            $data['yes_action'] = $this->mod()->getURL( 'admin', 'delete_pubtype', ['idlist' => $idlist]);
             $data['context'] ??= $this->getContext();
-            return xarTpl::module('publications', 'admin', 'delete_pubtype', $data);
+            return $this->mod()->template('delete_pubtype', $data);
         } else {
-            if (!$this->confirmAuthKey()) {
+            if (!$this->sec()->confirmAuthKey()) {
                 return;
             }
             foreach ($ids as $id) {
@@ -109,9 +109,9 @@ class DeletePubtypeMethod extends MethodClass
                 $data['message'] = "Publication Type deleted [ID $id]";
             }
             if (isset($returnurl)) {
-                $this->redirect($returnurl);
+                $this->ctl()->redirect($returnurl);
             } else {
-                $this->redirect($this->getUrl( 'admin', 'view_pubtypes', $data));
+                $this->ctl()->redirect($this->mod()->getURL( 'admin', 'view_pubtypes', $data));
             }
             return true;
         }

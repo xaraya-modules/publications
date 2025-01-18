@@ -56,7 +56,7 @@ class GetSitemapPagesMethod extends MethodClass
 
         // Make sure we have the base translation id
         if (!empty($args['itemid'])) {
-            $args['itemid'] = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $args['itemid'], 'locale' => $this->getModVar('defaultlanguage')]);
+            $args['itemid'] = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $args['itemid'], 'locale' => $this->mod()->getVar('defaultlanguage')]);
         }
 
         // Identify any filters
@@ -150,7 +150,7 @@ class GetSitemapPagesMethod extends MethodClass
         // CHECKME: is there a better way?
         // If there is no translation the base document remains. Is this desired outcome?
 
-        if (!empty($pages) && $this->getModVar('defaultlanguage') != xarUser::getNavigationLocale()) {
+        if (!empty($pages) && $this->mod()->getVar('defaultlanguage') != xarUser::getNavigationLocale()) {
             $indexedpages = [];
             foreach ($pages as $v) {
                 $indexedpages[$v['id']] = $v;

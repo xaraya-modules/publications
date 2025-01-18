@@ -33,14 +33,14 @@ class DisplayVersionMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('ManagePublications')) {
+        if (!$this->sec()->checkAccess('ManagePublications')) {
             return;
         }
 
-        if (!$this->fetch('itemid', 'id', $data['page_id'], 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('itemid', $data['page_id'], 'id', 0)) {
             return;
         }
-        if (!$this->fetch('name', 'str', $data['objectname'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('name', $data['objectname'], 'str', '')) {
             return;
         }
         if (empty($data['page_id'])) {
@@ -56,10 +56,10 @@ class DisplayVersionMethod extends MethodClass
             return $data;
         }
 
-        if (!$this->fetch('confirm', 'int', $confirm, 1, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('confirm', $confirm, 'int', 1)) {
             return;
         }
-        if (!$this->fetch('version_1', 'int', $version_1, $data['versions'], xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('version_1', $version_1, 'int', $data['versions'])) {
             return;
         }
         $data['version_1'] = $version_1;
@@ -70,7 +70,7 @@ class DisplayVersionMethod extends MethodClass
         $version->dataquery->eq($version->properties['version_number']->source, $version_1);
         $items = $version->getItems();
         if (count($items) > 1) {
-            throw new Exception($this->translate('More than one instance with the version number #(1)', $version_1));
+            throw new Exception($this->ml('More than one instance with the version number #(1)', $version_1));
         }
         $item = current($items);
         $content_array_1 = unserialize($item['content']);
@@ -97,7 +97,7 @@ class DisplayVersionMethod extends MethodClass
             $page->properties['version']->value = $data['versions'] + 1;
             $page->updateItem();
 
-            $this->redirect($this->getUrl(
+            $this->ctl()->redirect($this->mod()->getURL(
                 'admin',
                 'modify',
                 ['name' => $pubtype->properties['name']->value, 'itemid' => $content_array_1['id']]

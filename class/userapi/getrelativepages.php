@@ -59,7 +59,7 @@ class GetrelativepagesMethod extends MethodClass
 
         // Make sure we have the base translation id
         if (!empty($args['itemid'])) {
-            $args['itemid'] = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $args['itemid'], 'locale' => $this->getModVar('defaultlanguage')]);
+            $args['itemid'] = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $args['itemid'], 'locale' => $this->mod()->getVar('defaultlanguage')]);
         }
 
         // Identify any filters
@@ -110,7 +110,7 @@ class GetrelativepagesMethod extends MethodClass
         }
 
         // We need to grab all the pages if we are looking for translations, because the translation might have a valid state
-        if ($this->getModVar('defaultlanguage') == xarUser::getNavigationLocale()) {
+        if ($this->mod()->getVar('defaultlanguage') == xarUser::getNavigationLocale()) {
             // Allow filtering on state nonetheless
             if (!empty($args['state'])) {
                 if (!is_array($args['state'])) {
@@ -176,7 +176,7 @@ class GetrelativepagesMethod extends MethodClass
         // CHECKME: is there a better way?
         // If there is no translation the base document remains, unless $args['no_fallback_locale'] is true;
 
-        if (!empty($pages) && $this->getModVar('defaultlanguage') != xarUser::getNavigationLocale()) {
+        if (!empty($pages) && $this->mod()->getVar('defaultlanguage') != xarUser::getNavigationLocale()) {
             $indexedpages = [];
             foreach ($pages as $v) {
                 $indexedpages[$v['id']] = $v;

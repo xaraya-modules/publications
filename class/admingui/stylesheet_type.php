@@ -34,22 +34,22 @@ class StylesheetTypeMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 
         extract($args);
 
-        if (!$this->fetch('confirm', 'int', $confirm, 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('confirm', $confirm, 'int', 0)) {
             return;
         }
-        if (!$this->fetch('ptid', 'id', $data['ptid'], $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $data['ptid'], 'id', $this->mod()->getVar('defaultpubtype'))) {
             return;
         }
-        if (!$this->fetch('file', 'str', $data['file'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('file', $data['file'], 'str', '')) {
             return;
         }
-        if (!$this->fetch('source_data', 'str', $data['source_data'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('source_data', $data['source_data'], 'str', '')) {
             return;
         }
         $admingui = $this->getParent();

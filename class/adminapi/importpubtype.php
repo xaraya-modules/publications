@@ -41,17 +41,17 @@ class ImportpubtypeMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Security check - we require ADMIN rights here
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 
         extract($args);
 
         if (empty($xml) && empty($file)) {
-            $msg = $this->translate('Missing import file or XML content');
+            $msg = $this->ml('Missing import file or XML content');
             throw new BadParameterException(null, $msg);
         } elseif (!empty($file) && (!file_exists($file) || !preg_match('/\.xml$/', $file))) {
-            $msg = $this->translate('Invalid import file');
+            $msg = $this->ml('Invalid import file');
             throw new BadParameterException(null, $msg);
         }
 
@@ -69,7 +69,7 @@ class ImportpubtypeMethod extends MethodClass
         if (!empty($file)) {
             $fp = @fopen($file, 'r');
             if (!$fp) {
-                $msg = $this->translate('Unable to open import file');
+                $msg = $this->ml('Unable to open import file');
                 throw new BadParameterException(null, $msg);
             }
         } else {
@@ -106,7 +106,7 @@ class ImportpubtypeMethod extends MethodClass
                         if (!empty($file)) {
                             fclose($fp);
                         }
-                        $msg = $this->translate('Duplicate definition for #(1) key #(2) on line #(3)', 'object', xarVar::prepForDisplay($key), $count);
+                        $msg = $this->ml('Duplicate definition for #(1) key #(2) on line #(3)', 'object', xarVar::prepForDisplay($key), $count);
                         throw new DuplicateException(null, $msg);
                     }
                     $object[$key] = $value;
@@ -115,7 +115,7 @@ class ImportpubtypeMethod extends MethodClass
                         if (!empty($file)) {
                             fclose($fp);
                         }
-                        $msg = $this->translate('Duplicate definition for #(1) key #(2) on line #(3)', 'object', 'config', $count);
+                        $msg = $this->ml('Duplicate definition for #(1) key #(2) on line #(3)', 'object', 'config', $count);
                         throw new DuplicateException(null, $msg);
                     }
                     $config = [];
@@ -125,7 +125,7 @@ class ImportpubtypeMethod extends MethodClass
                         if (!empty($file)) {
                             fclose($fp);
                         }
-                        $msg = $this->translate('Missing keys in object definition');
+                        $msg = $this->ml('Missing keys in object definition');
                         throw new BadParameterException(null, $msg);
                     }
                     // make sure we drop the object id, because it might already exist here
@@ -148,7 +148,7 @@ class ImportpubtypeMethod extends MethodClass
                         if (!empty($file)) {
                             fclose($fp);
                         }
-                        $msg = $this->translate('Duplicate definition for #(1) key #(2) on line #(3)', 'config', xarVar::prepForDisplay($key), $count);
+                        $msg = $this->ml('Duplicate definition for #(1) key #(2) on line #(3)', 'config', xarVar::prepForDisplay($key), $count);
                         throw new DuplicateException(null, $msg);
                     }
                     $config[$key] = $value;
@@ -171,7 +171,7 @@ class ImportpubtypeMethod extends MethodClass
                         if (!empty($file)) {
                             fclose($fp);
                         }
-                        $msg = $this->translate('Missing keys in property definition');
+                        $msg = $this->ml('Missing keys in property definition');
                         throw new BadParameterException(null, $msg);
                     }
                     // make sure we drop the property id, because it might already exist here
@@ -190,7 +190,7 @@ class ImportpubtypeMethod extends MethodClass
                         if (!empty($file)) {
                             fclose($fp);
                         }
-                        $msg = $this->translate('Duplicate definition for #(1) key #(2) on line #(3)', 'property', xarVar::prepForDisplay($key), $count);
+                        $msg = $this->ml('Duplicate definition for #(1) key #(2) on line #(3)', 'property', xarVar::prepForDisplay($key), $count);
                         throw new DuplicateException(null, $msg);
                     }
                     $property[$key] = $value;
@@ -271,9 +271,9 @@ class ImportpubtypeMethod extends MethodClass
                     }
 
                     // 4. set the module variables
-                    $this->setModVar('settings.' . $ptid, $object['config']);
-                    $this->setModVar('number_of_categories.' . $ptid, 0);
-                    $this->setModVar('mastercids.' . $ptid, '');
+                    $this->mod()->setVar('settings.' . $ptid, $object['config']);
+                    $this->mod()->setVar('number_of_categories.' . $ptid, 0);
+                    $this->mod()->setVar('mastercids.' . $ptid, '');
 
                     // 5. create a dynamic object if necessary
                     if (count($extra) > 0) {
@@ -347,7 +347,7 @@ class ImportpubtypeMethod extends MethodClass
                                         $objectname2objectid[$objectname] = $objectinfo['objectid'];
                                     } else {
                                         if (!empty($file)) fclose($fp);
-                                        $msg = $this->translate('Unknown #(1) "#(2)" on line #(3)','object',xarVar::prepForDisplay($objectname),$count);
+                                        $msg = $this->ml('Unknown #(1) "#(2)" on line #(3)','object',xarVar::prepForDisplay($objectname),$count);
                                         throw new BadParameterException(null, $msg);
                                     }
                                 }
@@ -383,7 +383,7 @@ class ImportpubtypeMethod extends MethodClass
                                 $value = $matches[2];
                                 if (isset($item[$key])) {
                                     if (!empty($file)) fclose($fp);
-                                    $msg = $this->translate('Duplicate definition for #(1) key #(2) on line #(3)','item',xarVar::prepForDisplay($key),$count);
+                                    $msg = $this->ml('Duplicate definition for #(1) key #(2) on line #(3)','item',xarVar::prepForDisplay($key),$count);
                                     throw new DuplicateException(null, $msg);
                                 }
                                 $item[$key] = $value;
@@ -394,7 +394,7 @@ class ImportpubtypeMethod extends MethodClass
                                 $value = $matches[2];
                                 if (isset($item[$key])) {
                                     if (!empty($file)) fclose($fp);
-                                    $msg = $this->translate('Duplicate definition for #(1) key #(2)','item',xarVar::prepForDisplay($key));
+                                    $msg = $this->ml('Duplicate definition for #(1) key #(2)','item',xarVar::prepForDisplay($key));
                                     throw new DuplicateException(null, $msg);
                                 }
                                 $item[$key] = $value;
@@ -404,7 +404,7 @@ class ImportpubtypeMethod extends MethodClass
                                 $value = $matches[1];
                                 if (!isset($item[$closetag])) {
                                     if (!empty($file)) fclose($fp);
-                                    $msg = $this->translate('Undefined #(1) key #(2)','item',xarVar::prepForDisplay($closetag));
+                                    $msg = $this->ml('Undefined #(1) key #(2)','item',xarVar::prepForDisplay($closetag));
                                     throw new BadParameterException(null, $msg);
                                 }
                                 $item[$closetag] .= $value;
@@ -413,7 +413,7 @@ class ImportpubtypeMethod extends MethodClass
                                 // multi-line entries *are* relevant here
                                 if (!isset($item[$closetag])) {
                                     if (!empty($file)) fclose($fp);
-                                    $msg = $this->translate('Undefined #(1) key #(2)','item',xarVar::prepForDisplay($closetag));
+                                    $msg = $this->ml('Undefined #(1) key #(2)','item',xarVar::prepForDisplay($closetag));
                                     throw new BadParameterException(null, $msg);
                                 }
                                 $item[$closetag] .= $line;

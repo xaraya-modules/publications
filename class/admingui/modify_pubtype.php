@@ -36,26 +36,26 @@ class ModifyPubtypeMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!$this->fetch('itemid', 'isset', $data['itemid'], null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('itemid', $data['itemid'])) {
             return;
         }
-        if (!$this->fetch('returnurl', 'str:1', $data['returnurl'], 'view', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('returnurl', $data['returnurl'], 'str:1', 'view')) {
             return;
         }
-        if (!$this->fetch('name', 'str:1', $name, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('name', $name, 'str:1', '')) {
             return;
         }
-        if (!$this->fetch('tab', 'str:1', $data['tab'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('tab', $data['tab'], 'str:1', '')) {
             return;
         }
-        if (!$this->fetch('confirm', 'bool', $data['confirm'], false, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('confirm', $data['confirm'], 'bool', false)) {
             return;
         }
 
@@ -94,7 +94,7 @@ class ModifyPubtypeMethod extends MethodClass
 
         if ($data['confirm']) {
             // Check for a valid confirmation key
-            if (!$this->confirmAuthKey()) {
+            if (!$this->sec()->confirmAuthKey()) {
                 return;
             }
 
@@ -104,13 +104,13 @@ class ModifyPubtypeMethod extends MethodClass
             if (!$isvalid) {
                 // Bad data: redisplay the form with error messages
                 $data['context'] ??= $this->getContext();
-                return xarTpl::module('publications', 'admin', 'modify_pubtype', $data);
+                return $this->mod()->template('modify_pubtype', $data);
             } else {
                 // Good data: create the item
                 $itemid = $data['object']->updateItem(['itemid' => $data['itemid']]);
 
                 // Jump to the next page
-                $this->redirect($this->getUrl('admin', 'view_pubtypes'));
+                $this->ctl()->redirect($this->mod()->getURL('admin', 'view_pubtypes'));
                 return true;
             }
         }

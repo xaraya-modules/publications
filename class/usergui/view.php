@@ -43,26 +43,26 @@ class ViewMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Get parameters
-        if (!$this->fetch('ptid', 'id', $ptid, $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'))) {
             return;
         }
-        if (!$this->fetch('startnum', 'int:0', $startnum, 1, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('startnum', $startnum, 'int:0', 1)) {
             return;
         }
-        if (!$this->fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('cids', $cids, 'array')) {
             return;
         }
-        if (!$this->fetch('andcids', 'str', $andcids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('andcids', $andcids, 'str')) {
             return;
         }
-        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('catid', $catid, 'str')) {
             return;
         }
-        if (!$this->fetch('itemtype', 'id', $itemtype, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('itemtype', $itemtype, 'id')) {
             return;
         }
         // TODO: put the query string through a proper parser, so searches on multiple words can be done.
-        if (!$this->fetch('q', 'pre:trim:passthru:str:1:200', $q, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('q', $q, 'pre:trim:passthru:str:1:200')) {
             return;
         }
         // can't use list enum here, because we don't know which sorts might be used
@@ -70,31 +70,30 @@ class ViewMethod extends MethodClass
         // The original 'regexp:/^[\w,]*$/' lets through *any* non-space character.
         // This validation will accept a list of comma-separated words, and will lower-case, trim
         // and strip out non-alphanumeric characters from each word.
-        if (!$this->fetch('sort', 'strlist:,:pre:trim:lower:alnum', $sort, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->get('sort', :pre:trim:lower:alnum', 'strlist:, $sort, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!$this->fetch('numcols', 'int:0', $numcols, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('numcols', $numcols, 'int:0')) {
             return;
         }
-        if (!$this->fetch('owner', 'id', $owner, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('owner', $owner, 'id')) {
             return;
         }
-        if (!$this->fetch('pubdate', 'str:1', $pubdate, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('pubdate', $pubdate, 'str:1')) {
             return;
         }
         // This may not be set via user input, only e.g. via template tags, API calls, blocks etc.
-        //    if(!$this->fetch('startdate','int:0', $startdate, NULL, xarVar::NOT_REQUIRED)) {return;}
-        //    if(!$this->fetch('enddate',  'int:0', $enddate,   NULL, xarVar::NOT_REQUIRED)) {return;}
-        //    if(!$this->fetch('where',    'str',   $where,     NULL, xarVar::NOT_REQUIRED)) {return;}
+        //    if(!$this->var()->find('startdate', $startdate, 'int:0', NULL)) {return;}
+        //    if(!$this->var()->find('enddate', $enddate, 'int:0', NULL)) {return;}
+        //    if(!$this->var()->find('where', $where, 'str', NULL)) {return;}
 
         // Added to implement an Alpha Pager
-        if (!$this->fetch('letter', 'pre:lower:passthru:str:1:20', $letter, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('letter', $letter, 'pre:lower:passthru:str:1:20')) {
             return;
         }
 
         // Override if needed from argument array (e.g. ptid, numitems etc.)
         extract($args);
-        $usergui = $this->getParent();
 
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
 
@@ -119,7 +118,7 @@ class ViewMethod extends MethodClass
         if (!isset($catid) && !isset($cids) && empty($ptid) && !isset($owner)) {
             $ishome = true;
             // default publication type
-            $ptid = $this->getModVar('defaultpubtype');
+            $ptid = $this->mod()->getVar('defaultpubtype');
             // frontpage state
             $state = [Defines::STATE_FRONTPAGE];
         } else {
@@ -133,7 +132,7 @@ class ViewMethod extends MethodClass
         $data['pubtypeobject']->getItem(['itemid' => $ptid]);
 
         // Pass the access rules of the publication type to the template
-        xarCoreCache::setCached('Publications', 'pubtype_access', $data['pubtypeobject']->properties['access']->getValue());
+        $this->var()->setCached('Publications', 'pubtype_access', $data['pubtypeobject']->properties['access']->getValue());
 
         // A non-active publication type means the page does not exist
         if ($data['pubtypeobject']->properties['state']->value < Defines::STATE_ACTIVE) {
@@ -174,7 +173,7 @@ class ViewMethod extends MethodClass
 
         // TODO: show this *after* category list when we start from categories :)
         // Navigation links
-        $data['publabel'] = $this->translate('Publication');
+        $data['publabel'] = $this->ml('Publication');
         $data['publinks'] = xarMod::apiFunc(
             'publications',
             'user',
@@ -205,7 +204,7 @@ class ViewMethod extends MethodClass
             if (!empty($settings['items_per_page'])) {
                 $numitems = (int) $settings['items_per_page'];
             } else {
-                $numitems = (int) $this->getModVar('items_per_page');
+                $numitems = (int) $this->mod()->getVar('items_per_page');
             }
         }
 
@@ -337,7 +336,7 @@ class ViewMethod extends MethodClass
         if (!empty($owner)) {
             $data['author'] = xarUser::getVar('name', $owner);
             if (empty($data['author'])) {
-                $data['author'] = $this->translate('Unknown');
+                $data['author'] = $this->ml('Unknown');
             }
         }
         if (!empty($pubdate)) {
@@ -345,21 +344,21 @@ class ViewMethod extends MethodClass
         }
 
         // Save some variables to (temporary) cache for use in blocks etc.
-        xarCoreCache::setCached('Blocks.publications', 'ptid', $ptid);
-        xarCoreCache::setCached('Blocks.publications', 'cids', $cids);
-        xarCoreCache::setCached('Blocks.publications', 'owner', $owner);
+        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
+        $this->var()->setCached('Blocks.publications', 'cids', $cids);
+        $this->var()->setCached('Blocks.publications', 'owner', $owner);
         if (isset($data['author'])) {
-            xarCoreCache::setCached('Blocks.publications', 'author', $data['author']);
+            $this->var()->setCached('Blocks.publications', 'author', $data['author']);
         }
         if (isset($data['pubdate'])) {
-            xarCoreCache::setCached('Blocks.publications', 'pubdate', $data['pubdate']);
+            $this->var()->setCached('Blocks.publications', 'pubdate', $data['pubdate']);
         }
 
         // TODO: add this to publications configuration ?
         if ($ishome) {
             $data['ptid'] = null;
-            if ($this->checkAccess('SubmitPublications', 0)) {
-                $data['submitlink'] = $this->getUrl('admin', 'new');
+            if ($this->sec()->checkAccess('SubmitPublications', 0)) {
+                $data['submitlink'] = $this->mod()->getURL('admin', 'new');
             }
         } else {
             $data['ptid'] = $ptid;
@@ -371,23 +370,23 @@ class ViewMethod extends MethodClass
             if (count($cids) > 0) {
                 foreach ($cids as $cid) {
                     if (xarSecurity::check('SubmitPublications', 0, 'Publication', "$curptid:$cid:All:All")) {
-                        $data['submitlink'] = $this->getUrl( 'admin', 'new', ['ptid' => $ptid, 'catid' => $catid]);
+                        $data['submitlink'] = $this->mod()->getURL( 'admin', 'new', ['ptid' => $ptid, 'catid' => $catid]);
                         break;
                     }
                 }
             } elseif (xarSecurity::check('SubmitPublications', 0, 'Publication', "$curptid:All:All:All")) {
-                $data['submitlink'] = $this->getUrl( 'admin', 'new', ['ptid' => $ptid]);
+                $data['submitlink'] = $this->mod()->getURL( 'admin', 'new', ['ptid' => $ptid]);
             }
         }
         $data['cids'] = $cids;
         $data['catid'] = $catid;
-        xarCoreCache::setCached('Blocks.categories', 'module', 'publications');
-        xarCoreCache::setCached('Blocks.categories', 'itemtype', $ptid);
-        xarCoreCache::setCached('Blocks.categories', 'cids', $cids);
+        $this->var()->setCached('Blocks.categories', 'module', 'publications');
+        $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
+        $this->var()->setCached('Blocks.categories', 'cids', $cids);
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
-            xarCoreCache::setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
+            $this->var()->setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
             // Note : this gets overriden by the categories navigation if necessary
-            $usergui->setPageTitle(xarVar::prepForDisplay($pubtypes[$ptid]['description']));
+            $this->tpl()->setPageTitle(xarVar::prepForDisplay($pubtypes[$ptid]['description']));
         }
 
         // optional category count
@@ -401,7 +400,7 @@ class ViewMethod extends MethodClass
                     ['state' => $c_posted, 'ptid' => $ptid]
                 );
                 if (isset($pubcatcount[$ptid])) {
-                    xarCoreCache::setCached('Blocks.categories', 'catcount', $pubcatcount[$ptid]);
+                    $this->var()->setCached('Blocks.categories', 'catcount', $pubcatcount[$ptid]);
                 }
                 unset($pubcatcount);
             } else {
@@ -418,16 +417,16 @@ class ViewMethod extends MethodClass
                     foreach ($pubcatcount as $cat => $count) {
                         $catcount[$cat] = $count['total'];
                     }
-                    xarCoreCache::setCached('Blocks.categories', 'catcount', $catcount);
+                    $this->var()->setCached('Blocks.categories', 'catcount', $catcount);
                 }
                 unset($pubcatcount);
             }
         } else {
-            // xarCoreCache::setCached('Blocks.categories','catcount',array());
+            // $this->var()->setCached('Blocks.categories','catcount',array());
         }
 
         // retrieve the number of comments for each article
-        if (xarMod::isAvailable('comments')) {
+        if ($this->mod()->isAvailable('comments')) {
             if ($data['settings']['show_comments']) {
                 $idlist = [];
                 foreach ($publications as $article) {
@@ -443,7 +442,7 @@ class ViewMethod extends MethodClass
         }
 
         // retrieve the keywords for each article
-        if (xarMod::isAvailable('coments')) {
+        if ($this->mod()->isAvailable('coments')) {
             if ($data['settings']['show_keywords']) {
                 $idlist = [];
                 foreach ($publications as $article) {
@@ -484,7 +483,7 @@ class ViewMethod extends MethodClass
                 }
                 foreach ($catinfo as $cid => $info) {
                     $catinfo[$cid]['name'] = xarVar::prepForDisplay($info['name']);
-                    $catinfo[$cid]['link'] = $this->getUrl( 'user', 'view',
+                    $catinfo[$cid]['link'] = $this->mod()->getURL( 'user', 'view',
                         array('ptid' => $ptid, 'catid' => (($catid && $andcids) ? $catid . '+' . $cid : $cid) )
                     );
 
@@ -514,7 +513,7 @@ class ViewMethod extends MethodClass
             {
                 // TODO: don't include ptid and catid if we don't use short URLs
                 // link to article
-                $article['link'] = $this->getUrl( 'user', 'display',
+                $article['link'] = $this->mod()->getURL( 'user', 'display',
                     // don't include pubtype id if we're navigating by category
                     array(
                         'ptid' => empty($ptid) ? null : $article['pubtype_id'],
@@ -540,7 +539,7 @@ class ViewMethod extends MethodClass
                 $curptid = $article['pubtype_id'];
 
                 // TODO: make configurable?
-                $article['redirect'] = $this->getUrl( 'user', 'redirect',
+                $article['redirect'] = $this->mod()->getURL( 'user', 'redirect',
                     array('ptid' => $curptid, 'id' => $article['id'])
                 );
 
@@ -554,7 +553,7 @@ class ViewMethod extends MethodClass
                 }
 
                 // RSS Processing
-                $current_theme = xarCoreCache::getCached('Themes.name', 'CurrentTheme');
+                $current_theme = $this->var()->getCached('Themes.name', 'CurrentTheme');
                 if (($current_theme == 'rss') or ($current_theme == 'atom')){
                     $article['rsstitle'] = htmlspecialchars($article['title']);
                     //$article['rssdate'] = strtotime($article['date']);
@@ -649,12 +648,12 @@ class ViewMethod extends MethodClass
         }
 
         // Throw all the settings we are using into the cache
-        xarCore::setCached('publications', 'settings_' . $data['ptid'], $data['settings']);
+        $this->var()->setCached('publications', 'settings_' . $data['ptid'], $data['settings']);
 
         // Flag this as the current list view
         xarSession::setVar('publications_current_listview', xarServer::getCurrentURL(['ptid' => $data['ptid']]));
 
         $data['context'] ??= $this->getContext();
-        return xarTpl::module('publications', 'user', 'view', $data, $data['template']);
+        return $this->mod()->template('view', $data, $data['template']);
     }
 }

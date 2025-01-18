@@ -264,7 +264,7 @@ class LeftjoinMethod extends MethodClass
             // 0. Check for fulltext or fulltext boolean searchtypes (MySQL only)
             // CHECKME: switch to other search type if $search is less than min. length ?
             if (!empty($searchtype) && substr($searchtype, 0, 8) == 'fulltext') {
-                $fulltext = $this->getModVar('fulltextsearch');
+                $fulltext = $this->mod()->getVar('fulltextsearch');
                 if (!empty($fulltext)) {
                     $fulltextfields = explode(',', $fulltext);
                 } else {

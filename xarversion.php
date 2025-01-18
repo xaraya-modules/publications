@@ -13,8 +13,8 @@
 $modversion['name']         = 'publications';
 $modversion['id']           = '30065';
 $modversion['version']      = '2.0.0';
-$modversion['displayname']  = xarML('Publications');
-$modversion['description']  = xarML('Manage publications on a Xaraya site');
+$modversion['displayname']  = xarMLS::translate('Publications');
+$modversion['description']  = xarMLS::translate('Manage publications on a Xaraya site');
 $modversion['credits']      = '';
 $modversion['help']         = '';
 $modversion['changelog']    = '';

@@ -63,7 +63,7 @@ class GetMethod extends MethodClass
 
         // Argument check
         if (isset($id) && (!is_numeric($id) || $id < 1)) {
-            $msg = $this->translate(
+            $msg = $this->ml(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 'article ID',
                 'user',

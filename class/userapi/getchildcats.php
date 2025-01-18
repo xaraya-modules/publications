@@ -120,7 +120,7 @@ class GetchildcatsMethod extends MethodClass
                 $catid = $info['id'];
             }
             // TODO: show icons instead of (or in addition to) a link if available ?
-            $info['link'] = $this->getUrl(
+            $info['link'] = $this->mod()->getURL(
                 'user',
                 'view',
                 ['ptid' => $ptid,

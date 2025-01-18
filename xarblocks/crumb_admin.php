@@ -60,7 +60,7 @@ class Publications_CrumbBlockAdmin extends Publications_CrumbBlock implements iB
             if (isset($data['options'][$key])) {
                 $data['root_ids'][$key] = $data['options'][$key]['name'];
             } else {
-                $data['root_ids'][$key] = xarML('Unknown');
+                $data['root_ids'][$key] = xarMLS::translate('Unknown');
             }
         }
 

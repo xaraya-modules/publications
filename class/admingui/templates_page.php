@@ -35,25 +35,25 @@ class TemplatesPageMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('ManagePublications')) {
+        if (!$this->sec()->checkAccess('ManagePublications')) {
             return;
         }
 
         extract($args);
 
-        if (!$this->fetch('confirm', 'int', $confirm, 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('confirm', $confirm, 'int', 0)) {
             return;
         }
-        if (!$this->fetch('ptid', 'id', $data['ptid'], 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $data['ptid'], 'id', 0)) {
             return;
         }
-        if (!$this->fetch('itemid', 'id', $data['itemid'], 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('itemid', $data['itemid'], 'id', 0)) {
             return;
         }
-        if (!$this->fetch('file', 'str', $data['file'], 'summary', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('file', $data['file'], 'str', 'summary')) {
             return;
         }
-        if (!$this->fetch('source_data', 'str', $data['source_data'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('source_data', $data['source_data'], 'str', '')) {
             return;
         }
 

@@ -65,11 +65,11 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
 
         if (!empty($data['dynamictitle'])) {
             if ($data['toptype'] == 'rating') {
-                $data['title'] = xarML('Top Rated');
+                $data['title'] = xarMLS::translate('Top Rated');
             } elseif ($data['toptype'] == 'hits') {
-                $data['title'] = xarML('Top');
+                $data['title'] = xarMLS::translate('Top');
             } else {
-                $data['title'] = xarML('Latest');
+                $data['title'] = xarMLS::translate('Latest');
             }
         }
 
@@ -136,7 +136,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
             //don't limit by publication type
             $ptid = 0;
             if (!empty($data['dynamictitle'])) {
-                $data['title'] .= ' ' . xarML('Content');
+                $data['title'] .= ' ' . xarMLS::translate('Content');
             }
         } else {
             // MikeC: Check to see if admin has specified that only a specific
@@ -158,7 +158,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
                 if (!empty($ptid) && isset($publication_types[$ptid]['description'])) {
                     $data['title'] .= ' ' . xarVar::prepForDisplay($publication_types[$ptid]['description']);
                 } else {
-                    $data['title'] .= ' ' . xarML('Content');
+                    $data['title'] .= ' ' . xarMLS::translate('Content');
                 }
             }
         }

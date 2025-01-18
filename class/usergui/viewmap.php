@@ -40,19 +40,19 @@ class ViewmapMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Get parameters
-        if (!$this->fetch('ptid', 'id', $ptid, $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'))) {
             return;
         }
-        if (!$this->fetch('by', 'enum:pub:cat:grid', $by, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('by', $by, 'enum:pub:cat:grid')) {
             return;
         }
-        if (!$this->fetch('go', 'str', $go, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('go', $go, 'str')) {
             return;
         }
-        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('catid', $catid, 'str')) {
             return;
         }
-        if (!$this->fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('cids', $cids, 'array')) {
             return;
         }
 
@@ -60,7 +60,7 @@ class ViewmapMethod extends MethodClass
         extract($args);
         $usergui = $this->getParent();
 
-        $default = $this->getModVar('defaultpubtype');
+        $default = $this->mod()->getVar('defaultpubtype');
         if (empty($by)) {
             if (empty($default) && empty($ptid)) {
                 $by = 'cat';
@@ -106,8 +106,8 @@ class ViewmapMethod extends MethodClass
             } else {
                 $catid = null;
             }
-            $url = $this->getUrl( 'user', 'view', ['ptid' => $ptid, 'catid' => $catid]);
-            $this->redirect($url);
+            $url = $this->mod()->getURL( 'user', 'view', ['ptid' => $ptid, 'catid' => $catid]);
+            $this->ctl()->redirect($url);
             return;
         }
 
@@ -120,7 +120,7 @@ class ViewmapMethod extends MethodClass
         $publinks = [];
 
         if ($by == 'cat') {
-            $data['maplink'] = $this->getUrl( 'user', 'viewmap', ['by' => 'cat']);
+            $data['maplink'] = $this->mod()->getURL( 'user', 'viewmap', ['by' => 'cat']);
 
             // TODO: re-evaluate this after user feedback...
             // *trick* Use the 'default' categories here, instead of all rootcats
@@ -163,7 +163,7 @@ class ViewmapMethod extends MethodClass
             }
 
             if (count($rootcats) != 2) {
-                $data['catgrid'][0][0] = $this->translate('You need 2 base categories in order to use this grid view');
+                $data['catgrid'][0][0] = $this->ml('You need 2 base categories in order to use this grid view');
             } else {
                 $catlist = [];
                 if (!empty($rootcats) && is_array($rootcats)) {
@@ -254,7 +254,7 @@ class ViewmapMethod extends MethodClass
                 foreach ($pubcatcount as $cids => $counts) {
                     [$ca, $cb] = explode('+', $cids);
                     if (isset($rowcid[$ca]) && isset($colcid[$cb])) {
-                        $link = $this->getUrl(
+                        $link = $this->mod()->getURL(
                             'user',
                             'view',
                             ['ptid' => $ptid,
@@ -263,7 +263,7 @@ class ViewmapMethod extends MethodClass
                         $data['catgrid'][$rowcid[$ca]][$colcid[$cb]] = '<a href="' . $link . '"> ' . $counts[$what] . ' </a>';
                     }
                     if (isset($rowcid[$cb]) && isset($colcid[$ca])) {
-                        $link = $this->getUrl(
+                        $link = $this->mod()->getURL(
                             'user',
                             'view',
                             ['ptid' => $ptid,
@@ -278,7 +278,7 @@ class ViewmapMethod extends MethodClass
                 $descr = $data['pubtypes'][$ptid]['description'];
             }
         } else {
-            $data['maplink'] = $this->getUrl( 'user', 'viewmap', ['by' => 'pub']);
+            $data['maplink'] = $this->mod()->getURL( 'user', 'viewmap', ['by' => 'pub']);
 
             // get the links and counts for all publication types
             $publinks = xarMod::apiFunc(
@@ -294,7 +294,7 @@ class ViewmapMethod extends MethodClass
             $catlist = [];
             for ($i = 0;$i < count($publinks);$i++) {
                 $pubid = $publinks[$i]['pubid'];
-                $cidstring = $this->getModVar('mastercids.' . $pubid);
+                $cidstring = $this->mod()->getVar('mastercids.' . $pubid);
                 if (!empty($cidstring)) {
                     $rootcats = explode(';', $cidstring);
                     foreach ($rootcats as $cid) {
@@ -348,20 +348,20 @@ class ViewmapMethod extends MethodClass
         }
 
         if (empty($descr)) {
-            $descr = $this->translate('Publications');
+            $descr = $this->ml('Publications');
             $data['descr'] = '';
         } else {
             $data['descr'] = $descr;
         }
 
         // Save some variables to (temporary) cache for use in blocks etc.
-        xarCoreCache::setCached('Blocks.publications', 'ptid', $ptid);
+        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
         //if ($shownavigation) {
-        xarCoreCache::setCached('Blocks.categories', 'module', 'publications');
-        xarCoreCache::setCached('Blocks.categories', 'itemtype', $ptid);
+        $this->var()->setCached('Blocks.categories', 'module', 'publications');
+        $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
         if (!empty($descr)) {
-            xarCoreCache::setCached('Blocks.categories', 'title', $descr);
-            xarTpl::setPageTitle($this->translate('Map'), xarVar::prepForDisplay($descr));
+            $this->var()->setCached('Blocks.categories', 'title', $descr);
+            $this->tpl()->setPageTitle($this->ml('Map'), xarVar::prepForDisplay($descr));
         }
         //}
 
@@ -370,14 +370,14 @@ class ViewmapMethod extends MethodClass
         }
         $data['publinks'] = $publinks;
         $data['ptid'] = $ptid;
-        $data['viewlabel'] = $this->translate('Back to') . ' ' . $descr;
-        $data['viewlink'] = $this->getUrl(
+        $data['viewlabel'] = $this->ml('Back to') . ' ' . $descr;
+        $data['viewlink'] = $this->mod()->getURL(
             'user',
             'view',
             ['ptid' => $ptid]
         );
-        $data['archivelabel'] = $this->translate('View Archives');
-        $data['archivelink'] = $this->getUrl(
+        $data['archivelabel'] = $this->ml('View Archives');
+        $data['archivelink'] = $this->mod()->getURL(
             'user',
             'archive',
             ['ptid' => $ptid]
@@ -399,6 +399,6 @@ class ViewmapMethod extends MethodClass
         $data['by'] = $by;
 
         $data['context'] ??= $this->getContext();
-        return xarTpl::module('publications', 'user', 'viewmap', $data, $template);
+        return $this->mod()->template('viewmap', $data, $template);
     }
 }

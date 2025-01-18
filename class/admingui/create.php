@@ -41,26 +41,26 @@ class CreateMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AddPublications')) {
+        if (!$this->sec()->checkAccess('AddPublications')) {
             return;
         }
 
-        if (!$this->fetch('ptid', 'id', $data['ptid'])) {
+        if (!$this->var()->get('ptid', $data['ptid']), 'id') {
             return;
         }
-        if (!$this->fetch('new_cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('new_cids', $cids, 'array')) {
             return;
         }
-        if (!$this->fetch('preview', 'str', $data['preview'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('preview', $data['preview'], 'str')) {
             return;
         }
-        if (!$this->fetch('save', 'str', $save, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('save', $save, 'str')) {
             return;
         }
 
         // Confirm authorisation code
         // This has been disabled for now
-        // if (!$this->confirmAuthKey()) return;
+        // if (!$this->sec()->confirmAuthKey()) return;
 
         $data['items'] = [];
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -74,7 +74,7 @@ class CreateMethod extends MethodClass
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
             if (!$isvalid &&
-                $this->getModVar('debugmode') &&
+                $this->mod()->getVar('debugmode') &&
                 in_array(xarUser::getVar('id'), xarConfigVars::get(null, 'Site.User.DebugAdmins'))) {
                 var_dump($data['object']->getInvalids());
             }
@@ -84,7 +84,7 @@ class CreateMethod extends MethodClass
                 $data['tab'] = 'preview';
             }
             $data['context'] ??= $this->getContext();
-            return xarTpl::module('publications', 'admin', 'new', $data);
+            return $this->mod()->template('new', $data);
         }
 
         // Create the object
@@ -97,10 +97,10 @@ class CreateMethod extends MethodClass
         // Redirect if we came from somewhere else
         $current_listview = xarSession::getVar('publications_current_listview');
         if (!empty($cuurent_listview)) {
-            $this->redirect($current_listview);
+            $this->ctl()->redirect($current_listview);
         }
 
-        $this->redirect($this->getUrl(
+        $this->ctl()->redirect($this->mod()->getURL(
             'admin',
             'view',
             ['ptid' => $data['ptid']]

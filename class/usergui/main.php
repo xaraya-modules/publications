@@ -41,17 +41,17 @@ class MainMethod extends MethodClass
         #
         # Try getting the id of the default page.
         #
-        $id = $this->getModVar('defaultpage');
+        $id = $this->mod()->getVar('defaultpage');
 
         if (!empty($id)) {
             # --------------------------------------------------------
             #
             # Get the ID of the translation if required
             #
-            if (!$this->fetch('translate', 'int:1', $translate, 1, xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('translate', $translate, 'int:1', 1)) {
                 return;
             }
-            return $this->redirect($this->getUrl(
+            return $this->ctl()->redirect($this->mod()->getURL(
                 'user',
                 'display',
                 ['itemid' => $id,'translate' => $translate]
@@ -61,14 +61,14 @@ class MainMethod extends MethodClass
             #
             # No default page, check for a redirect or just show the view page
             #
-            $redirect = $this->getModVar('frontend_page');
+            $redirect = $this->mod()->getVar('frontend_page');
             if (!empty($redirect)) {
                 $truecurrenturl = xarServer::getCurrentURL([], false);
                 $urldata = xarMod::apiFunc('roles', 'user', 'parseuserhome', ['url' => $redirect,'truecurrenturl' => $truecurrenturl]);
-                $this->redirect($urldata['redirecturl']);
+                $this->ctl()->redirect($urldata['redirecturl']);
                 return true;
             } else {
-                $this->redirect($this->getUrl('user', 'view'));
+                $this->ctl()->redirect($this->mod()->getURL('user', 'view'));
             }
             return true;
         }

@@ -41,8 +41,8 @@ class GetsettingsMethod extends MethodClass
         }
 
         // If already cached, then get that
-        if (xarCoreCache::isCached('publications', 'settings_' . $data['ptid'])) {
-            return xarCoreCache::getCached('publications', 'settings_' . $data['ptid']);
+        if ($this->var()->isCached('publications', 'settings_' . $data['ptid'])) {
+            return $this->var()->getCached('publications', 'settings_' . $data['ptid']);
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');
@@ -62,7 +62,7 @@ class GetsettingsMethod extends MethodClass
             $settings = $globalsettings;
         }
 
-        xarCoreCache::setCached('publications', 'settings_' . $data['ptid'], $settings);
+        $this->var()->setCached('publications', 'settings_' . $data['ptid'], $settings);
         return $settings;
     }
 

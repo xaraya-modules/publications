@@ -101,7 +101,7 @@ class GetpublinksMethod extends MethodClass
                 if (isset($ptid) && $ptid == $id) {
                     $item['publink'] = '';
                 } else {
-                    $item['publink'] = $this->getUrl( $typemod, $func, ['ptid' => $id]);
+                    $item['publink'] = $this->mod()->getURL( $typemod, $func, ['ptid' => $id]);
                 }
                 if ($count && isset($pubcount[$id])) {
                     $item['pubcount'] = $pubcount[$id];

@@ -57,7 +57,7 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
             if (isset($data['all_pages']['pages'][$key])) {
                 $data['root_ids'][$key] = $data['all_pages']['pages'][$key]['slash_separated'];
             } else {
-                $data['root_ids'][$key] = xarML('Unknown');
+                $data['root_ids'][$key] = xarMLS::translate('Unknown');
             }
         }
 
@@ -66,7 +66,7 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
             if (isset($data['all_pages']['pages'][$key])) {
                 $data['prune_ids'][$key] = $data['all_pages']['pages'][$key]['slash_separated'];
             } else {
-                $data['prune_ids'][$key] = xarML('Unknown');
+                $data['prune_ids'][$key] = xarMLS::translate('Unknown');
             }
         }
 

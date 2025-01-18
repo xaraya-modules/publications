@@ -47,25 +47,25 @@ class DisplayMethod extends MethodClass
         // this is used to determine whether we come from a pubtype-based view or a
         // categories-based navigation
         // Note we support both id and itemid
-        if (!$this->fetch('name', 'str', $name, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('name', $name, 'str', '')) {
             return;
         }
-        if (!$this->fetch('ptid', 'id', $ptid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('ptid', $ptid, 'id')) {
             return;
         }
-        if (!$this->fetch('itemid', 'id', $itemid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('itemid', $itemid, 'id')) {
             return;
         }
-        if (!$this->fetch('id', 'id', $id, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('id', $id, 'id')) {
             return;
         }
-        if (!$this->fetch('page', 'int:1', $page, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('page', $page, 'int:1')) {
             return;
         }
-        if (!$this->fetch('translate', 'int:1', $translate, 1, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('translate', $translate, 'int:1', 1)) {
             return;
         }
-        if (!$this->fetch('layout', 'str:1', $layout, 'detail', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('layout', $layout, 'str:1', 'detail')) {
             return;
         }
 
@@ -82,7 +82,7 @@ class DisplayMethod extends MethodClass
         # If no ID supplied, try getting the id of the default page.
         #
         if (empty($id)) {
-            $id = $this->getModVar('defaultpage');
+            $id = $this->mod()->getVar('defaultpage');
         }
 
         # --------------------------------------------------------
@@ -90,7 +90,7 @@ class DisplayMethod extends MethodClass
         # Get the ID of the translation if required
         #
         // First save the "untranslated" id for blocks etc.
-        xarCoreCache::setCached('Blocks.publications', 'current_base_id', $id);
+        $this->var()->setCached('Blocks.publications', 'current_base_id', $id);
 
         if ($translate) {
             $id = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $id]);
@@ -100,7 +100,7 @@ class DisplayMethod extends MethodClass
                 // We do a full redirect rather than just continuing with the new id so that
                 // anything working off the itemid of the page to be displayed will automatically
                 // use the new one
-                $this->redirect($this->getUrl( 'user', 'display',
+                $this->ctl()->redirect($this->mod()->getURL( 'user', 'display',
                     array('itemid' => $newid, 'translate' => 0)));
             }
             */
@@ -112,10 +112,10 @@ class DisplayMethod extends MethodClass
         #
         if (empty($name) && empty($ptid) && empty($id)) {
             // Nothing to be done
-            $id = $this->getModVar('notfoundpage');
+            $id = $this->mod()->getVar('notfoundpage');
         } elseif (empty($id)) {
             // We're missing an id but can get a pubtype: jump to the pubtype view
-            $this->redirect($this->getUrl('user', 'view'));
+            $this->ctl()->redirect($this->mod()->getURL('user', 'view'));
         }
 
         # --------------------------------------------------------
@@ -148,7 +148,7 @@ class DisplayMethod extends MethodClass
         }
 
         // Save this as the current pubtype
-        xarCoreCache::setCached('Publications', 'current_pubtype_object', $pubtypeobject);
+        $this->var()->setCached('Publications', 'current_pubtype_object', $pubtypeobject);
 
         $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
         //    $id = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
@@ -164,36 +164,36 @@ class DisplayMethod extends MethodClass
         $nopublish = (time() < $data['object']->properties['start_date']->value) || ((time() > $data['object']->properties['end_date']->value) && !$data['object']->properties['no_end']->value);
 
         // If no access, then bail showing a forbidden or the "no permission" page or an empty page
-        $nopermissionpage_id = $this->getModVar('noprivspage');
+        $nopermissionpage_id = $this->mod()->getVar('noprivspage');
         if (!$allow || $nopublish) {
             if ($accessconstraints['display']['failure']) {
                 return xarResponse::Forbidden();
             } elseif ($nopermissionpage_id) {
-                $this->redirect($this->getUrl(
+                $this->ctl()->redirect($this->mod()->getURL(
                     'user',
                     'display',
                     ['itemid' => $nopermissionpage_id]
                 ));
             } else {
                 $data = ['context' => $this->getContext()];
-                return xarTpl::module('publications', 'user', 'empty', $data);
+                return $this->mod()->template('empty', $data);
             }
         }
 
         // If we use process states, then also check that
-        if ($this->getModVar('use_process_states')) {
+        if ($this->mod()->getVar('use_process_states')) {
             if ($data['object']->properties['process_state']->value < 3) {
                 if ($accessconstraints['display']['failure']) {
                     return xarResponse::Forbidden();
                 } elseif ($nopermissionpage_id) {
-                    $this->redirect($this->getUrl(
+                    $this->ctl()->redirect($this->mod()->getURL(
                         'user',
                         'display',
                         ['itemid' => $nopermissionpage_id]
                     ));
                 } else {
                     $data = ['context' => $this->getContext()];
-                    return xarTpl::module('publications', 'user', 'empty', $data);
+                    return $this->mod()->template('empty', $data);
                 }
             }
         }
@@ -215,14 +215,14 @@ class DisplayMethod extends MethodClass
                 if ($pos === 0) {
                     eval('$url = ' . $url . ';');
                 }
-                $this->redirect($url, 301);
+                $this->ctl()->redirect($url, 301);
             } catch (Exception $e) {
                 return xarController::notFound(null, $this->getContext());
             }
         } elseif ($redirect_type == 2) {
             // This displays a page of a different module
             // If this is from a link of a redirect child page, use the child param as new URL
-            if (!$this->fetch('child', 'str', $child, null, xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('child', $child, 'str')) {
                 return;
             }
             if (!empty($child)) {
@@ -254,11 +254,11 @@ class DisplayMethod extends MethodClass
 
             // If this is an external link, show it without further processing
             if (!empty($params['host']) && $params['host'] != xarServer::getHost() && $params['host'] . ":" . $params['port'] != xarServer::getHost()) {
-                $this->redirect($url, 301);
+                $this->ctl()->redirect($url, 301);
             } elseif (strpos(xarServer::getCurrentURL(), $url) === 0) {
                 // CHECKME: is this robust enough?
                 // Redirect to avoid recursion if $url is already our present URL
-                $this->redirect($url, 301);
+                $this->ctl()->redirect($url, 301);
             } else {
                 // This is a local URL. We need to parse it, but parse_url is no longer good enough here
                 $request = new xarRequest($url);
@@ -403,7 +403,7 @@ class DisplayMethod extends MethodClass
 
         // Pass the access rules of the publication type to the template
         $data['pubtype_access'] = $pubtypeobject->properties['access']->getValue();
-        xarCoreCache::setCached('Publications', 'pubtype_access', $data['pubtype_access']);
+        $this->var()->setCached('Publications', 'pubtype_access', $data['pubtype_access']);
 
         # --------------------------------------------------------
         #
@@ -480,7 +480,7 @@ class DisplayMethod extends MethodClass
         #
         // Now we can cache all this data away for the blocks.
         // The blocks should have access to most of the same data as the page.
-        //    xarCoreCache::setCached('Blocks.publications', 'pagedata', $tree);
+        //    $this->var()->setCached('Blocks.publications', 'pagedata', $tree);
 
         // The 'serialize' hack ensures we have a proper copy of the
         // paga data, which is a self-referencing array. If we don't
@@ -488,9 +488,9 @@ class DisplayMethod extends MethodClass
         $data = unserialize(serialize($data));
 
         // Save some values. These are used by blocks in 'automatic' mode.
-        xarCoreCache::setCached('Blocks.publications', 'current_id', $id);
-        xarCoreCache::setCached('Blocks.publications', 'ptid', $ptid);
-        xarCoreCache::setCached('Blocks.publications', 'author', $data['object']->properties['author']->value);
+        $this->var()->setCached('Blocks.publications', 'current_id', $id);
+        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
+        $this->var()->setCached('Blocks.publications', 'author', $data['object']->properties['author']->value);
 
         # --------------------------------------------------------
         #
@@ -523,8 +523,8 @@ class DisplayMethod extends MethodClass
             $prevpublication = '';
             $nextpublication = '';
         }
-        xarCoreCache::setCached('Publications', 'prevpublication', $prevpublication);
-        xarCoreCache::setCached('Publications', 'nextpublication', $nextpublication);
+        $this->var()->setCached('Publications', 'prevpublication', $prevpublication);
+        $this->var()->setCached('Publications', 'nextpublication', $nextpublication);
 
         return $data;
     }

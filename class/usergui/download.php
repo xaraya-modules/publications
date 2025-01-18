@@ -34,7 +34,7 @@ class DownloadMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->fetch('filepath', 'str', $filepath, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('filepath', $filepath, 'str', '')) {
             return;
         }
 
@@ -42,7 +42,7 @@ class DownloadMethod extends MethodClass
         # Check the input
         #
         if (empty($filepath)) {
-            throw new Exception($this->translate('No file path passed'));
+            throw new Exception($this->ml('No file path passed'));
         }
         $filepath = urldecode($filepath);
         $filesize = filesize($filepath);
@@ -50,7 +50,7 @@ class DownloadMethod extends MethodClass
         $filename = basename($filepath);
 
         // Xaraya security
-        if (!$this->checkAccess('ManagePublications')) {
+        if (!$this->sec()->checkAccess('ManagePublications')) {
             return;
         }
 

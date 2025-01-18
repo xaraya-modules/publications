@@ -35,14 +35,14 @@ class ManageVersionsMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('ManagePublications')) {
+        if (!$this->sec()->checkAccess('ManagePublications')) {
             return;
         }
 
-        if (!$this->fetch('itemid', 'id', $data['page_id'], 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('itemid', $data['page_id'], 'id', 0)) {
             return;
         }
-        if (!$this->fetch('name', 'str', $data['objectname'], '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('name', $data['objectname'], 'str', '')) {
             return;
         }
         if (empty($data['page_id'])) {
@@ -58,10 +58,10 @@ class ManageVersionsMethod extends MethodClass
             return $data;
         }
 
-        if (!$this->fetch('version_1', 'int', $version_1, $data['versions'], xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('version_1', $version_1, 'int', $data['versions'])) {
             return;
         }
-        if (!$this->fetch('version_2', 'int', $version_2, $data['versions'] - 1, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('version_2', $version_2, 'int', $data['versions'] - 1)) {
             return;
         }
         $data['version_1'] = $version_1;
@@ -86,7 +86,7 @@ class ManageVersionsMethod extends MethodClass
             $version->dataquery->eq($version->properties['version_number']->source, $version_1);
             $items = $version->getItems();
             if (count($items) > 1) {
-                throw new Exception($this->translate('More than one instance with the version number #(1)', $version_1));
+                throw new Exception($this->ml('More than one instance with the version number #(1)', $version_1));
             }
             $item = current($items);
             $content_array_1 = unserialize($item['content']);
@@ -101,7 +101,7 @@ class ManageVersionsMethod extends MethodClass
             $version->dataquery->eq($version->properties['version_number']->source, $version_2);
             $items = $version->getItems();
             if (count($items) > 1) {
-                throw new Exception($this->translate('More than one instance with the version number #(1)', $version_2));
+                throw new Exception($this->ml('More than one instance with the version number #(1)', $version_2));
             }
             $item = current($items);
             $content_array_2 = unserialize($item['content']);

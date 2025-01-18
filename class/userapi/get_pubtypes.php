@@ -31,12 +31,12 @@ class GetPubtypesMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (xarCoreCache::isCached('Publications.Data', 'producttypes')) {
-            return xarCoreCache::getCached('Publications.Data', 'producttypes');
+        if ($this->var()->isCached('Publications.Data', 'producttypes')) {
+            return $this->var()->getCached('Publications.Data', 'producttypes');
         }
         $object = DataObjectFactory::getObjectList(['name' => 'publications_types']);
         $items = $object->getItems();
-        xarCoreCache::setCached('Publications.Data', 'producttypes', $items);
+        $this->var()->setCached('Publications.Data', 'producttypes', $items);
         return $items;
     }
 }

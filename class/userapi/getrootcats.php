@@ -54,7 +54,7 @@ class GetrootcatsMethod extends MethodClass
         if (!empty($ptid)) {
             $rootcats = unserialize(xarModUserVars::get('publications', 'basecids', $ptid));
         } elseif (empty($all)) {
-            $rootcats = unserialize($this->getModVar('basecids'));
+            $rootcats = unserialize($this->mod()->getVar('basecids'));
         } else {
             // Get publication types
             $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
@@ -66,7 +66,7 @@ class GetrootcatsMethod extends MethodClass
             $catlist = [];
             foreach ($publist as $pubid) {
                 if (empty($pubid)) {
-                    $cidstring = $this->getModVar('basecids');
+                    $cidstring = $this->mod()->getVar('basecids');
                 } else {
                     $cidstring = xarModUserVars::get('publications', 'basecids', $pubid);
                 }
@@ -115,7 +115,7 @@ class GetrootcatsMethod extends MethodClass
             $item = [];
             $item['catid'] = $info['cid'];
             $item['cattitle'] = xarVar::prepForDisplay($info['name']);
-            $item['catlink'] = $this->getUrl(
+            $item['catlink'] = $this->mod()->getURL(
                 'user',
                 'view',
                 ['ptid' => $ptid,

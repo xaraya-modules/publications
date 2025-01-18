@@ -57,7 +57,7 @@ class CreatepubtypeMethod extends MethodClass
             $invalid[] = 'configuration';
         }
         if (count($invalid) > 0) {
-            $msg = $this->translate(
+            $msg = $this->ml(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
                 join(', ', $invalid),
                 'admin',
@@ -75,7 +75,7 @@ class CreatepubtypeMethod extends MethodClass
         $name = strtolower($name);
 
         // Security check - we require ADMIN rights here
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 

@@ -41,39 +41,39 @@ class UpdateconfigMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('AdminPublications')) {
+        if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
 
         // Confirm authorisation code
-        if (!$this->confirmAuthKey()) {
+        if (!$this->sec()->confirmAuthKey()) {
             return;
         }
         // Get parameters
         //A lot of these probably are bools, still might there be a need to change the template to return
         //'true' and 'false' to use those...
-        if (!$this->fetch('settings', 'array', $settings, [], xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('settings', $settings, 'array', [])) {
             return;
         }
-        if (!$this->fetch('usetitleforurl', 'int', $usetitleforurl, $this->getModVar('usetitleforurl'), xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('usetitleforurl', $usetitleforurl, 'int', $this->mod()->getVar('usetitleforurl'))) {
             return;
         }
-        if (!$this->fetch('defaultstate', 'isset', $defaultstate, 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('defaultstate', $defaultstate, 'isset', 0)) {
             return;
         }
-        if (!$this->fetch('defaultsort', 'isset', $defaultsort, 'date', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('defaultsort', $defaultsort, 'isset', 'date')) {
             return;
         }
-        if (!$this->fetch('usealias', 'int', $usealias, 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('usealias', $usealias, 'int', 0)) {
             return;
         }
-        if (!$this->fetch('ptid', 'isset', $ptid, $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $ptid, 'isset', $this->mod()->getVar('defaultpubtype'))) {
             return;
         }
-        if (!$this->fetch('multilanguage', 'int', $multilanguage, 0, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('multilanguage', $multilanguage, 'int', 0)) {
             return;
         }
-        if (!$this->fetch('tab', 'str:1:10', $data['tab'], 'global', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('tab', $data['tab'], 'str:1:10', 'global')) {
             return;
         }
 
@@ -82,65 +82,65 @@ class UpdateconfigMethod extends MethodClass
         }
 
         if ($data['tab'] == 'global') {
-            if (!$this->fetch('defaultpubtype', 'isset', $defaultpubtype, 1, xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('defaultpubtype', $defaultpubtype, 'isset', 1)) {
                 return;
             }
-            if (!$this->fetch('sortpubtypes', 'isset', $sortpubtypes, 'id', xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('sortpubtypes', $sortpubtypes, 'isset', 'id')) {
                 return;
             }
-            if (!$this->fetch('defaultlanguage', 'str:1:100', $defaultlanguage, $this->getModVar('defaultlanguage'), xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('defaultlanguage', $defaultlanguage, 'str:1:100', $this->mod()->getVar('defaultlanguage'))) {
                 return;
             }
-            if (!$this->fetch('debugmode', 'checkbox', $debugmode, $this->getModVar('debugmode'), xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('debugmode', $debugmode, 'checkbox', $this->mod()->getVar('debugmode'))) {
                 return;
             }
-            if (!$this->fetch('use_process_states', 'checkbox', $use_process_states, $this->getModVar('use_process_states'), xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('use_process_states', $use_process_states, 'checkbox', $this->mod()->getVar('use_process_states'))) {
                 return;
             }
-            if (!$this->fetch('use_versions', 'checkbox', $use_versions, $this->getModVar('use_versions'), xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('use_versions', $use_versions, 'checkbox', $this->mod()->getVar('use_versions'))) {
                 return;
             }
-            if (!$this->fetch('hide_tree_display', 'checkbox', $hide_tree_display, $this->getModVar('hide_tree_display'), xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('hide_tree_display', $hide_tree_display, 'checkbox', $this->mod()->getVar('hide_tree_display'))) {
                 return;
             }
-            if (!$this->fetch('admin_override', 'int', $admin_override, $this->getModVar('admin_override'), xarVar::NOT_REQUIRED)) {
+            if (!$this->var()->find('admin_override', $admin_override, 'int', $this->mod()->getVar('admin_override'))) {
                 return;
             }
 
-            $this->setModVar('defaultpubtype', $defaultpubtype);
-            $this->setModVar('sortpubtypes', $sortpubtypes);
-            $this->setModVar('defaultlanguage', $defaultlanguage);
-            $this->setModVar('debugmode', $debugmode);
-            $this->setModVar('usealias', $usealias);
-            $this->setModVar('usetitleforurl', $usetitleforurl);
-            $this->setModVar('use_process_states', $use_process_states);
-            $this->setModVar('use_versions', $use_versions);
-            $this->setModVar('hide_tree_display', $hide_tree_display);
-            $this->setModVar('admin_override', $admin_override);
+            $this->mod()->setVar('defaultpubtype', $defaultpubtype);
+            $this->mod()->setVar('sortpubtypes', $sortpubtypes);
+            $this->mod()->setVar('defaultlanguage', $defaultlanguage);
+            $this->mod()->setVar('debugmode', $debugmode);
+            $this->mod()->setVar('usealias', $usealias);
+            $this->mod()->setVar('usetitleforurl', $usetitleforurl);
+            $this->mod()->setVar('use_process_states', $use_process_states);
+            $this->mod()->setVar('use_versions', $use_versions);
+            $this->mod()->setVar('hide_tree_display', $hide_tree_display);
+            $this->mod()->setVar('admin_override', $admin_override);
 
             // Allow multilanguage only if the languages property is present
             sys::import('modules.dynamicdata.class.properties.registration');
             $types = PropertyRegistration::Retrieve();
             if (isset($types[30039])) {
-                $this->setModVar('multilanguage', $multilanguage);
+                $this->mod()->setVar('multilanguage', $multilanguage);
             } else {
-                $this->setModVar('multilanguage', 0);
+                $this->mod()->setVar('multilanguage', 0);
             }
 
             // Get the special pages.
             foreach (['defaultpage', 'errorpage', 'notfoundpage', 'noprivspage'] as $special_name) {
                 unset($special_id);
-                if (!$this->fetch($special_name, 'id', $special_id, 0, xarVar::NOT_REQUIRED)) {
+                if (!$this->var()->find($special_name, $special_id, 'id', 0)) {
                     return;
                 }
-                xarModVars::set('publications', $special_name, $special_id);
+                $this->mod()->setVar($special_name, $special_id);
             }
 
             if (xarDB::getType() == 'mysql') {
-                if (!$this->fetch('fulltext', 'isset', $fulltext, '', xarVar::NOT_REQUIRED)) {
+                if (!$this->var()->find('fulltext', $fulltext)) {
                     return;
                 }
-                $oldval = $this->getModVar('fulltextsearch');
+                $oldval = $this->mod()->getVar('fulltextsearch');
                 $index = 'i_' . xarDB::getPrefix() . '_publications_fulltext';
                 if (empty($fulltext) && !empty($oldval)) {
                     // Get database setup
@@ -153,7 +153,7 @@ class UpdateconfigMethod extends MethodClass
                     if (!$result) {
                         return;
                     }
-                    $this->setModVar('fulltextsearch', '');
+                    $this->mod()->setVar('fulltextsearch', '');
                 } elseif (!empty($fulltext) && empty($oldval)) {
                     $searchfields = ['title','description','summary','body1'];
                     //                $searchfields = explode(',',$fulltext);
@@ -167,7 +167,7 @@ class UpdateconfigMethod extends MethodClass
                     if (!$result) {
                         return;
                     }
-                    $this->setModVar('fulltextsearch', join(',', $searchfields));
+                    $this->mod()->setVar('fulltextsearch', join(',', $searchfields));
                 }
             }
 
@@ -177,7 +177,7 @@ class UpdateconfigMethod extends MethodClass
             $isvalid = $data['module_settings']->checkInput();
             if (!$isvalid) {
                 $data['context'] ??= $this->getContext();
-                return xarTpl::module('base', 'admin', 'modifyconfig', $data);
+                return $this->mod()->template('modifyconfig', $data);
             } else {
                 $itemid = $data['module_settings']->updateItem();
             }
@@ -235,9 +235,9 @@ class UpdateconfigMethod extends MethodClass
             $redirects = DataPropertyMaster::getProperty(['name' => 'array']);
             $redirects->display_column_definition['value'] = [["From","To"],[2,2],["",""],["",""]];
             $isvalid = $redirects->checkInput("redirects");
-            $this->setModVar('redirects', $redirects->value);
+            $this->mod()->setVar('redirects', $redirects->value);
         }
-        $this->redirect($this->getUrl(
+        $this->ctl()->redirect($this->mod()->getURL(
             'admin',
             'modifyconfig',
             ['ptid' => $ptid, 'tab' => $data['tab']]

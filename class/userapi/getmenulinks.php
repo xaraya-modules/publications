@@ -37,24 +37,24 @@ class GetmenulinksMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         $menulinks = [];
-        if (!$this->checkAccess('ViewPublications', 0)) {
+        if (!$this->sec()->checkAccess('ViewPublications', 0)) {
             return $menulinks;
         }
 
-        $menulinks[] = ['url'   => $this->getUrl('user', 'main'),
-            'title' => $this->translate('Highlighted Publications'),
-            'label' => $this->translate('Front Page'), ];
+        $menulinks[] = ['url'   => $this->mod()->getURL('user', 'main'),
+            'title' => $this->ml('Highlighted Publications'),
+            'label' => $this->ml('Front Page'), ];
 
         $items = xarMod::apiFunc('publications', 'user', 'get_menu_pages');
         foreach ($items as $item) {
-            $menulinks[] = ['url'   => $this->getUrl( 'user', 'display', ['itemid' => $item['id']]),
-                'title' => $this->translate('Display #(1)', $item['description']),
+            $menulinks[] = ['url'   => $this->mod()->getURL( 'user', 'display', ['itemid' => $item['id']]),
+                'title' => $this->ml('Display #(1)', $item['description']),
                 'label' => $item['title'], ];
         }
 
-        $menulinks[] = ['url'   => $this->getUrl('user', 'viewmap'),
-            'title' => $this->translate('Displays a map of all published content'),
-            'label' => $this->translate('Publication Map'), ];
+        $menulinks[] = ['url'   => $this->mod()->getURL('user', 'viewmap'),
+            'title' => $this->ml('Displays a map of all published content'),
+            'label' => $this->ml('Publication Map'), ];
 
         return $menulinks;
     }

@@ -42,26 +42,26 @@ class CreateMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Xaraya security
-        if (!$this->checkAccess('ModeratePublications')) {
+        if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
         }
 
-        if (!$this->fetch('ptid', 'id', $data['ptid'])) {
+        if (!$this->var()->get('ptid', $data['ptid']), 'id') {
             return;
         }
-        if (!$this->fetch('new_cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('new_cids', $cids, 'array')) {
             return;
         }
-        if (!$this->fetch('preview', 'str', $data['preview'], null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('preview', $data['preview'], 'str')) {
             return;
         }
-        if (!$this->fetch('save', 'str', $save, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('save', $save, 'str')) {
             return;
         }
 
         // Confirm authorisation code
         // This has been disabled for now
-        // if (!$this->confirmAuthKey()) return;
+        // if (!$this->sec()->confirmAuthKey()) return;
 
         $data['items'] = [];
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -75,7 +75,7 @@ class CreateMethod extends MethodClass
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
             if (!$isvalid &&
-                $this->getModVar('debugmode') &&
+                $this->mod()->getVar('debugmode') &&
                 in_array(xarUser::getVar('id'), xarConfigVars::get(null, 'Site.User.DebugAdmins'))) {
                 var_dump($data['object']->getInvalids());
             }
@@ -85,7 +85,7 @@ class CreateMethod extends MethodClass
                 $data['tab'] = 'preview';
             }
             $data['context'] ??= $this->getContext();
-            return xarTpl::module('publications', 'user', 'new', $data);
+            return $this->mod()->template('new', $data);
         }
 
         // Create the object
@@ -96,22 +96,22 @@ class CreateMethod extends MethodClass
         xarHooks::notify('ItemCreate', $item);
 
         // Redirect if needed
-        if (!$this->fetch('return_url', 'str', $return_url, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('return_url', $return_url, 'str', '')) {
             return;
         }
         if (!empty($return_url)) {
             // FIXME: this is a hack for short URLS
             $delimiter = (strpos($return_url, '&')) ? '&' : '?';
-            $this->redirect($return_url . $delimiter . 'itemid=' . $itemid);
+            $this->ctl()->redirect($return_url . $delimiter . 'itemid=' . $itemid);
         }
 
         // Redirect if we came from somewhere else
         $current_listview = xarSession::getVar('publications_current_listview');
         if (!empty($current_listview)) {
-            $this->redirect($current_listview);
+            $this->ctl()->redirect($current_listview);
         }
 
-        $this->redirect($this->getUrl(
+        $this->ctl()->redirect($this->mod()->getURL(
             'user',
             'view',
             ['ptid' => $data['ptid']]

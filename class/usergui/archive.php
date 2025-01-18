@@ -41,30 +41,29 @@ class ArchiveMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Xaraya security
-        if (!$this->checkAccess('ModeratePublications')) {
+        if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
         }
 
         // Get parameters from user
-        if (!$this->fetch('ptid', 'id', $ptid, $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'))) {
             return;
         }
-        if (!$this->fetch('sort', 'enum:d:t:1:2', $sort, 'd', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('sort', $sort, 'enum:d:t:1:2', 'd')) {
             return;
         }
-        if (!$this->fetch('month', 'str', $month, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('month', $month, 'str', '')) {
             return;
         }
-        if (!$this->fetch('cids', 'array', $cids, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('cids', $cids, 'array')) {
             return;
         }
-        if (!$this->fetch('catid', 'str', $catid, '', xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('catid', $catid, 'str', '')) {
             return;
         }
 
         // Override if needed from argument array
         extract($args);
-        $usergui = $this->getParent();
 
         // Get publication types
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
@@ -76,10 +75,10 @@ class ArchiveMethod extends MethodClass
 
         if (empty($ptid)) {
             if (!xarSecurity::check('ViewPublications', 0, 'Publication', 'All:All:All:All')) {
-                return $this->translate('You have no permission to view these items');
+                return $this->ml('You have no permission to view these items');
             }
         } elseif (!xarSecurity::check('ViewPublications', 0, 'Publication', $ptid . ':All:All:All')) {
-            return $this->translate('You have no permission to view these items');
+            return $this->ml('You have no permission to view these items');
         }
 
         $state = [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED];
@@ -175,7 +174,7 @@ class ArchiveMethod extends MethodClass
             if ($thismonth == $month) {
                 $mlink = '';
             } else {
-                $mlink = $this->getUrl(
+                $mlink = $this->mod()->getURL(
                     'user',
                     'archive',
                     ['ptid' => $ptid,
@@ -188,14 +187,14 @@ class ArchiveMethod extends MethodClass
             $total += $count;
         }
         if (empty($ptid)) {
-            $thismonth = $this->translate('All Publications');
+            $thismonth = $this->ml('All Publications');
         } else {
-            $thismonth = $this->translate('All') . ' ' . $pubtypes[$ptid]['description'];
+            $thismonth = $this->ml('All') . ' ' . $pubtypes[$ptid]['description'];
         }
         if ($month == 'all') {
             $mlink = '';
         } else {
-            $mlink = $this->getUrl(
+            $mlink = $this->mod()->getURL(
                 'user',
                 'archive',
                 ['ptid' => $ptid,
@@ -247,7 +246,7 @@ class ArchiveMethod extends MethodClass
                 if ($sort == $count) {
                     $link = '';
                 } else {
-                    $link = $this->getUrl(
+                    $link = $this->mod()->getURL(
                         'user',
                         'archive',
                         ['ptid' => $ptid,
@@ -292,7 +291,7 @@ class ArchiveMethod extends MethodClass
                 ]
             );
             if (!is_array($publications)) {
-                $msg = $this->translate('Failed to retrieve publications in #(3)_#(1)_#(2).php', 'user', 'getall', 'publications');
+                $msg = $this->ml('Failed to retrieve publications in #(3)_#(1)_#(2).php', 'user', 'getall', 'publications');
                 throw new DataNotFoundException(null, $msg);
             }
         } else {
@@ -302,14 +301,14 @@ class ArchiveMethod extends MethodClass
         // TODO: add print / recommend_us link for each article ?
         // TODO: add view count to table/query/template someday ?
         foreach ($publications as $key => $article) {
-            $publications[$key]['link'] = $this->getUrl(
+            $publications[$key]['link'] = $this->mod()->getURL(
                 'user',
                 'display',
                 ['ptid' => isset($ptid) ? $publications[$key]['pubtype_id'] : null,
                     'id' => $publications[$key]['id'], ]
             );
             if (empty($publications[$key]['title'])) {
-                $publications[$key]['title'] = $this->translate('(none)');
+                $publications[$key]['title'] = $this->ml('(none)');
             }
             /* TODO: move date formatting to template, delete this code after testing
                     if ($showdate && !empty($publications[$key]['pubdate'])) {
@@ -375,7 +374,7 @@ class ArchiveMethod extends MethodClass
         if ($sort == 't') {
             $link = '';
         } else {
-            $link = $this->getUrl(
+            $link = $this->mod()->getURL(
                 'user',
                 'archive',
                 ['ptid' => $ptid,
@@ -384,16 +383,16 @@ class ArchiveMethod extends MethodClass
             );
         }
         $catlist[] = ['cid' => 0,
-            'name' => $this->translate('Title'),
+            'name' => $this->ml('Title'),
             'link' => $link, ];
-        $catsel[] = '<input type="submit" value="' . $this->translate('Filter') . '" />';
+        $catsel[] = '<input type="submit" value="' . $this->ml('Filter') . '" />';
 
         if ($showdate) {
             // add date header
             if ($sort == 'd') {
                 $link = '';
             } else {
-                $link = $this->getUrl(
+                $link = $this->mod()->getURL(
                     'user',
                     'archive',
                     ['ptid' => $ptid,
@@ -401,30 +400,30 @@ class ArchiveMethod extends MethodClass
                 );
             }
             $catlist[] = ['cid' => 0,
-                'name' => $this->translate('Date'),
+                'name' => $this->ml('Date'),
                 'link' => $link, ];
             $catsel[] = '&#160;';
         }
 
         // Save some variables to (temporary) cache for use in blocks etc.
-        xarCoreCache::setCached('Blocks.publications', 'ptid', $ptid);
+        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
         if (!empty($cids)) {
-            xarCoreCache::setCached('Blocks.publications', 'cids', $cids);
+            $this->var()->setCached('Blocks.publications', 'cids', $cids);
         }
         //if ($shownavigation) {
-        xarCoreCache::setCached('Blocks.categories', 'module', 'publications');
-        xarCoreCache::setCached('Blocks.categories', 'itemtype', $ptid);
+        $this->var()->setCached('Blocks.categories', 'module', 'publications');
+        $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
-            xarCoreCache::setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
-            xarTpl::setPageTitle($this->translate('Archive'), $pubtypes[$ptid]['description']);
+            $this->var()->setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
+            $this->tpl()->setPageTitle($this->ml('Archive'), $pubtypes[$ptid]['description']);
         } else {
-            $usergui->setPageTitle($this->translate('Archive'));
+            $this->tpl()->setPageTitle($this->ml('Archive'));
         }
         //}
         if (!empty($ptid)) {
-            $settings = unserialize($this->getModVar('settings.' . $ptid));
+            $settings = unserialize($this->mod()->getVar('settings.' . $ptid));
         } else {
-            $string = $this->getModVar('settings');
+            $string = $this->mod()->getVar('settings');
             if (!empty($string)) {
                 $settings = unserialize($string);
             }
@@ -453,7 +452,7 @@ class ArchiveMethod extends MethodClass
             'catsel' => $catsel,
             'ptid' => $ptid,
             'month' => $month,
-            'curlink' => $this->getUrl(
+            'curlink' => $this->mod()->getURL(
                 'user',
                 'archive',
                 ['ptid' => $ptid,
@@ -462,7 +461,7 @@ class ArchiveMethod extends MethodClass
             ),
             'showdate' => $showdate,
             'show_publinks' => $show_publinks,
-            'publabel' => $this->translate('Publication'),
+            'publabel' => $this->ml('Publication'),
             'publinks' => xarMod::apiFunc(
                 'publications',
                 'user',
@@ -473,14 +472,14 @@ class ArchiveMethod extends MethodClass
                     // override default 'view'
                     'func' => 'archive', ]
             ),
-            'maplabel' => $this->translate('View Publication Map'),
-            'maplink' => $this->getUrl(
+            'maplabel' => $this->ml('View Publication Map'),
+            'maplink' => $this->mod()->getURL(
                 'user',
                 'viewmap',
                 ['ptid' => $ptid]
             ),
-            'viewlabel' => (empty($ptid) ? $this->translate('Back to Publications') : $this->translate('Back to') . ' ' . $pubtypes[$ptid]['description']),
-            'viewlink' => $this->getUrl(
+            'viewlabel' => (empty($ptid) ? $this->ml('Back to Publications') : $this->ml('Back to') . ' ' . $pubtypes[$ptid]['description']),
+            'viewlink' => $this->mod()->getURL(
                 'user',
                 'view',
                 ['ptid' => $ptid]
@@ -494,7 +493,7 @@ class ArchiveMethod extends MethodClass
         }
 
         $data['context'] ??= $this->getContext();
-        return xarTpl::module('publications', 'user', 'archive', $data, $template);
+        return $this->mod()->template('archive', $data, $template);
     }
 
     /**

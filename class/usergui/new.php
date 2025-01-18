@@ -39,20 +39,20 @@ class NewMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Xaraya security
-        if (!$this->checkAccess('ModeratePublications')) {
+        if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
         }
 
         extract($args);
 
         // Get parameters
-        if (!$this->fetch('ptid', 'int', $data['ptid'], $this->getModVar('defaultpubtype'), xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $data['ptid'], 'int', $this->mod()->getVar('defaultpubtype'))) {
             return;
         }
-        if (!$this->fetch('catid', 'str', $catid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('catid', $catid, 'str')) {
             return;
         }
-        if (!$this->fetch('itemtype', 'id', $itemtype, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('itemtype', $itemtype, 'id')) {
             return;
         }
         $data['items'] = [];
@@ -70,19 +70,19 @@ class NewMethod extends MethodClass
         $allow = $access->check($accessconstraints['add']);
 
         // If no access, then bail showing a forbidden or the "no permission" page or an empty page
-        $nopermissionpage_id = $this->getModVar('noprivspage');
+        $nopermissionpage_id = $this->mod()->getVar('noprivspage');
         if (!$allow) {
             if ($accessconstraints['add']['failure']) {
                 return xarResponse::Forbidden();
             } elseif ($nopermissionpage_id) {
-                $this->redirect($this->getUrl(
+                $this->ctl()->redirect($this->mod()->getURL(
                     'user',
                     'display',
                     ['itemid' => $nopermissionpage_id]
                 ));
             } else {
                 $data = ['context' => $this->getContext()];
-                return xarTpl::module('publications', 'user', 'empty', $data);
+                return $this->mod()->template('empty', $data);
             }
         }
 
@@ -103,6 +103,6 @@ class NewMethod extends MethodClass
         $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
 
         $data['context'] ??= $this->getContext();
-        return xarTpl::module('publications', 'user', 'new', $data, $template);
+        return $this->mod()->template('new', $data, $template);
     }
 }

@@ -67,9 +67,9 @@ class GetitemlinksMethod extends MethodClass
 
         foreach ($result as $item) {
             if (empty($item['title'])) {
-                $item['title'] = $this->translate('Display Publication');
+                $item['title'] = $this->ml('Display Publication');
             }
-            $itemlinks[$item['id']] = ['url'   => $this->getUrl(
+            $itemlinks[$item['id']] = ['url'   => $this->mod()->getURL(
                 'user',
                 'display',
                 ['itemid' => $item['id']]

@@ -107,18 +107,18 @@ class GetparentcatsMethod extends MethodClass
 
             $trailitem['parentlinks'] = [];
             $item = [];
-            $item['plink'] = $this->getUrl(
+            $item['plink'] = $this->mod()->getURL(
                 'user',
                 'view',
                 ['ptid' => $ptid,
                     'sort' => $sort, ]
             );
-            $item['ptitle'] = $this->translate('All');
+            $item['ptitle'] = $this->ml('All');
             $item['pjoin'] = ' &gt; ';
             $trailitem['parentlinks'][] = $item;
             // TODO: make sure permissions are taken into account here !
             foreach ($trail as $info) {
-                $item['plink'] = $this->getUrl(
+                $item['plink'] = $this->mod()->getURL(
                     'user',
                     'view',
                     ['ptid' => $ptid,
@@ -139,7 +139,7 @@ class GetparentcatsMethod extends MethodClass
                         $trailitem['icon'] = ['image' => $info['image'],
                             'text' => $item['ptitle'],
                             'link' =>
-                              $this->getUrl(
+                              $this->mod()->getURL(
                                   'user',
                                   'view',
                                   ['ptid' => $ptid,

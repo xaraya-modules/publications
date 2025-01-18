@@ -46,39 +46,39 @@ class ViewMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->checkAccess('EditPublications')) {
+        if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
 
         // Get parameters
-        if (!$this->fetch('startnum', 'isset', $startnum, 1, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('startnum', $startnum, 'isset', 1)) {
             return;
         }
-        if (!$this->fetch('ptid', 'isset', $ptid, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('ptid', $ptid)) {
             return;
         }
-        if (!$this->fetch('state', 'isset', $state, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('state', $state)) {
             return;
         }
-        if (!$this->fetch('itemtype', 'isset', $itemtype, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('itemtype', $itemtype)) {
             return;
         }
-        if (!$this->fetch('catid', 'isset', $catid, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('catid', $catid)) {
             return;
         }
-        if (!$this->fetch('sort', 'strlist:,:pre', $sort, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->get('sort', :pre', 'strlist:, $sort, null, xarVar::NOT_REQUIRED)) {
             return;
         }
-        if (!$this->fetch('owner', 'isset', $owner, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('owner', $owner)) {
             return;
         }
-        if (!$this->fetch('lang', 'isset', $lang, null, xarVar::DONT_SET)) {
+        if (!$this->var()->check('lang', $lang)) {
             return;
         }
-        if (!$this->fetch('pubdate', 'str:1', $pubdate, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('pubdate', $pubdate, 'str:1')) {
             return;
         }
-        if (!$this->fetch('object', 'str:1', $object, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->find('object', $object, 'str:1')) {
             return;
         }
 
@@ -87,7 +87,7 @@ class ViewMethod extends MethodClass
         if (null === $ptid) {
             $ptid = xarSession::getVar('publications_current_pubtype');
             if (empty($ptid)) {
-                $ptid = $this->getModVar('defaultpubtype');
+                $ptid = $this->mod()->getVar('defaultpubtype');
             }
         }
         xarSession::setVar('publications_current_pubtype', $ptid);
@@ -101,7 +101,7 @@ class ViewMethod extends MethodClass
                 $ptid = $itemtype;
             } else {
                 // we default to this for convenience
-                $default = $this->getModVar('defaultpubtype');
+                $default = $this->mod()->getVar('defaultpubtype');
                 if (!empty($default) && !xarSecurity::check('EditPublications', 0, 'Publication', "$default:All:All:All")) {
                     // try to find some alternate starting pubtype if necessary
                     foreach ($pubtypes as $id => $pubtype) {
@@ -157,13 +157,13 @@ class ViewMethod extends MethodClass
 
         $settings = [];
         if (!empty($ptid)) {
-            $string = $this->getModVar('settings.' . $ptid);
+            $string = $this->mod()->getVar('settings.' . $ptid);
             if (!empty($string)) {
                 $settings = unserialize($string);
             }
         }
         if (empty($settings)) {
-            $string = $this->getModVar('settings');
+            $string = $this->mod()->getVar('settings');
             if (!empty($string)) {
                 $settings = unserialize($string);
             }
@@ -251,15 +251,15 @@ class ViewMethod extends MethodClass
                 $input['article'] = $article;
                 $input['mask'] = 'ManagePublications';
                 if (xarMod::apiFunc('publications','user','checksecurity',$input)) {
-                    $item['deleteurl'] = $this->getUrl(
+                    $item['deleteurl'] = $this->mod()->getURL(
                                                   'admin',
                                                   'delete',
                                                   array('id' => $article['id']));
-                    $item['editurl'] = $this->getUrl(
+                    $item['editurl'] = $this->mod()->getURL(
                                                 'admin',
                                                 'modify',
                                                 array('id' => $article['id']));
-                    $item['viewurl'] = $this->getUrl(
+                    $item['viewurl'] = $this->mod()->getURL(
                                                 'user',
                                                 'display',
                                                 array('id' => $article['id'],
@@ -269,11 +269,11 @@ class ViewMethod extends MethodClass
 
                     $input['mask'] = 'EditPublications';
                     if (xarMod::apiFunc('publications','user','checksecurity',$input)) {
-                        $item['editurl'] = $this->getUrl(
+                        $item['editurl'] = $this->mod()->getURL(
                                                     'admin',
                                                     'modify',
                                                     array('id' => $article['id']));
-                        $item['viewurl'] = $this->getUrl(
+                        $item['viewurl'] = $this->mod()->getURL(
                                                     'user',
                                                     'display',
                                                     array('id' => $article['id'],
@@ -283,7 +283,7 @@ class ViewMethod extends MethodClass
 
                         $input['mask'] = 'ReadPublications';
                         if (xarMod::apiFunc('publications','user','checksecurity',$input)) {
-                            $item['viewurl'] = $this->getUrl(
+                            $item['viewurl'] = $this->mod()->getURL(
                                                         'user',
                                                         'display',
                                                         array('id' => $article['id'],
@@ -294,8 +294,8 @@ class ViewMethod extends MethodClass
                     }
                 }
 
-                $item['deletetitle'] = $this->translate('Delete');
-                $item['viewtitle'] = $this->translate('View');
+                $item['deletetitle'] = $this->ml('Delete');
+                $item['viewtitle'] = $this->ml('View');
 
                 $items[] = $item;
             }
@@ -314,7 +314,7 @@ class ViewMethod extends MethodClass
                                                         'cids' => $cids,
                                                         'andcids' => $andcids,
                                                         'state' => $state)),
-                                    $this->getUrl( 'admin', 'view',
+                                    $this->mod()->getURL( 'admin', 'view',
                                               array('startnum' => '%%',
                                                     'ptid' => $ptid,
                                                     'owner' => $owner,
@@ -336,7 +336,7 @@ class ViewMethod extends MethodClass
             if ($id == $ptid) {
                 $pubitem['plink'] = '';
             } else {
-                $pubitem['plink'] = $this->getUrl('admin','view',
+                $pubitem['plink'] = $this->mod()->getURL('admin','view',
                                              array('ptid' => $id));
             }
             $pubitem['ptitle'] = $pubtype['description'];
@@ -347,9 +347,9 @@ class ViewMethod extends MethodClass
         // Create filters based on article state
         $statefilters = [];
         if (!empty($labels['state'])) {
-            $statefilters[] = ['stitle' => $this->translate('All'),
+            $statefilters[] = ['stitle' => $this->ml('All'),
                 'slink' => !is_array($state) ? '' :
-                               $this->getUrl(
+                               $this->mod()->getURL(
                                    'admin',
                                    'view',
                                    ['ptid' => $ptid,
@@ -358,7 +358,7 @@ class ViewMethod extends MethodClass
             foreach ($data['states'] as $id => $name) {
                 $statefilters[] = ['stitle' => $name,
                     'slink' => (is_array($state) && $state[0] == $id) ? '' :
-                                   $this->getUrl(
+                                   $this->mod()->getURL(
                                        'admin',
                                        'view',
                                        ['ptid' => $ptid,
@@ -368,10 +368,10 @@ class ViewMethod extends MethodClass
             }
         }
         $data['statefilters'] = $statefilters;
-        $data['changestatelabel'] = $this->translate('Change Status');
+        $data['changestatelabel'] = $this->ml('Change Status');
         // Add link to create new article
         if (xarSecurity::check('SubmitPublications', 0, 'Publication', "$ptid:All:All:All")) {
-            $newurl = $this->getUrl(
+            $newurl = $this->mod()->getURL(
                 'admin',
                 'new',
                 ['ptid' => $ptid]
@@ -383,14 +383,14 @@ class ViewMethod extends MethodClass
         }
         $data['newurl'] = $newurl;
         // TODO: Hook category block someday ?
-        xarCoreCache::setCached('Blocks.categories', 'module', 'publications');
-        xarCoreCache::setCached('Blocks.categories', 'type', 'admin');
-        xarCoreCache::setCached('Blocks.categories', 'func', 'view');
-        xarCoreCache::setCached('Blocks.categories', 'itemtype', $ptid);
+        $this->var()->setCached('Blocks.categories', 'module', 'publications');
+        $this->var()->setCached('Blocks.categories', 'type', 'admin');
+        $this->var()->setCached('Blocks.categories', 'func', 'view');
+        $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
-            xarCoreCache::setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
+            $this->var()->setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
         }
-        xarCoreCache::setCached('Blocks.categories', 'cids', $cids);
+        $this->var()->setCached('Blocks.categories', 'cids', $cids);
 
         if (!empty($ptid)) {
             $template = $pubtypes[$ptid]['name'];
@@ -431,6 +431,6 @@ class ViewMethod extends MethodClass
         xarSession::setVar('publications_current_listview', xarServer::getCurrentURL(['ptid' => $ptid]));
 
         $data['context'] ??= $this->getContext();
-        return xarTpl::module('publications', 'admin', 'view', $data, $template);
+        return $this->mod()->template('view', $data, $template);
     }
 }

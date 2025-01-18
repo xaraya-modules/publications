@@ -37,7 +37,7 @@ class GetpagesMethod extends MethodClass
     {
         extract($args);
 
-        if (!xarVar::validate('enum:id:index:name:left:right', $key, true)) {
+        if (!$this->var()->validate('enum:id:index:name:left:right', $key, true)) {
             $key = 'index';
         }
 

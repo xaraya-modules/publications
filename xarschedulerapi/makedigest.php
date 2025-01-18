@@ -72,7 +72,7 @@ function publications_schedulerapi_makedigest(array $args = [], $context = null)
         // ... do something with this digest ...
 
         $lastdate = xarLocale::formatDate("%a, %d %b %Y %H:%M:%S %Z", $lastdigest);
-        $subject = xarML('New publications since #(1)', $lastdate);
+        $subject = xarMLS::translate('New publications since #(1)', $lastdate);
 
         $textdigest = strip_tags($htmldigest);
         $textdigest = preg_replace('/[ \t]+/',' ',$textdigest);

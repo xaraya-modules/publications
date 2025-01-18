@@ -84,11 +84,11 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
         $data['pubtypes'] = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
         $data['categorylist'] = xarMod::apiFunc('categories', 'user', 'getcat');
         $data['sortoptions'] = [
-            ['id' => 'author', 'name' => xarML('Author')],
-            ['id' => 'date', 'name' => xarML('Date')],
-            ['id' => 'hits', 'name' => xarML('Hit Count')],
-            ['id' => 'rating', 'name' => xarML('Rating')],
-            ['id' => 'title', 'name' => xarML('Title')],
+            ['id' => 'author', 'name' => xarMLS::translate('Author')],
+            ['id' => 'date', 'name' => xarMLS::translate('Date')],
+            ['id' => 'hits', 'name' => xarMLS::translate('Hit Count')],
+            ['id' => 'rating', 'name' => xarMLS::translate('Rating')],
+            ['id' => 'title', 'name' => xarMLS::translate('Title')],
         ];
 
         return $data;

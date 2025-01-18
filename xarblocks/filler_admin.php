@@ -42,9 +42,9 @@ class Publications_FillerBlockAdmin extends Publications_FillerBlock
 
         $data['pubtypes'] = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
         $data['stateoptions'] = [
-            ['id' => '', 'name' => xarML('All Published')],
-            ['id' => '3', 'name' => xarML('Frontpage')],
-            ['id' => '2', 'name' => xarML('Approved')],
+            ['id' => '', 'name' => xarMLS::translate('All Published')],
+            ['id' => '3', 'name' => xarMLS::translate('Frontpage')],
+            ['id' => '2', 'name' => xarMLS::translate('Approved')],
         ];
 
         return $data;
