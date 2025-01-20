@@ -90,6 +90,6 @@ class DownloadMethod extends MethodClass
         # --------------------------------------------------------
         # Stop here
         #
-        exit(0);
+        $this->exit(0);
     }
 }

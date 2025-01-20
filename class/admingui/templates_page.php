@@ -60,7 +60,8 @@ class TemplatesPageMethod extends MethodClass
         if (empty($data['itemid']) || empty($data['ptid'])) {
             return xarController::notFound(null, $this->getContext());
         }
-        $admingui = $this->getParent();
+        /** @var AdminGui $admingui */
+        $admingui = $this->admingui();
 
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);

@@ -75,7 +75,9 @@ class DisplayMethod extends MethodClass
 
         // Override xarVar::fetch
         extract($args);
-        $admingui = $this->getParent();
+
+        /** @var AdminGui $admingui */
+        $admingui = $this->admingui();
 
         //The itemid var takes precedence if it exiata
         if (isset($itemid)) {

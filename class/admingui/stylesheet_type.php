@@ -52,7 +52,8 @@ class StylesheetTypeMethod extends MethodClass
         if (!$this->var()->find('source_data', $data['source_data'], 'str', '')) {
             return;
         }
-        $admingui = $this->getParent();
+        /** @var AdminGui $admingui */
+        $admingui = $this->admingui();
 
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);

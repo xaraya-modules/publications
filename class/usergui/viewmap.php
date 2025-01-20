@@ -58,7 +58,6 @@ class ViewmapMethod extends MethodClass
 
         // Override if needed from argument array
         extract($args);
-        $usergui = $this->getParent();
 
         $default = $this->mod()->getVar('defaultpubtype');
         if (empty($by)) {

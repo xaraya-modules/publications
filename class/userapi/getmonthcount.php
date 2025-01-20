@@ -52,7 +52,7 @@ class GetmonthcountMethod extends MethodClass
         switch ($dbtype) {
             case 'mysql':
                 $query = "SELECT LEFT(FROM_UNIXTIME(start_date),7) AS mymonth, COUNT(*) FROM " . $publicationsdef['table'];
-                //            echo $query;exit;
+                //            echo $query;$this->exit();
                 break;
             case 'postgres':
                 $query = "SELECT TO_CHAR(ABSTIME(pubdate),'YYYY-MM') AS mymonth, COUNT(*) FROM " . $publicationsdef['table'];
