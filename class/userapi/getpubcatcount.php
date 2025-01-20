@@ -53,7 +53,7 @@ class GetpubcatcountMethod extends MethodClass
         $pubcatcount = [];
 
         // Get database setup
-        $dbconn = xarDB::getConn();
+        $dbconn = $this->db()->getConn();
 
         // Get the LEFT JOIN ... ON ...  and WHERE parts from publications
         $publicationsdef = xarMod::apiFunc('publications', 'user', 'leftjoin', $args);

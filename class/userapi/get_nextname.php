@@ -79,7 +79,7 @@ class GetNextnameMethod extends MethodClass
 
         // Get the number of publications of this pubtype and increment by 1
         sys::import('xaraya.structures.query');
-        $tables = & xarDB::getTables();
+        $tables = & $this->db()->getTables();
         $q = new Query('SELECT', $tables['publications']);
         $q->eq('pubtype_id', $args['ptid']);
         $q->addfield('COUNT(*)');

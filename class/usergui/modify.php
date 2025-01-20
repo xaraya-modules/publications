@@ -69,7 +69,7 @@ class ModifyMethod extends MethodClass
         }
 
         if (empty($data['itemid']) && empty($data['id'])) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
         // The itemid var takes precedence if it exiats
         if (!isset($data['itemid'])) {
@@ -89,7 +89,7 @@ class ModifyMethod extends MethodClass
             $name = $item['name'];
         }
         if (empty($name)) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         // Get our object

@@ -46,8 +46,8 @@ class GetitemtypesMethod extends MethodClass
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
 
         foreach ($pubtypes as $id => $pubtype) {
-            $itemtypes[$id] = ['label' => xarVar::prepForDisplay($pubtype['description']),
-                'title' => xarVar::prepForDisplay($this->ml('Display #(1)', $pubtype['description'])),
+            $itemtypes[$id] = ['label' => $this->var()->prep($pubtype['description']),
+                'title' => $this->var()->prep($this->ml('Display #(1)', $pubtype['description'])),
                 'url'   => $this->mod()->getURL( 'user', 'view', ['ptid' => $id]),
             ];
         }

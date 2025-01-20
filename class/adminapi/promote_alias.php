@@ -72,7 +72,7 @@ class PromoteAliasMethod extends MethodClass
 
         // Switch the linkages to categories
         sys::import('xaraya.structures.query');
-        $tables = & xarDB::getTables();
+        $tables = & $this->db()->getTables();
 
         // Remove the old base publication into the tree
         $q = new Query('UPDATE', $tables['publications_publications']);

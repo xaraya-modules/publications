@@ -66,7 +66,7 @@ class CloneMethod extends MethodClass
         }
 
         if (empty($data['itemid'])) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         // If a pubtype ID was passed, get the name of the pub object
@@ -76,18 +76,18 @@ class CloneMethod extends MethodClass
             $objectname = $pubtypeobject->properties['name']->value;
         }
         if (empty($objectname)) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');
         $data['object'] = DataObjectFactory::getObject(['name' => $objectname]);
         if (empty($data['object'])) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         // Security
         if (!$data['object']->checkAccess('update')) {
-            return xarController::forbidden($this->ml('Clone #(1) is forbidden', $data['object']->label), $this->getContext());
+            return $this->ctl()->forbidden($this->ml('Clone #(1) is forbidden', $data['object']->label), $this->getContext());
         }
 
         $data['object']->getItem(['itemid' => $data['itemid']]);
@@ -126,7 +126,7 @@ class CloneMethod extends MethodClass
             if ($clone_translations) {
                 // Get the info on all the objects to be cloned
                 sys::import('xaraya.structures.query');
-                $tables = & xarDB::getTables();
+                $tables = & $this->db()->getTables();
                 $q = new Query();
                 $q->addtable($tables['publications'], 'p');
                 $q->addtable($tables['publications_types'], 'pt');

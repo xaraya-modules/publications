@@ -36,8 +36,8 @@ class PageintreesMethod extends MethodClass
             return false;
         }
 
-        $xartable = & xarDB::getTables();
-        $dbconn = xarDB::getConn();
+        $xartable = & $this->db()->getTables();
+        $dbconn = $this->db()->getConn();
 
         // For the page to be somewhere in a tree, identified by the root of that tree,
         // it's xar_left column must be between the xar_left and xar_right columns

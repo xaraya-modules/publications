@@ -66,7 +66,7 @@ class GettranslationidMethod extends MethodClass
             $locale = $parts[0];
         }
 
-        $xartable = & xarDB::getTables();
+        $xartable = & $this->db()->getTables();
 
         if (empty($args['locale'])) {
             // Return the id of the translation if it exists, or else the base document

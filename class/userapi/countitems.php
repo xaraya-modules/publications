@@ -47,7 +47,7 @@ class CountitemsMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Database information
-        $dbconn = xarDB::getConn();
+        $dbconn = $this->db()->getConn();
 
         // Get the field names and LEFT JOIN ... ON ... parts from publications
         // By passing on the $args, we can let leftjoin() create the WHERE for

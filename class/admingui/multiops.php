@@ -57,10 +57,10 @@ class MultiopsMethod extends MethodClass
 
         // Catch missing params here, rather than below
         if (empty($idlist)) {
-            return xarTpl::module('publications', 'user', 'errors', ['layout' => 'no_items']);
+            return $this->tpl()->module('publications', 'user', 'errors', ['layout' => 'no_items']);
         }
         if ($operation === '') {
-            return xarTpl::module('publications', 'user', 'errors', ['layout' => 'no_operation']);
+            return $this->tpl()->module('publications', 'user', 'errors', ['layout' => 'no_operation']);
         }
 
         $ids = explode(',', $idlist);

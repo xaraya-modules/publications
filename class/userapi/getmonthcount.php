@@ -40,7 +40,7 @@ class GetmonthcountMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Get database setup
-        $dbconn = xarDB::getConn();
+        $dbconn = $this->db()->getConn();
 
         // Get the field names and LEFT JOIN ... ON ... parts from publications
         // By passing on the $args, we can let leftjoin() create the WHERE for
@@ -48,11 +48,10 @@ class GetmonthcountMethod extends MethodClass
         $publicationsdef = xarMod::apiFunc('publications', 'user', 'leftjoin', $args);
 
         // Bug 1590 - Create custom query supported by each database.
-        $dbtype = xarDB::getType();
+        $dbtype = $this->db()->getType();
         switch ($dbtype) {
             case 'mysql':
                 $query = "SELECT LEFT(FROM_UNIXTIME(start_date),7) AS mymonth, COUNT(*) FROM " . $publicationsdef['table'];
-                //            echo $query;$this->exit();
                 break;
             case 'postgres':
                 $query = "SELECT TO_CHAR(ABSTIME(pubdate),'YYYY-MM') AS mymonth, COUNT(*) FROM " . $publicationsdef['table'];

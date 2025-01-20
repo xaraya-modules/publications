@@ -47,7 +47,7 @@ class PreviewMethod extends MethodClass
         extract($data);
 
         if (empty($data['object'])) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         # --------------------------------------------------------
@@ -60,7 +60,7 @@ class PreviewMethod extends MethodClass
 
         // An empty publication type means the page does not exist
         if (empty($ptid)) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -214,7 +214,7 @@ class PreviewMethod extends MethodClass
             } else {
                 $pagetemplate = substr($pagename, 0, $position);
             }
-            xarTpl::setPageTemplateName($pagetemplate);
+            $this->tpl()->setPageTemplateName($pagetemplate);
         }
         // It can be overridden by the page itself
         if (!empty($data['object']->properties['page_template']->value)) {
@@ -225,7 +225,7 @@ class PreviewMethod extends MethodClass
             } else {
                 $pagetemplate = substr($pagename, 0, $position);
             }
-            xarTpl::setPageTemplateName($pagetemplate);
+            $this->tpl()->setPageTemplateName($pagetemplate);
         }
 
         # --------------------------------------------------------

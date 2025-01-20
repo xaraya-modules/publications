@@ -136,16 +136,16 @@ class UpdateconfigMethod extends MethodClass
                 $this->mod()->setVar($special_name, $special_id);
             }
 
-            if (xarDB::getType() == 'mysql') {
+            if ($this->db()->getType() == 'mysql') {
                 if (!$this->var()->find('fulltext', $fulltext)) {
                     return;
                 }
                 $oldval = $this->mod()->getVar('fulltextsearch');
-                $index = 'i_' . xarDB::getPrefix() . '_publications_fulltext';
+                $index = 'i_' . $this->db()->getPrefix() . '_publications_fulltext';
                 if (empty($fulltext) && !empty($oldval)) {
                     // Get database setup
-                    $dbconn = xarDB::getConn();
-                    $xartable = & xarDB::getTables();
+                    $dbconn = $this->db()->getConn();
+                    $xartable = & $this->db()->getTables();
                     $publicationstable = $xartable['publications'];
                     // Drop fulltext index on publications table
                     $query = "ALTER TABLE $publicationstable DROP INDEX $index";
@@ -158,8 +158,8 @@ class UpdateconfigMethod extends MethodClass
                     $searchfields = ['title','description','summary','body1'];
                     //                $searchfields = explode(',',$fulltext);
                     // Get database setup
-                    $dbconn = xarDB::getConn();
-                    $xartable = & xarDB::getTables();
+                    $dbconn = $this->db()->getConn();
+                    $xartable = & $this->db()->getTables();
                     $publicationstable = $xartable['publications'];
                     // Add fulltext index on publications table
                     $query = "ALTER TABLE $publicationstable ADD FULLTEXT $index (" . join(', ', $searchfields) . ")";

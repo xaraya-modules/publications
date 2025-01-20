@@ -123,7 +123,7 @@ class DisplayMethod extends MethodClass
         # If still no ID, we have come to the end of the line
         #
         if (empty($id)) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         # --------------------------------------------------------
@@ -136,7 +136,7 @@ class DisplayMethod extends MethodClass
 
         // An empty publication type means the page does not exist
         if (empty($ptid)) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
@@ -144,7 +144,7 @@ class DisplayMethod extends MethodClass
 
         // A non-active publication type means the page does not exist
         if ($pubtypeobject->properties['state']->value < Defines::STATE_ACTIVE) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         // Save this as the current pubtype
@@ -207,7 +207,7 @@ class DisplayMethod extends MethodClass
             // This is a simple redirect to another page
             $url = $data['object']->properties['redirect_url']->value;
             if (empty($url)) {
-                return xarController::notFound(null, $this->getContext());
+                return $this->ctl()->notFound(null, $this->getContext());
             }
             try {
                 // Check if this is a Xaraya function
@@ -217,7 +217,7 @@ class DisplayMethod extends MethodClass
                 }
                 $this->ctl()->redirect($url, 301);
             } catch (Exception $e) {
-                return xarController::notFound(null, $this->getContext());
+                return $this->ctl()->notFound(null, $this->getContext());
             }
         } elseif ($redirect_type == 2) {
             // This displays a page of a different module
@@ -236,7 +236,7 @@ class DisplayMethod extends MethodClass
 
             // Bail if the URL is bad
             if (empty($url)) {
-                return xarController::notFound(null, $this->getContext());
+                return $this->ctl()->notFound(null, $this->getContext());
             }
             try {
                 // Check if this is a Xaraya function
@@ -249,7 +249,7 @@ class DisplayMethod extends MethodClass
                 // we can use a simple parse_url() in this case
                 $params = parse_url($url);
             } catch (Exception $e) {
-                return xarController::notFound(null, $this->getContext());
+                return $this->ctl()->notFound(null, $this->getContext());
             }
 
             // If this is an external link, show it without further processing
@@ -274,7 +274,7 @@ class DisplayMethod extends MethodClass
                 try {
                     $page = xarMod::guiFunc($request->getModule(), 'user', $request->getFunction(), $request->getFunctionArgs());
                 } catch (Exception $e) {
-                    return xarController::notFound(null, $this->getContext());
+                    return $this->ctl()->notFound(null, $this->getContext());
                 }
 
                 // Debug
@@ -425,7 +425,7 @@ class DisplayMethod extends MethodClass
             } else {
                 $pagetemplate = substr($pagename, 0, $position);
             }
-            xarTpl::setPageTemplateName($pagetemplate);
+            $this->tpl()->setPageTemplateName($pagetemplate);
         }
         // It can be overridden by the page itself
         $pagename = $data['object']->properties['page_template']->value;
@@ -436,7 +436,7 @@ class DisplayMethod extends MethodClass
             } else {
                 $pagetemplate = substr($pagename, 0, $position);
             }
-            xarTpl::setPageTemplateName($pagetemplate);
+            $this->tpl()->setPageTemplateName($pagetemplate);
         }
 
         # --------------------------------------------------------

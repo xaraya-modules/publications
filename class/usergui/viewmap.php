@@ -360,7 +360,7 @@ class ViewmapMethod extends MethodClass
         $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
         if (!empty($descr)) {
             $this->var()->setCached('Blocks.categories', 'title', $descr);
-            $this->tpl()->setPageTitle($this->ml('Map'), xarVar::prepForDisplay($descr));
+            $this->tpl()->setPageTitle($this->ml('Map'), $this->var()->prep($descr));
         }
         //}
 

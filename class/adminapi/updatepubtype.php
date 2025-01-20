@@ -107,8 +107,8 @@ class UpdatepubtypeMethod extends MethodClass
         }
 
         // Get database setup
-        $dbconn = xarDB::getConn();
-        $xartable = & xarDB::getTables();
+        $dbconn = $this->db()->getConn();
+        $xartable = & $this->db()->getTables();
         $pubtypestable = $xartable['publication_types'];
 
         // Update the publication type (don't allow updates on name)

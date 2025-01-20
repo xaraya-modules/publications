@@ -72,7 +72,7 @@ class GetrelativepagesMethod extends MethodClass
         }
 
         // FIXME: Combine everything below to single query to avoid the two loops at the end
-        $xartable = & xarDB::getTables();
+        $xartable = & $this->db()->getTables();
         sys::import('xaraya.structures.query');
         $q = new Query();
         $q->addtable($xartable['publications'], 'p');

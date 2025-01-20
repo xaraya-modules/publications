@@ -40,7 +40,7 @@ class GetpubtypeaccessMethod extends MethodClass
         }
 
         sys::import('xaraya.structures.query');
-        $xartables = & xarDB::getTables();
+        $xartables = & $this->db()->getTables();
         $q = new Query('SELECT', $xartables['publications_types']);
         $q->addfield('access');
         $q->eq('name', $args['name']);

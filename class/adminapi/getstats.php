@@ -48,7 +48,7 @@ class GetstatsMethod extends MethodClass
                 continue;
             }
             if ($field == 'pubdate_year') {
-                $dbtype = xarDB::getType();
+                $dbtype = $this->db()->getType();
                 switch ($dbtype) {
                     case 'mysql':
                         $newfields[] = "LEFT(FROM_UNIXTIME(start_date),4) AS myyear";
@@ -68,7 +68,7 @@ class GetstatsMethod extends MethodClass
                         continue;
                 }
             } elseif ($field == 'pubdate_month') {
-                $dbtype = xarDB::getType();
+                $dbtype = $this->db()->getType();
                 switch ($dbtype) {
                     case 'mysql':
                         $newfields[] = "LEFT(FROM_UNIXTIME(start_date),7) AS mymonth";
@@ -88,7 +88,7 @@ class GetstatsMethod extends MethodClass
                         continue;
                 }
             } elseif ($field == 'pubdate_day') {
-                $dbtype = xarDB::getType();
+                $dbtype = $this->db()->getType();
                 switch ($dbtype) {
                     case 'mysql':
                         $newfields[] = "LEFT(FROM_UNIXTIME(start_date),10) AS myday";
@@ -118,8 +118,8 @@ class GetstatsMethod extends MethodClass
         }
 
         // Database information
-        $dbconn = xarDB::getConn();
-        $xartables = & xarDB::getTables();
+        $dbconn = $this->db()->getConn();
+        $xartables = & $this->db()->getTables();
 
         $query = 'SELECT ' . join(', ', $newfields) . ', COUNT(*)
                   FROM ' . $xartables['publications'] . '

@@ -120,7 +120,7 @@ class DisplayMethod extends MethodClass
         # If still no ID, we have come to the end of the line
         #
         if (empty($id)) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         # --------------------------------------------------------
@@ -133,10 +133,10 @@ class DisplayMethod extends MethodClass
 
         // An empty publication type means the page does not exist
         if (empty($ptid)) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
-        /*    if (empty($name) && empty($ptid)) return xarController::notFound(null, $this->getContext());
+        /*    if (empty($name) && empty($ptid)) return $this->ctl()->notFound(null, $this->getContext());
 
             if(empty($ptid)) {
                 $publication_type = DataObjectFactory::getObjectList(array('name' => 'publications_types'));
@@ -188,7 +188,7 @@ class DisplayMethod extends MethodClass
 
                 $this->redirect($url, 301);
             } catch (Exception $e) {
-                return xarController::notFound(null, $this->getContext());
+                return $this->ctl()->notFound(null, $this->getContext());
             }
         } elseif ($redirect_type == 2) {
             // This displays a page of a different module
@@ -214,7 +214,7 @@ class DisplayMethod extends MethodClass
                 $params = parse_url($url);
                 $params['query'] = preg_replace('/&amp;/', '&', $params['query']);
             } catch (Exception $e) {
-                return xarController::notFound(null, $this->getContext());
+                return $this->ctl()->notFound(null, $this->getContext());
             }
 
             // If this is an external link, show it without further processing
@@ -230,7 +230,7 @@ class DisplayMethod extends MethodClass
                 try {
                     $page = xarMod::guiFunc($info['module'], 'user', $info['func'], $other_params);
                 } catch (Exception $e) {
-                    return xarController::notFound(null, $this->getContext());
+                    return $this->ctl()->notFound(null, $this->getContext());
                 }
 
                 // Debug
@@ -377,7 +377,7 @@ class DisplayMethod extends MethodClass
             } else {
                 $pagetemplate = substr($pagename, 0, $position);
             }
-            xarTpl::setPageTemplateName($pagetemplate);
+            $this->tpl()->setPageTemplateName($pagetemplate);
         }
         // It can be overridden by the page itself
         if (!empty($data['object']->properties['page_template']->value)) {
@@ -388,7 +388,7 @@ class DisplayMethod extends MethodClass
             } else {
                 $pagetemplate = substr($pagename, 0, $position);
             }
-            xarTpl::setPageTemplateName($pagetemplate);
+            $this->tpl()->setPageTemplateName($pagetemplate);
         }
 
         # --------------------------------------------------------
@@ -546,7 +546,7 @@ class DisplayMethod extends MethodClass
                                  array(//'state' => array(Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED).
                                        'ptid' => $ptid,
                                        'catid' => $cat['cid']));
-                $name = xarVar::prepForDisplay($cat['name']);
+                $name = $this->var()->prep($cat['name']);
 
                 $data['topic_urls'][] = $link;
                 $data['topic_names'][] = $name;
@@ -708,13 +708,13 @@ class DisplayMethod extends MethodClass
         $data = xarModHooks::call('item', 'transform', $id, $data, 'publications');
         $data['context'] ??= $this->getContext();
 
-        return xarTpl::module('publications', 'user', 'display', $data);
+        return $this->tpl()->module('publications', 'user', 'display', $data);
 
 
         if (!empty($data['title'])) {
             // CHECKME: <rabbit> Strip tags out of the title - the <title> tag shouldn't have any other tags in it.
             $title = strip_tags($data['title']);
-            $this->tpl()->setPageTitle(xarVar::prepForDisplay($title), xarVar::prepForDisplay($pubtypes[$data['itemtype']]['description']));
+            $this->tpl()->setPageTitle($this->var()->prep($title), $this->var()->prep($pubtypes[$data['itemtype']]['description']));
 
             // Save some variables to (temporary) cache for use in blocks etc.
             $this->var()->setCached('Comments.title', 'title', $data['title']);
@@ -856,7 +856,7 @@ class DisplayMethod extends MethodClass
         // Page template depending on publication type (optional)
         // Note : this cannot be overridden in templates
         if (empty($preview) && !empty($settings['page_template'])) {
-            xarTpl::setPageTemplateName($settings['page_template']);
+            $this->tpl()->setPageTemplateName($settings['page_template']);
         }
 
         // Specific layout within a template (optional)
@@ -871,6 +871,6 @@ class DisplayMethod extends MethodClass
         $data['object']->getItem(['itemid' => $id]);
         $data['context'] ??= $this->getContext();
 
-        return xarTpl::module('publications', 'user', 'display', $data, $template);
+        return $this->tpl()->module('publications', 'user', 'display', $data, $template);
     }
 }

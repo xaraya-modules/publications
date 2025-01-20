@@ -114,7 +114,7 @@ class GetrootcatsMethod extends MethodClass
             $info = $catlist[$cid];
             $item = [];
             $item['catid'] = $info['cid'];
-            $item['cattitle'] = xarVar::prepForDisplay($info['name']);
+            $item['cattitle'] = $this->var()->prep($info['name']);
             $item['catlink'] = $this->mod()->getURL(
                 'user',
                 'view',

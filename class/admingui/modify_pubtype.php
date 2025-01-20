@@ -60,7 +60,7 @@ class ModifyPubtypeMethod extends MethodClass
         }
 
         if (empty($name) && empty($itemid)) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         // Get our object

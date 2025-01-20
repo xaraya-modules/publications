@@ -66,7 +66,7 @@ class ViewMethod extends MethodClass
         if (!$this->var()->check('catid', $catid)) {
             return;
         }
-        if (!$this->var()->get('sort', :pre', 'strlist:, $sort, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->get('sort', $sort, 'strlist:,:pre')) {
             return;
         }
         if (!$this->var()->check('owner', $owner)) {
@@ -150,7 +150,7 @@ class ViewMethod extends MethodClass
                 return;
             }
         } elseif (!is_numeric($ptid) || !isset($pubtypes[$ptid])) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         } elseif (!xarSecurity::check('EditPublications', 1, 'Publication', "$ptid:All:All:All")) {
             return;
         }

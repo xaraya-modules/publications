@@ -144,8 +144,8 @@ class GetMethod extends MethodClass
         }
 
         // Get database setup
-        $dbconn = xarDB::getConn();
-        $xartable = & xarDB::getTables();
+        $dbconn = $this->db()->getConn();
+        $xartable = & $this->db()->getTables();
         $publicationstable = $xartable['publications'];
 
         // Get item

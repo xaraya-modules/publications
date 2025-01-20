@@ -61,7 +61,7 @@ class DeleteMethod extends MethodClass
         }
 
         sys::import('xaraya.structures.query');
-        $table = & xarDB::getTables();
+        $table = & $this->db()->getTables();
 
         switch ($deletetype) {
             case 0:

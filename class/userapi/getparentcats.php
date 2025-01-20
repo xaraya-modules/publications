@@ -124,7 +124,7 @@ class GetparentcatsMethod extends MethodClass
                     ['ptid' => $ptid,
                         'catid' => $info['cid'], ]
                 );
-                $item['ptitle'] = xarVar::prepForDisplay($info['name']);
+                $item['ptitle'] = $this->var()->prep($info['name']);
                 if ($info['cid'] == $cid) {
                     // TODO: test for neighbourhood
                     $trailitem['info'] = $info;

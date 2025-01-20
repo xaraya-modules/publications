@@ -58,7 +58,7 @@ class TemplatesPageMethod extends MethodClass
         }
 
         if (empty($data['itemid']) || empty($data['ptid'])) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
         /** @var AdminGui $admingui */
         $admingui = $this->admingui();

@@ -58,7 +58,7 @@ class ModifyMethod extends MethodClass
         }
 
         if (empty($name) && empty($ptid)) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         if (!empty($ptid)) {

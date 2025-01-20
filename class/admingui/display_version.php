@@ -44,7 +44,7 @@ class DisplayVersionMethod extends MethodClass
             return;
         }
         if (empty($data['page_id'])) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');

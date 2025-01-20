@@ -70,7 +70,7 @@ class NewMethod extends MethodClass
         $data['object']->properties['position']->initialization_celkoparent_id = 'parentpage_id';
         $data['object']->properties['position']->initialization_celkoright_id = 'rightpage_id';
         $data['object']->properties['position']->initialization_celkoleft_id  = 'leftpage_id';
-        $xartable = & xarDB::getTables();
+        $xartable = & $this->db()->getTables();
         $data['object']->properties['position']->initialization_itemstable = $xartable['publications'];
 
         $data['properties'] = $data['object']->getProperties();

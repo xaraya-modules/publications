@@ -151,7 +151,7 @@ class GetallMethod extends MethodClass
         // TODO: put all this in dynamic data and retrieve everything via there (including hooked stuff)
 
         // Database information
-        $dbconn = xarDB::getConn();
+        $dbconn = $this->db()->getConn();
 
         // Get the field names and LEFT JOIN ... ON ... parts from publications
         // By passing on the $args, we can let leftjoin() create the WHERE for

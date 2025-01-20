@@ -81,8 +81,8 @@ class LeftjoinMethod extends MethodClass
         // Note : no security checks here
 
         // Table definition
-        $xartable = & xarDB::getTables();
-        $dbconn   = xarDB::getConn();
+        $xartable = & $this->db()->getTables();
+        $dbconn   = $this->db()->getConn();
         $publicationstable = $xartable['publications'];
 
         $leftjoin = [];

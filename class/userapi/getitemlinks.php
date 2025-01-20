@@ -41,7 +41,7 @@ class GetitemlinksMethod extends MethodClass
         $itemlinks = [];
 
         sys::import('xaraya.structures.query');
-        $xartable = & xarDB::getTables();
+        $xartable = & $this->db()->getTables();
         $q = new Query('SELECT', $xartable['publications']);
         $q->addfield('id');
         $q->addfield('title');

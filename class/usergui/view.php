@@ -70,7 +70,7 @@ class ViewMethod extends MethodClass
         // The original 'regexp:/^[\w,]*$/' lets through *any* non-space character.
         // This validation will accept a list of comma-separated words, and will lower-case, trim
         // and strip out non-alphanumeric characters from each word.
-        if (!$this->var()->get('sort', :pre:trim:lower:alnum', 'strlist:, $sort, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->get('sort', $sort, 'strlist:,:pre:trim:lower:alnum')) {
             return;
         }
         if (!$this->var()->find('numcols', $numcols, 'int:0')) {
@@ -99,7 +99,7 @@ class ViewMethod extends MethodClass
 
         // We need a valid pubtype number here
         if (!is_numeric($ptid) || !isset($pubtypes[$ptid])) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         // Constants used throughout.
@@ -136,7 +136,7 @@ class ViewMethod extends MethodClass
 
         // A non-active publication type means the page does not exist
         if ($data['pubtypeobject']->properties['state']->value < Defines::STATE_ACTIVE) {
-            return xarController::notFound(null, $this->getContext());
+            return $this->ctl()->notFound(null, $this->getContext());
         }
 
         // Get the settings of this publication type
@@ -386,7 +386,7 @@ class ViewMethod extends MethodClass
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
             $this->var()->setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
             // Note : this gets overriden by the categories navigation if necessary
-            $this->tpl()->setPageTitle(xarVar::prepForDisplay($pubtypes[$ptid]['description']));
+            $this->tpl()->setPageTitle($this->var()->prep($pubtypes[$ptid]['description']));
         }
 
         // optional category count
@@ -482,7 +482,7 @@ class ViewMethod extends MethodClass
                     );
                 }
                 foreach ($catinfo as $cid => $info) {
-                    $catinfo[$cid]['name'] = xarVar::prepForDisplay($info['name']);
+                    $catinfo[$cid]['name'] = $this->var()->prep($info['name']);
                     $catinfo[$cid]['link'] = $this->mod()->getURL( 'user', 'view',
                         array('ptid' => $ptid, 'catid' => (($catid && $andcids) ? $catid . '+' . $cid : $cid) )
                     );
@@ -558,7 +558,7 @@ class ViewMethod extends MethodClass
                     $article['rsstitle'] = htmlspecialchars($article['title']);
                     //$article['rssdate'] = strtotime($article['date']);
                     $article['rsssummary'] = preg_replace('<br />', "\n", $article['summary']);
-                    $article['rsssummary'] = xarVar::prepForDisplay(strip_tags($article['rsssummary']));
+                    $article['rsssummary'] = $this->var()->prep(strip_tags($article['rsssummary']));
                     $article['rsscomment'] = xarController::URL('comments', 'user', 'display', array('modid' => $c_modid, 'objectid' => $article['id']));
                     // $article['rsscname'] = htmlspecialchars($item['cname']);
                     // <category>#$rsscname#</category>
@@ -644,7 +644,7 @@ class ViewMethod extends MethodClass
             } else {
                 $pagetemplate = substr($pagename, 0, $position);
             }
-            xarTpl::setPageTemplateName($pagetemplate);
+            $this->tpl()->setPageTemplateName($pagetemplate);
         }
 
         // Throw all the settings we are using into the cache

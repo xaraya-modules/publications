@@ -46,7 +46,7 @@ class GetpagesMethod extends MethodClass
 
         // Assemble the query
         sys::import('xaraya.structures.query');
-        $xartable = & xarDB::getTables();
+        $xartable = & $this->db()->getTables();
         $q = new Query();
         $q->addtable($xartable['publications'], 'tpages');
         $q->addtable($xartable['publications_types'], 'pt');

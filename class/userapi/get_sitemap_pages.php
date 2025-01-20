@@ -68,7 +68,7 @@ class GetSitemapPagesMethod extends MethodClass
             }
         }
 
-        $xartable = & xarDB::getTables();
+        $xartable = & $this->db()->getTables();
         sys::import('xaraya.structures.query');
         $q = new Query();
         $q->addtable($xartable['publications'], 'p');

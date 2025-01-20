@@ -104,7 +104,7 @@ class UpdatestatusMethod extends MethodClass
                 $msg = $this->ml(
                     'Unable to find #(1) item #(2)',
                     $descr,
-                    xarVar::prepForDisplay($id)
+                    $this->var()->prep($id)
                 );
                 throw new BadParameterException(null, $msg);
             }
@@ -121,7 +121,7 @@ class UpdatestatusMethod extends MethodClass
                 $msg = $this->ml(
                     'You have no permission to modify #(1) item #(2)',
                     $descr,
-                    xarVar::prepForDisplay($id)
+                    $this->var()->prep($id)
                 );
                 throw new ForbiddenOperationException(null, $msg);
             }

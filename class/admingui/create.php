@@ -45,7 +45,7 @@ class CreateMethod extends MethodClass
             return;
         }
 
-        if (!$this->var()->get('ptid', $data['ptid']), 'id') {
+        if (!$this->var()->get('ptid', $data['ptid'], 'id')) {
             return;
         }
         if (!$this->var()->find('new_cids', $cids, 'array')) {

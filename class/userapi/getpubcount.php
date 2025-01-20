@@ -54,7 +54,7 @@ class GetpubcountMethod extends MethodClass
 
         $pubcount = [];
 
-        $tables = & xarDB::getTables();
+        $tables = & $this->db()->getTables();
         sys::import('xaraya.structures.query');
         $q = new Query('SELECT', $tables['publications']);
         $q->addfield('pubtype_id');

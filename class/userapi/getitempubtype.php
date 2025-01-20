@@ -40,7 +40,7 @@ class GetitempubtypeMethod extends MethodClass
         }
 
         sys::import('xaraya.structures.query');
-        $xartables = & xarDB::getTables();
+        $xartables = & $this->db()->getTables();
         $q = new Query('SELECT', $xartables['publications']);
         $q->addfield('pubtype_id');
         $q->eq('id', $args['itemid']);
