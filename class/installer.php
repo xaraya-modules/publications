@@ -64,14 +64,14 @@ class Installer extends InstallerClass
     public function init()
     {
         sys::import('xaraya.structures.query');
-        $xartable = & xarDB::getTables();
+        $xartable = & $this->db()->getTables();
 
         # --------------------------------------------------------
         #
         # Set tables
         #
         $q = new Query();
-        $prefix = xarDB::getPrefix();
+        $prefix = $this->db()->getPrefix();
 
         $query = "DROP TABLE IF EXISTS " . $prefix . "_publications";
         if (!$q->run($query)) {
@@ -372,7 +372,7 @@ class Installer extends InstallerClass
         *********************************************************************/
         $info = xarMod::getBaseInfo('publications');
         $sysid = $info['systemid'];
-        $xartable = & xarDB::getTables();
+        $xartable = & $this->db()->getTables();
         $instances = [
             ['header' => 'external', // this keyword indicates an external "wizard"
                 'query'  => $this->mod()->getURL('admin', 'privileges'),

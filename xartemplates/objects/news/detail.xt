@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <!-- License: GPL http://www.gnu.org/copyleft/gpl.html -->
-    <!--
+    <xar:comment><!--
     <xar:template file="publinks" type="module" />
     <xar:data-output type="categorynavigation" layout="trails" showchildren="1" module="publications" itemtype="$ptid" itemid="$id" cids="$cids" show_catcount="$settings['show_catcount']" showempty="0" />
-    -->
+    --></xar:comment>
     
     <!-- Load the stylesheet for this publication type -->
     <xar:style method="import" module="publications" file="news" title="News Stylesheet"/>
@@ -71,10 +71,10 @@
         <div>
             <a href="javascript: history.go(-1)">Back</a>
             
-            <!-- Button alternative
+            <xar:comment><!-- Button alternative
             <xar:var name="label">Back</xar:var>
             <xar:button type="cancel" label="$label"/>
-            -->
+            --></xar:comment>
         </div>
         
         <!-- Link to previous or next -->

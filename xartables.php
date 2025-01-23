@@ -14,10 +14,11 @@
  *
  * @return array with the tables used in publications
  */
-function publications_xartables()
+function publications_xartables(?string $prefix = null)
 {
-    $xartable['publications'] = xarDB::getPrefix() . '_publications';
-    $xartable['publications_types'] = xarDB::getPrefix() . '_publications_types';
+    $prefix ??= xarDB::getPrefix();
+    $xartable['publications'] = $prefix . '_publications';
+    $xartable['publications_types'] = $prefix . '_publications_types';
 
     // Return table information
     return $xartable;

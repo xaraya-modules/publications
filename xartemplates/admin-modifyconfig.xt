@@ -138,14 +138,14 @@
                             </xar:ml>
                         </div>
                     </div>
-                    <!--
+                    <xar:comment><!--
                     <div class="xar-form-input-wrapper">
                         <label class="help xar-form-label" for="page_template" title="#xarML('Change the theme/themename/pages/ template that you use with this publication type.')#">                    
                             Use different page template                    
                         </label> 
                         <input type="text" name="settings[page_template]" id="page_template" size="20" maxlength="60" value="#$settings['page_template']#" />
                     </div>
-                    -->
+                    --></xar:comment>
                     <div class="xar-row">
                         <div class="xar-col">
                             <label class="help xar-form-label" for="usetitleforurl" title="#xarML('Note: if a title contains characters that are illegal in a URL, the title will not be used..')#">                    
@@ -193,11 +193,11 @@
                     <div class="xar-col">
                         <xar:var name="label">Update</xar:var>
                         <xar:button type="submit" label="$label" />
-                        <!--
+                        <xar:comment><!--
                         &#160;
                         <xar:set name="label">xarML('Reset')</xar:set>
                         <xar:button type="cancel" label="$label" />
-                        -->
+                        --></xar:comment>
                         <input type="hidden" name="tab" id="tab" value="#$tab#" />
                         <input type="hidden" name="authid" id="authid" value="#xarSec::genAuthKey()#" /> 
                     </div>
@@ -519,11 +519,11 @@
                     <div class="xar-col">
                         <xar:var name="label">Update</xar:var>
                         <xar:button type="submit" label="$label" />
-                        <!--
+                        <xar:comment><!--
                         &#160;
                         <xar:var name="label">Reset</xar:var>
                         <xar:button type="cancel" label="$label" />
-                        -->
+                        --></xar:comment>
                         <input type="hidden" name="tab" id="tab" value="#$tab#" />
                         <input type="hidden" name="authid" id="authid" value="#xarSec::genAuthKey()#" /> 
                     </div>

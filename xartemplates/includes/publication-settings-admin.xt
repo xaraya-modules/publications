@@ -173,10 +173,10 @@
             </div>
         </div>
     </fieldset>
-    <!--
+    <xar:comment><!--
     <xar:set name="parent">$properties['parent']->value</xar:set>
     <xar:if condition="!$parent">
-    -->
+    --></xar:comment>
         <fieldset>
             <legend>
                 Presentation

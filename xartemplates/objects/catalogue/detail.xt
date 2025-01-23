@@ -144,10 +144,10 @@
         <div class="xar-publications-catalogue-detail-text">
             <a href="javascript: history.go(-1)">Back</a>
             
-            <!-- Button alternative
+            <xar:comment><!-- Button alternative
             <xar:var name="label">Back</xar:var>
             <xar:button type="cancel" label="$label"/>
-            -->
+            --></xar:comment>
         </div>
         
         <!-- Link to previous or next -->

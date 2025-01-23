@@ -33,11 +33,11 @@
         </div>
 
         <!-- Notes -->
-        <!--
+        <xar:comment><!--
         <div class="xar-publications-document-detail-text">
             <xar:data-output property="$properties['notes']" />
         </div>
-        -->
+        --></xar:comment>
         
         <!-- We need $typeinfo for the menu labels-->
         <xar:set name="dummy">

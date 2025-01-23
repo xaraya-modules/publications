@@ -6,9 +6,9 @@
     <xar:style method="import" module="publications" file="faq" title="FAQ Stylesheet"/>
     
     <xar:template file="publinks" type="module" />
-    <!--
+    <xar:comment><!--
     <xar:data-output type="categorynavigation" layout="trails" showchildren="1" module="publications" itemtype="$ptid" itemid="$id" cids="$cids" show_catcount="$show_catcount" showempty="0" />
-    -->
+    --></xar:comment>
 
     <xar:set name="publication_state">
         $properties['state']->value
@@ -52,10 +52,10 @@
         <div>
             <a href="javascript: history.go(-1)">Back</a>
             
-            <!-- Button alternative
+            <xar:comment><!-- Button alternative
             <xar:var name="label">Back</xar:var>
             <xar:button type="cancel" label="$label"/>
-            -->
+            --></xar:comment>
         </div>
         
         <!-- Link to previous or next -->

@@ -146,7 +146,7 @@
         </xar:if>
         <xar:data-input property="$properties['access']" name="$propname" value="$propvalue['delete']"/>
     </fieldset>
-    <!--
+    <xar:comment><!--
     <fieldset>
         <legend>
             Categories
@@ -177,5 +177,5 @@
             </div>
         </div>
     </fieldset>
-    -->
+    --></xar:comment>
 </xar:template>

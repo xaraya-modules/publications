@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
-   <!--
+   <xar:comment><!--
     This template illustrates how to create menus using the staticmenu block's $menuarry variable
     Structure of $menuarray:
     Each item in $menuarray has the structure
@@ -17,7 +17,7 @@
         $itemindex is a number that designates an item in the top level menu or a submenu
         
         Override this template in your theme to customize your own menu.
-   -->
+   --></xar:comment>
    
    <!-- Root menu -->
     <ul style="margin-right: 5px">

@@ -107,13 +107,13 @@
                     <!--
                         show a link to delete the article
                     -->
-                    <!--
+                    <xar:comment><!--
                         <xar:sec mask="ManagePublications" catch="false">
                             <a href="#xarController::URL('publications','admin','delete',['id' => $object.itemid])#">
                                 <img src="#xarTpl::getImage('icons/delete.png','base')#"/>
                             </a>
                         </xar:sec>
-                    -->
+                    --></xar:comment>
                 </div>
             </div>
         </form>

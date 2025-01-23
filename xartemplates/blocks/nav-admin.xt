@@ -24,7 +24,7 @@
     <xar:set name="optgroup">
         0
     </xar:set>
-    <!--  Review this!!
+    <xar:comment><!--  Review this!!
     <select name="startmodule" id="startmodule#$blockid#">
         <xar:loop name="$modules">
             <xar:if condition="!empty($loop:item.label)">
@@ -51,7 +51,7 @@
         </optgroup>
     </xar:if>
 </select>
--->
+--></xar:comment>
 </div>
 <div class="xar-form-input-wrapper-after">
     <xar:if condition="!empty($showempty)">

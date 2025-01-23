@@ -134,7 +134,7 @@
             <xar:else />                
                 View Publications &#160;|&#160;
             </xar:sec>
-            <!--
+            <xar:comment><!--
             <xar:sec mask="AddPublications" catch="false">
                 <a href="#xarController::URL('publications','admin','new',['ptid' => $ptid])#" style="margin-right: 5px">                    
                     <img src="#xarTpl::getImage('icons/add.png','base')#"/>
@@ -142,7 +142,7 @@
             <xar:else />                
                 Add Publication &#160;|&#160;
             </xar:sec>
-            -->
+            --></xar:comment>
             <xar:sec mask="AdminPublications" catch="false">
                 <a href="#xarController::URL('publications','admin','templates_type',['ptid' => $ptid, 'tab' => 'pubtypes'])#" title="#xarML('Manage templates of this publication type')#" style="margin-right: 5px">                    
                     <img src="#xarTpl::getImage('template.png','publications')#" alt="#xarML('Manage Templates')#"/>

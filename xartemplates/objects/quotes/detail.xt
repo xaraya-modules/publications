@@ -2,9 +2,9 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <!-- License: GPL http://www.gnu.org/copyleft/gpl.html -->
     <xar:template file="publinks" type="module" />
-    <!--
+    <xar:comment><!--
     <xar:data-output type="categorynavigation" layout="trails" showchildren="1" module="publications" itemtype="$ptid" itemid="$id" cids="$cids" show_catcount="$settings['show_catcount']" showempty="0" />
-    -->
+    --></xar:comment>
 
     <xar:set name="publication_state">
         $properties['state']->value

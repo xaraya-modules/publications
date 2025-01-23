@@ -100,7 +100,7 @@
     </xar:if>
 
     <!-- old way - see suggested formatting above -->
-    <!--
+    <xar:comment><!--
     <xar:if condition="!empty($maplink) or !empty($archivelink)">
         <div style="text-align: left; padding: 10px">
             <xar:if condition="!empty($maplink)">
@@ -120,5 +120,5 @@
             </xar:if>
         </div>
     </xar:if>
-    -->
+    --></xar:comment>
 </xar:template>

@@ -20,10 +20,10 @@
                 </xar:if>
             </div>
         </xar:if>
-        <!--
+        <xar:comment><!--
         <xar:if condition="$feature['showfeaturedbod'] eq true">
             <div>#$feature['featuredbody']#</div>
        </xar:if>
-       -->
+       --></xar:comment>
     </xar:if>
 </xar:template>

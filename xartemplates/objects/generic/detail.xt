@@ -3,10 +3,10 @@
     <!-- License: GPL http://www.gnu.org/copyleft/gpl.html -->
     <xar:set name="ptid">$object->objectid</xar:set>
     <xar:template file="publinks" type="module" />
-    <!--
+    <xar:comment><!--
     <xar:set name="cids">$properties['categories']->getValue()</xar:set>
     <xar:data-output type="categorynavigation" layout="trails" showchildren="1" module="publications" itemtype="$ptid" itemid="$properties['id']" cids="$cids" show_catcount="$settings['show_catcount']" showempty="0" />
-    -->
+    --></xar:comment>
     
     <xar:set name="publication_state">
         $properties['state']->value
@@ -30,7 +30,7 @@
                         <xar:data-output property="$properties['title']" />
                     </span>
                     <br />
-                    <!--
+                    <xar:comment><!--
                     <xar:if condition="!empty($counter)">
                         (#$counter#
 
@@ -42,7 +42,7 @@
                         <span class="xar-sub"> #$topic_icons# </span>
                     </div>
                     <br />
-                    -->
+                    --></xar:comment>
                     <br />
                     <xar:data-output property="$properties['description']" />
                     <br />

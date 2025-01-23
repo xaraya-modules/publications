@@ -14,7 +14,7 @@
         </xar:comment>
         <xar:comment>
             If you want to let users pre-select a category first, before selecting a publication type, you can use the following tag. Note that this only makes sense if you have a single base category for your publications
-    <!-- xar:data-output type="categorynavigation" layout="trails" showchildren="1" module="publications" urltype="admin" func="new" itemtype="$ptid" catid="$catid" /-->
+    <xar:comment><!-- xar:data-output type="categorynavigation" layout="trails" showchildren="1" module="publications" urltype="admin" func="new" itemtype="$ptid" catid="$catid" /--></xar:comment>
         </xar:comment>
         <div  style="float:left">
             <label title="#xarML('Select a type of publication to add')#" class="xar-form-label">

@@ -3,14 +3,14 @@
     <!-- License: GPL http://www.gnu.org/copyleft/gpl.html -->
     <h2>Search Results</h2>
 
-<!--
+<xar:comment><!--
     <xar:set name="fulltext">xarModVars::get('publications', 'fulltextsearch')</xar:set>
     <xar:if condition="!empty($fulltext)">
         <xar:set name="fulltextfields">explode(',',$fulltext)</xar:set>
     </xar:if>
 
     <form method="post" action="&xar-modurl-publications-user-search;">
--->
+--></xar:comment>
     <!-- author -->
     <input type="hidden" name="author" id="author" value="#$author#" size="20" />
     <!-- search type (full text) -->
@@ -91,12 +91,12 @@
                 <a href="#$item['link']#">#$item['title']#</a>
             </xar:if>
             <xar:if condition="!empty($item['pubdate'])">#xarLocale::formatDate('%a, %d %B %Y %H:%M:%S %Z', $item['pubdate'])#</xar:if>
-            <!-- Show relevance for MySQL full-text search (see $getfields in search.php)
+            <xar:comment><!-- Show relevance for MySQL full-text search (see $getfields in search.php)
                 <xar:if condition="isset($item['relevance'])">
                   <xar:set name="relevance">sprintf('%.2f',$item['relevance'])</xar:set>
                   [#$relevance#]
                 </xar:if>
-            -->
+            --></xar:comment>
           </li>
         </xar:foreach>
       </ul>
