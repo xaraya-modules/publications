@@ -139,7 +139,7 @@ class DisplayMethod extends MethodClass
             return $this->ctl()->notFound(null, $this->getContext());
         }
 
-        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $ptid]);
 
         // A non-active publication type means the page does not exist
@@ -150,7 +150,7 @@ class DisplayMethod extends MethodClass
         // Save this as the current pubtype
         $this->var()->setCached('Publications', 'current_pubtype_object', $pubtypeobject);
 
-        $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
+        $data['object'] = $this->data()->getObject(['name' => $pubtypeobject->properties['name']->value]);
         //    $id = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
         $itemid = $data['object']->getItem(['itemid' => $id]);
 
@@ -159,7 +159,7 @@ class DisplayMethod extends MethodClass
         # Are we allowed to see this page?
         #
         $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $data['object']->properties['access']]);
-        $access = DataPropertyMaster::getProperty(['name' => 'access']);
+        $access = $this->prop()->getProperty(['name' => 'access']);
         $allow = $access->check($accessconstraints['display']);
         $nopublish = (time() < $data['object']->properties['start_date']->value) || ((time() > $data['object']->properties['end_date']->value) && !$data['object']->properties['no_end']->value);
 
@@ -278,7 +278,7 @@ class DisplayMethod extends MethodClass
                 }
 
                 // Debug
-                // echo xarController::URL($info['module'],'user',$info['func'],$other_params);
+                // echo $this->ctl()->getModuleURL($info['module'],'user',$info['func'],$other_params);
                 # --------------------------------------------------------
                 #
                 # For proxy pages: the transform of the subordinate function's template

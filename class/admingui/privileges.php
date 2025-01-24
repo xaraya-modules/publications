@@ -87,7 +87,7 @@ class PrivilegesMethod extends MethodClass
         }
 
         sys::import('modules.dynamicdata.class.properties.master');
-        $categories = DataPropertyMaster::getProperty(['name' => 'categories']);
+        $categories = $this->prop()->getProperty(['name' => 'categories']);
         $cids = $categories->returnInput('privcategories');
 
         if (!empty($extinstance)) {
@@ -215,7 +215,7 @@ class PrivilegesMethod extends MethodClass
             } // throw back
 
             // redirect to the privilege
-            $this->ctl()->redirect(xarController::URL(
+            $this->ctl()->redirect($this->ctl()->getModuleURL(
                 'privileges',
                 'admin',
                 'modifyprivilege',

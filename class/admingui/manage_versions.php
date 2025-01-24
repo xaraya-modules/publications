@@ -50,7 +50,7 @@ class ManageVersionsMethod extends MethodClass
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');
-        $entries = DataObjectFactory::getObjectList(['name' => 'publications_versions']);
+        $entries = $this->data()->getObjectList(['name' => 'publications_versions']);
         $entries->dataquery->eq($entries->properties['page_id']->source, $data['page_id']);
         $data['versions'] = $entries->countItems() + 1;
 
@@ -74,9 +74,9 @@ class ManageVersionsMethod extends MethodClass
         }
 
         // Get an empty object for the page data
-        $page = DataObjectFactory::getObject(['name' => $data['objectname']]);
+        $page = $this->data()->getObject(['name' => $data['objectname']]);
 
-        $version = DataObjectFactory::getObjectList(['name' => 'publications_versions']);
+        $version = $this->data()->getObjectList(['name' => 'publications_versions']);
 
         if ($data['version_1'] == $data['versions']) {
             $page->getItem(['itemid' => $data['page_id']]);

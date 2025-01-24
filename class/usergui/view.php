@@ -128,7 +128,7 @@ class ViewMethod extends MethodClass
         }
 
         // Get the publication type for this display
-        $data['pubtypeobject'] = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $data['pubtypeobject'] = $this->data()->getObject(['name' => 'publications_types']);
         $data['pubtypeobject']->getItem(['itemid' => $ptid]);
 
         // Pass the access rules of the publication type to the template
@@ -559,7 +559,7 @@ class ViewMethod extends MethodClass
                     //$article['rssdate'] = strtotime($article['date']);
                     $article['rsssummary'] = preg_replace('<br />', "\n", $article['summary']);
                     $article['rsssummary'] = $this->var()->prep(strip_tags($article['rsssummary']));
-                    $article['rsscomment'] = xarController::URL('comments', 'user', 'display', array('modid' => $c_modid, 'objectid' => $article['id']));
+                    $article['rsscomment'] = $this->ctl()->getModuleURL('comments', 'user', 'display', array('modid' => $c_modid, 'objectid' => $article['id']));
                     // $article['rsscname'] = htmlspecialchars($item['cname']);
                     // <category>#$rsscname#</category>
                 }
@@ -604,13 +604,13 @@ class ViewMethod extends MethodClass
         }
 
         // Get the publications we want to view
-        $data['object'] = DataObjectFactory::getObject(['name' => $data['pubtypeobject']->properties['name']->value]);
+        $data['object'] = $this->data()->getObject(['name' => $data['pubtypeobject']->properties['name']->value]);
         $data['objectname'] = $data['pubtypeobject']->properties['name']->value;
         $data['ptid'] = (int) $ptid;
 
-        //    $object = DataObjectFactory::getObjectList(array('name' => $data['pubtypeobject']->properties['name']->value));
+        //    $object = $this->data()->getObjectList(array('name' => $data['pubtypeobject']->properties['name']->value));
         //    $data['items'] = $object->getItems();
-        $data['object'] = DataObjectFactory::getObjectList(['name' => $data['pubtypeobject']->properties['name']->value]);
+        $data['object'] = $this->data()->getObjectList(['name' => $data['pubtypeobject']->properties['name']->value]);
         // Set the itemtype to static for filtering
         $data['object']->modifyProperty('itemtype', ['type' => 1]);
 

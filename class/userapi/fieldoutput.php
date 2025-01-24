@@ -41,7 +41,7 @@ class FieldoutputMethod extends MethodClass
             return '';
         }
         sys::import('modules.dynamicdata.class.objects.factory');
-        $object = DataObjectFactory::getObject(['name' => $object]);
+        $object = $this->data()->getObject(['name' => $object]);
         $itemid = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $itemid]);
         $object->getItem(['itemid' => $itemid]);
         $field = $object->properties[$field]->getValue();

@@ -202,7 +202,7 @@ class CreateMethod extends MethodClass
 
         /* ---------------------------- TODO: Remove once publications uses dd objects */
         sys::import('modules.dynamicdata.class.properties.master');
-        $categories = DataPropertyMaster::getProperty(['name' => 'categories']);
+        $categories = $this->prop()->getProperty(['name' => 'categories']);
         $categories->checkInput('categories', $id);
         $categories->createValue($id);
         /*------------------------------- */

@@ -81,7 +81,7 @@ class DeletePubtypeMethod extends MethodClass
         /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
         sys::import('modules.dynamicdata.class.objects.factory');
-        $pubtype = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtype = $this->data()->getObject(['name' => 'publications_types']);
         if (!isset($confirmed)) {
             $data['idlist'] = $idlist;
             if (count($ids) > 1) {

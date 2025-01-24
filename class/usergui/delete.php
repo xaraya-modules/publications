@@ -82,8 +82,8 @@ class DeleteMethod extends MethodClass
         /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
         sys::import('modules.dynamicdata.class.objects.factory');
-        $publication = DataObjectFactory::getObject(['name' => 'publications_documents']);
-        $access = DataPropertyMaster::getProperty(['name' => 'access']);
+        $publication = $this->data()->getObject(['name' => 'publications_documents']);
+        $access = $this->prop()->getProperty(['name' => 'access']);
         $nopermissionpage_id = $this->mod()->getVar('noprivspage');
 
         if (!isset($confirmed)) {

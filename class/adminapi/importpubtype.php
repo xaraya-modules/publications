@@ -57,7 +57,7 @@ class ImportpubtypeMethod extends MethodClass
 
         $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
 
-        $proptypes = DataPropertyMaster::getPropertyTypes();
+        $proptypes = $this->prop()->getPropertyTypes();
         $name2id = [];
         foreach ($proptypes as $propid => $proptype) {
             $name2id[$proptype['name']] = $propid;
@@ -342,7 +342,7 @@ class ImportpubtypeMethod extends MethodClass
                                 $objectname = $matches[1];
                                 $itemid = $matches[2];
                                 if (empty($objectname2objectid[$objectname])) {
-                                    $objectinfo = DataObjectFactory::getObjectInfo(array('name' => $objectname));
+                                    $objectinfo = $this->data()->getObjectInfo(array('name' => $objectname));
                                     if (isset($objectinfo) && !empty($objectinfo['objectid'])) {
                                         $objectname2objectid[$objectname] = $objectinfo['objectid'];
                                     } else {

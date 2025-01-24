@@ -63,7 +63,7 @@ class PreviewMethod extends MethodClass
             return $this->ctl()->notFound(null, $this->getContext());
         }
 
-        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $ptid]);
         // Save this as the current pubtype
         $this->var()->setCached('Publications', 'current_pubtype_object', $pubtypeobject);
@@ -73,7 +73,7 @@ class PreviewMethod extends MethodClass
         # Are we allowed to see this page?
         #
         $accessconstraints = unserialize($data['object']->properties['access']->value);
-        $access = DataPropertyMaster::getProperty(['name' => 'access']);
+        $access = $this->prop()->getProperty(['name' => 'access']);
         $allow = $access->check($accessconstraints['display']);
         $nopublish = (time() < $data['object']->properties['start_date']->value) || ((time() > $data['object']->properties['end_date']->value) && !$data['object']->properties['no_end']->value);
 

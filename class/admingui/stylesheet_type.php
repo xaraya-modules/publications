@@ -55,12 +55,12 @@ class StylesheetTypeMethod extends MethodClass
         /** @var AdminGui $admingui */
         $admingui = $this->admingui();
 
-        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
         $pubtype = explode('_', $pubtypeobject->properties['name']->value);
         $pubtype = $pubtype[1] ?? $pubtype[0];
 
-        $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
+        $data['object'] = $this->data()->getObject(['name' => $pubtypeobject->properties['name']->value]);
 
         $basepath = sys::code() . "modules/publications/xarstyles";
         $sourcefile = $basepath . "/" . $data['file'] . ".css";

@@ -381,9 +381,9 @@ class SearchMethod extends MethodClass
                 $data['categories'][] = ['cattitle' => $title,
                     'catselect' => $select, ];
             }
-            $data['searchurl'] = xarController::URL('search', 'user', 'main');
+            $data['searchurl'] = $this->ctl()->getModuleURL('search', 'user', 'main');
         } else {
-            $data['searchurl'] = xarController::URL(
+            $data['searchurl'] = $this->ctl()->getModuleURL(
                 'search',
                 'user',
                 'main',
@@ -595,7 +595,7 @@ class SearchMethod extends MethodClass
                         ),
 
                         /* trick : use *this* publications search instead of global search for pager :-)
-                                                                xarController::URL('search', 'user', 'main',
+                                                                $this->ctl()->getModuleURL('search', 'user', 'main',
                         */
                         $this->mod()->getURL(
                             'user',

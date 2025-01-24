@@ -34,7 +34,7 @@ class GetPubtypesMethod extends MethodClass
         if ($this->var()->isCached('Publications.Data', 'producttypes')) {
             return $this->var()->getCached('Publications.Data', 'producttypes');
         }
-        $object = DataObjectFactory::getObjectList(['name' => 'publications_types']);
+        $object = $this->data()->getObjectList(['name' => 'publications_types']);
         $items = $object->getItems();
         $this->var()->setCached('Publications.Data', 'producttypes', $items);
         return $items;

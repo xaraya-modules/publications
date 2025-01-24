@@ -48,7 +48,7 @@ class DisplayVersionMethod extends MethodClass
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');
-        $entries = DataObjectFactory::getObjectList(['name' => 'publications_versions']);
+        $entries = $this->data()->getObjectList(['name' => 'publications_versions']);
         $entries->dataquery->eq($entries->properties['page_id']->source, $data['page_id']);
         $data['versions'] = $entries->countItems();
 
@@ -65,7 +65,7 @@ class DisplayVersionMethod extends MethodClass
         $data['version_1'] = $version_1;
 
         // Get the content data for the display
-        $version = DataObjectFactory::getObjectList(['name' => 'publications_versions']);
+        $version = $this->data()->getObjectList(['name' => 'publications_versions']);
         $version->dataquery->eq($version->properties['page_id']->source, $data['page_id']);
         $version->dataquery->eq($version->properties['version_number']->source, $version_1);
         $items = $version->getItems();
@@ -76,9 +76,9 @@ class DisplayVersionMethod extends MethodClass
         $content_array_1 = unserialize($item['content']);
 
         // Get an empty object for the page data
-        $pubtype = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtype = $this->data()->getObject(['name' => 'publications_types']);
         $pubtype->getItem(['itemid' => $content_array_1['itemtype']]);
-        $page = DataObjectFactory::getObject(['name' => $pubtype->properties['name']->value]);
+        $page = $this->data()->getObject(['name' => $pubtype->properties['name']->value]);
         $page->tplmodule = 'publications';
         $page->layout = 'publications_documents';
 

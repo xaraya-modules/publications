@@ -400,7 +400,7 @@ class ViewMethod extends MethodClass
         }
 
         // Get the available publications objects
-        $object = DataObjectFactory::getObjectList(['objectid' => 1]);
+        $object = $this->data()->getObjectList(['objectid' => 1]);
         $items = $object->getItems();
         $options = [];
         foreach ($items as $item) {
@@ -423,9 +423,9 @@ class ViewMethod extends MethodClass
         }
         $data['conditions'] = $q;
 
-        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $ptid]);
-        $data['object'] = DataObjectFactory::getObjectList(['name' => $pubtypeobject->properties['name']->value]);
+        $data['object'] = $this->data()->getObjectList(['name' => $pubtypeobject->properties['name']->value]);
 
         // Flag this as the current list view
         xarSession::setVar('publications_current_listview', xarServer::getCurrentURL(['ptid' => $ptid]));

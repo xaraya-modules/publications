@@ -210,7 +210,7 @@ class GetpagesMethod extends MethodClass
 
                 // Define admin access
                 sys::import('modules.dynamicdata.class.properties.master');
-                $accessproperty = DataPropertyMaster::getProperty(['name' => 'access']);
+                $accessproperty = $this->prop()->getProperty(['name' => 'access']);
                 $typename = $pagetypes[$row['ptid']]['name'];
                 $args = [
                     'instance' => $row['name'] . ":" . $typename,

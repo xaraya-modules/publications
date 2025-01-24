@@ -82,9 +82,9 @@ class UpdateMethod extends MethodClass
         //    if (!$this->sec()->confirmAuthKey()) return;
 
         $items = explode(',', $items);
-        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
-        $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
+        $data['object'] = $this->data()->getObject(['name' => $pubtypeobject->properties['name']->value]);
 
         // First we need to check all the data on the template
         // If checkInput fails, don't bail

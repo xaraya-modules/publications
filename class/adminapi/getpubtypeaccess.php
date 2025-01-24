@@ -34,7 +34,7 @@ class GetpubtypeaccessMethod extends MethodClass
             throw new Exception($this->ml('Missing ptid param in publications_adminapi_getpubtypeaccess'));
         }
 
-        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         if (null == $pubtypeobject) {
             return false;
         }

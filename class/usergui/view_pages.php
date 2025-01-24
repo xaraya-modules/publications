@@ -75,7 +75,7 @@ class ViewPagesMethod extends MethodClass
         if (!empty($data['pages'])) {
             // Bring in the access property for security checks
             sys::import('modules.dynamicdata.class.properties.master');
-            $accessproperty = DataPropertyMaster::getProperty(['name' => 'access']);
+            $accessproperty = $this->prop()->getProperty(['name' => 'access']);
             $accessproperty->module = 'publications';
             $accessproperty->component = 'Page';
             foreach ($data['pages'] as $key => $page) {

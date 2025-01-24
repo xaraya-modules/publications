@@ -62,7 +62,7 @@ class ModifyMethod extends MethodClass
         }
 
         if (!empty($ptid)) {
-            $publication_type = DataObjectFactory::getObjectList(['name' => 'publications_types']);
+            $publication_type = $this->data()->getObjectList(['name' => 'publications_types']);
             $where = 'id = ' . $ptid;
             $items = $publication_type->getItems(['where' => $where]);
             $item = current($items);
@@ -73,7 +73,7 @@ class ModifyMethod extends MethodClass
         #
         # Get our object
         #
-        $data['object'] = DataObjectFactory::getObject(['name' => $name]);
+        $data['object'] = $this->data()->getObject(['name' => $name]);
         $data['object']->getItem(['itemid' => $data['itemid']]);
         $data['ptid'] = $data['object']->properties['itemtype']->value;
 
@@ -114,7 +114,7 @@ class ModifyMethod extends MethodClass
         #
         # Get any translations of the base document
         #
-        $data['objectlist'] = DataObjectFactory::getObjectList(['name' => $name]);
+        $data['objectlist'] = $this->data()->getObjectList(['name' => $name]);
         $where = "parent = " . $data['itemid'];
         $items = $data['objectlist']->getItems(['where' => $where]);
         foreach ($items as $key => $value) {

@@ -183,15 +183,15 @@ class UpdateconfigMethod extends MethodClass
             }
 
             // Pull the base category ids from the template and save them
-            $picker = DataPropertyMaster::getProperty(['name' => 'categorypicker']);
+            $picker = $this->prop()->getProperty(['name' => 'categorypicker']);
             $picker->checkInput('basecid');
         } elseif ($data['tab'] == 'pubtypes') {
             // Get the publication type for this display and save the settings to it
-            $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+            $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
             $pubtypeobject->getItem(['itemid' => $ptid]);
             $configsettings = $pubtypeobject->properties['configuration']->getValue();
 
-            $checkbox = DataPropertyMaster::getProperty(['name' => 'checkbox']);
+            $checkbox = $this->prop()->getProperty(['name' => 'checkbox']);
             $boxes = [
                 'show_hitount',
                 'show_ratings',
@@ -232,7 +232,7 @@ class UpdateconfigMethod extends MethodClass
                 xarModAlias::delete($pubtypes[$ptid]['name'], 'publications');
             }
         } elseif ($data['tab'] == 'redirects') {
-            $redirects = DataPropertyMaster::getProperty(['name' => 'array']);
+            $redirects = $this->prop()->getProperty(['name' => 'array']);
             $redirects->display_column_definition['value'] = [["From","To"],[2,2],["",""],["",""]];
             $isvalid = $redirects->checkInput("redirects");
             $this->mod()->setVar('redirects', $redirects->value);

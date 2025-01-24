@@ -133,10 +133,10 @@ class ImportpagesMethod extends MethodClass
             # Get the fields of hte chosen pubtype
             #
             sys::import('modules.dynamicdata.class.objects.factory');
-            $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+            $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
             $pubtypeobject->getItem(['itemid' => $data['ptid']]);
             $objectname = $pubtypeobject->properties['name']->value;
-            $pageobject = DataObjectFactory::getObject(['name' => $objectname]);
+            $pageobject = $this->data()->getObject(['name' => $objectname]);
 
             foreach ($pageobject->properties as $name => $property) {
                 if ($property->basetype == 'string') {
@@ -265,7 +265,7 @@ class ImportpagesMethod extends MethodClass
                     $args[$data['titlefield']] = $title;
                     $args['name'] = str_replace(' ', '_', trim(strtolower($title)));
                 }
-                $pageobject = DataObjectFactory::getObject(['name' => $objectname]);
+                $pageobject = $this->data()->getObject(['name' => $objectname]);
                 $pageobject->setFieldValues($args, 1);
 
                 if (isset($test)) {

@@ -72,7 +72,7 @@ class CloneMethod extends MethodClass
 
         // If a pubtype ID was passed, get the name of the pub object
         if (isset($ptid)) {
-            $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+            $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
             $pubtypeobject->getItem(['itemid' => $ptid]);
             $objectname = $pubtypeobject->properties['name']->value;
         }
@@ -81,7 +81,7 @@ class CloneMethod extends MethodClass
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');
-        $data['object'] = DataObjectFactory::getObject(['name' => $objectname]);
+        $data['object'] = $this->data()->getObject(['name' => $objectname]);
         if (empty($data['object'])) {
             return $this->ctl()->notFound(null, $this->getContext());
         }
@@ -134,7 +134,7 @@ class CloneMethod extends MethodClass
 
                 // Clone each one
                 foreach ($q->output() as $item) {
-                    $object = DataObjectFactory::getObject(['name' => $item['name']]);
+                    $object = $this->data()->getObject(['name' => $item['name']]);
                     $object->getItem(['itemid' => $item['id']]);
                     $object->properties['parent']->value = $cloneid;
                     $object->properties['id']->value = 0;

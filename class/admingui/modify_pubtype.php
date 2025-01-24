@@ -64,11 +64,11 @@ class ModifyPubtypeMethod extends MethodClass
         }
 
         // Get our object
-        $data['object'] = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $data['object'] = $this->data()->getObject(['name' => 'publications_types']);
         if (!empty($data['itemid'])) {
             $data['object']->getItem(['itemid' => $data['itemid']]);
         } else {
-            $type_list = DataObjectFactory::getObjectList(['name' => 'publications_types']);
+            $type_list = $this->data()->getObjectList(['name' => 'publications_types']);
             $where = 'name = ' . $name;
             $items = $type_list->getItems(['where' => $where]);
             $item = current($items);

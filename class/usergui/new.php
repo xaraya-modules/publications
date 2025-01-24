@@ -57,16 +57,16 @@ class NewMethod extends MethodClass
         }
         $data['items'] = [];
 
-        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
-        $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
+        $data['object'] = $this->data()->getObject(['name' => $pubtypeobject->properties['name']->value]);
 
         # --------------------------------------------------------
         #
         # Are we allowed to add a page?
         #
         $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $data['object']->properties['access']]);
-        $access = DataPropertyMaster::getProperty(['name' => 'access']);
+        $access = $this->prop()->getProperty(['name' => 'access']);
         $allow = $access->check($accessconstraints['add']);
 
         // If no access, then bail showing a forbidden or the "no permission" page or an empty page

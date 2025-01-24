@@ -95,7 +95,7 @@ class ViewmapMethod extends MethodClass
 
         // Get publication types
         sys::import('modules.dynamicdata.class.objects.factory');
-        $object = DataObjectFactory::getObjectList(['name' => 'publications_types']);
+        $object = $this->data()->getObjectList(['name' => 'publications_types']);
         $data['pubtypes'] = $object->getItems();
 
         // redirect to filtered view
@@ -386,7 +386,7 @@ class ViewmapMethod extends MethodClass
         }
 
         if (!empty($ptid)) {
-            $object = DataObjectFactory::getObject(['name' => 'publications_types']);
+            $object = $this->data()->getObject(['name' => 'publications_types']);
             $object->getItem(['itemid' => $ptid]);
             $template = $object->properties['template']->value;
         } else {

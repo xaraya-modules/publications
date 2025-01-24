@@ -46,7 +46,7 @@ class GetsettingsMethod extends MethodClass
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');
-        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
 
         $pubtypesettings = [];

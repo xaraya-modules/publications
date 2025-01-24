@@ -62,9 +62,9 @@ class NewMethod extends MethodClass
         }
         xarSession::setVar('publications_current_pubtype', $data['ptid']);
 
-        $pubtypeobject = DataObjectFactory::getObject(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
-        $data['object'] = DataObjectFactory::getObject(['name' => $pubtypeobject->properties['name']->value]);
+        $data['object'] = $this->data()->getObject(['name' => $pubtypeobject->properties['name']->value]);
 
         //FIXME This should be configuration in the celko property itself
         $data['object']->properties['position']->initialization_celkoparent_id = 'parentpage_id';

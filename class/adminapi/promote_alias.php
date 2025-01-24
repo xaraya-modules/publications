@@ -58,7 +58,7 @@ class PromoteAliasMethod extends MethodClass
             return true;
         }
 
-        $publication = DataObjectFactory::getObject(['name' => 'publications']);
+        $publication = $this->data()->getObject(['name' => 'publications']);
 
         // Get the alias, set its parent ID to 0 and save
         $publication->getItem(['itemid' => $itemid]);
