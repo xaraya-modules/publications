@@ -30,6 +30,7 @@ class GetstatesMethod extends MethodClass
     /**
      * return an array with coded states
      * @return array
+     * @see UserApi::getstates()
      */
     public function __invoke(array $args = [])
     {

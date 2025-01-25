@@ -37,6 +37,7 @@ class GetpubfieldformatsMethod extends MethodClass
      * @return array array('static'  => $this->ml('Static Text'),
      * 'textbox' => $this->ml('Text Box'),
      * ...);
+     * @see UserApi::getpubfieldformats()
      */
     public function __invoke(array $args = [])
     {

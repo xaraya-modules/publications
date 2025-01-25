@@ -46,11 +46,14 @@ class GetrandomMethod extends MethodClass
      * @var string $locale language/locale (if not using multi-sites, categories etc.)
      * @var bool $unique return unique results
      * @return array|void of publications, or false on failure
+     * @see UserApi::getrandom()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // 1. count the number of items that apply
-        $count = xarMod::apiFunc('publications', 'user', 'countitems', $args);
+        $count = $userapi->countitems($args);
         if (empty($count)) {
             return [];
         }
@@ -75,7 +78,7 @@ class GetrandomMethod extends MethodClass
         if ($count <= $numitems) {
             unset($args['numitems']);
             // retrieve all publications and randomize the order
-            $items = xarMod::apiFunc('publications', 'user', 'getall', $args);
+            $items = $userapi->getall($args);
             $randomkeys = array_rand($items, $count);
             if (!is_array($randomkeys)) {
                 $randomkeys = [$randomkeys];
@@ -94,7 +97,7 @@ class GetrandomMethod extends MethodClass
                     $i--;
                 } else {
                     $idlist[] = $args['startnum'];
-                    $items = xarMod::apiFunc('publications', 'user', 'getall', $args);
+                    $items = $userapi->getall($args);
                     if (empty($items)) {
                         break;
                     }

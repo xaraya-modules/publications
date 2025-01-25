@@ -37,9 +37,12 @@ class GetNextnameMethod extends MethodClass
      * @var mixed $name string publication type name (optional)
      * @return array|string|false array(id => array('name' => name, 'description' => description)), or false on
      * failure
+     * @see UserApi::getNextname()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (empty($args['ptid'])) {
             return $this->ml('new_publication');
         }
@@ -73,7 +76,7 @@ class GetNextnameMethod extends MethodClass
             case 13: $namestring = 'eve';
                 break;    // event
             default:
-                $namestring = xarMod::apiFunc('publications', 'user', 'getsetting', ['ptid' => $args['ptid'], 'setting' => 'namestring']);
+                $namestring = $userapi->getsetting(['ptid' => $args['ptid'], 'setting' => 'namestring']);
                 break;
         }
 

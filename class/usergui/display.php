@@ -13,13 +13,14 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarModVars;
 use xarCoreCache;
 use xarMod;
 use xarController;
-use xarResponse;
 use xarTpl;
 use xarServer;
 use xarRequest;
@@ -39,10 +40,15 @@ sys::import('xaraya.modules.method');
  */
 class DisplayMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserGui::display()
+     */
 
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
         // Get parameters from user
         // this is used to determine whether we come from a pubtype-based view or a
         // categories-based navigation
@@ -93,9 +99,9 @@ class DisplayMethod extends MethodClass
         $this->var()->setCached('Blocks.publications', 'current_base_id', $id);
 
         if ($translate) {
-            $id = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $id]);
+            $id = $userapi->gettranslationid(['id' => $id]);
             /*
-            $newid = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
+            $newid = $userapi->gettranslationid(array('id' => $id));
             if ($newid != $id) {
                 // We do a full redirect rather than just continuing with the new id so that
                 // anything working off the itemid of the page to be displayed will automatically
@@ -123,7 +129,7 @@ class DisplayMethod extends MethodClass
         # If still no ID, we have come to the end of the line
         #
         if (empty($id)) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         # --------------------------------------------------------
@@ -132,11 +138,11 @@ class DisplayMethod extends MethodClass
         #
         // Here we get the publication type first, and then from that the page
         // Perhaps more efficient to get the page directly?
-        $ptid = xarMod::apiFunc('publications', 'user', 'getitempubtype', ['itemid' => $id]);
+        $ptid = $userapi->getitempubtype(['itemid' => $id]);
 
         // An empty publication type means the page does not exist
         if (empty($ptid)) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
@@ -144,21 +150,22 @@ class DisplayMethod extends MethodClass
 
         // A non-active publication type means the page does not exist
         if ($pubtypeobject->properties['state']->value < Defines::STATE_ACTIVE) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         // Save this as the current pubtype
         $this->var()->setCached('Publications', 'current_pubtype_object', $pubtypeobject);
 
         $data['object'] = $this->data()->getObject(['name' => $pubtypeobject->properties['name']->value]);
-        //    $id = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
+        //    $id = $userapi->gettranslationid(array('id' => $id));
         $itemid = $data['object']->getItem(['itemid' => $id]);
 
         # --------------------------------------------------------
         #
         # Are we allowed to see this page?
         #
-        $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $data['object']->properties['access']]);
+        $accessconstraints = $adminapi->getpageaccessconstraints(['property' => $data['object']->properties['access']]);
+        /** @var \AccessProperty $access */
         $access = $this->prop()->getProperty(['name' => 'access']);
         $allow = $access->check($accessconstraints['display']);
         $nopublish = (time() < $data['object']->properties['start_date']->value) || ((time() > $data['object']->properties['end_date']->value) && !$data['object']->properties['no_end']->value);
@@ -167,7 +174,7 @@ class DisplayMethod extends MethodClass
         $nopermissionpage_id = $this->mod()->getVar('noprivspage');
         if (!$allow || $nopublish) {
             if ($accessconstraints['display']['failure']) {
-                return xarResponse::Forbidden();
+                return $this->ctl()->forbidden();
             } elseif ($nopermissionpage_id) {
                 $this->ctl()->redirect($this->mod()->getURL(
                     'user',
@@ -184,7 +191,7 @@ class DisplayMethod extends MethodClass
         if ($this->mod()->getVar('use_process_states')) {
             if ($data['object']->properties['process_state']->value < 3) {
                 if ($accessconstraints['display']['failure']) {
-                    return xarResponse::Forbidden();
+                    return $this->ctl()->forbidden();
                 } elseif ($nopermissionpage_id) {
                     $this->ctl()->redirect($this->mod()->getURL(
                         'user',
@@ -207,7 +214,7 @@ class DisplayMethod extends MethodClass
             // This is a simple redirect to another page
             $url = $data['object']->properties['redirect_url']->value;
             if (empty($url)) {
-                return $this->ctl()->notFound(null, $this->getContext());
+                return $this->ctl()->notFound();
             }
             try {
                 // Check if this is a Xaraya function
@@ -217,7 +224,7 @@ class DisplayMethod extends MethodClass
                 }
                 $this->ctl()->redirect($url, 301);
             } catch (Exception $e) {
-                return $this->ctl()->notFound(null, $this->getContext());
+                return $this->ctl()->notFound();
             }
         } elseif ($redirect_type == 2) {
             // This displays a page of a different module
@@ -236,7 +243,7 @@ class DisplayMethod extends MethodClass
 
             // Bail if the URL is bad
             if (empty($url)) {
-                return $this->ctl()->notFound(null, $this->getContext());
+                return $this->ctl()->notFound();
             }
             try {
                 // Check if this is a Xaraya function
@@ -249,13 +256,13 @@ class DisplayMethod extends MethodClass
                 // we can use a simple parse_url() in this case
                 $params = parse_url($url);
             } catch (Exception $e) {
-                return $this->ctl()->notFound(null, $this->getContext());
+                return $this->ctl()->notFound();
             }
 
             // If this is an external link, show it without further processing
             if (!empty($params['host']) && $params['host'] != xarServer::getHost() && $params['host'] . ":" . $params['port'] != xarServer::getHost()) {
                 $this->ctl()->redirect($url, 301);
-            } elseif (strpos(xarServer::getCurrentURL(), $url) === 0) {
+            } elseif (strpos($this->ctl()->getCurrentURL(), $url) === 0) {
                 // CHECKME: is this robust enough?
                 // Redirect to avoid recursion if $url is already our present URL
                 $this->ctl()->redirect($url, 301);
@@ -266,6 +273,7 @@ class DisplayMethod extends MethodClass
                 $router->route($request);
                 $request->setRoute($router->getRoute());
                 $dispatcher = new xarDispatcher();
+                /** @var \iController $controller */
                 $controller = $dispatcher->findController($request);
                 $controller->actionstring = $request->getActionString();
                 $args = $controller->decode() + $request->getFunctionArgs();
@@ -274,7 +282,7 @@ class DisplayMethod extends MethodClass
                 try {
                     $page = xarMod::guiFunc($request->getModule(), 'user', $request->getFunction(), $request->getFunctionArgs());
                 } catch (Exception $e) {
-                    return $this->ctl()->notFound(null, $this->getContext());
+                    return $this->ctl()->notFound();
                 }
 
                 // Debug
@@ -290,7 +298,7 @@ class DisplayMethod extends MethodClass
                 $replace = [];
                 foreach ($matches[2] as $match) {
                     $pattern[] = '%</form%';
-                    $replace[] = '<input type="hidden" name="return_url" id="return_url" value="' . urlencode(xarServer::getCurrentURL()) . '"/><input type="hidden" name="child" value="' . urlencode($match) . '"/></form';
+                    $replace[] = '<input type="hidden" name="return_url" id="return_url" value="' . urlencode($this->ctl()->getCurrentURL()) . '"/><input type="hidden" name="child" value="' . urlencode($match) . '"/></form';
                 }
                 $page = preg_replace($pattern, $replace, $page);
 
@@ -299,7 +307,7 @@ class DisplayMethod extends MethodClass
                 $pattern='/(action)="([^"\r\n]*)"/';
                 $page = preg_replace_callback($pattern,
                     function($matches) {
-                        return $matches[1] = 'action="' . xarServer::getCurrentURL() . '"';
+                        return $matches[1] = 'action="' . $this->ctl()->getCurrentURL() . '"';
                     },
                     $page
                 );
@@ -310,7 +318,7 @@ class DisplayMethod extends MethodClass
                 $page = preg_replace_callback(
                     $pattern,
                     function ($matches) {
-                        return $matches[1] = xarServer::getCurrentURL(["child" => urlencode($matches[2])]);
+                        return $matches[1] = $this->ctl()->getCurrentURL(["child" => urlencode($matches[2])]);
                     },
                     $page
                 );
@@ -342,7 +350,7 @@ class DisplayMethod extends MethodClass
             foreach ($fields as $field) {
                 try {
                     $tplString  = '<xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">';
-                    $tplString .= xarMod::apiFunc('publications', 'user', 'prepareforbl', ['string' => $data['object']->properties[$field]->value]);
+                    $tplString .= $userapi->prepareforbl(['string' => $data['object']->properties[$field]->value]);
 
                     $tplString .= '</xar:template>';
 
@@ -362,9 +370,7 @@ class DisplayMethod extends MethodClass
         # Get the complete tree for this section of pages. We need this for blocks etc.
         #
         /*
-            $tree = xarMod::apiFunc(
-                'publications', 'user', 'getpagestree',
-                array(
+            $tree = $userapi->getpagestree(array(
                     'tree_contains_pid' => $id,
                     'key' => 'id',
                     'status' => 'ACTIVE,FRONTPAGE,PLACEHOLDER'
@@ -380,7 +386,7 @@ class DisplayMethod extends MethodClass
                         // If the page is displayable, then treat it as the new page.
                         if ($tree['pages'][$scan_key]['status'] == 3 || $tree['pages'][$scan_key]['status'] == 4) {
                             $id = $tree['pages'][$scan_key]['id'];
-                            $id = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
+                            $id = $userapi->gettranslationid(array('id' => $id));
                             $itemid = $data['object']->getItem(array('itemid' => $id));
                             break;
                         }
@@ -396,7 +402,7 @@ class DisplayMethod extends MethodClass
         $data['layout'] = $layout;
 
         // Get the settings for this publication type
-        $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $ptid]);
+        $data['settings'] = $userapi->getsettings(['ptid' => $ptid]);
 
         // The name of this object
         $data['objectname'] = $data['object']->name;
@@ -503,19 +509,11 @@ class DisplayMethod extends MethodClass
         # Get information on next and previous items
         #
         if ($data['settings']['show_prevnext']) {
-            $prevpublication = xarMod::apiFunc(
-                'publications',
-                'user',
-                'getprevious',
-                ['id' => $itemid,
+            $prevpublication = $userapi->getprevious(['id' => $itemid,
                     'ptid' => $data['object']->properties['itemtype']->value,
                     'sort' => 'title',]
             );
-            $nextpublication = xarMod::apiFunc(
-                'publications',
-                'user',
-                'getnext',
-                ['id' => $itemid,
+            $nextpublication = $userapi->getnext(['id' => $itemid,
                     'ptid' => $data['object']->properties['itemtype']->value,
                     'sort' => 'title',]
             );

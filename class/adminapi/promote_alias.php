@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminApi;
 
 
 use Xaraya\Modules\Publications\AdminApi;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use xarDB;
@@ -33,9 +34,12 @@ class PromoteAliasMethod extends MethodClass
 
     /**
      * Make a translation page the base page
+     * @see AdminApi::promoteAlias()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get arguments from argument array
         extract($args);
 
@@ -51,7 +55,7 @@ class PromoteAliasMethod extends MethodClass
             throw new BadParameterException(null, $msg);
         }
 
-        $base_id = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['itemid' => $itemid]);
+        $base_id = $userapi->gettranslationid(['itemid' => $itemid]);
 
         // If the alias was already the base ID, then we're done
         if ($base_id == $itemid) {
@@ -99,7 +103,7 @@ class PromoteAliasMethod extends MethodClass
         $q->eq('id', $base_id);
         $q->addfield('parentpage_id');
         $q->run();
-        $row = $q->getrow();
+        $row = $q->row();
         $q = new Query('UPDATE', $tables['publications_publications']);
         $q->eq('id', $itemid);
         $q->addfield('parentpage_id', $row['parentpage']);

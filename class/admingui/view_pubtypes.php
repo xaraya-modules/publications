@@ -30,6 +30,7 @@ class ViewPubtypesMethod extends MethodClass
 
     /**
      * Manage publication types (all-in-one function for now)
+     * @see AdminGui::viewPubtypes()
      */
     public function __invoke(array $args = [])
     {

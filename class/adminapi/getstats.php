@@ -30,8 +30,9 @@ class GetstatsMethod extends MethodClass
 
     /**
      * count number of items depending on additional module criteria
-     * @param array group
-     * @return array number of items with descriptors
+     * @param array<mixed> $args with group
+     * @return array<mixed>|void number of items with descriptors
+     * @see AdminApi::getstats()
      */
     public function __invoke(array $args = [])
     {

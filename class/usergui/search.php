@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarMod;
@@ -42,9 +43,12 @@ class SearchMethod extends MethodClass
      * @var mixed $objectid could be the query ? (currently unused)
      * @var mixed $extrainfo all other parameters ? (currently unused)
      * @return array|string|void output
+     * @see UserGui::search()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // pager stuff
         if (!$this->var()->find('startnum', $startnum, 'int:0')) {
             return;
@@ -159,7 +163,7 @@ class SearchMethod extends MethodClass
         }
 
         // Get publication types
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         if ($this->sec()->checkAccess('AdminPublications', 0)) {
             $isadmin = true;
@@ -328,7 +332,7 @@ class SearchMethod extends MethodClass
             $data['searchtype'] = $searchtype;
         }
         if ($isadmin) {
-            $states = xarMod::apiFunc('publications', 'user', 'getstates');
+            $states = $userapi->getstates();
             $data['statelist'] = [];
             foreach ($states as $id => $name) {
                 $data['statelist'][] = ['id' => $id, 'name' => $name, 'checked' => in_array($id, $state)];
@@ -432,11 +436,7 @@ class SearchMethod extends MethodClass
             $count = 0;
             // TODO: allow combination of searches ?
             foreach ($ptids as $curptid) {
-                $publications = xarMod::apiFunc(
-                    'publications',
-                    'user',
-                    'getall',
-                    ['startnum' => $startnum,
+                $publications = $userapi->getall(['startnum' => $startnum,
                         'cids' => $cids,
                         'andcids' => $andcids,
                         'ptid' => $curptid,
@@ -473,11 +473,7 @@ class SearchMethod extends MethodClass
                                 ['cids' => array_keys($cidlist)]
                             );
                             // get root categories for this publication type
-                            $catroots = xarMod::apiFunc(
-                                'publications',
-                                'user',
-                                'getrootcats',
-                                ['ptid' => $curptid]
+                            $catroots = $userapi->getrootcats(['ptid' => $curptid]
                             );
                             $catroots = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $curptid]);
                         }
@@ -576,13 +572,9 @@ class SearchMethod extends MethodClass
                     // Pager
                     // TODO: make count depend on locale in the future
                     sys::import('modules.base.class.pager');
-                    $pager = xarTplPager::getPager(
+                    $pager = $this->tpl()->getPager(
                         $startnum,
-                        xarMod::apiFunc(
-                            'publications',
-                            'user',
-                            'countitems',
-                            ['cids' => $cids,
+                        $userapi->countitems(['cids' => $cids,
                                 'andcids' => $andcids,
                                 'ptid' => $curptid,
                                 'owner' => $owner,

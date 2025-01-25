@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminApi;
 
 
 use Xaraya\Modules\Publications\AdminApi;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarMod;
@@ -38,9 +39,12 @@ class CreatepubtypeMethod extends MethodClass
      * @var mixed $descr description of the publication type
      * @var mixed $config configuration of the publication type
      * @return int|void publication type ID on success, false on failure
+     * @see AdminApi::createpubtype()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get arguments from argument array
         extract($args);
 
@@ -84,7 +88,7 @@ class CreatepubtypeMethod extends MethodClass
         }
 
         // Make sure we have all the configuration fields we need
-        $pubfields = xarMod::apiFunc('publications', 'user', 'getpubfields');
+        $pubfields = $userapi->getpubfields();
         foreach ($pubfields as $field => $value) {
             if (!isset($config[$field])) {
                 $config[$field] = '';

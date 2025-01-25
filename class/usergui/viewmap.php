@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarModVars;
@@ -36,9 +37,12 @@ class ViewmapMethod extends MethodClass
 
     /**
      * view article map
+     * @see UserGui::viewmap()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get parameters
         if (!$this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'))) {
             return;
@@ -137,11 +141,7 @@ class ViewmapMethod extends MethodClass
                 if (empty($val)) {
                     continue;
                 }
-                $data['cattree'][$cid] = xarMod::apiFunc(
-                    'publications',
-                    'user',
-                    'getchildcats',
-                    // frontpage or approved
+                $data['cattree'][$cid] = $userapi->getchildcats(// frontpage or approved
                     ['state' => [Defines::STATE_APPROVED,Defines::STATE_FRONTPAGE],
                         'cid' => $cid,
                         'ptid' => null,
@@ -177,11 +177,7 @@ class ViewmapMethod extends MethodClass
                     if (empty($val)) {
                         continue;
                     }
-                    $cattree[$cid] = xarMod::apiFunc(
-                        'publications',
-                        'user',
-                        'getchildcats',
-                        // frontpage or approved
+                    $cattree[$cid] = $userapi->getchildcats(// frontpage or approved
                         ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                             'cid' => $cid,
                             'ptid' => $ptid,
@@ -233,11 +229,7 @@ class ViewmapMethod extends MethodClass
                 }
 
                 // Get the counts for all groups of (N) categories
-                $pubcatcount = xarMod::apiFunc(
-                    'publications',
-                    'user',
-                    'getpubcatcount',
-                    // frontpage or approved
+                $pubcatcount = $userapi->getpubcatcount(// frontpage or approved
                     ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                         'ptid' => $ptid,
                         'groupcids' => 2,
@@ -280,11 +272,7 @@ class ViewmapMethod extends MethodClass
             $data['maplink'] = $this->mod()->getURL( 'user', 'viewmap', ['by' => 'pub']);
 
             // get the links and counts for all publication types
-            $publinks = xarMod::apiFunc(
-                'publications',
-                'user',
-                'getpublinks',
-                ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
+            $publinks = $userapi->getpublinks(['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                     'all' => 1, ]
             );
 
@@ -312,11 +300,7 @@ class ViewmapMethod extends MethodClass
                 // for each root category of this publication type
                 foreach ($publinks[$i]['rootcats'] as $cid) {
                     // add the category tree to the list of categories to show
-                    $childcats =  xarMod::apiFunc(
-                        'publications',
-                        'user',
-                        'getchildcats',
-                        // frontpage or approved
+                    $childcats =  $userapi->getchildcats(// frontpage or approved
                         ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                             'cid' => $cid,
                             'ptid' => $pubid,

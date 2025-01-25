@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -37,10 +38,13 @@ sys::import('xaraya.modules.method');
  */
 class CreateMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserGui::create()
+     */
 
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Xaraya security
         if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
@@ -70,7 +74,7 @@ class CreateMethod extends MethodClass
 
         $isvalid = $data['object']->checkInput();
 
-        $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
+        $data['settings'] = $userapi->getsettings(['ptid' => $data['ptid']]);
 
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for

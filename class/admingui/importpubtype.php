@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -33,9 +34,12 @@ class ImportpubtypeMethod extends MethodClass
 
     /**
      * Import an object definition or an object item from XML
+     * @see AdminGui::importpubtype()
      */
     public function __invoke(array $args = [])
     {
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
         if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
@@ -86,18 +90,10 @@ class ImportpubtypeMethod extends MethodClass
                     $msg = $this->ml('File not found');
                     throw new BadParameterException(null, $msg);
                 }
-                $ptid = xarMod::apiFunc(
-                    'publications',
-                    'admin',
-                    'importpubtype',
-                    ['file' => $basedir . '/' . $file]
+                $ptid = $adminapi->importpubtype(['file' => $basedir . '/' . $file]
                 );
             } else {
-                $ptid = xarMod::apiFunc(
-                    'publications',
-                    'admin',
-                    'importpubtype',
-                    ['xml' => $xml]
+                $ptid = $adminapi->importpubtype(['xml' => $xml]
                 );
             }
             if (empty($ptid)) {

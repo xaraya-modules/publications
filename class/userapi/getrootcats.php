@@ -40,10 +40,13 @@ class GetrootcatsMethod extends MethodClass
      * ptid is empty (default false)
      * @return array|void
      * @TODO specify return format
+     * @see UserApi::getrootcats()
      */
     public function __invoke(array $args = [])
     {
         extract($args);
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
 
         if (empty($ptid) || !is_numeric($ptid)) {
             $ptid = null;
@@ -57,7 +60,7 @@ class GetrootcatsMethod extends MethodClass
             $rootcats = unserialize($this->mod()->getVar('basecids'));
         } else {
             // Get publication types
-            $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+            $pubtypes = $userapi->get_pubtypes();
             // get base categories for all publication types here
             $publist = array_keys($pubtypes);
             // add the defaults too, in case we have other base categories there

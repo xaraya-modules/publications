@@ -33,9 +33,12 @@ class GetitemtypesMethod extends MethodClass
     /**
      * utility function to retrieve the list of item types of this module (if any)
      * @return array Array containing the item types and their description
+     * @see UserApi::getitemtypes()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         $itemtypes = [];
 
         $itemtypes[300] = ['label' => $this->ml('Bare Publication'),
@@ -43,7 +46,7 @@ class GetitemtypesMethod extends MethodClass
             'url'   => $this->mod()->getURL('user', 'view'),
         ];
         // Get publication types
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         foreach ($pubtypes as $id => $pubtype) {
             $itemtypes[$id] = ['label' => $this->var()->prep($pubtype['description']),

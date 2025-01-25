@@ -55,9 +55,12 @@ class GetMethod extends MethodClass
      *                       ones and add some optional fields with 'extra'
      * @var int $args['ptid'] same as 'pubtype_id'
      * @return array|false|void article array, or false on failure
+     * @see UserApi::get()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get arguments from argument array
         extract($args);
 
@@ -112,7 +115,7 @@ class GetMethod extends MethodClass
             if (isset($where)) {
                 $args['where'] = $where;
             }
-            $arts = xarMod::apiFunc('publications', 'user', 'getall', $args);
+            $arts = $userapi->getall($args);
             if (!empty($arts)) {
                 return current($arts);
             } else {

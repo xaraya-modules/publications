@@ -13,6 +13,8 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -21,7 +23,6 @@ use xarMod;
 use xarModVars;
 use xarRoles;
 use xarUser;
-use xarResponse;
 use xarTpl;
 use xarCoreCache;
 use DataObjectFactory;
@@ -37,10 +38,15 @@ sys::import('xaraya.modules.method');
  */
 class ModifyMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserGui::modify()
+     */
 
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
         // Xaraya security
         if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
@@ -69,7 +75,7 @@ class ModifyMethod extends MethodClass
         }
 
         if (empty($data['itemid']) && empty($data['id'])) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
         // The itemid var takes precedence if it exiats
         if (!isset($data['itemid'])) {
@@ -77,7 +83,7 @@ class ModifyMethod extends MethodClass
         }
 
         if (empty($name) && empty($ptid)) {
-            $item = xarMod::apiFunc('publications', 'user', 'get', ['id' => $data['itemid']]);
+            $item = $userapi->get(['id' => $data['itemid']]);
             $ptid = $item['pubtype_id'];
         }
 
@@ -89,7 +95,7 @@ class ModifyMethod extends MethodClass
             $name = $item['name'];
         }
         if (empty($name)) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         // Get our object
@@ -100,7 +106,8 @@ class ModifyMethod extends MethodClass
         #
         # Are we allowed to modify this page?
         #
-        $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $data['object']->properties['access']]);
+        $accessconstraints = $adminapi->getpageaccessconstraints(['property' => $data['object']->properties['access']]);
+        /** @var \AccessProperty $access */
         $access = $this->prop()->getProperty(['name' => 'access']);
         $allow = $access->check($accessconstraints['modify']);
 
@@ -123,7 +130,7 @@ class ModifyMethod extends MethodClass
         $nopermissionpage_id = $this->mod()->getVar('noprivspage');
         if (!$allow) {
             if ($accessconstraints['modify']['failure']) {
-                return xarResponse::Forbidden();
+                return $this->ctl()->forbidden();
             } elseif ($nopermissionpage_id) {
                 $this->ctl()->redirect($this->mod()->getURL(
                     'user',
@@ -146,7 +153,7 @@ class ModifyMethod extends MethodClass
         $data['properties'] = $data['object']->getProperties();
 
         // Get the settings of the publication type we are using
-        $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
+        $data['settings'] = $userapi->getsettings(['ptid' => $data['ptid']]);
 
         // If creating a new translation get an empty copy
         if ($data['tab'] == 'newtranslation') {

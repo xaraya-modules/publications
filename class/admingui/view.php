@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -43,9 +44,12 @@ class ViewMethod extends MethodClass
 
     /**
      * view items
+     * @see AdminGui::view()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
@@ -92,7 +96,7 @@ class ViewMethod extends MethodClass
         }
         xarSession::setVar('publications_current_pubtype', $ptid);
 
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         // Default parameters
         if (!isset($ptid)) {
@@ -150,7 +154,7 @@ class ViewMethod extends MethodClass
                 return;
             }
         } elseif (!is_numeric($ptid) || !isset($pubtypes[$ptid])) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         } elseif (!xarSecurity::check('EditPublications', 1, 'Publication', "$ptid:All:All:All")) {
             return;
         }
@@ -176,10 +180,7 @@ class ViewMethod extends MethodClass
 
         /*
         // Get item information
-        $publications = xarMod::apiFunc('publications',
-                                 'user',
-                                 'getall',
-                                 array('startnum' => $startnum,
+        $publications = $userapi->getall(array('startnum' => $startnum,
                                        'numitems' => $numitems,
                                        'ptid'     => $ptid,
                                        'owner' => $owner,
@@ -213,7 +214,7 @@ class ViewMethod extends MethodClass
         //&& (!is_array($state) || !isset($state[0]));
         $data['showstate'] = $showstate;
 
-        $data['states'] = xarMod::apiFunc('publications', 'user', 'getstates');
+        $data['states'] = $userapi->getstates();
 
         $items = [];
         /*
@@ -250,7 +251,7 @@ class ViewMethod extends MethodClass
                 $input = array();
                 $input['article'] = $article;
                 $input['mask'] = 'ManagePublications';
-                if (xarMod::apiFunc('publications','user','checksecurity',$input)) {
+                if ($userapi->checksecurity($input)) {
                     $item['deleteurl'] = $this->mod()->getURL(
                                                   'admin',
                                                   'delete',
@@ -268,7 +269,7 @@ class ViewMethod extends MethodClass
                     $item['deleteurl'] = '';
 
                     $input['mask'] = 'EditPublications';
-                    if (xarMod::apiFunc('publications','user','checksecurity',$input)) {
+                    if ($userapi->checksecurity($input)) {
                         $item['editurl'] = $this->mod()->getURL(
                                                     'admin',
                                                     'modify',
@@ -282,7 +283,7 @@ class ViewMethod extends MethodClass
                         $item['editurl'] = '';
 
                         $input['mask'] = 'ReadPublications';
-                        if (xarMod::apiFunc('publications','user','checksecurity',$input)) {
+                        if ($userapi->checksecurity($input)) {
                             $item['viewurl'] = $this->mod()->getURL(
                                                         'user',
                                                         'display',
@@ -305,9 +306,8 @@ class ViewMethod extends MethodClass
 
         /*
             // Add pager
-            $data['pager'] = xarTplPager::getPager($startnum,
-                                    xarMod::apiFunc('publications', 'user', 'countitems',
-                                                  array('ptid' => $ptid,
+            $data['pager'] = $this->tpl()->getPager($startnum,
+                                    $userapi->countitems(array('ptid' => $ptid,
                                                         'owner' => $owner,
                                                         'locale' => $lang,
                                                         'pubdate' => $pubdate,
@@ -428,7 +428,7 @@ class ViewMethod extends MethodClass
         $data['object'] = $this->data()->getObjectList(['name' => $pubtypeobject->properties['name']->value]);
 
         // Flag this as the current list view
-        xarSession::setVar('publications_current_listview', xarServer::getCurrentURL(['ptid' => $ptid]));
+        xarSession::setVar('publications_current_listview', $this->ctl()->getCurrentURL(['ptid' => $ptid]));
 
         $data['context'] ??= $this->getContext();
         return $this->mod()->template('view', $data, $template);

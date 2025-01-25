@@ -34,14 +34,14 @@ class Publications_RandomBlockAdmin extends Publications_RandomBlock
 
     public function update($data = [])
     {
-        xarVar::fetch('locale', 'str', $data['locale'], '', xarVar::NOT_REQUIRED);
-        xarVar::fetch('alttitle', 'str', $data['alttitle'], '', xarVar::NOT_REQUIRED);
-        xarVar::fetch('altsummary', 'str', $data['altsummary'], '', xarVar::NOT_REQUIRED);
-        xarVar::fetch('showtitle', 'checkbox', $data['showtitle'], false, xarVar::NOT_REQUIRED);
-        xarVar::fetch('showsummary', 'checkbox', $data['showsummary'], false, xarVar::NOT_REQUIRED);
-        xarVar::fetch('showpubdate', 'checkbox', $data['showpubdate'], false, xarVar::NOT_REQUIRED);
-        xarVar::fetch('showauthor', 'checkbox', $data['showauthor'], false, xarVar::NOT_REQUIRED);
-        xarVar::fetch('showsubmit', 'checkbox', $data['showsubmit'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('locale', 'str', $data['locale'], '', xarVar::NOT_REQUIRED);
+        $this->var()->fetch('alttitle', 'str', $data['alttitle'], '', xarVar::NOT_REQUIRED);
+        $this->var()->fetch('altsummary', 'str', $data['altsummary'], '', xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showtitle', 'checkbox', $data['showtitle'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showsummary', 'checkbox', $data['showsummary'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showpubdate', 'checkbox', $data['showpubdate'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showauthor', 'checkbox', $data['showauthor'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showsubmit', 'checkbox', $data['showsubmit'], false, xarVar::NOT_REQUIRED);
         $this->setContent($data);
         return true;
     }

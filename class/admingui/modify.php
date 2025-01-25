@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -30,10 +31,13 @@ sys::import('xaraya.modules.method');
  */
 class ModifyMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see AdminGui::modify()
+     */
 
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
@@ -58,7 +62,7 @@ class ModifyMethod extends MethodClass
         }
 
         if (empty($name) && empty($ptid)) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         if (!empty($ptid)) {
@@ -81,7 +85,7 @@ class ModifyMethod extends MethodClass
         $data['properties'] = $data['object']->getProperties();
 
         // Get the settings of the publication type we are using
-        $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
+        $data['settings'] = $userapi->getsettings(['ptid' => $data['ptid']]);
 
         # --------------------------------------------------------
         #
@@ -128,19 +132,11 @@ class ModifyMethod extends MethodClass
         #
         # Get information on next and previous items
         #
-        $data['prevpublication'] = xarMod::apiFunc(
-            'publications',
-            'user',
-            'getprevious',
-            ['id' => $data['itemid'],
+        $data['prevpublication'] = $userapi->getprevious(['id' => $data['itemid'],
                 'ptid' => $ptid,
                 'sort' => 'tree',]
         );
-        $data['nextpublication'] = xarMod::apiFunc(
-            'publications',
-            'user',
-            'getnext',
-            ['id' => $data['itemid'],
+        $data['nextpublication'] = $userapi->getnext(['id' => $data['itemid'],
                 'ptid' => $ptid,
                 'sort' => 'tree',]
         );

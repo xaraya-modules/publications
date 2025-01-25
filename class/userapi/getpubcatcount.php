@@ -40,9 +40,12 @@ class GetpubcatcountMethod extends MethodClass
      * @var mixed $reverse default is ptid => cid, reverse (1) is cid => ptid
      * @return array|void array( $ptid => array( $cid => $count) ),
      * or false on failure
+     * @see UserApi::getpubcatcount()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         /*
             static $pubcatcount = array();
 
@@ -56,7 +59,7 @@ class GetpubcatcountMethod extends MethodClass
         $dbconn = $this->db()->getConn();
 
         // Get the LEFT JOIN ... ON ...  and WHERE parts from publications
-        $publicationsdef = xarMod::apiFunc('publications', 'user', 'leftjoin', $args);
+        $publicationsdef = $userapi->leftjoin($args);
 
         // Load API
         if (!xarMod::apiLoad('categories', 'user')) {

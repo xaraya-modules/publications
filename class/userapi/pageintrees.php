@@ -26,7 +26,8 @@ sys::import('xaraya.modules.method');
  */
 class PageintreesMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserApi::pageintrees()
+     */
 
     public function __invoke(array $args = [])
     {

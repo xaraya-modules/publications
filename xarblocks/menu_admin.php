@@ -57,7 +57,7 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
             if (isset($data['all_pages']['pages'][$key])) {
                 $data['root_ids'][$key] = $data['all_pages']['pages'][$key]['slash_separated'];
             } else {
-                $data['root_ids'][$key] = xarMLS::translate('Unknown');
+                $data['root_ids'][$key] = $this->ml('Unknown');
             }
         }
 
@@ -66,7 +66,7 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
             if (isset($data['all_pages']['pages'][$key])) {
                 $data['prune_ids'][$key] = $data['all_pages']['pages'][$key]['slash_separated'];
             } else {
-                $data['prune_ids'][$key] = xarMLS::translate('Unknown');
+                $data['prune_ids'][$key] = $this->ml('Unknown');
             }
         }
 
@@ -81,15 +81,15 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
      */
     public function update($data = [])
     {
-        xarVar::fetch('multi_homed', 'int', $args['multi_homed'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('multi_homed', 'int', $args['multi_homed'], 0, xarVar::NOT_REQUIRED);
 
         // AUTO: the block picks up the page from cache Blocks.publications/current_id.
         // DEFAULT: the block always uses the default page.
         // AUTODEFAULT: same as AUTO, but use the default page rather than NULL if outside and root page
-        xarVar::fetch('current_source', 'pre:upper:passthru:enum:AUTO:DEFAULT:AUTODEFAULT', $args['current_source'], 'AUTO', xarVar::NOT_REQUIRED);
+        $this->var()->fetch('current_source', 'pre:upper:passthru:enum:AUTO:DEFAULT:AUTODEFAULT', $args['current_source'], 'AUTO', xarVar::NOT_REQUIRED);
 
         // The default page if none found by any other method.
-        xarVar::fetch('default_id', 'int:0', $args['default_id'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('default_id', 'int:0', $args['default_id'], 0, xarVar::NOT_REQUIRED);
 
         // The root pages define sections of the page landscape that this block applies to.
         if (!isset($data['root_ids'])) {
@@ -98,12 +98,12 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
             $args['root_ids'] = $data['root_ids'];
         }
 
-        xarVar::fetch('new_root_id', 'int:0', $new_root_id, 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('new_root_id', 'int:0', $new_root_id, 0, xarVar::NOT_REQUIRED);
         if (!empty($new_root_id)) {
             $args['root_ids'][] = $new_root_id;
         }
 
-        xarVar::fetch('remove_root_id', 'list:int:1', $remove_root_id, [], xarVar::NOT_REQUIRED);
+        $this->var()->fetch('remove_root_id', 'list:int:1', $remove_root_id, [], xarVar::NOT_REQUIRED);
         // Easier to check with the keys and values flipped.
         $args['root_ids'] = array_flip($args['root_ids']);
         foreach ($remove_root_id as $remove) {
@@ -123,12 +123,12 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
             $args['prune_ids'] = $data['prune_ids'];
         }
 
-        xarVar::fetch('new_prune_id', 'int:0', $new_prune_id, 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('new_prune_id', 'int:0', $new_prune_id, 0, xarVar::NOT_REQUIRED);
         if (!empty($new_prune_id)) {
             $args['prune_ids'][] = $new_prune_id;
         }
 
-        xarVar::fetch('remove_prune_id', 'list:int:1', $remove_prune_id, [], xarVar::NOT_REQUIRED);
+        $this->var()->fetch('remove_prune_id', 'list:int:1', $remove_prune_id, [], xarVar::NOT_REQUIRED);
         // Easier to check with the keys and values flipped.
         $args['prune_ids'] = array_flip($args['prune_ids']);
         foreach ($remove_prune_id as $remove) {
@@ -144,11 +144,11 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
         // The maximum number of levels that are displayed.
         // This value does not affect the tree data, but is passed to the menu rendering
         // templates to make its own decision on how to truncate the menu.
-        xarVar::fetch('max_level', 'int:0:999', $args['max_level'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('max_level', 'int:0:999', $args['max_level'], 0, xarVar::NOT_REQUIRED);
 
         // The start level.
         // Hide the menu if the current page is below this level.
-        xarVar::fetch('start_level', 'int:0:999', $args['start_level'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('start_level', 'int:0:999', $args['start_level'], 0, xarVar::NOT_REQUIRED);
 
         $this->setContent($args);
         return true;

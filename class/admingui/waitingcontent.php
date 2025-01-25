@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarMod;
@@ -31,19 +32,18 @@ class WaitingcontentMethod extends MethodClass
 
     /**
      * display waiting content as a hook
+     * @see AdminGui::waitingcontent()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
 
         // Get publication types
-        $publinks = xarMod::apiFunc(
-            'publications',
-            'user',
-            'getpublinks',
-            ['state' => [0],
+        $publinks = $userapi->getpublinks(['state' => [0],
                 'typemod' => 'admin', ]
         );
 

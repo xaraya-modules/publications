@@ -35,7 +35,8 @@ class MainMethod extends MethodClass
     /**
      * the main administration function
      * It currently redirects to the admin-view function
-     * @return bool true on success
+     * @return bool|void true on success
+     * @see AdminGui::main()
      */
     public function __invoke(array $args = [])
     {
@@ -46,7 +47,7 @@ class MainMethod extends MethodClass
 
         $redirect = $this->mod()->getVar('backend_page');
         if (!empty($redirect)) {
-            $truecurrenturl = xarServer::getCurrentURL([], false);
+            $truecurrenturl = $this->ctl()->getCurrentURL([], false);
             $urldata = xarMod::apiFunc('roles', 'user', 'parseuserhome', ['url' => $redirect,'truecurrenturl' => $truecurrenturl]);
             $this->ctl()->redirect($urldata['redirecturl']);
             return true;

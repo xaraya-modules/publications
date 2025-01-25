@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarController;
@@ -22,7 +23,6 @@ use xarSec;
 use xarMod;
 use xarRoles;
 use xarUser;
-use xarResponse;
 use xarTpl;
 use xarHooks;
 use DataObjectFactory;
@@ -42,9 +42,12 @@ class DeleteMethod extends MethodClass
 
     /**
      * delete item
+     * @see UserGui::delete()
      */
     public function __invoke(array $args = [])
     {
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
         if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
         }
@@ -83,6 +86,7 @@ class DeleteMethod extends MethodClass
 
         sys::import('modules.dynamicdata.class.objects.factory');
         $publication = $this->data()->getObject(['name' => 'publications_documents']);
+        /** @var \AccessProperty $access */
         $access = $this->prop()->getProperty(['name' => 'access']);
         $nopermissionpage_id = $this->mod()->getVar('noprivspage');
 
@@ -103,7 +107,7 @@ class DeleteMethod extends MethodClass
                 #
                 # Are we allowed to delete the page(s)?
                 #
-                $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $publication->properties['access']]);
+                $accessconstraints = $adminapi->getpageaccessconstraints(['property' => $publication->properties['access']]);
                 $allow = $access->check($accessconstraints['delete']);
 
                 // If not allowed, check if admins or the designated site admin can modify even if not the owner
@@ -125,7 +129,7 @@ class DeleteMethod extends MethodClass
                     // If no access, then bail showing a forbidden or the "no permission" page or an empty page
                     if (!$allow) {
                         if ($accessconstraints['delete']['failure']) {
-                            return xarResponse::Forbidden();
+                            return $this->ctl()->forbidden();
                         } elseif ($nopermissionpage_id) {
                             $this->ctl()->redirect($this->mod()->getURL(
                                 'user',
@@ -160,7 +164,7 @@ class DeleteMethod extends MethodClass
                 #
                 # Are we allowed to delete the page(s)?
                 #
-                $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $publication->properties['access']]);
+                $accessconstraints = $adminapi->getpageaccessconstraints(['property' => $publication->properties['access']]);
                 $allow = $access->check($accessconstraints['delete']);
 
                 // If not allowed, check if admins or the designated site admin can modify even if not the owner
@@ -182,7 +186,7 @@ class DeleteMethod extends MethodClass
                     // If no access, then bail showing a forbidden or the "no permission" page or an empty page
                     if (!$allow) {
                         if ($accessconstraints['delete']['failure']) {
-                            return xarResponse::Forbidden();
+                            return $this->ctl()->forbidden();
                         } elseif ($nopermissionpage_id) {
                             $this->ctl()->redirect($this->mod()->getURL(
                                 'user',

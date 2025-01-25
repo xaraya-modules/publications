@@ -38,6 +38,7 @@ class GettranslationidMethod extends MethodClass
      * $locale: a partial or full locale that we want the page ID of
      *
      * N.B. set $locale to $this->mod()->getVar('defaultlanguage') to force returning the base translation ID
+     * @see UserApi::gettranslationid()
      */
     public function __invoke(array $args = [])
     {

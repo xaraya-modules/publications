@@ -36,6 +36,7 @@ class BrowseMethod extends MethodClass
      * @version 2.0.0
      * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
      * @author mikespub
+     * @see AdminApi::browse()
      */
     public function __invoke(array $args = [])
     {

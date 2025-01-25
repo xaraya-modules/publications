@@ -32,6 +32,7 @@ class GetpubtypeaccessMethod extends MethodClass
     /**
      * Given an itemid, get the publication type
      * CHECKME: use get in place of this function?
+     * @see UserApi::getpubtypeaccess()
      */
     public function __invoke(array $args = [])
     {

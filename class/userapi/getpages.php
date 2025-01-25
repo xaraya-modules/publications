@@ -31,11 +31,14 @@ sys::import('xaraya.modules.method');
  */
 class GetpagesMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserApi::getpages()
+     */
 
     public function __invoke(array $args = [])
     {
         extract($args);
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
 
         if (!$this->var()->validate('enum:id:index:name:left:right', $key, true)) {
             $key = 'index';
@@ -174,11 +177,7 @@ class GetpagesMethod extends MethodClass
             $pages = [];
 
             // Get all the page type details.
-            $pagetypes = xarMod::apiFunc(
-                'publications',
-                'user',
-                'get_pubtypes',
-                ['key' => 'id']
+            $pagetypes = $userapi->get_pubtypes(['key' => 'id']
             );
 
             foreach ($q->output() as $row) {
@@ -210,6 +209,7 @@ class GetpagesMethod extends MethodClass
 
                 // Define admin access
                 sys::import('modules.dynamicdata.class.properties.master');
+                /** @var \AccessProperty $accessproperty */
                 $accessproperty = $this->prop()->getProperty(['name' => 'access']);
                 $typename = $pagetypes[$row['ptid']]['name'];
                 $args = [

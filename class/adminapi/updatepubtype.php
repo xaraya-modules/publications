@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminApi;
 
 
 use Xaraya\Modules\Publications\AdminApi;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarMod;
@@ -38,9 +39,12 @@ class UpdatepubtypeMethod extends MethodClass
      * @var string $args['description'] description of the publication type
      * @var array $args['config'] configuration of the publication type
      * @return bool|void true on success, false on failure
+     * @see AdminApi::updatepubtype()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get arguments from argument array
         extract($args);
 
@@ -86,7 +90,7 @@ class UpdatepubtypeMethod extends MethodClass
         }
 
         // Get current publication types
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
         if (!isset($pubtypes[$ptid])) {
             $msg = $this->ml(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',
@@ -99,7 +103,7 @@ class UpdatepubtypeMethod extends MethodClass
         }
 
         // Make sure we have all the configuration fields we need
-        $pubfields = xarMod::apiFunc('publications', 'user', 'getpubfields');
+        $pubfields = $userapi->getpubfields();
         foreach ($pubfields as $field => $value) {
             if (!isset($config[$field])) {
                 $config[$field] = '';

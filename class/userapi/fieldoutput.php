@@ -33,16 +33,19 @@ class FieldoutputMethod extends MethodClass
      * Show some predefined form field in a template
      * @param mixed $args array containing the definition of the field (object, itemid, property, value, ...)
      * @return string containing the HTML (or other) text to output in the BL template
+     * @see UserApi::fieldoutput()
      */
     public function __invoke(array $args = [])
     {
         extract($args);
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!isset($object) || !isset($itemid) || !isset($field)) {
             return '';
         }
         sys::import('modules.dynamicdata.class.objects.factory');
         $object = $this->data()->getObject(['name' => $object]);
-        $itemid = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $itemid]);
+        $itemid = $userapi->gettranslationid(['id' => $itemid]);
         $object->getItem(['itemid' => $itemid]);
         $field = $object->properties[$field]->getValue();
         return $field;

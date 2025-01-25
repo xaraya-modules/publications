@@ -36,16 +36,19 @@ class GetmonthcountMethod extends MethodClass
      * @var mixed $ptid publication type ID we're interested in
      * @var mixed $state array of requested status(es) for the publications
      * @return array|void array(month => count), or false on failure
+     * @see UserApi::getmonthcount()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get database setup
         $dbconn = $this->db()->getConn();
 
         // Get the field names and LEFT JOIN ... ON ... parts from publications
         // By passing on the $args, we can let leftjoin() create the WHERE for
         // the publications-specific columns too now
-        $publicationsdef = xarMod::apiFunc('publications', 'user', 'leftjoin', $args);
+        $publicationsdef = $userapi->leftjoin($args);
 
         // Bug 1590 - Create custom query supported by each database.
         $dbtype = $this->db()->getType();

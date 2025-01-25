@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -42,8 +43,16 @@ class UpdateMethod extends MethodClass
 {
     /** functions imported by bermuda_cleanup */
 
+    /**
+     * Summary of __invoke
+     * @param array<string, mixed> $args
+     * @return bool|string|void
+     * @see AdminGui::update()
+     */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
@@ -123,7 +132,7 @@ class UpdateMethod extends MethodClass
             }
             $data['items'] = $itemsdata;
             // Get the settings of the publication type we are using
-            $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
+            $data['settings'] = $userapi->getsettings(['ptid' => $data['ptid']]);
 
             $data['context'] ??= $this->getContext();
             return $this->mod()->template('modify', $data);

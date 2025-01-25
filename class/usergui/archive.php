@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -37,9 +38,12 @@ class ArchiveMethod extends MethodClass
 
     /**
      * show monthly archive (Archives-like)
+     * @see UserGui::archive()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Xaraya security
         if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
@@ -66,7 +70,7 @@ class ArchiveMethod extends MethodClass
         extract($args);
 
         // Get publication types
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         // Check that the publication type is valid
         if (empty($ptid) || !isset($pubtypes[$ptid])) {
@@ -155,11 +159,7 @@ class ArchiveMethod extends MethodClass
         }
 
         // Get monthly statistics
-        $monthcount = xarMod::apiFunc(
-            'publications',
-            'user',
-            'getmonthcount',
-            ['ptid' => $ptid,
+        $monthcount = $userapi->getmonthcount(['ptid' => $ptid,
                 'state' => $state,
                 'enddate' => time(), ]
         );
@@ -276,11 +276,7 @@ class ArchiveMethod extends MethodClass
 
         // Get publications
         if ($month == 'all' || ($startdate && $enddate)) {
-            $publications = xarMod::apiFunc(
-                'publications',
-                'user',
-                'getall',
-                ['ptid' => ($ptid ?? null),
+            $publications = $userapi->getall(['ptid' => ($ptid ?? null),
                     'startdate' => $startdate,
                     'enddate' => $enddate,
                     'state' => $state,
@@ -462,11 +458,7 @@ class ArchiveMethod extends MethodClass
             'showdate' => $showdate,
             'show_publinks' => $show_publinks,
             'publabel' => $this->ml('Publication'),
-            'publinks' => xarMod::apiFunc(
-                'publications',
-                'user',
-                'getpublinks',
-                ['ptid' => $ptid,
+            'publinks' => $userapi->getpublinks(['ptid' => $ptid,
                     'state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                     'count' => $show_pubcount,
                     // override default 'view'

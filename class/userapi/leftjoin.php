@@ -67,6 +67,7 @@ class LeftjoinMethod extends MethodClass
      * 'title'  => 'nuke_publications.title',
      * // ...
      * 'body1'  => 'nuke_publications.body1')
+     * @see UserApi::leftjoin()
      */
     public function __invoke(array $args = [])
     {

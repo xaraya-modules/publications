@@ -78,7 +78,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
         // Get all the publications types
         sys::import('modules.dynamicdata.class.objects.factory');
-        $pubtypeobject = DataObjectFactory::getObjectList(['name' => 'publications_types']);
+        $pubtypeobject = $this->data()->getObjectList(['name' => 'publications_types']);
         $types = $pubtypeobject->getItems();
 
         # ------------------------------------------------------------
@@ -93,13 +93,12 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
             // Use that information to get the featured item as an object
             $featuredtype = $types[$result['pubtype_id']]['name'];
-            $data['featured'] = DataObjectFactory::getObject(['name' => $featuredtype]);
+            $data['featured'] = $this->data()->getObject(['name' => $featuredtype]);
             $data['featured']->getItem(['itemid' => $data['featuredid']]);
             $feature = $data['featured']->getFieldValues([], 1);
             $data['properties'] = & $data['featured']->properties;
 
-            $feature['link'] = xarController::URL(
-                'publications',
+            $feature['link'] = $this->mod()->getURL(
                 'user',
                 'display',
                 [
@@ -144,8 +143,8 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
             // See if we're currently displaying a publication
             // We do this to remove a link form a featured item if that item is already being displayed
-            if (xarVar::isCached('Blocks.publications', 'id')) {
-                $curid = xarVar::getCached('Blocks.publications', 'id');
+            if ($this->var()->isCached('Blocks.publications', 'id')) {
+                $curid = $this->var()->getCached('Blocks.publications', 'id');
             } else {
                 $curid = -1;
             }
@@ -155,13 +154,12 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
             $data['items'] = [];
             foreach ($publications as $publication) {
                 $itemname = $types[$publication['pubtype_id']]['name'];
-                $object = DataObjectFactory::getObject(['name' => $itemname]);
+                $object = $this->data()->getObject(['name' => $itemname]);
                 $object->getItem(['itemid' => $publication['id']]);
                 $itemvalues = $object->getFieldValues([], 1);
 
                 if ($publication['id'] != $curid) {
-                    $link = xarController::URL(
-                        'publications',
+                    $link = $this->mod()->getURL(
                         'user',
                         'display',
                         [

@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -30,10 +31,13 @@ sys::import('xaraya.modules.method');
  */
 class StylesheetTypeMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see AdminGui::stylesheetType()
+     */
 
     public function __invoke(array $args = [])
     {
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
         if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
@@ -69,7 +73,7 @@ class StylesheetTypeMethod extends MethodClass
 
         // If we are saving, write the file now
         if ($confirm && !empty($data['file']) && !empty($data['source_data'])) {
-            xarMod::apiFunc('publications', 'admin', 'write_file', ['file' => $overridefile, 'data' => $data['source_data']]);
+            $adminapi->write_file(['file' => $overridefile, 'data' => $data['source_data']]);
         }
 
         // Let the template know what kind of file this is
@@ -90,7 +94,7 @@ class StylesheetTypeMethod extends MethodClass
             $filepath = $overridefile;
             $data['writable'] = $admingui->is_writeable_dir($overridepath);
         }
-        $data['source_data'] = trim(xarMod::apiFunc('publications', 'admin', 'read_file', ['file' => $filepath]));
+        $data['source_data'] = trim($adminapi->read_file(['file' => $filepath]));
 
         return $data;
     }

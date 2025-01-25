@@ -37,15 +37,18 @@ class GetpagestreeMethod extends MethodClass
      * @copyright (C) 2012 Netspan AG
      * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
      * @author Marc Lutolf <mfl@netspan.ch>
+     * @see UserApi::getpagestree()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // First get the set of pages.
         // Check out 'getpages' for the complete range of parameters that can be
         // passed in to restrict the pages retrieved.
         // We only want the base pages
         //    $args['baseonly'] = 1;
-        $pages = xarMod::apiFunc('publications', 'user', 'getpages', $args);
+        $pages = $userapi->getpages($args);
 
         // Return if no pages found.
         if (empty($pages)) {

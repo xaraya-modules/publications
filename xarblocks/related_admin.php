@@ -29,12 +29,12 @@ class Publications_RelatedBlockAdmin extends Publications_RelatedBlock
     public function update($data = [])
     {
         $args = [];
-        xarVar::fetch('numitems', 'int', $args['numitems'], $this->numitems, xarVar::NOT_REQUIRED);
-        xarVar::fetch('showvalue', 'checkbox', $args['showvalue'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('numitems', 'int', $args['numitems'], $this->numitems, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showvalue', 'checkbox', $args['showvalue'], 0, xarVar::NOT_REQUIRED);
 
-        xarVar::fetch('showpubtype', 'checkbox', $args['showpubtype'], 0, xarVar::NOT_REQUIRED);
-        xarVar::fetch('showcategory', 'checkbox', $args['showcategory'], 0, xarVar::NOT_REQUIRED);
-        xarVar::fetch('showauthor', 'checkbox', $args['showauthor'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showpubtype', 'checkbox', $args['showpubtype'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showcategory', 'checkbox', $args['showcategory'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showauthor', 'checkbox', $args['showauthor'], 0, xarVar::NOT_REQUIRED);
         $this->setContent($args);
         return true;
     }

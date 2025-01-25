@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminApi;
 
 
 use Xaraya\Modules\Publications\AdminApi;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use xarModVars;
@@ -37,7 +38,7 @@ class CreateMethod extends MethodClass
 
     /**
      * Create a new article
-     * Usage : $id = xarMod::apiFunc('publications', 'admin', 'create', $article);
+     * Usage : $id = $adminapi->create($article);
      * @param array<mixed> $args
      * @var string $title name of the item (this is the only mandatory argument)
      * @var string $summary summary for this item
@@ -50,9 +51,14 @@ class CreateMethod extends MethodClass
      * @var string $locale language of the item
      * @var array $cids category IDs this item belongs to
      * @return int|void publications item ID on success, false on failure
+     * @see AdminApi::create()
      */
     public function __invoke(array $args = [])
     {
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get arguments from argument array
         extract($args);
 
@@ -113,7 +119,7 @@ class CreateMethod extends MethodClass
         }
 
         $args['mask'] = 'SubmitPublications';
-        if (!xarMod::apiFunc('publications', 'user', 'checksecurity', $args)) {
+        if (!$userapi->checksecurity($args)) {
             $msg = $this->ml(
                 'Not authorized to add #(1) items',
                 'Publication'
@@ -202,6 +208,7 @@ class CreateMethod extends MethodClass
 
         /* ---------------------------- TODO: Remove once publications uses dd objects */
         sys::import('modules.dynamicdata.class.properties.master');
+        /** @var \CategoriesProperty $categories */
         $categories = $this->prop()->getProperty(['name' => 'categories']);
         $categories->checkInput('categories', $id);
         $categories->createValue($id);

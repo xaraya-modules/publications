@@ -71,8 +71,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
         //       (e.g. cross-module categories defined in categories admin ?)
         // Get current module
         if (empty($module)) {
-            if (xarVar::isCached('Blocks.categories', 'module')) {
-                $modname = xarCoreCache::getCached('Blocks.categories', 'module');
+            if ($this->var()->isCached('Blocks.categories', 'module')) {
+                $modname = $this->var()->getCached('Blocks.categories', 'module');
             }
             if (empty($modname)) {
                 $modname = xarMod::getName();
@@ -87,13 +87,13 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
 
         // Get current item type (if any)
         if (!isset($itemtype)) {
-            if (xarVar::isCached('Blocks.categories', 'itemtype')) {
-                $itemtype = xarCoreCache::getCached('Blocks.categories', 'itemtype');
+            if ($this->var()->isCached('Blocks.categories', 'itemtype')) {
+                $itemtype = $this->var()->getCached('Blocks.categories', 'itemtype');
             } else {
                 // try to get itemtype from input
-                xarVar::fetch('itemtype', 'isset', $itemtype, null, xarVar::DONT_SET);
+                $this->var()->fetch('itemtype', 'isset', $itemtype, null, xarVar::DONT_SET);
                 if (empty($itemtype)) {
-                    xarVar::fetch('ptid', 'isset', $itemtype, null, xarVar::DONT_SET);
+                    $this->var()->fetch('ptid', 'isset', $itemtype, null, xarVar::DONT_SET);
                 }// if
             }
         }
@@ -103,13 +103,13 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
 
         // Get current item id (if any)
         if (!isset($itemid)) {
-            if (xarVar::isCached('Blocks.categories', 'itemid')) {
-                $itemid = xarCoreCache::getCached('Blocks.categories', 'itemid');
+            if ($this->var()->isCached('Blocks.categories', 'itemid')) {
+                $itemid = $this->var()->getCached('Blocks.categories', 'itemid');
             } else {
                 // try to get itemid from input
-                xarVar::fetch('itemid', 'isset', $itemid, null, xarVar::DONT_SET);
+                $this->var()->fetch('itemid', 'isset', $itemid, null, xarVar::DONT_SET);
                 if (empty($itemid)) {
-                    xarVar::fetch('id', 'isset', $itemid, null, xarVar::DONT_SET);
+                    $this->var()->fetch('id', 'isset', $itemid, null, xarVar::DONT_SET);
                 }// if
             }
         }
@@ -178,8 +178,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
         }
         if (empty($showempty) || !empty($show_catcount)) {
             // A 'deep count' sums the totals at each node with the totals of all descendants.
-            if (xarVar::isCached('Blocks.categories', 'deepcount')) {
-                $deepcount = xarCoreCache::getCached('Blocks.categories', 'deepcount');
+            if ($this->var()->isCached('Blocks.categories', 'deepcount')) {
+                $deepcount = $this->var()->getCached('Blocks.categories', 'deepcount');
             } else {
                 $deepcount = xarMod::apiFunc(
                     'categories',
@@ -187,13 +187,13 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     'deepcount',
                     ['modid' => $modid, 'itemtype' => $itemtype]
                 );
-                xarCoreCache::setCached('Blocks.categories', 'deepcount', $deepcount);
+                $this->var()->setCached('Blocks.categories', 'deepcount', $deepcount);
             }
         }
 
         if (!empty($show_catcount)) {
-            if (xarVar::isCached('Blocks.categories', 'catcount')) {
-                $catcount = xarCoreCache::getCached('Blocks.categories', 'catcount');
+            if ($this->var()->isCached('Blocks.categories', 'catcount')) {
+                $catcount = $this->var()->getCached('Blocks.categories', 'catcount');
             } else {
                 // Get number of items per category (for this module).
                 // If show_catcount == 2 then add in all descendants too.
@@ -211,22 +211,22 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     $catcount = & $deepcount;
                 }
 
-                xarCoreCache::setCached('Blocks.categories', 'catcount', $catcount);
+                $this->var()->setCached('Blocks.categories', 'catcount', $catcount);
             }
         }
 
-        // Specify type=... & func = ... arguments for xarController::URL()
+        // Specify type=... & func = ... arguments for $this->ctl()->getModuleURL()
         if (empty($type)) {
-            if (xarVar::isCached('Blocks.categories', 'type')) {
-                $type = xarCoreCache::getCached('Blocks.categories', 'type');
+            if ($this->var()->isCached('Blocks.categories', 'type')) {
+                $type = $this->var()->getCached('Blocks.categories', 'type');
             }
             if (empty($type)) {
                 $type = 'user';
             }
         }
         if (empty($func)) {
-            if (xarVar::isCached('Blocks.categories', 'func')) {
-                $func = xarCoreCache::getCached('Blocks.categories', 'func');
+            if ($this->var()->isCached('Blocks.categories', 'func')) {
+                $func = $this->var()->getCached('Blocks.categories', 'func');
             }
             if (empty($func)) {
                 $func = 'view';
@@ -234,12 +234,12 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
         }
 
         // Get current categories
-        if (xarVar::isCached('Blocks.categories', 'catid')) {
-            $catid = xarCoreCache::getCached('Blocks.categories', 'catid');
+        if ($this->var()->isCached('Blocks.categories', 'catid')) {
+            $catid = $this->var()->getCached('Blocks.categories', 'catid');
         }
         if (empty($catid)) {
             // try to get catid from input
-            xarVar::fetch('catid', 'isset', $catid, null, xarVar::DONT_SET);
+            $this->var()->fetch('catid', 'isset', $catid, null, xarVar::DONT_SET);
         }
         // turn $catid into $cids array (and set $andcids flag)
         $istree = 0;
@@ -260,16 +260,16 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 $andcids = false;
             }
         } elseif (empty($cids)) {
-            if (xarVar::isCached('Blocks.categories', 'cids')) {
-                $cids = xarCoreCache::getCached('Blocks.categories', 'cids');
+            if ($this->var()->isCached('Blocks.categories', 'cids')) {
+                $cids = $this->var()->getCached('Blocks.categories', 'cids');
             }
-            if (xarVar::isCached('Blocks.categories', 'andcids')) {
-                $andcids = xarCoreCache::getCached('Blocks.categories', 'andcids');
+            if ($this->var()->isCached('Blocks.categories', 'andcids')) {
+                $andcids = $this->var()->getCached('Blocks.categories', 'andcids');
             }
             if (empty($cids)) {
                 // try to get cids from input
-                xarVar::fetch('cids', 'isset', $cids, null, xarVar::DONT_SET);
-                xarVar::fetch('andcids', 'isset', $andcids, false, xarVar::NOT_REQUIRED);
+                $this->var()->fetch('cids', 'isset', $cids, null, xarVar::DONT_SET);
+                $this->var()->fetch('andcids', 'isset', $andcids, false, xarVar::NOT_REQUIRED);
 
                 if (empty($cids)) {
                     $cids = [];
@@ -357,10 +357,10 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                         unset($publications[$k]);
                     }// foreach
 
-                    $label = xarVar::prepForDisplay($info['name']);
+                    $label = $this->var()->prep($info['name']);
 
                     if (isset($publications[$label])) {
-                        $link = xarController::URL(
+                        $link = $this->ctl()->getModuleURL(
                             $modname,
                             $type,
                             'display',
@@ -369,7 +369,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                                             'id' => $publications[$label], ]
                         );
                     } else {
-                        $link = xarController::URL(
+                        $link = $this->ctl()->getModuleURL(
                             $modname,
                             $type,
                             $func,
@@ -379,7 +379,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     }// if
 
                     if (empty($root)) {
-                        $link = xarController::URL('', '', '');
+                        $link = $this->ctl()->getModuleURL('', '', '');
                         $root = $label;
                     }// if
 
@@ -419,7 +419,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     ['cid' => $cid]
                 );
 
-                $blockinfo['title'] = xarVar::prepForDisplay($cat['name']);
+                $blockinfo['title'] = $this->var()->prep($cat['name']);
                 if (isset($cat['blockimage'])) {
                     $data['catimage'] = $cat['blockimage'];
                 }// if
@@ -451,9 +451,9 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     if (strtolower($item['title']) == strtolower($cat['name'])) {
                         unset($items[$k]);
                     } else {
-                        $label = xarVar::prepForDisplay($item['title']);
+                        $label = $this->var()->prep($item['title']);
                         $class = ($item['id'] == $itemid) ? 'xar-menu-item-current' : 'xar-menu-item';
-                        $link = xarController::URL(
+                        $link = $this->ctl()->getModuleURL(
                             $modname,
                             $type,
                             'display',
@@ -496,10 +496,10 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             unset($publications[$k]);
                         }// foreach
 
-                        $clabel = xarVar::prepForDisplay($child['name']);
+                        $clabel = $this->var()->prep($child['name']);
 
                         if (isset($publications[$clabel])) {
-                            $clink = xarController::URL(
+                            $clink = $this->ctl()->getModuleURL(
                                 $modname,
                                 $type,
                                 'display',
@@ -508,7 +508,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                                                 'id' => $publications[$clabel], ]
                             );
                         } else {
-                            $clink = xarController::URL(
+                            $clink = $this->ctl()->getModuleURL(
                                 $modname,
                                 $type,
                                 $func,

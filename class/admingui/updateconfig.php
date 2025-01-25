@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarSec;
@@ -37,10 +38,13 @@ sys::import('xaraya.modules.method');
  */
 class UpdateconfigMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see AdminGui::updateconfig()
+     */
 
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
@@ -225,7 +229,7 @@ class UpdateconfigMethod extends MethodClass
             $pubtypeobject->properties['configuration']->setValue(serialize($settings));
             $pubtypeobject->updateItem(['itemid' => $ptid]);
 
-            $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+            $pubtypes = $userapi->get_pubtypes();
             if ($usealias) {
                 xarModAlias::set($pubtypes[$ptid]['name'], 'publications');
             } else {

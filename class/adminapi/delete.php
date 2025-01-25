@@ -38,6 +38,7 @@ class DeleteMethod extends MethodClass
      * @copyright (C) 2012 Netspan AG
      * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
      * @author Marc Lutolf <mfl@netspan.ch>
+     * @see AdminApi::delete()
      */
     public function __invoke(array $args = [])
     {

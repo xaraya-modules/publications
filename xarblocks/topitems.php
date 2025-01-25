@@ -57,19 +57,19 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
         $data = $this->getContent();
 
         // see if we're currently displaying an article
-        if (xarVar::isCached('Blocks.publications', 'id')) {
-            $curid = xarCoreCache::getCached('Blocks.publications', 'id');
+        if ($this->var()->isCached('Blocks.publications', 'id')) {
+            $curid = $this->var()->getCached('Blocks.publications', 'id');
         } else {
             $curid = -1;
         }
 
         if (!empty($data['dynamictitle'])) {
             if ($data['toptype'] == 'rating') {
-                $data['title'] = xarMLS::translate('Top Rated');
+                $data['title'] = $this->ml('Top Rated');
             } elseif ($data['toptype'] == 'hits') {
-                $data['title'] = xarMLS::translate('Top');
+                $data['title'] = $this->ml('Top');
             } else {
-                $data['title'] = xarMLS::translate('Latest');
+                $data['title'] = $this->ml('Latest');
             }
         }
 
@@ -86,8 +86,8 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
                 // use the current category
                 // Jonn: this currently only works with one category at a time
                 // it could be reworked to support multiple cids
-                if (xarVar::isCached('Blocks.publications', 'cids')) {
-                    $curcids = xarCoreCache::getCached('Blocks.publications', 'cids');
+                if ($this->var()->isCached('Blocks.publications', 'cids')) {
+                    $curcids = $this->var()->getCached('Blocks.publications', 'cids');
                     if (!empty($curcids)) {
                         if ($curid == -1) {
                             //$cid = $curcids[0]['name'];
@@ -136,18 +136,18 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
             //don't limit by publication type
             $ptid = 0;
             if (!empty($data['dynamictitle'])) {
-                $data['title'] .= ' ' . xarMLS::translate('Content');
+                $data['title'] .= ' ' . $this->ml('Content');
             }
         } else {
             // MikeC: Check to see if admin has specified that only a specific
             // Publication Type should be displayed.  If not, then default to original TopItems configuration.
             if ($data['pubtype_id'] == 0) {
-                if (xarVar::isCached('Blocks.publications', 'ptid')) {
-                    $ptid = xarCoreCache::getCached('Blocks.publications', 'ptid');
+                if ($this->var()->isCached('Blocks.publications', 'ptid')) {
+                    $ptid = $this->var()->getCached('Blocks.publications', 'ptid');
                 }
                 if (empty($ptid)) {
                     // default publication type
-                    $ptid = xarModVars::get('publications', 'defaultpubtype');
+                    $ptid = $this->mod()->getVar('defaultpubtype');
                 }
             } else {
                 // MikeC: Admin Specified a publication type, use it.
@@ -156,9 +156,9 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
 
             if (!empty($data['dynamictitle'])) {
                 if (!empty($ptid) && isset($publication_types[$ptid]['description'])) {
-                    $data['title'] .= ' ' . xarVar::prepForDisplay($publication_types[$ptid]['description']);
+                    $data['title'] .= ' ' . $this->var()->prep($publication_types[$ptid]['description']);
                 } else {
-                    $data['title'] .= ' ' . xarMLS::translate('Content');
+                    $data['title'] .= ' ' . $this->ml('Content');
                 }
             }
         }
@@ -213,11 +213,10 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
         }
         $items = [];
         foreach ($publications as $article) {
-            $article['title'] = xarVar::prepHTMLDisplay($article['title']);
+            $article['title'] = $this->var()->prepHTML($article['title']);
             if ($article['id'] != $curid) {
                 // Use the filtered category if set, and not including children
-                $article['link'] = xarController::URL(
-                    'publications',
+                $article['link'] = $this->mod()->getURL(
                     'user',
                     'display',
                     [
@@ -257,7 +256,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
 
             // MikeC: Bring the summary field back as $desc
             if (!empty($data['showsummary'])) {
-                $article['summary']  = xarVar::prepHTMLDisplay($article['summary']);
+                $article['summary']  = $this->var()->prepHTML($article['summary']);
                 $article['transform'] = ['summary', 'title'];
                 $article = xarModHooks::call('item', 'transform', $article['id'], $article, 'publications');
             } else {

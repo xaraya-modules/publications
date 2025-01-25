@@ -25,7 +25,8 @@ sys::import('xaraya.modules.method');
  */
 class GetpageaccessconstraintsMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see AdminApi::getpageaccessconstraints()
+     */
 
     public function __invoke(array $args = [])
     {

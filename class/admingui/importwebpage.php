@@ -13,6 +13,8 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -34,9 +36,14 @@ class ImportwebpageMethod extends MethodClass
 
     /**
      * manage publication types (all-in-one function for now)
+     * @see AdminGui::importwebpage()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
+        /** @var UserGui $usergui */
+        $usergui = $this->usergui();
         if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
@@ -102,7 +109,7 @@ class ImportwebpageMethod extends MethodClass
         #
         # Get the current publication types
         #
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         $data['pubtypes'] = [];
         foreach ($pubtypes as $pubtype) {
@@ -261,11 +268,7 @@ class ImportwebpageMethod extends MethodClass
             #
             if (isset($test)) {
                 // preview the first file as a test
-                $data['preview'] = xarMod::guiFunc(
-                    'publications',
-                    'user',
-                    'preview',
-                    ['object' => $pageobject]
+                $data['preview'] = $usergui->preview(['object' => $pageobject]
                 );
             } else {
                 $id = $pageobject->createItem();

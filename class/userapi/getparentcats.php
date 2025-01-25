@@ -41,10 +41,13 @@ class GetparentcatsMethod extends MethodClass
      * @var mixed $count true (default) means counting the number of publications
      * @return array
      * // TODO: specify return format
+     * @see UserApi::getparentcats()
      */
     public function __invoke(array $args = [])
     {
         extract($args);
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
 
         if (!isset($cids) || !is_array($cids) || count($cids) == 0) {
             return [];
@@ -68,11 +71,7 @@ class GetparentcatsMethod extends MethodClass
 
         // get the counts for all child categories
         if ($count) {
-            $pubcatcount = xarMod::apiFunc(
-                'publications',
-                'user',
-                'getpubcatcount',
-                ['state' => $state,
+            $pubcatcount = $userapi->getpubcatcount(['state' => $state,
                     'cids' => $cids,
                     'ptid' => $ptid,
                     'reverse' => 1, ]

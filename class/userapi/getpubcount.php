@@ -36,6 +36,7 @@ class GetpubcountMethod extends MethodClass
      * @param array<mixed> $args
      * @var mixed $state array of requested status(es) for the publications
      * @return array|void array(id => count), or false on failure
+     * @see UserApi::getpubcount()
      */
     public function __invoke(array $args = [])
     {

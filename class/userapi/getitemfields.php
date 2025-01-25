@@ -33,19 +33,22 @@ class GetitemfieldsMethod extends MethodClass
      * @param array<mixed> $args
      * @var mixed $itemtype item type (optional)
      * @return array Array containing the item field definitions
+     * @see UserApi::getitemfields()
      */
     public function __invoke(array $args = [])
     {
         extract($args);
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
 
         $itemfields = [];
 
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         if (!empty($itemtype) && !empty($pubtypes[$itemtype])) {
             $fields = $pubtypes[$itemtype]['config'];
         } else {
-            $fields = xarMod::apiFunc('publications', 'user', 'getpubfields');
+            $fields = $userapi->getpubfields();
         }
         foreach ($fields as $name => $info) {
             if (empty($info['label'])) {

@@ -44,9 +44,12 @@ class GetpublinksMethod extends MethodClass
      * 'pubid' => id,
      * 'publink' => link,
      * 'pubcount' => count)
+     * @see UserApi::getpublinks()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get arguments from argument array
         extract($args);
 
@@ -74,18 +77,14 @@ class GetpublinksMethod extends MethodClass
         }
 
         // Get publication types
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         if ($count) {
             if (isset($state)) {
-                $pubcount = xarMod::apiFunc(
-                    'publications',
-                    'user',
-                    'getpubcount',
-                    ['state' => $state]
+                $pubcount = $userapi->getpubcount(['state' => $state]
                 );
             } else {
-                $pubcount = xarMod::apiFunc('publications', 'user', 'getpubcount');
+                $pubcount = $userapi->getpubcount();
             }
         }
 

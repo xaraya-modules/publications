@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -36,9 +37,12 @@ class ModifyconfigMethod extends MethodClass
 
     /**
      * Modify configuration
+     * @see AdminGui::modifyconfig()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
@@ -86,7 +90,7 @@ class ModifyconfigMethod extends MethodClass
 
             // Get the settings for this publication type
             $settings = @unserialize((string) $pubtypeobject->properties['configuration']->getValue());
-            $globalsettings = xarMod::apiFunc('publications', 'user', 'getglobalsettings');
+            $globalsettings = $userapi->getglobalsettings();
             if (is_array($settings)) {
                 $data['settings'] = $settings + $globalsettings;
             } else {
@@ -121,7 +125,7 @@ class ModifyconfigMethod extends MethodClass
             }
 
             // Get the tree of all pages.
-            //        $data['tree'] = xarMod::apiFunc('publications', 'user', 'getpagestree', array('dd_flag' => false));
+            //        $data['tree'] = $userapi->getpagestree(array('dd_flag' => false));
             $data['tree'] = [];
 
             // Implode the names for each page into a path for display.
@@ -134,7 +138,7 @@ class ModifyconfigMethod extends MethodClass
             }
 
             // Module alias for short URLs
-            $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+            $pubtypes = $userapi->get_pubtypes();
             if (!empty($id)) {
                 $data['alias'] = $pubtypes[$id]['name'];
             } else {

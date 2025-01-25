@@ -13,6 +13,8 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
+use Xaraya\Modules\Publications\TreeApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -40,10 +42,15 @@ class ViewPagesMethod extends MethodClass
      * @copyright (C) 2012 Netspan AG
      * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
      * @author Marc Lutolf <mfl@netspan.ch>
+     * @see UserGui::viewPages()
      */
     public function __invoke(array $args = [])
     {
         extract($args);
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
+        /** @var TreeApi $treeapi */
+        $treeapi = $this->treeapi();
 
         if (!$this->sec()->checkAccess('ManagePublications')) {
             return;
@@ -52,18 +59,14 @@ class ViewPagesMethod extends MethodClass
         // Accept a parameter to allow selection of a single tree.
         $this->var()->find('contains', $contains, 'id', 0);
 
-        $data = xarMod::apiFunc(
-            'publications',
-            'user',
-            'getpagestree',
-            ['key' => 'index', 'dd_flag' => false, 'tree_contains_pid' => $contains]
+        $data = $userapi->getpagestree(['key' => 'index', 'dd_flag' => false, 'tree_contains_pid' => $contains]
         );
 
         if (empty($data['pages'])) {
             // TODO: pass to template.
             return $data; //$this->ml('NO PAGES DEFINED');
         } else {
-            $data['pages'] = xarMod::apiFunc('publications', 'tree', 'array_maptree', $data['pages']);
+            $data['pages'] = $treeapi->array_maptree($data['pages']);
         }
 
         $data['contains'] = $contains;
@@ -75,6 +78,7 @@ class ViewPagesMethod extends MethodClass
         if (!empty($data['pages'])) {
             // Bring in the access property for security checks
             sys::import('modules.dynamicdata.class.properties.master');
+            /** @var \AccessProperty $accessproperty */
             $accessproperty = $this->prop()->getProperty(['name' => 'access']);
             $accessproperty->module = 'publications';
             $accessproperty->component = 'Page';

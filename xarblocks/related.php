@@ -53,7 +53,7 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
 
         // Trick : work with cached variables here (set by the module function)
         // Check if we've been through publications display
-        if (!xarVar::isCached('Blocks.publications', 'current_id')) {
+        if (!$this->var()->isCached('Blocks.publications', 'current_id')) {
             return;
         }
 
@@ -62,11 +62,10 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
         if ($vars['showpubtype']) {
             // Show publication type (for now)
             $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
-            if (xarVar::isCached('Blocks.publications', 'ptid')) {
-                $ptid = xarCoreCache::getCached('Blocks.publications', 'ptid');
+            if ($this->var()->isCached('Blocks.publications', 'ptid')) {
+                $ptid = $this->var()->getCached('Blocks.publications', 'ptid');
                 if (!empty($ptid) && isset($pubtypes[$ptid]['description'])) {
-                    $vars['pubtypelink'] = xarController::URL(
-                        'publications',
+                    $vars['pubtypelink'] = $this->mod()->getURL(
                         'user',
                         'view',
                         ['ptid' => $ptid]
@@ -79,19 +78,18 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
 
         if ($vars['showcategory']) {
             // Show categories (for now)
-            if (xarVar::isCached('Blocks.publications', 'cids')) {
-                $cids = xarCoreCache::getCached('Blocks.publications', 'cids');
+            if ($this->var()->isCached('Blocks.publications', 'cids')) {
+                $cids = $this->var()->getCached('Blocks.publications', 'cids');
                 // TODO: add related links
             }
         }
 
         if ($vars['showauthor']) {
             // Show author (for now)
-            if (xarVar::isCached('Blocks.publications', 'author')) {
-                $author = xarCoreCache::getCached('Blocks.publications', 'author');
+            if ($this->var()->isCached('Blocks.publications', 'author')) {
+                $author = $this->var()->getCached('Blocks.publications', 'author');
                 if (!empty($author)) {
-                    $vars['authorlink'] = xarController::URL(
-                        'publications',
+                    $vars['authorlink'] = $this->mod()->getURL(
                         'user',
                         'view',
                         ['ptid' => (!empty($ptid) ? $ptid : null),

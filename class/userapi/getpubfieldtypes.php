@@ -33,6 +33,7 @@ class GetpubfieldtypesMethod extends MethodClass
      * @return array array('title'   => 'string',
      * 'summary' => 'text',
      * ...);
+     * @see UserApi::getpubfieldtypes()
      */
     public function __invoke(array $args = [])
     {

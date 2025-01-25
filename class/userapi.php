@@ -55,7 +55,7 @@ sys::import('xaraya.modules.userapi');
  * @method mixed getrootcats(array $args)
  * @method mixed getsetting(array $args)
  * @method mixed getsettings(array $args)
- * @method mixed getstates(array $args)
+ * @method mixed getstates(array $args = [])
  * @method mixed gettranslationid(array $args)
  * @method mixed leftjoin(array $args)
  * @method mixed pageintrees(array $args)

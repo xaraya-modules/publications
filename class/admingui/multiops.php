@@ -28,7 +28,8 @@ sys::import('xaraya.modules.method');
  */
 class MultiopsMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see AdminGui::multiops()
+     */
 
     public function __invoke(array $args = [])
     {

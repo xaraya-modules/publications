@@ -29,7 +29,8 @@ sys::import('xaraya.modules.method');
  */
 class DisplayVersionMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see AdminGui::displayVersion()
+     */
 
     public function __invoke(array $args = [])
     {
@@ -44,7 +45,7 @@ class DisplayVersionMethod extends MethodClass
             return;
         }
         if (empty($data['page_id'])) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');

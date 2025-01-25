@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -35,10 +36,13 @@ class PrivilegesMethod extends MethodClass
 
     /**
      * Manage definition of instances for privileges (unfinished)
-     * @return array for template
+     * @return array<mixed>|void for template
+     * @see AdminGui::privileges()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
@@ -87,6 +91,7 @@ class PrivilegesMethod extends MethodClass
         }
 
         sys::import('modules.dynamicdata.class.properties.master');
+        /** @var \CategoriesProperty $categories */
         $categories = $this->prop()->getProperty(['name' => 'categories']);
         $cids = $categories->returnInput('privcategories');
 
@@ -138,11 +143,7 @@ class PrivilegesMethod extends MethodClass
         }
         $title = '';
         if (!empty($id)) {
-            $article = xarMod::apiFunc(
-                'publications',
-                'user',
-                'get',
-                ['id'      => $id,
+            $article = $userapi->get(['id'      => $id,
                     'withcids' => true, ]
             );
             if (empty($article)) {
@@ -221,15 +222,11 @@ class PrivilegesMethod extends MethodClass
                 'modifyprivilege',
                 ['id' => $id]
             ));
-            return true;
+            return;
         }
 
         // get the list of current authors
-        $authorlist =  xarMod::apiFunc(
-            'publications',
-            'user',
-            'getauthors',
-            ['ptid' => $ptid,
+        $authorlist =  $userapi->getauthors(['ptid' => $ptid,
                 'cids' => empty($cid) ? [] : [$cid], ]
         );
         if (!empty($author) && isset($authorlist[$uid])) {
@@ -237,11 +234,7 @@ class PrivilegesMethod extends MethodClass
         }
 
         if (empty($id)) {
-            $numitems = xarMod::apiFunc(
-                'publications',
-                'user',
-                'countitems',
-                ['ptid' => $ptid,
+            $numitems = $userapi->countitems(['ptid' => $ptid,
                     'cids' => empty($cid) ? [] : [$cid],
                     'owner' => $uid, ]
             );
@@ -267,7 +260,7 @@ class PrivilegesMethod extends MethodClass
         ];
 
         // Get publication types
-        $data['pubtypes'] = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $data['pubtypes'] = $userapi->get_pubtypes();
 
         $catlist = [];
         if (!empty($ptid)) {

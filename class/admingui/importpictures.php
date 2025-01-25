@@ -13,6 +13,9 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\AdminApi;
+use Xaraya\Modules\Publications\UserApi;
+use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -35,9 +38,16 @@ class ImportpicturesMethod extends MethodClass
 
     /**
      * import pictures into publications
+     * @see AdminGui::importpictures()
      */
     public function __invoke(array $args = [])
     {
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
+        /** @var UserGui $usergui */
+        $usergui = $this->usergui();
         if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
@@ -104,11 +114,7 @@ class ImportpicturesMethod extends MethodClass
             $data['thumbnail'] = $thumbnail;
         }
 
-        $data['filelist'] = xarMod::apiFunc(
-            'publications',
-            'admin',
-            'browse',
-            ['basedir' => $data['basedir'],
+        $data['filelist'] = $adminapi->browse(['basedir' => $data['basedir'],
                 'filetype' => '(gif|jpg|jpeg|png)', ]
         );
 
@@ -159,7 +165,7 @@ class ImportpicturesMethod extends MethodClass
         $data['authid'] = $this->sec()->genAuthKey();
 
         // Get current publication types
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         $data['pubtypes'] = [];
         foreach ($pubtypes as $pubtype) {
@@ -296,15 +302,11 @@ class ImportpicturesMethod extends MethodClass
                 }
                 if (isset($test)) {
                     // preview the first file as a test
-                    $data['preview'] = xarMod::guiFunc(
-                        'publications',
-                        'user',
-                        'display',
-                        ['article' => $article, 'preview' => true]
+                    $data['preview'] = $usergui->display(['article' => $article, 'preview' => true]
                     );
                     break;
                 } else {
-                    $id = xarMod::apiFunc('publications', 'admin', 'create', $article);
+                    $id = $adminapi->create($article);
                     if (empty($id)) {
                         return; // throw back
                     } else {

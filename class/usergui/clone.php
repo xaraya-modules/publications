@@ -45,6 +45,7 @@ class CloneMethod extends MethodClass
      * @copyright (C) 2012 Netspan AG
      * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
      * @author Marc Lutolf <mfl@netspan.ch>
+     * @see UserGui::clone()
      */
     public function __invoke(array $args = [])
     {
@@ -67,7 +68,7 @@ class CloneMethod extends MethodClass
         }
 
         if (empty($data['itemid'])) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         // If a pubtype ID was passed, get the name of the pub object
@@ -77,13 +78,13 @@ class CloneMethod extends MethodClass
             $objectname = $pubtypeobject->properties['name']->value;
         }
         if (empty($objectname)) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');
         $data['object'] = $this->data()->getObject(['name' => $objectname]);
         if (empty($data['object'])) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         $data['object']->getItem(['itemid' => $data['itemid']]);

@@ -33,9 +33,12 @@ class GetmenulinksMethod extends MethodClass
     /**
      * utility function pass individual menu items to the main menu
      * @return array Array containing the menulinks for the main menu items.
+     * @see UserApi::getmenulinks()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         $menulinks = [];
         if (!$this->sec()->checkAccess('ViewPublications', 0)) {
             return $menulinks;
@@ -45,7 +48,7 @@ class GetmenulinksMethod extends MethodClass
             'title' => $this->ml('Highlighted Publications'),
             'label' => $this->ml('Front Page'), ];
 
-        $items = xarMod::apiFunc('publications', 'user', 'get_menu_pages');
+        $items = $userapi->get_menu_pages();
         foreach ($items as $item) {
             $menulinks[] = ['url'   => $this->mod()->getURL( 'user', 'display', ['itemid' => $item['id']]),
                 'title' => $this->ml('Display #(1)', $item['description']),

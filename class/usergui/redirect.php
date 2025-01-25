@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarMod;
@@ -33,9 +34,12 @@ class RedirectMethod extends MethodClass
 
     /**
      * redirect to a site based on some URL field of the item
+     * @see UserGui::redirect()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get parameters from user
         if (!$this->var()->find('id', $id, 'id')) {
             return;
@@ -54,11 +58,7 @@ class RedirectMethod extends MethodClass
         }
 
         // Get publication
-        $publication = xarMod::apiFunc(
-            'publications',
-            'user',
-            'get',
-            ['id' => $id]
+        $publication = $userapi->get(['id' => $id]
         );
 
         if (!is_array($publication)) {
@@ -69,7 +69,7 @@ class RedirectMethod extends MethodClass
         $ptid = $publication['pubtype_id'];
 
         // Get publication types
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         // TODO: improve this e.g. when multiple URL fields are present
         // Find an URL field based on the pubtype configuration

@@ -42,9 +42,9 @@ class Publications_FillerBlockAdmin extends Publications_FillerBlock
 
         $data['pubtypes'] = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
         $data['stateoptions'] = [
-            ['id' => '', 'name' => xarMLS::translate('All Published')],
-            ['id' => '3', 'name' => xarMLS::translate('Frontpage')],
-            ['id' => '2', 'name' => xarMLS::translate('Approved')],
+            ['id' => '', 'name' => $this->ml('All Published')],
+            ['id' => '3', 'name' => $this->ml('Frontpage')],
+            ['id' => '2', 'name' => $this->ml('Approved')],
         ];
 
         return $data;
@@ -53,12 +53,12 @@ class Publications_FillerBlockAdmin extends Publications_FillerBlock
     public function update($data = [])
     {
         $args = [];
-        xarVar::fetch('pubtype_id', 'int', $args['pubtype_id'], $this->pubtype_id, xarVar::NOT_REQUIRED);
-        xarVar::fetch('pubstate', 'str', $args['pubstate'], $this->pubstate, xarVar::NOT_REQUIRED);
-        xarVar::fetch('displaytype', 'str', $args['displaytype'], $this->displaytype, xarVar::NOT_REQUIRED);
-        xarVar::fetch('fillerid', 'id', $args['fillerid'], $this->fillerid, xarVar::NOT_REQUIRED);
-        xarVar::fetch('alttitle', 'str', $args['alttitle'], $this->alttitle, xarVar::NOT_REQUIRED);
-        xarVar::fetch('alttext', 'str', $args['alttext'], $this->alttext, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('pubtype_id', 'int', $args['pubtype_id'], $this->pubtype_id, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('pubstate', 'str', $args['pubstate'], $this->pubstate, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('displaytype', 'str', $args['displaytype'], $this->displaytype, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('fillerid', 'id', $args['fillerid'], $this->fillerid, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('alttitle', 'str', $args['alttitle'], $this->alttitle, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('alttext', 'str', $args['alttext'], $this->alttext, xarVar::NOT_REQUIRED);
         $this->setContent($args);
         return true;
     }

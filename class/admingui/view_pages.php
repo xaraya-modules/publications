@@ -13,6 +13,8 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
+use Xaraya\Modules\Publications\TreeApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -42,9 +44,15 @@ class ViewPagesMethod extends MethodClass
      * @copyright (C) 2012 Netspan AG
      * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
      * @author Marc Lutolf <mfl@netspan.ch>
+     * @see AdminGui::viewPages()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
+        // @todo convert TreeApi
+        /** @var TreeApi $treeapi */
+        $treeapi = $this->treeapi();
         if (!$this->sec()->checkAccess('ManagePublications')) {
             return;
         }
@@ -62,18 +70,14 @@ class ViewPagesMethod extends MethodClass
         }
         xarSession::setVar('publications_root_id', $root_id);
 
-        $data = xarMod::apiFunc(
-            'publications',
-            'user',
-            'getpagestree',
-            ['key' => 'index', 'dd_flag' => false, 'tree_contains_id' => $root_id]
+        $data = $userapi->getpagestree(['key' => 'index', 'dd_flag' => false, 'tree_contains_id' => $root_id]
         );
 
         if (empty($data['pages'])) {
             // TODO: pass to template.
             return $data; //$this->ml('NO PAGES DEFINED');
         } else {
-            $data['pages'] = xarMod::apiFunc('publications', 'tree', 'array_maptree', $data['pages']);
+            $data['pages'] = $treeapi->array_maptree($data['pages']);
         }
 
         $data['root_id'] = $root_id;
@@ -85,6 +89,7 @@ class ViewPagesMethod extends MethodClass
         if (!empty($data['pages'])) {
             // Bring in the access property for security checks
             sys::import('modules.dynamicdata.class.properties.master');
+            /** @var \AccessProperty $accessproperty */
             $accessproperty = $this->prop()->getProperty(['name' => 'access']);
             $accessproperty->module = 'publications';
             $accessproperty->component = 'Page';
@@ -125,7 +130,7 @@ class ViewPagesMethod extends MethodClass
         }
 
         // Flag this as the current list view
-        xarSession::setVar('publications_current_listview', xarServer::getCurrentURL());
+        xarSession::setVar('publications_current_listview', $this->ctl()->getCurrentURL());
 
         return $data;
     }

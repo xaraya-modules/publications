@@ -25,7 +25,8 @@ sys::import('xaraya.modules.method');
  */
 class AddcurrentpageflagsMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserApi::addcurrentpageflags()
+     */
 
     public function __invoke(array $args = [])
     {

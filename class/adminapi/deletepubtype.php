@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminApi;
 
 
 use Xaraya\Modules\Publications\AdminApi;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarMod;
@@ -36,9 +37,12 @@ class DeletepubtypeMethod extends MethodClass
      * @param array<mixed> $args
      * @var mixed $ptid ID of the publication type
      * @return bool|void true on success, false on failure
+     * @see AdminApi::deletepubtype()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get arguments from argument array
         extract($args);
 
@@ -67,7 +71,7 @@ class DeletepubtypeMethod extends MethodClass
         }
 
         // Get current publication types
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
         if (!isset($pubtypes[$ptid])) {
             $msg = $this->ml(
                 'Invalid #(1) for #(2) function #(3)() in module #(4)',

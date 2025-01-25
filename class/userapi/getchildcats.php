@@ -40,10 +40,13 @@ class GetchildcatsMethod extends MethodClass
      * @var mixed $count true (default) means counting the number of publications
      * @var mixed $filter additional categories we're filtering on (= catid)
      * @return array|void
+     * @see UserApi::getchildcats()
      */
     public function __invoke(array $args = [])
     {
         extract($args);
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
 
         if (!isset($cid) || !is_numeric($cid)) {
             return [];
@@ -91,11 +94,7 @@ class GetchildcatsMethod extends MethodClass
                 $andcids = true;
             }
 
-            $pubcatcount = xarMod::apiFunc(
-                'publications',
-                'user',
-                'getpubcatcount',
-                // frontpage or approved
+            $pubcatcount = $userapi->getpubcatcount(// frontpage or approved
                 ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                     'cids' => $childlist,
                     'andcids' => $andcids,

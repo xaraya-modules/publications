@@ -40,31 +40,34 @@ class ChecksecurityMethod extends MethodClass
      * @var mixed $ptid the publication type ID (if not already included)
      * @var mixed $cids array of additional required category checks
      * @return bool|void true if OK, false if not OK
+     * @see UserApi::checksecurity()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get arguments from argument array
         extract($args);
 
         // Compatibility mode with old API params - remove later
         if (isset($access) && !isset($mask)) {
             switch ($access) {
-                case ACCESS_OVERVIEW:
+                case xarSecurity::ACCESS_OVERVIEW:
                     $mask = 'ViewPublications';
                     break;
-                case ACCESS_READ:
+                case xarSecurity::ACCESS_READ:
                     $mask = 'ReadPublications';
                     break;
-                case ACCESS_COMMENT:
+                case xarSecurity::ACCESS_COMMENT:
                     $mask = 'SubmitPublications';
                     break;
-                case ACCESS_EDIT:
+                case xarSecurity::ACCESS_EDIT:
                     $mask = 'EditPublications';
                     break;
-                case ACCESS_DELETE:
+                case xarSecurity::ACCESS_DELETE:
                     $mask = 'ManagePublications';
                     break;
-                case ACCESS_ADMIN:
+                case xarSecurity::ACCESS_ADMIN:
                     $mask = 'AdminPublications';
                     break;
                 default:
@@ -77,11 +80,7 @@ class ChecksecurityMethod extends MethodClass
         }
         // Get article information
         if (!isset($publication) && !empty($id) && $mask != 'SubmitPublications') {
-            $publication = xarMod::apiFunc(
-                'publications',
-                'user',
-                'get',
-                ['id' => $id,
+            $publication = $userapi->get(['id' => $id,
                     'withcids' => true, ]
             );
             if ($publication == false) {

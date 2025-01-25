@@ -27,7 +27,8 @@ sys::import('xaraya.modules.method');
  */
 class GetPubtypesMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserApi::getPubtypes()
+     */
 
     public function __invoke(array $args = [])
     {

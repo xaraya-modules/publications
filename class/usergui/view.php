@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarModVars;
@@ -38,10 +39,13 @@ sys::import('xaraya.modules.method');
  */
 class ViewMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserGui::view()
+     */
 
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Get parameters
         if (!$this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'))) {
             return;
@@ -95,11 +99,11 @@ class ViewMethod extends MethodClass
         // Override if needed from argument array (e.g. ptid, numitems etc.)
         extract($args);
 
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         // We need a valid pubtype number here
         if (!is_numeric($ptid) || !isset($pubtypes[$ptid])) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         // Constants used throughout.
@@ -136,11 +140,11 @@ class ViewMethod extends MethodClass
 
         // A non-active publication type means the page does not exist
         if ($data['pubtypeobject']->properties['state']->value < Defines::STATE_ACTIVE) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         // Get the settings of this publication type
-        $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $ptid]);
+        $data['settings'] = $userapi->getsettings(['ptid' => $ptid]);
 
         // Get the template for this publication type
         if ($ishome) {
@@ -174,11 +178,7 @@ class ViewMethod extends MethodClass
         // TODO: show this *after* category list when we start from categories :)
         // Navigation links
         $data['publabel'] = $this->ml('Publication');
-        $data['publinks'] = xarMod::apiFunc(
-            'publications',
-            'user',
-            'getpublinks',
-            [
+        $data['publinks'] = $userapi->getpublinks([
                 'ptid' => $ishome ? '' : $ptid,
                 'state' => $c_posted,
                 'count' => $data['settings']['show_pubcount'],
@@ -305,9 +305,7 @@ class ViewMethod extends MethodClass
         }
         /*
             // Get publications
-            $publications = xarMod::apiFunc(
-                'publications', 'user', 'getall',
-                array(
+            $publications = $userapi->getall(array(
                     'startnum' => $startnum,
                     'cids' => $cids,
                     'andcids' => $andcids,
@@ -392,11 +390,7 @@ class ViewMethod extends MethodClass
         // optional category count
         if ($data['settings']['show_catcount']) {
             if (!empty($ptid)) {
-                $pubcatcount = xarMod::apiFunc(
-                    'publications',
-                    'user',
-                    'getpubcatcount',
-                    // frontpage or approved
+                $pubcatcount = $userapi->getpubcatcount(// frontpage or approved
                     ['state' => $c_posted, 'ptid' => $ptid]
                 );
                 if (isset($pubcatcount[$ptid])) {
@@ -404,11 +398,7 @@ class ViewMethod extends MethodClass
                 }
                 unset($pubcatcount);
             } else {
-                $pubcatcount = xarMod::apiFunc(
-                    'publications',
-                    'user',
-                    'getpubcatcount',
-                    // frontpage or approved
+                $pubcatcount = $userapi->getpubcatcount(// frontpage or approved
                     ['state' => $c_posted, 'reverse' => 1]
                 );
 
@@ -477,8 +467,7 @@ class ViewMethod extends MethodClass
                     $catinfo = xarMod::apiFunc('categories','user','getcatinfo', array('cids' => array_keys($cidlist)));
                     // get root categories for this publication type
                     // get base categories for all if needed
-                    $catroots = xarMod::apiFunc('publications', 'user', 'getrootcats',
-                        array('ptid' => $ptid, 'all' => true)
+                    $catroots = $userapi->getrootcats(array('ptid' => $ptid, 'all' => true)
                     );
                 }
                 foreach ($catinfo as $cid => $info) {
@@ -651,7 +640,7 @@ class ViewMethod extends MethodClass
         $this->var()->setCached('publications', 'settings_' . $data['ptid'], $data['settings']);
 
         // Flag this as the current list view
-        xarSession::setVar('publications_current_listview', xarServer::getCurrentURL(['ptid' => $data['ptid']]));
+        xarSession::setVar('publications_current_listview', $this->ctl()->getCurrentURL(['ptid' => $data['ptid']]));
 
         $data['context'] ??= $this->getContext();
         return $this->mod()->template('view', $data, $data['template']);

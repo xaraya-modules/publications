@@ -34,6 +34,7 @@ class MainMethod extends MethodClass
 
     /**
      * the main user function
+     * @see UserGui::main()
      */
     public function __invoke(array $args = [])
     {
@@ -63,7 +64,7 @@ class MainMethod extends MethodClass
             #
             $redirect = $this->mod()->getVar('frontend_page');
             if (!empty($redirect)) {
-                $truecurrenturl = xarServer::getCurrentURL([], false);
+                $truecurrenturl = $this->ctl()->getCurrentURL([], false);
                 $urldata = xarMod::apiFunc('roles', 'user', 'parseuserhome', ['url' => $redirect,'truecurrenturl' => $truecurrenturl]);
                 $this->ctl()->redirect($urldata['redirecturl']);
                 return true;

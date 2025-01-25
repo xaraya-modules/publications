@@ -13,12 +13,13 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\AdminApi;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
 use xarModVars;
 use xarMod;
-use xarResponse;
 use xarController;
 use xarTpl;
 use DataObjectFactory;
@@ -34,10 +35,15 @@ sys::import('xaraya.modules.method');
  */
 class NewMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserGui::new()
+     */
 
     public function __invoke(array $args = [])
     {
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Xaraya security
         if (!$this->sec()->checkAccess('ModeratePublications')) {
             return;
@@ -65,7 +71,8 @@ class NewMethod extends MethodClass
         #
         # Are we allowed to add a page?
         #
-        $accessconstraints = xarMod::apiFunc('publications', 'admin', 'getpageaccessconstraints', ['property' => $data['object']->properties['access']]);
+        $accessconstraints = $adminapi->getpageaccessconstraints(['property' => $data['object']->properties['access']]);
+        /** @var \AccessProperty $access */
         $access = $this->prop()->getProperty(['name' => 'access']);
         $allow = $access->check($accessconstraints['add']);
 
@@ -73,7 +80,7 @@ class NewMethod extends MethodClass
         $nopermissionpage_id = $this->mod()->getVar('noprivspage');
         if (!$allow) {
             if ($accessconstraints['add']['failure']) {
-                return xarResponse::Forbidden();
+                return $this->ctl()->forbidden();
             } elseif ($nopermissionpage_id) {
                 $this->ctl()->redirect($this->mod()->getURL(
                     'user',
@@ -100,7 +107,7 @@ class NewMethod extends MethodClass
         }
 
         // Get the settings of the publication type we are using
-        $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['ptid']]);
+        $data['settings'] = $userapi->getsettings(['ptid' => $data['ptid']]);
 
         $data['context'] ??= $this->getContext();
         return $this->mod()->template('new', $data, $template);

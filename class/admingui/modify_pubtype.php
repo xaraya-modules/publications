@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -32,10 +33,13 @@ sys::import('xaraya.modules.method');
  */
 class ModifyPubtypeMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see AdminGui::modifyPubtype()
+     */
 
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
@@ -60,7 +64,7 @@ class ModifyPubtypeMethod extends MethodClass
         }
 
         if (empty($name) && empty($itemid)) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         // Get our object
@@ -87,7 +91,7 @@ class ModifyPubtypeMethod extends MethodClass
             $data['object']->properties['access']->value = serialize($data['access']);
         }
         // Get the settings of the publication type we are using
-        $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $data['itemid']]);
+        $data['settings'] = $userapi->getsettings(['ptid' => $data['itemid']]);
 
         // Send the publication type and the object properties to the template
         $data['properties'] = $data['object']->getProperties();

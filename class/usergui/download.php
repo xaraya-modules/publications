@@ -31,6 +31,7 @@ class DownloadMethod extends MethodClass
 
     /**
      * Download a template or stylesheet
+     * @see UserGui::download()
      */
     public function __invoke(array $args = [])
     {

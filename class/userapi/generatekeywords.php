@@ -31,6 +31,7 @@ class GeneratekeywordsMethod extends MethodClass
      * create a keyword list from a given article
      * @param mixed $args array containing text from an article
      * @return string
+     * @see UserApi::generatekeywords()
      */
     public function __invoke(array $args = [])
     {

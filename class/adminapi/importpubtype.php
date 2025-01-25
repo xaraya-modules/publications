@@ -13,6 +13,7 @@ namespace Xaraya\Modules\Publications\AdminApi;
 
 
 use Xaraya\Modules\Publications\AdminApi;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarMod;
@@ -37,9 +38,14 @@ class ImportpubtypeMethod extends MethodClass
 
     /**
      * Import an object definition or an object item from XML
+     * @see AdminApi::importpubtype()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
         // Security check - we require ADMIN rights here
         if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
@@ -55,7 +61,7 @@ class ImportpubtypeMethod extends MethodClass
             throw new BadParameterException(null, $msg);
         }
 
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
 
         $proptypes = $this->prop()->getPropertyTypes();
         $name2id = [];
@@ -258,11 +264,7 @@ class ImportpubtypeMethod extends MethodClass
                     }
 
                     // 3. create the pubtype
-                    $ptid = xarMod::apiFunc(
-                        'publications',
-                        'admin',
-                        'createpubtype',
-                        ['name' => $object['name'],
+                    $ptid = $adminapi->createpubtype(['name' => $object['name'],
                             'descr' => $object['label'],
                             'config' => $fields, ]
                     );

@@ -44,9 +44,12 @@ class GetpreviousMethod extends MethodClass
      * @var mixed $enddate publications published before enddate
      * (unix timestamp format)
      * @return array|void of publication fields, or false on failure
+     * @see UserApi::getprevious()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         // Security check
         if (!$this->sec()->checkAccess('ViewPublications')) {
             return;
@@ -82,7 +85,7 @@ class GetpreviousMethod extends MethodClass
         $q->in('state', $state);
 
         // Get the current article
-        $current = xarMod::apiFunc('publications', 'user', 'get', ['id' => $id]);
+        $current = $userapi->get(['id' => $id]);
 
         // Add the ordering
         switch ($sort) {

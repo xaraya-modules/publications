@@ -13,12 +13,12 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 
 use Xaraya\Modules\Publications\UserGui;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarController;
 use xarCoreCache;
 use xarModVars;
-use xarResponse;
 use xarTpl;
 use xarMod;
 use DataObjectFactory;
@@ -35,10 +35,13 @@ sys::import('xaraya.modules.method');
  */
 class PreviewMethod extends MethodClass
 {
-    /** functions imported by bermuda_cleanup */
+    /** functions imported by bermuda_cleanup * @see UserGui::preview()
+     */
 
     public function __invoke(array $data = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->var()->find('layout', $layout, 'str:1', 'detail')) {
             return;
         }
@@ -47,7 +50,7 @@ class PreviewMethod extends MethodClass
         extract($data);
 
         if (empty($data['object'])) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         # --------------------------------------------------------
@@ -60,7 +63,7 @@ class PreviewMethod extends MethodClass
 
         // An empty publication type means the page does not exist
         if (empty($ptid)) {
-            return $this->ctl()->notFound(null, $this->getContext());
+            return $this->ctl()->notFound();
         }
 
         $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
@@ -73,6 +76,7 @@ class PreviewMethod extends MethodClass
         # Are we allowed to see this page?
         #
         $accessconstraints = unserialize($data['object']->properties['access']->value);
+        /** @var \AccessProperty $access */
         $access = $this->prop()->getProperty(['name' => 'access']);
         $allow = $access->check($accessconstraints['display']);
         $nopublish = (time() < $data['object']->properties['start_date']->value) || ((time() > $data['object']->properties['end_date']->value) && !$data['object']->properties['no_end']->value);
@@ -81,7 +85,7 @@ class PreviewMethod extends MethodClass
         $nopermissionpage_id = $this->mod()->getVar('noprivspage');
         if (!$allow || $nopublish) {
             if ($accessconstraints['display']['failure']) {
-                return xarResponse::Forbidden();
+                return $this->ctl()->forbidden();
             } elseif ($nopermissionpage_id) {
                 $this->ctl()->redirect($this->mod()->getURL(
                     'user',
@@ -98,7 +102,7 @@ class PreviewMethod extends MethodClass
         if ($this->mod()->getVar('use_process_states')) {
             if ($data['object']->properties['process_state']->value < 3) {
                 if ($accessconstraints['display']['failure']) {
-                    return xarResponse::Forbidden();
+                    return $this->ctl()->forbidden();
                 } elseif ($nopermissionpage_id) {
                     $this->ctl()->redirect($this->mod()->getURL(
                         'user',
@@ -135,7 +139,7 @@ class PreviewMethod extends MethodClass
             foreach ($fields as $field) {
                 try {
                     $tplString  = '<xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">';
-                    $tplString .= xarMod::apiFunc('publications', 'user', 'prepareforbl', ['string' => $data['object']->properties[$field]->value]);
+                    $tplString .= $userapi->prepareforbl(['string' => $data['object']->properties[$field]->value]);
 
                     $tplString .= '</xar:template>';
 
@@ -155,9 +159,7 @@ class PreviewMethod extends MethodClass
         # Get the complete tree for this section of pages. We need this for blocks etc.
         #
         /*
-            $tree = xarMod::apiFunc(
-                'publications', 'user', 'getpagestree',
-                array(
+            $tree = $userapi->getpagestree(array(
                     'tree_contains_pid' => $id,
                     'key' => 'id',
                     'status' => 'ACTIVE,FRONTPAGE,PLACEHOLDER'
@@ -173,7 +175,7 @@ class PreviewMethod extends MethodClass
                         // If the page is displayable, then treat it as the new page.
                         if ($tree['pages'][$scan_key]['status'] == 3 || $tree['pages'][$scan_key]['status'] == 4) {
                             $id = $tree['pages'][$scan_key]['id'];
-                            $id = xarMod::apiFunc('publications','user','gettranslationid',array('id' => $id));
+                            $id = $userapi->gettranslationid(array('id' => $id));
                             $itemid = $data['object']->getItem(array('itemid' => $id));
                             break;
                         }
@@ -189,7 +191,7 @@ class PreviewMethod extends MethodClass
         $data['layout'] = $layout;
 
         // Get the settings for this publication type
-        $data['settings'] = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $ptid]);
+        $data['settings'] = $userapi->getsettings(['ptid' => $ptid]);
 
         // The name of this object
         $data['objectname'] = $data['object']->name;

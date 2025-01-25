@@ -13,6 +13,8 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\AdminApi;
+use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -32,9 +34,14 @@ class StatsMethod extends MethodClass
 
     /**
      * view statistics
+     * @see AdminGui::stats()
      */
     public function __invoke(array $args = [])
     {
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (!$this->sec()->checkAccess('AdminPublications')) {
             return;
         }
@@ -60,14 +67,10 @@ class StatsMethod extends MethodClass
 
         $data = [];
         $data['group'] = $group;
-        $data['stats'] = xarMod::apiFunc(
-            'publications',
-            'admin',
-            'getstats',
-            ['group' => $group]
+        $data['stats'] = $adminapi->getstats(['group' => $group]
         );
-        $data['pubtypes'] = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
-        $data['statelist'] = xarMod::apiFunc('publications', 'user', 'getstates');
+        $data['pubtypes'] = $userapi->get_pubtypes();
+        $data['statelist'] = $userapi->getstates();
         $data['fields'] = ['pubtype_id'     => $this->ml('Publication Type'),
             'state'        => $this->ml('Status'),
             'owner'      => $this->ml('Author'),

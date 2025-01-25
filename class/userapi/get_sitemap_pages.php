@@ -38,9 +38,12 @@ class GetSitemapPagesMethod extends MethodClass
      * Add an arg of the type $args['filter_foo'] = bar
      * will add a condition to the SELECT as
      * WHERE foo = bar
+     * @see UserApi::getSitemapPages()
      */
     public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
         if (empty($args['itemid'])) {
             $args['itemid'] = 0;
         }
@@ -56,7 +59,7 @@ class GetSitemapPagesMethod extends MethodClass
 
         // Make sure we have the base translation id
         if (!empty($args['itemid'])) {
-            $args['itemid'] = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $args['itemid'], 'locale' => $this->mod()->getVar('defaultlanguage')]);
+            $args['itemid'] = $userapi->gettranslationid(['id' => $args['itemid'], 'locale' => $this->mod()->getVar('defaultlanguage')]);
         }
 
         // Identify any filters

@@ -13,6 +13,8 @@ namespace Xaraya\Modules\Publications\AdminGui;
 
 
 use Xaraya\Modules\Publications\AdminGui;
+use Xaraya\Modules\Publications\UserApi;
+use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarSecurity;
 use xarVar;
@@ -38,9 +40,14 @@ class UpdatestatusMethod extends MethodClass
 
     /**
      * update item from publications_admin_modify
+     * @param array<string, mixed> $args
      */
-    public function updatestate(array $args = [])
+    public function __invoke(array $args = [])
     {
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
+        /** @var AdminApi $adminapi */
+        $adminapi = $this->adminapi();
         if (!$this->sec()->checkAccess('EditPublications')) {
             return;
         }
@@ -69,13 +76,13 @@ class UpdatestatusMethod extends MethodClass
             $msg = $this->ml('No publications selected');
             throw new DataNotFoundException(null, $msg);
         }
-        $states = xarMod::apiFunc('publications', 'user', 'getstates');
+        $states = $userapi->getstates();
         if (!isset($state) || !is_numeric($state) || $state < -1 || ($state != -1 && !isset($states[$state]))) {
             $msg = $this->ml('Invalid state');
             throw new BadParameterException(null, $msg);
         }
 
-        $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $pubtypes = $userapi->get_pubtypes();
         if (!empty($ptid)) {
             $descr = $pubtypes[$ptid]['description'];
         } else {
@@ -93,11 +100,7 @@ class UpdatestatusMethod extends MethodClass
                 continue;
             }
             // Get original article information
-            $article = xarMod::apiFunc(
-                'publications',
-                'user',
-                'get',
-                ['id' => $id,
+            $article = $userapi->get(['id' => $id,
                     'withcids' => 1, ]
             );
             if (!isset($article) || !is_array($article)) {
@@ -117,7 +120,7 @@ class UpdatestatusMethod extends MethodClass
             } else {
                 $input['mask'] = 'EditPublications';
             }
-            if (!xarMod::apiFunc('publications', 'user', 'checksecurity', $input)) {
+            if (!$userapi->checksecurity($input)) {
                 $msg = $this->ml(
                     'You have no permission to modify #(1) item #(2)',
                     $descr,
@@ -128,7 +131,7 @@ class UpdatestatusMethod extends MethodClass
 
             if ($state < 0) {
                 // Pass to API
-                if (!xarMod::apiFunc('publications', 'admin', 'delete', $article)) {
+                if (!$adminapi->delete($article)) {
                     return; // throw back
                 }
             } else {
@@ -136,7 +139,7 @@ class UpdatestatusMethod extends MethodClass
                 $article['state'] = $state;
 
                 // Pass to API
-                if (!xarMod::apiFunc('publications', 'admin', 'update', $article)) {
+                if (!$adminapi->update($article)) {
                     return; // throw back
                 }
             }

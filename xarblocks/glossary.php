@@ -42,7 +42,7 @@ class Publications_GlossaryBlock extends BasicBlock implements iBlock
     {
         $vars = $this->getContent();
 
-        if (!xarVar::fetch($vars['paramname'], 'str', $glossaryterm, null, xarVar::NOT_REQUIRED)) {
+        if (!$this->var()->fetch($vars['paramname'], 'str', $glossaryterm, null, xarVar::NOT_REQUIRED)) {
             return;
         }
         if (!$glossaryterm) {
@@ -72,8 +72,7 @@ class Publications_GlossaryBlock extends BasicBlock implements iBlock
         if (!empty($article)) {
             $vars['definition'] = $article['summary'];
             $vars['term'] = $glossaryterm;
-            $vars['detailurl'] = xarController::URL(
-                'publications',
+            $vars['detailurl'] = $this->mod()->getURL(
                 'user',
                 'display',
                 ['id' => $article['id'], 'ptid' => $article['pubtype_id']]
@@ -86,7 +85,7 @@ class Publications_GlossaryBlock extends BasicBlock implements iBlock
         // The title of a block does not go through any further tag stripping
         // because it is normally under admin control (the admin may wish to
         // add working tags to the title).
-        $this->setTitle(str_replace('{term}', xarVar::prepForDisplay($glossaryterm), $this->title));
+        $this->setTitle(str_replace('{term}', $this->var()->prep($glossaryterm), $this->title));
 
         return $vars;
     }
@@ -119,9 +118,9 @@ class Publications_GlossaryBlock extends BasicBlock implements iBlock
 
     public function update($args = [])
     {
-        xarVar::fetch('paramname', 'str:1:20', $vars['paramname'], 'glossaryterm', xarVar::NOT_REQUIRED);
-        xarVar::fetch('ptid', 'int:0:', $vars['ptid'], 0, xarVar::NOT_REQUIRED);
-        xarVar::fetch('cid', 'int:0:', $vars['cid'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('paramname', 'str:1:20', $vars['paramname'], 'glossaryterm', xarVar::NOT_REQUIRED);
+        $this->var()->fetch('ptid', 'int:0:', $vars['ptid'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('cid', 'int:0:', $vars['cid'], 0, xarVar::NOT_REQUIRED);
         $this->setContent($vars);
         return true;
     }

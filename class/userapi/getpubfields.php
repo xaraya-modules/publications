@@ -37,6 +37,7 @@ class GetpubfieldsMethod extends MethodClass
      * 'format' => '...',
      * 'input'  => 1),
      * ...);
+     * @see UserApi::getpubfields()
      */
     public function __invoke(array $args = [])
     {

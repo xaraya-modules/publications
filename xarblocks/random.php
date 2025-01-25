@@ -133,7 +133,6 @@ class Publications_RandomBlock extends BasicBlock implements iBlock
             }
         }
 
-        return;
-        $data;
+        return $data;
     }
 }
