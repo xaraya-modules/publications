@@ -282,7 +282,7 @@ class ImportpubtypeMethod extends MethodClass
                         $object['itemtype'] = $ptid;
                         $object['config'] = '';
                         $object['isalias'] = 0;
-                        $objectid = xarMod::apiFunc(
+                        $objectid = $this->mod()->apiFunc(
                             'dynamicdata',
                             'admin',
                             'createobject',
@@ -301,7 +301,7 @@ class ImportpubtypeMethod extends MethodClass
                             $property['moduleid'] = $object['moduleid'];
                             $property['itemtype'] = $object['itemtype'];
 
-                            $prop_id = xarMod::apiFunc(
+                            $prop_id = $this->mod()->apiFunc(
                                 'dynamicdata',
                                 'admin',
                                 'createproperty',
@@ -316,8 +316,8 @@ class ImportpubtypeMethod extends MethodClass
                         }
 
                         // 7. check if we need to enable DD hooks for this pubtype
-                        if (!xarModHooks::isHooked('dynamicdata', 'publications')) {
-                            xarMod::apiFunc(
+                        if (!$this->mod()->isHooked('dynamicdata', 'publications')) {
+                            $this->mod()->apiFunc(
                                 'modules',
                                 'admin',
                                 'enablehooks',

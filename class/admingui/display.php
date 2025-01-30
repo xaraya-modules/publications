@@ -236,7 +236,7 @@ class DisplayMethod extends MethodClass
                 unset($other_params['func']);
                 unset($other_params['child']);
                 try {
-                    $page = xarMod::guiFunc($info['module'], 'user', $info['func'], $other_params);
+                    $page = $this->mod()->guiFunc($info['module'], 'user', $info['func'], $other_params);
                 } catch (Exception $e) {
                     return $this->ctl()->notFound();
                 }
@@ -529,8 +529,8 @@ class DisplayMethod extends MethodClass
         $data['topic_names'] = [];
         /*
         if (count($cids) > 0) {
-            if (!xarMod::apiLoad('categories', 'user')) return;
-            $catlist = xarMod::apiFunc('categories',
+            if (!$this->mod()->apiLoad('categories', 'user')) return;
+            $catlist = $this->mod()->apiFunc('categories',
                                     'user',
                                     'getcatinfo',
                                     array('cids' => $cids));
@@ -649,8 +649,8 @@ class DisplayMethod extends MethodClass
         unset($publication);
 
         // temp. fix to include dynamic data fields without changing templates
-        if (xarModHooks::isHooked('dynamicdata', 'publications', $pubtype_id)) {
-            [$properties] = xarMod::apiFunc(
+        if ($this->mod()->isHooked('dynamicdata', 'publications', $pubtype_id)) {
+            [$properties] = $this->mod()->apiFunc(
                 'dynamicdata',
                 'user',
                 'getitemfordisplay',
@@ -760,7 +760,7 @@ class DisplayMethod extends MethodClass
 
         // Tell the hitcount hook not to display the hitcount, but to save it
         // in the variable cache.
-        if (xarModHooks::isHooked('hitcount', 'publications', $pubtype_id)) {
+        if ($this->mod()->isHooked('hitcount', 'publications', $pubtype_id)) {
             $this->var()->setCached('Hooks.hitcount', 'save', 1);
             $data['dohitcount'] = 1;
         } else {
@@ -768,7 +768,7 @@ class DisplayMethod extends MethodClass
         }
 
         // Tell the ratings hook to save the rating in the variable cache.
-        if (xarModHooks::isHooked('ratings', 'publications', $pubtype_id)) {
+        if ($this->mod()->isHooked('ratings', 'publications', $pubtype_id)) {
             $this->var()->setCached('Hooks.ratings', 'save', 1);
             $data['doratings'] = 1;
         } else {

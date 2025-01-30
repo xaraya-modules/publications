@@ -57,12 +57,12 @@ class GetauthorsMethod extends MethodClass
         $publicationsdef = $userapi->leftjoin($args);
 
         // Load API
-        if (!xarMod::apiLoad('roles', 'user')) {
+        if (!$this->mod()->apiLoad('roles', 'user')) {
             return;
         }
 
         // Get the field names and LEFT JOIN ... ON ... parts from users
-        $usersdef = xarMod::apiFunc('roles', 'user', 'leftjoin');
+        $usersdef = $this->mod()->apiFunc('roles', 'user', 'leftjoin');
 
         // TODO: make sure this is SQL standard
         // Start building the query
@@ -81,16 +81,16 @@ class GetauthorsMethod extends MethodClass
         }
         if (count($args['cids']) > 0) {
             // Load API
-            if (!xarMod::apiLoad('categories', 'user')) {
+            if (!$this->mod()->apiLoad('categories', 'user')) {
                 return;
             }
 
             // Get the LEFT JOIN ... ON ...  and WHERE (!) parts from categories
-            $args['modid'] = xarMod::getRegID('publications');
+            $args['modid'] = $this->mod()->getRegID('publications');
             if (isset($args['ptid']) && !isset($args['itemtype'])) {
                 $args['itemtype'] = $args['ptid'];
             }
-            $categoriesdef = xarMod::apiFunc('categories', 'user', 'leftjoin', $args);
+            $categoriesdef = $this->mod()->apiFunc('categories', 'user', 'leftjoin', $args);
 
             $query .= ' LEFT JOIN ' . $categoriesdef['table'];
             $query .= ' ON ' . $categoriesdef['field'] . ' = '

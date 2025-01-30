@@ -109,7 +109,7 @@ class ViewMethod extends MethodClass
         // Constants used throughout.
         //
         // publications module ID
-        $c_modid = xarMod::getID('publications');
+        $c_modid = $this->mod()->getID('publications');
         // state: front page or approved
         $c_posted = [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED];
 
@@ -422,7 +422,7 @@ class ViewMethod extends MethodClass
                 foreach ($publications as $article) {
                     $idlist[] = $article['id'];
                 }
-                $numcomments = xarMod::apiFunc(
+                $numcomments = $this->mod()->apiFunc(
                     'comments',
                     'user',
                     'get_countlist',
@@ -439,7 +439,7 @@ class ViewMethod extends MethodClass
                     $idlist[] = $article['id'];
                 }
 
-                $keywords = xarMod::apiFunc(
+                $keywords = $this->mod()->apiFunc(
                     'keywords',
                     'user',
                     'getmultiplewords',
@@ -464,7 +464,7 @@ class ViewMethod extends MethodClass
                     }
                 }
                 if (count($cidlist) > 0) {
-                    $catinfo = xarMod::apiFunc('categories','user','getcatinfo', array('cids' => array_keys($cidlist)));
+                    $catinfo = $this->mod()->apiFunc('categories','user','getcatinfo', array('cids' => array_keys($cidlist)));
                     // get root categories for this publication type
                     // get base categories for all if needed
                     $catroots = $userapi->getrootcats(array('ptid' => $ptid, 'all' => true)
@@ -640,7 +640,7 @@ class ViewMethod extends MethodClass
         $this->var()->setCached('publications', 'settings_' . $data['ptid'], $data['settings']);
 
         // Flag this as the current list view
-        xarSession::setVar('publications_current_listview', $this->ctl()->getCurrentURL(['ptid' => $data['ptid']]));
+        $this->session()->setVar('publications_current_listview', $this->ctl()->getCurrentURL(['ptid' => $data['ptid']]));
 
         $data['context'] ??= $this->getContext();
         return $this->mod()->template('view', $data, $data['template']);

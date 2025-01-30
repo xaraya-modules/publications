@@ -158,7 +158,7 @@ class SearchMethod extends MethodClass
             $numitems = 20;
         }
 
-        if (!xarMod::apiLoad('publications', 'user')) {
+        if (!$this->mod()->apiLoad('publications', 'user')) {
             return;
         }
 
@@ -274,17 +274,17 @@ class SearchMethod extends MethodClass
         // Find the id of the author we're looking for
         if (!empty($author)) {
             // Load API
-            if (!xarMod::apiLoad('roles', 'user')) {
+            if (!$this->mod()->apiLoad('roles', 'user')) {
                 return;
             }
-            $user = xarMod::apiFunc(
+            $user = $this->mod()->apiFunc(
                 'roles',
                 'user',
                 'get',
                 ['name' => $author]
             );
-            if (!empty($user['uid'])) {
-                $owner = $user['uid'];
+            if (!empty($user['id'])) {
+                $owner = $user['id'];
             } else {
                 $owner = null;
                 $author = null;
@@ -365,14 +365,14 @@ class SearchMethod extends MethodClass
             $catarray = [];
             foreach ($ptids as $curptid) {
                 // get root categories for this publication type
-                $catlinks = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $curptid]);
+                $catlinks = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $curptid]);
                 foreach ($catlinks as $cat) {
                     $catarray[$cat['category_id']] = $cat['name'];
                 }
             }
 
             foreach ($catarray as $cid => $title) {
-                $select = xarMod::apiFunc(
+                $select = $this->mod()->apiFunc(
                     'categories',
                     'visual',
                     'makeselect',
@@ -466,7 +466,7 @@ class SearchMethod extends MethodClass
                             }
                         }
                         if (count($cidlist) > 0) {
-                            $catinfo = xarMod::apiFunc(
+                            $catinfo = $this->mod()->apiFunc(
                                 'categories',
                                 'user',
                                 'getcatinfo',
@@ -475,7 +475,7 @@ class SearchMethod extends MethodClass
                             // get root categories for this publication type
                             $catroots = $userapi->getrootcats(['ptid' => $curptid]
                             );
-                            $catroots = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $curptid]);
+                            $catroots = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $curptid]);
                         }
                         foreach ($catinfo as $cid => $info) {
                             $catinfo[$cid]['name'] = $this->var()->prep($info['name']);

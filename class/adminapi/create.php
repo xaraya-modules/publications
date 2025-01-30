@@ -114,7 +114,7 @@ class CreateMethod extends MethodClass
         }
 
         // Security check
-        if (!xarMod::apiLoad('publications', 'user')) {
+        if (!$this->mod()->apiLoad('publications', 'user')) {
             return;
         }
 

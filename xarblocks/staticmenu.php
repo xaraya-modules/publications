@@ -56,7 +56,7 @@ class Publications_StaticmenuBlock extends BasicBlock implements iBlock
         # If we don't have any page data, then fetch it now
         #
         if (empty($pagedata)) {
-            $pagedata = xarMod::apiFunc('publications', 'user', 'get_menu_pages');
+            $pagedata = $this->mod()->apiMethod('publications', 'user', 'get_menu_pages');
         }
 
         #------------------------------------------------------------

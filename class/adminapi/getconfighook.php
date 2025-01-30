@@ -50,7 +50,7 @@ class GetconfighookMethod extends MethodClass
             'module'  => $module,
             'configarea'  => 'general',
             'configtitle'  => $this->ml('Publications'),
-            'configcontent' => xarMod::guiFunc(
+            'configcontent' => $this->mod()->guiFunc(
                 $module,
                 'admin',
                 'modifyconfig_general'

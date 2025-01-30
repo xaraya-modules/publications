@@ -142,7 +142,7 @@ class ArchiveMethod extends MethodClass
         }
 
         // Load API
-        if (!xarMod::apiLoad('publications', 'user')) {
+        if (!$this->mod()->apiLoad('publications', 'user')) {
             return;
         }
 
@@ -206,15 +206,15 @@ class ArchiveMethod extends MethodClass
             'mlink' => $mlink, ];
 
         // Load API
-        if (!xarMod::apiLoad('categories', 'user')) {
+        if (!$this->mod()->apiLoad('categories', 'user')) {
             return;
         }
 
         // Get the list of root categories for this publication type
         if (!empty($ptid)) {
-            $rootcats = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $ptid]);
+            $rootcats = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $ptid]);
         } else {
-            $rootcats = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => 0]);
+            $rootcats = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => 0]);
         }
         $catlist = [];
         $catinfo = [];
@@ -227,7 +227,7 @@ class ArchiveMethod extends MethodClass
                     continue;
                 }
                 // save the name and root category for each child
-                $cats = xarMod::apiFunc(
+                $cats = $this->mod()->apiFunc(
                     'categories',
                     'user',
                     'getcat',
@@ -259,7 +259,7 @@ class ArchiveMethod extends MethodClass
                     $catlist[] = ['cid' => $cid['category_id'],
                         'name' => $catinfo[$cid['category_id']]['name'],
                         'link' => $link, ];
-                    $catsel[] = xarMod::apiFunc(
+                    $catsel[] = $this->mod()->apiFunc(
                         'categories',
                         'visual',
                         'makeselect',

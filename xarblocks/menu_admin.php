@@ -35,7 +35,7 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
 
         // Get a list of all pages for the drop-downs.
         // Get the tree of all pages, without the DD for speed.
-        $data['all_pages'] = xarMod::apiFunc(
+        $data['all_pages'] = $this->mod()->apiMethod(
             'publications',
             'user',
             'getpagestree',

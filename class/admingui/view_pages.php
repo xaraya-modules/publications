@@ -63,12 +63,12 @@ class ViewPagesMethod extends MethodClass
         $this->var()->find('root_id', $root_id, 'int');
 
         if (null === $root_id) {
-            $root_id = xarSession::getVar('publications_root_id');
+            $root_id = $this->session()->getVar('publications_root_id');
             if (empty($root_id)) {
                 $root_id = 0;
             }
         }
-        xarSession::setVar('publications_root_id', $root_id);
+        $this->session()->setVar('publications_root_id', $root_id);
 
         $data = $userapi->getpagestree(['key' => 'index', 'dd_flag' => false, 'tree_contains_id' => $root_id]
         );
@@ -130,7 +130,7 @@ class ViewPagesMethod extends MethodClass
         }
 
         // Flag this as the current list view
-        xarSession::setVar('publications_current_listview', $this->ctl()->getCurrentURL());
+        $this->session()->setVar('publications_current_listview', $this->ctl()->getCurrentURL());
 
         return $data;
     }

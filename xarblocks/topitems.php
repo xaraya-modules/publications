@@ -116,7 +116,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
             if (!empty($cid)) {
                 // if we're viewing all items below a certain category, i.e. catid = _NN
                 $cid = str_replace('_', '', $cid);
-                $thiscategory = xarMod::apiFunc(
+                $thiscategory = $this->mod()->apiFunc(
                     'categories',
                     'user',
                     'getcat',
@@ -130,7 +130,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
 
         // Get publication types
         // MarieA - moved to always get pubtypes.
-        $publication_types = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+        $publication_types = $this->mod()->apiMethod('publications', 'user', 'get_pubtypes');
 
         if (!empty($data['nopublimit'])) {
             //don't limit by publication type
@@ -174,10 +174,10 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
 
         // get cids for security check in getall
         $fields = ['id', 'title', 'pubtype_id', 'cids'];
-        if ($data['toptype'] == 'rating' && xarModHooks::isHooked('ratings', 'publications', $ptid)) {
+        if ($data['toptype'] == 'rating' && $this->mod()->isHooked('ratings', 'publications', $ptid)) {
             array_push($fields, 'rating');
             $sort = 'rating';
-        } elseif ($data['toptype'] == 'hits' && xarModHooks::isHooked('hitcount', 'publications', $ptid)) {
+        } elseif ($data['toptype'] == 'hits' && $this->mod()->isHooked('hitcount', 'publications', $ptid)) {
             array_push($fields, 'counter');
             $sort = 'hits';
         } else {
@@ -188,11 +188,11 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
         if (!empty($data['showsummary'])) {
             array_push($fields, 'summary');
         }
-        if (!empty($data['showdynamic']) && xarModHooks::isHooked('dynamicdata', 'publications', $ptid)) {
+        if (!empty($data['showdynamic']) && $this->mod()->isHooked('dynamicdata', 'publications', $ptid)) {
             array_push($fields, 'dynamicdata');
         }
 
-        $publications = xarMod::apiFunc(
+        $publications = $this->mod()->apiMethod(
             'publications',
             'user',
             'getall',

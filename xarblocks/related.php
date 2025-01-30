@@ -61,7 +61,7 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
 
         if ($vars['showpubtype']) {
             // Show publication type (for now)
-            $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
+            $pubtypes = $this->mod()->apiMethod('publications', 'user', 'get_pubtypes');
             if ($this->var()->isCached('Blocks.publications', 'ptid')) {
                 $ptid = $this->var()->getCached('Blocks.publications', 'ptid');
                 if (!empty($ptid) && isset($pubtypes[$ptid]['description'])) {
@@ -97,7 +97,7 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
                     );
                     $vars['authorid'] = $author;
                     if (!empty($vars['showvalue'])) {
-                        $vars['authorcount'] = xarMod::apiFunc(
+                        $vars['authorcount'] = $this->mod()->apiMethod(
                             'publications',
                             'user',
                             'countitems',

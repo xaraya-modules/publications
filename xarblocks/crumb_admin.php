@@ -37,7 +37,7 @@ class Publications_CrumbBlockAdmin extends Publications_CrumbBlock implements iB
 
         // Get a list of all pages for the drop-downs.
         // Get the tree of all pages, without the DD for speed.
-        $data['all_pages'] = xarMod::apiFunc(
+        $data['all_pages'] = $this->mod()->apiMethod(
             'publications',
             'user',
             'getpagestree',

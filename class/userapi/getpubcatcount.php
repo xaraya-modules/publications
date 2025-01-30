@@ -62,16 +62,16 @@ class GetpubcatcountMethod extends MethodClass
         $publicationsdef = $userapi->leftjoin($args);
 
         // Load API
-        if (!xarMod::apiLoad('categories', 'user')) {
+        if (!$this->mod()->apiLoad('categories', 'user')) {
             return;
         }
 
-        $args['modid'] = xarMod::getRegID('publications');
+        $args['modid'] = $this->mod()->getRegID('publications');
         if (isset($args['ptid']) && !isset($args['itemtype'])) {
             $args['itemtype'] = $args['ptid'];
         }
         // Get the LEFT JOIN ... ON ...  and WHERE parts from categories
-        $categoriesdef = xarMod::apiFunc('categories', 'user', 'leftjoin', $args);
+        $categoriesdef = $this->mod()->apiFunc('categories', 'user', 'leftjoin', $args);
 
         // Get count
         $query = 'SELECT ' . $publicationsdef['pubtype_id'] . ', ' . $categoriesdef['category_id']

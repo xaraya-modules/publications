@@ -165,27 +165,27 @@ class GetallMethod extends MethodClass
 
         if (!empty($required['owner'])) {
             // Load API
-            if (!xarMod::apiLoad('roles', 'user')) {
+            if (!$this->mod()->apiLoad('roles', 'user')) {
                 return;
             }
 
             // Get the field names and LEFT JOIN ... ON ... parts from users
-            $usersdef = xarMod::apiFunc('roles', 'user', 'leftjoin');
+            $usersdef = $this->mod()->apiFunc('roles', 'user', 'leftjoin');
             if (empty($usersdef)) {
                 return;
             }
         }
 
-        $regid = xarMod::getRegID('publications');
+        $regid = $this->mod()->getRegID('publications');
 
         if (!empty($required['cids'])) {
             // Load API
-            if (!xarMod::apiLoad('categories', 'user')) {
+            if (!$this->mod()->apiLoad('categories', 'user')) {
                 return;
             }
 
             // Get the LEFT JOIN ... ON ...  and WHERE (!) parts from categories
-            $categoriesdef = xarMod::apiFunc(
+            $categoriesdef = $this->mod()->apiFunc(
                 'categories',
                 'user',
                 'leftjoin',
@@ -199,14 +199,14 @@ class GetallMethod extends MethodClass
             }
         }
 
-        if (!empty($required['counter']) && xarModHooks::isHooked('hitcount', 'publications', $ptid)) {
+        if (!empty($required['counter']) && $this->mod()->isHooked('hitcount', 'publications', $ptid)) {
             // Load API
-            if (!xarMod::apiLoad('hitcount', 'user')) {
+            if (!$this->mod()->apiLoad('hitcount', 'user')) {
                 return;
             }
 
             // Get the LEFT JOIN ... ON ...  and WHERE (!) parts from hitcount
-            $hitcountdef = xarMod::apiFunc(
+            $hitcountdef = $this->mod()->apiFunc(
                 'hitcount',
                 'user',
                 'leftjoin',
@@ -215,14 +215,14 @@ class GetallMethod extends MethodClass
             );
         }
 
-        if (!empty($required['rating']) && xarModHooks::isHooked('ratings', 'publications', $ptid)) {
+        if (!empty($required['rating']) && $this->mod()->isHooked('ratings', 'publications', $ptid)) {
             // Load API
-            if (!xarMod::apiLoad('ratings', 'user')) {
+            if (!$this->mod()->apiLoad('ratings', 'user')) {
                 return;
             }
 
             // Get the LEFT JOIN ... ON ...  and WHERE (!) parts from ratings
-            $ratingsdef = xarMod::apiFunc(
+            $ratingsdef = $this->mod()->apiFunc(
                 'ratings',
                 'user',
                 'leftjoin',
@@ -442,12 +442,12 @@ class GetallMethod extends MethodClass
             }
 
             // Load API
-            if (!xarMod::apiLoad('categories', 'user')) {
+            if (!$this->mod()->apiLoad('categories', 'user')) {
                 return;
             }
 
             // Get the links for the Array of iids we have
-            $cids = xarMod::apiFunc(
+            $cids = $this->mod()->apiFunc(
                 'categories',
                 'user',
                 'getlinks',
@@ -494,10 +494,10 @@ class GetallMethod extends MethodClass
 
         if (!empty($required['dynamicdata']) && count($publications) > 0) {
             foreach ($itemids_per_type as $pubtype => $itemids) {
-                if (!xarModHooks::isHooked('dynamicdata', 'publications', $pubtype)) {
+                if (!$this->mod()->isHooked('dynamicdata', 'publications', $pubtype)) {
                     continue;
                 }
-                [$properties, $items] = xarMod::apiFunc(
+                [$properties, $items] = $this->mod()->apiFunc(
                     'dynamicdata',
                     'user',
                     'getitemsforview',

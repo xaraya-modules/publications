@@ -198,7 +198,7 @@ class ImportpicturesMethod extends MethodClass
 
             /*
                     $catlist = array();
-                    $rootcats = xarMod::apiFunc('categories','user','getallcatbases',array('module' => 'publications','itemtype' => $data['ptid']));
+                    $rootcats = $this->mod()->apiFunc('categories','user','getallcatbases',array('module' => 'publications','itemtype' => $data['ptid']));
                     foreach ($rootcats as $catid) {
                         $catlist[$catid['category_id']] = 1;
                     }
@@ -212,7 +212,7 @@ class ImportpicturesMethod extends MethodClass
                     }
                     $cids = array_keys($seencid);
                     foreach (array_keys($catlist) as $catid) {
-                        $data['cats'][] = xarMod::apiFunc('categories',
+                        $data['cats'][] = $this->mod()->apiFunc('categories',
                                                         'visual',
                                                         'makeselect',
                                                         Array('cid' => $catid,

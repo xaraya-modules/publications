@@ -129,7 +129,7 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
         // If necessary, check whether the current page is under one of the
         // of the allowed root ids.
         if (!empty($root_ids)) {
-            if (!xarMod::apiFunc('publications', 'user', 'pageintrees', ['id' => $id, 'tree_roots' => $root_ids])) {
+            if (!$this->mod()->apiMethod('publications', 'user', 'pageintrees', ['id' => $id, 'tree_roots' => $root_ids])) {
                 // Not under a root.
                 // If the mode is AUTO then leave the menu blank.
                 if ($data['current_source'] == 'AUTO' || $data['current_source'] == 'DEFAULT' || empty($data['default_id'])) {
@@ -145,7 +145,7 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
         // If we don't have any page data, then fetch it now.
         if (empty($pagedata)) {
             // Get the page data here now.
-            $pagedata = xarMod::apiFunc(
+            $pagedata = $this->mod()->apiMethod(
                 'publications',
                 'user',
                 'getmenutree',
@@ -241,7 +241,7 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
 
         // Here we add the various flags to the pagedata, based on
         // the current page.
-        $pagedata = xarMod::apiFunc(
+        $pagedata = $this->mod()->apiMethod(
             'publications',
             'user',
             'addcurrentpageflags',

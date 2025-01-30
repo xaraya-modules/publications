@@ -197,13 +197,13 @@ class GetMethod extends MethodClass
 
         if (!empty($withcids)) {
             $article['cids'] = [];
-            if (!xarMod::apiLoad('categories', 'user')) {
+            if (!$this->mod()->apiLoad('categories', 'user')) {
                 return;
             }
 
             $info = xarMod::getBaseInfo('publications');
             $regid = $info['systemid'];
-            $articlecids = xarMod::apiFunc(
+            $articlecids = $this->mod()->apiFunc(
                 'categories',
                 'user',
                 'getlinks',
@@ -238,8 +238,8 @@ class GetMethod extends MethodClass
         }
 
         /*
-            if (xarModHooks::isHooked('dynamicdata','publications')) {
-                $values = xarMod::apiFunc('dynamicdata','user','getitem',
+            if ($this->mod()->isHooked('dynamicdata','publications')) {
+                $values = $this->mod()->apiFunc('dynamicdata','user','getitem',
                                          array('module'   => 'publications',
                                                'itemtype' => $pubtype_id,
                                                'itemid'   => $id));

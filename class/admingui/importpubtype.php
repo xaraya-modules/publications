@@ -61,7 +61,7 @@ class ImportpubtypeMethod extends MethodClass
 
         $basedir = 'modules/publications';
         $filetype = 'xml';
-        $files = xarMod::apiFunc(
+        $files = $this->mod()->apiFunc(
             'dynamicdata',
             'admin',
             'browse',

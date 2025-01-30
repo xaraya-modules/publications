@@ -174,17 +174,17 @@ class PrivilegesMethod extends MethodClass
         } elseif (empty($uid) || $uid == 'All' || (!is_numeric($uid) && (strtolower($uid) != 'myself'))) {
             $uid = 0;
             if (!empty($author)) {
-                $user = xarMod::apiFunc(
+                $user = $this->mod()->apiFunc(
                     'roles',
                     'user',
                     'get',
                     ['name' => $author]
                 );
-                if (!empty($user) && !empty($user['uid'])) {
+                if (!empty($user) && !empty($user['id'])) {
                     if (strtolower($author) == 'myself') {
                         $uid = 'Myself';
                     } else {
-                        $uid = $user['uid'];
+                        $uid = $user['id'];
                     }
                 } else {
                     $author = '';
@@ -193,8 +193,8 @@ class PrivilegesMethod extends MethodClass
         } else {
             $author = '';
             /*
-                    $user = xarMod::apiFunc('roles', 'user', 'get',
-                                          array('uid' => $uid));
+                    $user = $this->mod()->apiFunc('roles', 'user', 'get',
+                                          array('id' => $uid));
                     if (!empty($user) && !empty($user['name'])) {
                         $author = $user['name'];
                     }
@@ -264,7 +264,7 @@ class PrivilegesMethod extends MethodClass
 
         $catlist = [];
         if (!empty($ptid)) {
-            $basecats = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications', 'itemtype' => $ptid]);
+            $basecats = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications', 'itemtype' => $ptid]);
             foreach ($basecats as $catid) {
                 $catlist[$catid['id']] = 1;
             }
@@ -275,7 +275,7 @@ class PrivilegesMethod extends MethodClass
             }
         } else {
             foreach (array_keys($data['pubtypes']) as $pubid) {
-                $basecats = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications', 'itemtype' => $pubid]);
+                $basecats = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications', 'itemtype' => $pubid]);
                 foreach ($basecats as $catid) {
                     $catlist[$catid['id']] = 1;
                 }

@@ -144,7 +144,7 @@ class CloneMethod extends MethodClass
             }
 
             // Redirect if we came from somewhere else
-            //$current_listview = xarSession::getVar('publications_current_listview');
+            //$current_listview = $this->session()->getVar('publications_current_listview');
             if (!empty($return_url)) {
                 $this->ctl()->redirect($return_url);
             } elseif (!empty($current_listview)) {

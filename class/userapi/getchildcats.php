@@ -68,12 +68,12 @@ class GetchildcatsMethod extends MethodClass
             $filter = '';
         }
 
-        if (!xarMod::apiLoad('categories', 'visual')) {
+        if (!$this->mod()->apiLoad('categories', 'visual')) {
             return;
         }
 
         // TODO: make sure permissions are taken into account here !
-        $list = xarMod::apiFunc(
+        $list = $this->mod()->apiFunc(
             'categories',
             'visual',
             'listarray',

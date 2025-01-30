@@ -94,13 +94,13 @@ class GetrootcatsMethod extends MethodClass
             return [];
         }
 
-        if (!xarMod::apiLoad('categories', 'user')) {
+        if (!$this->mod()->apiLoad('categories', 'user')) {
             return;
         }
 
         $isfirst = 1;
         $catlinks = [];
-        $catlist = xarMod::apiFunc(
+        $catlist = $this->mod()->apiFunc(
             'categories',
             'user',
             'getcatinfo',

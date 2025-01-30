@@ -76,16 +76,16 @@ class CountitemsMethod extends MethodClass
         }
         if (count($args['cids']) > 0 || !empty($args['catid'])) {
             // Load API
-            if (!xarMod::apiLoad('categories', 'user')) {
+            if (!$this->mod()->apiLoad('categories', 'user')) {
                 return;
             }
 
             // Get the LEFT JOIN ... ON ...  and WHERE (!) parts from categories
-            $args['modid'] = xarMod::getRegID('publications');
+            $args['modid'] = $this->mod()->getRegID('publications');
             if (isset($args['ptid']) && !isset($args['itemtype'])) {
                 $args['itemtype'] = $args['ptid'];
             }
-            $categoriesdef = xarMod::apiFunc('categories', 'user', 'leftjoin', $args);
+            $categoriesdef = $this->mod()->apiFunc('categories', 'user', 'leftjoin', $args);
 
             $query .= ' LEFT JOIN ' . $categoriesdef['table'];
             $query .= ' ON ' . $categoriesdef['field'] . ' = '

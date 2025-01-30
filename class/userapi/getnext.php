@@ -67,7 +67,7 @@ class GetnextMethod extends MethodClass
         }
         if (!isset($state)) {
             // frontpage or approved or placeholder
-            xarMod::load('publications');
+            $this->mod()->load('publications');
             $state = [Defines::STATE_ACTIVE,Defines::STATE_FRONTPAGE,Defines::STATE_PLACEHOLDER];
         }
 

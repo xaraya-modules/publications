@@ -49,8 +49,8 @@ class Publications_FillerBlock extends BasicBlock implements iBlock
 
         // Setup featured item
         if ($data['fillerid'] > 0) {
-            $fillerid = xarMod::apiFunc('publications', 'user', 'gettranslationid', ['id' => $data['fillerid']]);
-            $ptid = xarMod::apiFunc('publications', 'user', 'getitempubtype', ['itemid' => $data['fillerid']]);
+            $fillerid = $this->mod()->apiMethod('publications', 'user', 'gettranslationid', ['id' => $data['fillerid']]);
+            $ptid = $this->mod()->apiMethod('publications', 'user', 'getitempubtype', ['itemid' => $data['fillerid']]);
             $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
             $pubtypeobject->getItem(['itemid' => $ptid]);
             $data['object'] = $this->data()->getObject(['name' => $pubtypeobject->properties['name']->value]);

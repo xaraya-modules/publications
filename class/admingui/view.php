@@ -89,12 +89,12 @@ class ViewMethod extends MethodClass
         extract($args);
 
         if (null === $ptid) {
-            $ptid = xarSession::getVar('publications_current_pubtype');
+            $ptid = $this->session()->getVar('publications_current_pubtype');
             if (empty($ptid)) {
                 $ptid = $this->mod()->getVar('defaultpubtype');
             }
         }
-        xarSession::setVar('publications_current_pubtype', $ptid);
+        $this->session()->setVar('publications_current_pubtype', $ptid);
 
         $pubtypes = $userapi->get_pubtypes();
 
@@ -200,7 +200,7 @@ class ViewMethod extends MethodClass
             'state' => $state,
             'pubdate' => $pubdate,
             'startnum' => $startnum > 1 ? $startnum : null, ];
-        xarSession::setVar('Publications.LastView', serialize($lastview));
+        $this->session()->setVar('Publications.LastView', serialize($lastview));
 
         $labels = [];
         $data['labels'] = $labels;
@@ -428,7 +428,7 @@ class ViewMethod extends MethodClass
         $data['object'] = $this->data()->getObjectList(['name' => $pubtypeobject->properties['name']->value]);
 
         // Flag this as the current list view
-        xarSession::setVar('publications_current_listview', $this->ctl()->getCurrentURL(['ptid' => $ptid]));
+        $this->session()->setVar('publications_current_listview', $this->ctl()->getCurrentURL(['ptid' => $ptid]));
 
         $data['context'] ??= $this->getContext();
         return $this->mod()->template('view', $data, $template);

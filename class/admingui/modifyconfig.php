@@ -73,7 +73,7 @@ class ModifyconfigMethod extends MethodClass
 
             // get root categories for this publication type
             if (!empty($id)) {
-                $catlinks = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $data['ptid']]);
+                $catlinks = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $data['ptid']]);
                 // Note: if you want to use a *combination* of categories here, you'll
                 //       need to use something like 'c15+32'
                 foreach ($catlinks as $catlink) {
@@ -108,7 +108,7 @@ class ModifyconfigMethod extends MethodClass
             }
 
             //The usual bunch of vars
-            $data['module_settings'] = xarMod::apiFunc('base', 'admin', 'getmodulesettings', ['module' => 'publications']);
+            $data['module_settings'] = $this->mod()->apiFunc('base', 'admin', 'getmodulesettings', ['module' => 'publications']);
             $data['module_settings']->setFieldList('items_per_page, use_module_alias, module_alias_name, user_menu_link, use_module_icons, frontend_page, backend_page');
             $data['module_settings']->getItem();
 
@@ -144,7 +144,7 @@ class ModifyconfigMethod extends MethodClass
             } else {
                 $data['alias'] = 'frontpage';
             }
-            $modname = xarModAlias::resolve($data['alias']);
+            $modname = $this->mod()->resolveAlias($data['alias']);
             if ($modname == 'publications') {
                 $data['usealias'] = true;
             } else {

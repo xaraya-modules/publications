@@ -75,12 +75,12 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 $modname = $this->var()->getCached('Blocks.categories', 'module');
             }
             if (empty($modname)) {
-                $modname = xarMod::getName();
+                $modname = $this->mod()->getName();
             }
         } else {
             $modname = $module;
         }
-        $modid = xarMod::getRegID($modname);
+        $modid = $this->mod()->getRegID($modname);
         if (empty($modid)) {
             return;
         }
@@ -122,7 +122,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
         } else {
             // Get number of categories for this module + item type
 
-            $numcats = xarMod::apiFunc(
+            $numcats = $this->mod()->apiFunc(
                 'categories',
                 'user',
                 'countcatbases',
@@ -138,7 +138,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
             }
 
             // Get master cids for this module + item type
-            $mastercids = xarMod::apiFunc(
+            $mastercids = $this->mod()->apiFunc(
                 'categories',
                 'user',
                 'getallcatbases',
@@ -181,7 +181,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
             if ($this->var()->isCached('Blocks.categories', 'deepcount')) {
                 $deepcount = $this->var()->getCached('Blocks.categories', 'deepcount');
             } else {
-                $deepcount = xarMod::apiFunc(
+                $deepcount = $this->mod()->apiFunc(
                     'categories',
                     'user',
                     'deepcount',
@@ -200,7 +200,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
 
                 if ($show_catcount == 1) {
                     // We want to display only children category counts.
-                    $catcount = xarMod::apiFunc(
+                    $catcount = $this->mod()->apiFunc(
                         'categories',
                         'user',
                         'groupcount',
@@ -274,7 +274,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 if (empty($cids)) {
                     $cids = [];
                     if ((empty($module) || $module == $modname) && !empty($itemid)) {
-                        $links = xarMod::apiFunc(
+                        $links = $this->mod()->apiFunc(
                             'categories',
                             'user',
                             'getlinks',
@@ -330,7 +330,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 $data['cid'] = $cid;
 
                 # Get category parents
-                $parents = xarMod::apiFunc(
+                $parents = $this->mod()->apiFunc(
                     'categories',
                     'user',
                     'getparents',
@@ -343,7 +343,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 $root = '';
                 $parentid = 0;
                 foreach ($parents as $id => $info) {
-                    $publications = xarMod::apiFunc(
+                    $publications = $this->mod()->apiMethod(
                         'publications',
                         'user',
                         'getall',
@@ -412,7 +412,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
 
                 $cid = current($cids);
 
-                $cat = xarMod::apiFunc(
+                $cat = $this->mod()->apiFunc(
                     'categories',
                     'user',
                     'getcatinfo',
@@ -426,7 +426,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
 
 
                 # Get child categories
-                $childrenCategories = xarMod::apiFunc(
+                $childrenCategories = $this->mod()->apiFunc(
                     'categories',
                     'user',
                     'getchildren',
@@ -435,10 +435,10 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
 
 
                 # get all the pubtypes so we can digest the ids
-                $pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes', []);
+                $pubtypes = $this->mod()->apiMethod('publications', 'user', 'get_pubtypes', []);
 
                 # get immediate items in current category
-                $items = xarMod::apiFunc(
+                $items = $this->mod()->apiMethod(
                     'publications',
                     'user',
                     'getall',
@@ -482,7 +482,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 $catitems = [];
                 if (!empty($childrenCategories) && count($childrenCategories) > 0) {
                     foreach ($childrenCategories as $child) {
-                        $publications = xarMod::apiFunc(
+                        $publications = $this->mod()->apiMethod(
                             'publications',
                             'user',
                             'getall',

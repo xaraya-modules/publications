@@ -89,7 +89,7 @@ class GetparentcatsMethod extends MethodClass
             $trailitem = [];
             $trailitem['cid'] = $cid;
             // TODO : retrieve all parents in 1 call ?
-            $trail = xarMod::apiFunc(
+            $trail = $this->mod()->apiFunc(
                 'categories',
                 'user',
                 'getcat',

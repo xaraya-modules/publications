@@ -79,8 +79,7 @@ class CreateMethod extends MethodClass
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
             if (!$isvalid &&
-                $this->mod()->getVar('debugmode') &&
-                in_array(xarUser::getVar('id'), xarConfigVars::get(null, 'Site.User.DebugAdmins'))) {
+                $this->mod()->getVar('debugmode') && xarUser::isDebugAdmin()) {
                 var_dump($data['object']->getInvalids());
             }
             // Preview or bad data: redisplay the form
@@ -110,7 +109,7 @@ class CreateMethod extends MethodClass
         }
 
         // Redirect if we came from somewhere else
-        $current_listview = xarSession::getVar('publications_current_listview');
+        $current_listview = $this->session()->getVar('publications_current_listview');
         if (!empty($current_listview)) {
             $this->ctl()->redirect($current_listview);
         }

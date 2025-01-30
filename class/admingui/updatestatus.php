@@ -41,6 +41,7 @@ class UpdatestatusMethod extends MethodClass
     /**
      * update item from publications_admin_modify
      * @param array<string, mixed> $args
+     * @see AdminGui::updatestatus()
      */
     public function __invoke(array $args = [])
     {
@@ -147,7 +148,7 @@ class UpdatestatusMethod extends MethodClass
         unset($article);
 
         // Return to the original admin view
-        $lastview = xarSession::getVar('Publications.LastView');
+        $lastview = $this->session()->getVar('Publications.LastView');
         if (isset($lastview)) {
             $lastviewarray = unserialize($lastview);
             if (!empty($lastviewarray['ptid']) && $lastviewarray['ptid'] == $ptid) {

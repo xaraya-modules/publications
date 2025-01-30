@@ -61,7 +61,7 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
         # ------------------------------------------------------------
         # Get the items for the dropdown based on the conditions
         #
-        $items = xarMod::apiFunc('publications', 'user', 'getall', $conditions);
+        $items = $this->mod()->apiMethod('publications', 'user', 'getall', $conditions);
 
         // Limit the titles to less than 50 characters
         $data['filtereditems'] = [];
@@ -81,8 +81,8 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
         # ------------------------------------------------------------
         # Get the data for other dropdowns
         #
-        $data['pubtypes'] = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
-        $data['categorylist'] = xarMod::apiFunc('categories', 'user', 'getcat');
+        $data['pubtypes'] = $this->mod()->apiMethod('publications', 'user', 'get_pubtypes');
+        $data['categorylist'] = $this->mod()->apiFunc('categories', 'user', 'getcat');
         $data['sortoptions'] = [
             ['id' => 'author', 'name' => $this->ml('Author')],
             ['id' => 'date', 'name' => $this->ml('Date')],

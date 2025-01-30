@@ -59,12 +59,12 @@ class NewMethod extends MethodClass
         }
 
         if (null === $data['ptid']) {
-            $data['ptid'] = xarSession::getVar('publications_current_pubtype');
+            $data['ptid'] = $this->session()->getVar('publications_current_pubtype');
             if (empty($data['ptid'])) {
                 $data['ptid'] = $this->mod()->getVar('defaultpubtype');
             }
         }
-        xarSession::setVar('publications_current_pubtype', $data['ptid']);
+        $this->session()->setVar('publications_current_pubtype', $data['ptid']);
 
         $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);

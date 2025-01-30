@@ -53,7 +53,7 @@ class RedirectMethod extends MethodClass
         }
 
         // Load API
-        if (!xarMod::apiLoad('publications', 'user')) {
+        if (!$this->mod()->apiLoad('publications', 'user')) {
             return;
         }
 

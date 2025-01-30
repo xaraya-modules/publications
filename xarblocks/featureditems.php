@@ -73,7 +73,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
         // Load the query class and the publications tables
         sys::import('xaraya.structures.query');
-        xarMod::apiLoad('publications');
+        $this->mod()->apiLoad('publications');
         $tables = & $this->db()->getTables();
 
         // Get all the publications types
@@ -129,7 +129,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
                 $sort = $data['toptype'];
             }
 
-            $publications = xarMod::apiFunc(
+            $publications = $this->mod()->apiMethod(
                 'publications',
                 'user',
                 'getall',

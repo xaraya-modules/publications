@@ -127,7 +127,7 @@ class ViewmapMethod extends MethodClass
 
             // TODO: re-evaluate this after user feedback...
             // *trick* Use the 'default' categories here, instead of all rootcats
-            $basecats = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications']);
+            $basecats = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications']);
 
             $catlist = [];
             foreach ($basecats as $basecat) {
@@ -155,9 +155,9 @@ class ViewmapMethod extends MethodClass
 
             // Get the base categories
             if (!empty($ptid)) {
-                $rootcats = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $ptid]);
+                $rootcats = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $ptid]);
             } else {
-                $rootcats = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => 0]);
+                $rootcats = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => 0]);
                 $ptid = null;
             }
 

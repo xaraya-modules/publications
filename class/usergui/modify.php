@@ -120,8 +120,8 @@ class ModifyMethod extends MethodClass
                 case 1:
                     $allow = xarRoles::isParent('Administrators', xarUser::getVar('uname'));
                     break;
-                case 1:
-                    $allow = xarModVars::get('roles', 'admin') == xarUser::getVar('id');
+                case 2:
+                    $allow = xarUser::isSiteAdmin();
                     break;
             }
         }

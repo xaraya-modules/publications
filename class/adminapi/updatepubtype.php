@@ -85,7 +85,7 @@ class UpdatepubtypeMethod extends MethodClass
         }
 
         // Load user API to obtain item information function
-        if (!xarMod::apiLoad('publications', 'user')) {
+        if (!$this->mod()->apiLoad('publications', 'user')) {
             return;
         }
 

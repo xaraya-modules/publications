@@ -55,7 +55,7 @@ class GetitemtypesMethod extends MethodClass
             ];
         }
 
-        $extensionitemtypes = xarMod::apiFunc('dynamicdata', 'user', 'getmoduleitemtypes', ['moduleid' => 30065, 'native' => false]);
+        $extensionitemtypes = $this->mod()->apiFunc('dynamicdata', 'user', 'getmoduleitemtypes', ['moduleid' => 30065, 'native' => false]);
 
         /* TODO: activate this code when we move to php5
         $keys = array_merge(array_keys($itemtypes),array_keys($extensionitemtypes));

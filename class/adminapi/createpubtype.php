@@ -83,7 +83,7 @@ class CreatepubtypeMethod extends MethodClass
             return;
         }
 
-        if (!xarMod::apiLoad('publications', 'user')) {
+        if (!$this->mod()->apiLoad('publications', 'user')) {
             return;
         }
 

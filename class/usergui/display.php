@@ -280,7 +280,7 @@ class DisplayMethod extends MethodClass
                 $controller->chargeRequest($request, $args);
 
                 try {
-                    $page = xarMod::guiFunc($request->getModule(), 'user', $request->getFunction(), $request->getFunctionArgs());
+                    $page = $this->mod()->guiFunc($request->getModule(), 'user', $request->getFunction(), $request->getFunctionArgs());
                 } catch (Exception $e) {
                     return $this->ctl()->notFound();
                 }

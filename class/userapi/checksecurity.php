@@ -122,23 +122,23 @@ class ChecksecurityMethod extends MethodClass
 
         // Get root categories for this publication type
         if (!empty($ptid)) {
-            $rootcats = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications', 'itemtype' => $ptid]);
+            $rootcats = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications', 'itemtype' => $ptid]);
         } else {
             $ptid = null;
         }
         if (!isset($rootcids)) {
             // TODO: handle cross-pubtype views better
-            $rootcats = xarMod::apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications']);
+            $rootcats = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications']);
         }
 
         // Get category information for this article
         if (!isset($publication['cids']) && !empty($id)) {
-            if (!xarMod::apiLoad('categories', 'user')) {
+            if (!$this->mod()->apiLoad('categories', 'user')) {
                 return;
             }
             $info = xarMod::getBaseInfo('publications');
             $sysid = $info['systemid'];
-            $publicationcids = xarMod::apiFunc(
+            $publicationcids = $this->mod()->apiFunc(
                 'categories',
                 'user',
                 'getlinks',
