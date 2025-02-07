@@ -53,7 +53,7 @@
                 )
             </xar:if>
         </xar:if>
-        <xar:if condition="xarModHooks::isHooked('ratings','publications',6)">
+        <xar:if condition="xarHooks::isAttached('ratings','publications',6)">
             | <a href="#$link#">                
                     Rate / Comment
             </a>

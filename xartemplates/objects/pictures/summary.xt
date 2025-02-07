@@ -15,7 +15,7 @@
 
     <div id="main-content">
         <ul>
-            <xar:if condition="xarModHooks::isHooked('uploads','publications',$fields['itemtype']) and substr($body,0,1) eq ';'">
+            <xar:if condition="xarHooks::isAttached('uploads','publications',$fields['itemtype']) and substr($body,0,1) eq ';'">
         
                 <xar:template file="editicons"/>
         
