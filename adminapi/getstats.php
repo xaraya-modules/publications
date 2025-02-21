@@ -66,7 +66,7 @@ class GetstatsMethod extends MethodClass
                         break;
                         // TODO:  Add SQL queries for Oracle, etc.
                     default:
-                        continue;
+                        continue 2;
                 }
             } elseif ($field == 'pubdate_month') {
                 $dbtype = $this->db()->getType();
@@ -86,7 +86,7 @@ class GetstatsMethod extends MethodClass
                         break;
                         // TODO:  Add SQL queries for Oracle, etc.
                     default:
-                        continue;
+                        continue 2;
                 }
             } elseif ($field == 'pubdate_day') {
                 $dbtype = $this->db()->getType();
@@ -106,7 +106,7 @@ class GetstatsMethod extends MethodClass
                         break;
                         // TODO:  Add SQL queries for Oracle, etc.
                     default:
-                        continue;
+                        continue 2;
                 }
             } else {
                 $newfields[] = $field;

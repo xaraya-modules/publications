@@ -45,8 +45,6 @@ sys::import('xaraya.structures.query');
 sys::import('xaraya.facades.database');
 use Xaraya\Facades\xarDB3;
 
-xarMod::load('publications');
-
 class PublicationsShortController extends ShortActionController
 {
     public $pubtypes = [];
