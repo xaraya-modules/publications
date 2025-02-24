@@ -97,21 +97,21 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
     public function update($data = [])
     {
         $args = [];
-        $this->var()->fetch('pubtype_id', 'int', $args['pubtype_id'], 0, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('catfilter', 'id', $args['catfilter'], $this->catfilter, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('nocatlimit', 'checkbox', $args['nocatlimit'], $this->nocatlimit, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('pubstate', 'str', $args['pubstate'], $this->pubstate, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('itemlimit', 'int:1', $args['itemlimit'], $this->itemlimit, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('toptype', 'enum:author:date:hits:rating:title', $args['toptype'], $this->toptype, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('featuredid', 'int', $args['featuredid'], $this->featuredid, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('alttitle', 'str', $args['alttitle'], $this->alttitle, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('altsummary', 'str', $args['altsummary'], $this->altsummary, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showfeaturedbod', 'checkbox', $args['showfeaturedbod'], 0, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showfeaturedsum', 'checkbox', $args['showfeaturedsum'], 0, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showsummary', 'checkbox', $args['showsummary'], 0, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showvalue', 'checkbox', $args['showvalue'], 0, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('linkpubtype', 'checkbox', $args['linkpubtype'], 0, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('linkcat', 'checkbox', $args['linkcat'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->find('pubtype_id', $args['pubtype_id'], 'int', 0);
+        $this->var()->find('catfilter', $args['catfilter'], 'id', $this->catfilter);
+        $this->var()->find('nocatlimit', $args['nocatlimit'], 'checkbox', $this->nocatlimit);
+        $this->var()->find('pubstate', $args['pubstate'], 'str', $this->pubstate);
+        $this->var()->find('itemlimit', $args['itemlimit'], 'int:1', $this->itemlimit);
+        $this->var()->find('toptype', $args['toptype'], 'enum:author:date:hits:rating:title', $this->toptype);
+        $this->var()->find('featuredid', $args['featuredid'], 'int', $this->featuredid);
+        $this->var()->find('alttitle', $args['alttitle'], 'str', $this->alttitle);
+        $this->var()->find('altsummary', $args['altsummary'], 'str', $this->altsummary);
+        $this->var()->find('showfeaturedbod', $args['showfeaturedbod'], 'checkbox', 0);
+        $this->var()->find('showfeaturedsum', $args['showfeaturedsum'], 'checkbox', 0);
+        $this->var()->find('showsummary', $args['showsummary'], 'checkbox', 0);
+        $this->var()->find('showvalue', $args['showvalue'], 'checkbox', 0);
+        $this->var()->find('linkpubtype', $args['linkpubtype'], 'checkbox', 0);
+        $this->var()->find('linkcat', $args['linkcat'], 'checkbox', 0);
 
         sys::import('modules.dynamicdata.class.properties.master');
         $multiselect = $this->prop()->getProperty(['name' => 'multiselect']);

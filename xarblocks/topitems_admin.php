@@ -27,20 +27,20 @@ class Publications_TopitemsBlockAdmin extends Publications_TopitemsBlock
     {
         $args = [];
 
-        $this->var()->fetch('numitems', 'int:1:200', $args['numitems'], $this->numitems, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('pubtype_id', 'id', $args['pubtype_id'], $this->pubtype_id, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('linkpubtype', 'checkbox', $args['linkpubtype'], false, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('nopublimit', 'checkbox', $args['nopublimit'], false, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('catfilter', 'id', $args['catfilter'], $this->catfilter, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('includechildren', 'checkbox', $args['includechildren'], false, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('nocatlimit', 'checkbox', $args['nocatlimit'], false, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('linkcat', 'checkbox', $args['linkcat'], false, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('dynamictitle', 'checkbox', $args['dynamictitle'], false, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showsummary', 'checkbox', $args['showsummary'], false, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showdynamic', 'checkbox', $args['showdynamic'], false, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showvalue', 'checkbox', $args['showvalue'], false, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('pubstate', 'strlist:,:int:1:4', $args['pubstate'], $this->pubstate, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('toptype', 'enum:author:date:hits:rating:title', $args['toptype'], $this->toptype, xarVar::NOT_REQUIRED);
+        $this->var()->find('numitems', $args['numitems'], 'int:1:200', $this->numitems);
+        $this->var()->find('pubtype_id', $args['pubtype_id'], 'id', $this->pubtype_id);
+        $this->var()->find('linkpubtype', $args['linkpubtype'], 'checkbox', false);
+        $this->var()->find('nopublimit', $args['nopublimit'], 'checkbox', false);
+        $this->var()->find('catfilter', $args['catfilter'], 'id', $this->catfilter);
+        $this->var()->find('includechildren', $args['includechildren'], 'checkbox', false);
+        $this->var()->find('nocatlimit', $args['nocatlimit'], 'checkbox', false);
+        $this->var()->find('linkcat', $args['linkcat'], 'checkbox', false);
+        $this->var()->find('dynamictitle', $args['dynamictitle'], 'checkbox', false);
+        $this->var()->find('showsummary', $args['showsummary'], 'checkbox', false);
+        $this->var()->find('showdynamic', $args['showdynamic'], 'checkbox', false);
+        $this->var()->find('showvalue', $args['showvalue'], 'checkbox', false);
+        $this->var()->find('pubstate', :int:1:4', 'strlist:, $args['pubstate'], $this->pubstate);
+        $this->var()->find('toptype', $args['toptype'], 'enum:author:date:hits:rating:title', $this->toptype);
 
         if ($args['nopublimit'] == true) {
             $args['pubtype_id'] = 0;

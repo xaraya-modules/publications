@@ -53,12 +53,12 @@ class Publications_FillerBlockAdmin extends Publications_FillerBlock
     public function update($data = [])
     {
         $args = [];
-        $this->var()->fetch('pubtype_id', 'int', $args['pubtype_id'], $this->pubtype_id, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('pubstate', 'str', $args['pubstate'], $this->pubstate, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('displaytype', 'str', $args['displaytype'], $this->displaytype, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('fillerid', 'id', $args['fillerid'], $this->fillerid, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('alttitle', 'str', $args['alttitle'], $this->alttitle, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('alttext', 'str', $args['alttext'], $this->alttext, xarVar::NOT_REQUIRED);
+        $this->var()->find('pubtype_id', $args['pubtype_id'], 'int', $this->pubtype_id);
+        $this->var()->find('pubstate', $args['pubstate'], 'str', $this->pubstate);
+        $this->var()->find('displaytype', $args['displaytype'], 'str', $this->displaytype);
+        $this->var()->find('fillerid', $args['fillerid'], 'id', $this->fillerid);
+        $this->var()->find('alttitle', $args['alttitle'], 'str', $this->alttitle);
+        $this->var()->find('alttext', $args['alttext'], 'str', $this->alttext);
         $this->setContent($args);
         return true;
     }

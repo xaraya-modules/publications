@@ -91,9 +91,9 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 $itemtype = $this->var()->getCached('Blocks.categories', 'itemtype');
             } else {
                 // try to get itemtype from input
-                $this->var()->fetch('itemtype', 'isset', $itemtype, null, xarVar::DONT_SET);
+                $this->var()->check('itemtype', $itemtype, 'isset', null);
                 if (empty($itemtype)) {
-                    $this->var()->fetch('ptid', 'isset', $itemtype, null, xarVar::DONT_SET);
+                    $this->var()->check('ptid', $itemtype, 'isset', null);
                 }// if
             }
         }
@@ -107,9 +107,9 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 $itemid = $this->var()->getCached('Blocks.categories', 'itemid');
             } else {
                 // try to get itemid from input
-                $this->var()->fetch('itemid', 'isset', $itemid, null, xarVar::DONT_SET);
+                $this->var()->check('itemid', $itemid, 'isset', null);
                 if (empty($itemid)) {
-                    $this->var()->fetch('id', 'isset', $itemid, null, xarVar::DONT_SET);
+                    $this->var()->check('id', $itemid, 'isset', null);
                 }// if
             }
         }
@@ -239,7 +239,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
         }
         if (empty($catid)) {
             // try to get catid from input
-            $this->var()->fetch('catid', 'isset', $catid, null, xarVar::DONT_SET);
+            $this->var()->check('catid', $catid, 'isset', null);
         }
         // turn $catid into $cids array (and set $andcids flag)
         $istree = 0;
@@ -268,8 +268,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
             }
             if (empty($cids)) {
                 // try to get cids from input
-                $this->var()->fetch('cids', 'isset', $cids, null, xarVar::DONT_SET);
-                $this->var()->fetch('andcids', 'isset', $andcids, false, xarVar::NOT_REQUIRED);
+                $this->var()->check('cids', $cids, 'isset', null);
+                $this->var()->find('andcids', $andcids, 'isset', false);
 
                 if (empty($cids)) {
                     $cids = [];

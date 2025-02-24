@@ -29,12 +29,12 @@ class Publications_RelatedBlockAdmin extends Publications_RelatedBlock
     public function update($data = [])
     {
         $args = [];
-        $this->var()->fetch('numitems', 'int', $args['numitems'], $this->numitems, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showvalue', 'checkbox', $args['showvalue'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->find('numitems', $args['numitems'], 'int', $this->numitems);
+        $this->var()->find('showvalue', $args['showvalue'], 'checkbox', 0);
 
-        $this->var()->fetch('showpubtype', 'checkbox', $args['showpubtype'], 0, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showcategory', 'checkbox', $args['showcategory'], 0, xarVar::NOT_REQUIRED);
-        $this->var()->fetch('showauthor', 'checkbox', $args['showauthor'], 0, xarVar::NOT_REQUIRED);
+        $this->var()->find('showpubtype', $args['showpubtype'], 'checkbox', 0);
+        $this->var()->find('showcategory', $args['showcategory'], 'checkbox', 0);
+        $this->var()->find('showauthor', $args['showauthor'], 'checkbox', 0);
         $this->setContent($args);
         return true;
     }
