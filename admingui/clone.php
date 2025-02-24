@@ -53,18 +53,10 @@ class CloneMethod extends MethodClass
             return;
         }
 
-        if (!$this->var()->check('name', $objectname)) {
-            return;
-        }
-        if (!$this->var()->check('ptid', $ptid)) {
-            return;
-        }
-        if (!$this->var()->check('itemid', $data['itemid'])) {
-            return;
-        }
-        if (!$this->var()->check('confirm', $confirm, 'int', 0)) {
-            return;
-        }
+        $this->var()->check('name', $objectname);
+        $this->var()->check('ptid', $ptid);
+        $this->var()->check('itemid', $data['itemid']);
+        $this->var()->check('confirm', $confirm, 'int', 0);
 
         if (empty($data['itemid'])) {
             return $this->ctl()->notFound();
@@ -104,9 +96,7 @@ class CloneMethod extends MethodClass
             }
 
             // Get the name for the clone
-            if (!$this->var()->find('newname', $newname, 'str', "")) {
-                return;
-            }
+            $this->var()->find('newname', $newname, 'str', "");
             if (empty($newname)) {
                 $newname = $data['name'] . "_copy";
             }
@@ -121,9 +111,7 @@ class CloneMethod extends MethodClass
             $cloneid = $data['object']->createItem(['itemid' => 0]);
 
             // Create the clone's translations
-            if (!$this->var()->find('clone_translations', $clone_translations, 'int', 0)) {
-                return;
-            }
+            $this->var()->find('clone_translations', $clone_translations, 'int', 0);
             if ($clone_translations) {
                 // Get the info on all the objects to be cloned
                 sys::import('xaraya.structures.query');

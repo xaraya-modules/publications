@@ -38,12 +38,8 @@ class DisplayVersionMethod extends MethodClass
             return;
         }
 
-        if (!$this->var()->find('itemid', $data['page_id'], 'id', 0)) {
-            return;
-        }
-        if (!$this->var()->find('name', $data['objectname'], 'str', '')) {
-            return;
-        }
+        $this->var()->find('itemid', $data['page_id'], 'id', 0);
+        $this->var()->find('name', $data['objectname'], 'str', '');
         if (empty($data['page_id'])) {
             return $this->ctl()->notFound();
         }
@@ -57,12 +53,8 @@ class DisplayVersionMethod extends MethodClass
             return $data;
         }
 
-        if (!$this->var()->find('confirm', $confirm, 'int', 1)) {
-            return;
-        }
-        if (!$this->var()->find('version_1', $version_1, 'int', $data['versions'])) {
-            return;
-        }
+        $this->var()->find('confirm', $confirm, 'int', 1);
+        $this->var()->find('version_1', $version_1, 'int', $data['versions']);
         $data['version_1'] = $version_1;
 
         // Get the content data for the display

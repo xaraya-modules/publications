@@ -45,21 +45,11 @@ class ModifyMethod extends MethodClass
         extract($args);
 
         // Get parameters
-        if (!$this->var()->check('itemid', $data['itemid'])) {
-            return;
-        }
-        if (!$this->var()->check('ptid', $ptid)) {
-            return;
-        }
-        if (!$this->var()->find('returnurl', $data['returnurl'], 'str:1', 'view')) {
-            return;
-        }
-        if (!$this->var()->find('name', $name, 'str:1', '')) {
-            return;
-        }
-        if (!$this->var()->find('tab', $data['tab'], 'str:1', '')) {
-            return;
-        }
+        $this->var()->check('itemid', $data['itemid']);
+        $this->var()->check('ptid', $ptid);
+        $this->var()->find('returnurl', $data['returnurl'], 'str:1', 'view');
+        $this->var()->find('name', $name, 'str:1', '');
+        $this->var()->find('tab', $data['tab'], 'str:1', '');
 
         if (empty($name) && empty($ptid)) {
             return $this->ctl()->notFound();

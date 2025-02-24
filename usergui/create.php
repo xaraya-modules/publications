@@ -50,18 +50,10 @@ class CreateMethod extends MethodClass
             return;
         }
 
-        if (!$this->var()->get('ptid', $data['ptid'], 'id')) {
-            return;
-        }
-        if (!$this->var()->find('new_cids', $cids, 'array')) {
-            return;
-        }
-        if (!$this->var()->find('preview', $data['preview'], 'str')) {
-            return;
-        }
-        if (!$this->var()->find('save', $save, 'str')) {
-            return;
-        }
+        $this->var()->get('ptid', $data['ptid'], 'id');
+        $this->var()->find('new_cids', $cids, 'array');
+        $this->var()->find('preview', $data['preview'], 'str');
+        $this->var()->find('save', $save, 'str');
 
         // Confirm authorisation code
         // This has been disabled for now
@@ -99,9 +91,7 @@ class CreateMethod extends MethodClass
         xarHooks::notify('ItemCreate', $item);
 
         // Redirect if needed
-        if (!$this->var()->find('return_url', $return_url, 'str', '')) {
-            return;
-        }
+        $this->var()->find('return_url', $return_url, 'str', '');
         if (!empty($return_url)) {
             // FIXME: this is a hack for short URLS
             $delimiter = (strpos($return_url, '&')) ? '&' : '?';

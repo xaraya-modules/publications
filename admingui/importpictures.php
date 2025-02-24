@@ -53,45 +53,19 @@ class ImportpicturesMethod extends MethodClass
         }
 
         // Get parameters
-        if (!$this->var()->check('basedir', $basedir)) {
-            return;
-        }
-        if (!$this->var()->check('baseurl', $baseurl)) {
-            return;
-        }
-        if (!$this->var()->check('thumbnail', $thumbnail)) {
-            return;
-        }
-        if (!$this->var()->check('filelist', $filelist)) {
-            return;
-        }
-        if (!$this->var()->check('refresh', $refresh)) {
-            return;
-        }
-        if (!$this->var()->find('ptid', $data['ptid'], 'int', 5)) {
-            return;
-        }
-        if (!$this->var()->check('title', $title)) {
-            return;
-        }
-        if (!$this->var()->check('summary', $summary)) {
-            return;
-        }
-        if (!$this->var()->check('content', $content)) {
-            return;
-        }
-        if (!$this->var()->check('usefilemtime', $usefilemtime)) {
-            return;
-        }
-        if (!$this->var()->check('cids', $cids)) {
-            return;
-        }
-        if (!$this->var()->check('test', $test)) {
-            return;
-        }
-        if (!$this->var()->check('import', $import)) {
-            return;
-        }
+        $this->var()->check('basedir', $basedir);
+        $this->var()->check('baseurl', $baseurl);
+        $this->var()->check('thumbnail', $thumbnail);
+        $this->var()->check('filelist', $filelist);
+        $this->var()->check('refresh', $refresh);
+        $this->var()->find('ptid', $data['ptid'], 'int', 5);
+        $this->var()->check('title', $title);
+        $this->var()->check('summary', $summary);
+        $this->var()->check('content', $content);
+        $this->var()->check('usefilemtime', $usefilemtime);
+        $this->var()->check('cids', $cids);
+        $this->var()->check('test', $test);
+        $this->var()->check('import', $import);
 
         # --------------------------------------------------------
         #

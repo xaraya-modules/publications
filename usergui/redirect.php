@@ -41,9 +41,7 @@ class RedirectMethod extends MethodClass
         /** @var UserApi $userapi */
         $userapi = $this->userapi();
         // Get parameters from user
-        if (!$this->var()->find('id', $id, 'id')) {
-            return;
-        }
+        $this->var()->find('id', $id, 'id');
 
         // Override if needed from argument array
         extract($args);

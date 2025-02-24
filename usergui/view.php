@@ -47,54 +47,30 @@ class ViewMethod extends MethodClass
         /** @var UserApi $userapi */
         $userapi = $this->userapi();
         // Get parameters
-        if (!$this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'))) {
-            return;
-        }
-        if (!$this->var()->find('startnum', $startnum, 'int:0', 1)) {
-            return;
-        }
-        if (!$this->var()->find('cids', $cids, 'array')) {
-            return;
-        }
-        if (!$this->var()->find('andcids', $andcids, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('catid', $catid, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('itemtype', $itemtype, 'id')) {
-            return;
-        }
+        $this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'));
+        $this->var()->find('startnum', $startnum, 'int:0', 1);
+        $this->var()->find('cids', $cids, 'array');
+        $this->var()->find('andcids', $andcids, 'str');
+        $this->var()->find('catid', $catid, 'str');
+        $this->var()->find('itemtype', $itemtype, 'id');
         // TODO: put the query string through a proper parser, so searches on multiple words can be done.
-        if (!$this->var()->find('q', $q, 'pre:trim:passthru:str:1:200')) {
-            return;
-        }
+        $this->var()->find('q', $q, 'pre:trim:passthru:str:1:200');
         // can't use list enum here, because we don't know which sorts might be used
         // True - but we can provide some form of validation and normalisation.
         // The original 'regexp:/^[\w,]*$/' lets through *any* non-space character.
         // This validation will accept a list of comma-separated words, and will lower-case, trim
         // and strip out non-alphanumeric characters from each word.
-        if (!$this->var()->get('sort', $sort, 'strlist:,:pre:trim:lower:alnum')) {
-            return;
-        }
-        if (!$this->var()->find('numcols', $numcols, 'int:0')) {
-            return;
-        }
-        if (!$this->var()->find('owner', $owner, 'id')) {
-            return;
-        }
-        if (!$this->var()->find('pubdate', $pubdate, 'str:1')) {
-            return;
-        }
+        $this->var()->get('sort', $sort, 'strlist:,:pre:trim:lower:alnum');
+        $this->var()->find('numcols', $numcols, 'int:0');
+        $this->var()->find('owner', $owner, 'id');
+        $this->var()->find('pubdate', $pubdate, 'str:1');
         // This may not be set via user input, only e.g. via template tags, API calls, blocks etc.
-        //    if(!$this->var()->find('startdate', $startdate, 'int:0', NULL)) {return;}
-        //    if(!$this->var()->find('enddate', $enddate, 'int:0', NULL)) {return;}
-        //    if(!$this->var()->find('where', $where, 'str', NULL)) {return;}
+        //    $this->var()->find('startdate', $startdate, 'int:0', NULL);
+        //    $this->var()->find('enddate', $enddate, 'int:0', NULL);
+        //    $this->var()->find('where', $where, 'str', NULL);
 
         // Added to implement an Alpha Pager
-        if (!$this->var()->find('letter', $letter, 'pre:lower:passthru:str:1:20')) {
-            return;
-        }
+        $this->var()->find('letter', $letter, 'pre:lower:passthru:str:1:20');
 
         // Override if needed from argument array (e.g. ptid, numitems etc.)
         extract($args);

@@ -34,24 +34,12 @@ class MultiopsMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Get parameters
-        if (!$this->var()->check('idlist', $idlist)) {
-            return;
-        }
-        if (!$this->var()->check('operation', $operation)) {
-            return;
-        }
-        if (!$this->var()->check('redirecttarget', $redirecttarget)) {
-            return;
-        }
-        if (!$this->var()->check('returnurl', $returnurl, 'str')) {
-            return;
-        }
-        if (!$this->var()->check('objectname', $objectname, 'str', 'listings_listing')) {
-            return;
-        }
-        if (!$this->var()->check('localmodule', $module, 'str', 'listings')) {
-            return;
-        }
+        $this->var()->check('idlist', $idlist);
+        $this->var()->check('operation', $operation);
+        $this->var()->check('redirecttarget', $redirecttarget);
+        $this->var()->check('returnurl', $returnurl, 'str');
+        $this->var()->check('objectname', $objectname, 'str', 'listings_listing');
+        $this->var()->check('localmodule', $module, 'str', 'listings');
 
         // Confirm authorisation code
         //if (!$this->sec()->confirmAuthKey()) return;

@@ -21,7 +21,7 @@ class Publication extends DataObject
         parent::__construct($descriptor);
 
         // If we allow multilanguage, then turn the locale property into type languages
-        if (xarModVars::get('publications', 'multilanguage')) {
+        if ($this->mod('publications')->getVar('multilanguage')) {
             if (isset($this->properties['locale']) && DataPropertyMaster::isAvailable('languages')) {
                 $this->properties['locale']->setInputStatus(DataPropertyMaster::DD_DISPLAYSTATE_ACTIVE);
                 $args = $this->properties['locale']->getPublicProperties();
@@ -77,7 +77,7 @@ class Publication extends DataObject
         $this->properties['access']->setInputStatus(DataPropertyMaster::DD_INPUTSTATE_ADDMODIFY);
 
         // If multilanguages is not enabled just save the default language value
-        if (!xarModVars::get('publications', 'multilanguage')) {
+        if (!$this->mod('publications')->getVar('multilanguage')) {
             if (isset($this->properties['locale'])) {
                 $this->properties['locale']->setInputStatus(DataPropertyMaster::DD_INPUTSTATE_ADDMODIFY);
             }
@@ -97,7 +97,7 @@ class Publication extends DataObject
 
     public function updateItem(array $args = [])
     {
-        if (xarModVars::get('publications', 'use_versions')) {
+        if ($this->mod('publications')->getVar('use_versions')) {
             $temp = $this->getFieldValues([], 1);
             $this->getItem(['itemid' => $this->properties['id']->value]);
             $operation = xarMLS::translate('Update');

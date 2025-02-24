@@ -44,21 +44,11 @@ class ViewmapMethod extends MethodClass
         /** @var UserApi $userapi */
         $userapi = $this->userapi();
         // Get parameters
-        if (!$this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'))) {
-            return;
-        }
-        if (!$this->var()->find('by', $by, 'enum:pub:cat:grid')) {
-            return;
-        }
-        if (!$this->var()->find('go', $go, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('catid', $catid, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('cids', $cids, 'array')) {
-            return;
-        }
+        $this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'));
+        $this->var()->find('by', $by, 'enum:pub:cat:grid');
+        $this->var()->find('go', $go, 'str');
+        $this->var()->find('catid', $catid, 'str');
+        $this->var()->find('cids', $cids, 'array');
 
         // Override if needed from argument array
         extract($args);

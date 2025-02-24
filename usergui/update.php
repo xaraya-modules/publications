@@ -53,33 +53,15 @@ class UpdateMethod extends MethodClass
         }
 
         // Get parameters
-        if (!$this->var()->check('itemid', $data['itemid'])) {
-            return;
-        }
-        if (!$this->var()->check('items', $items, 'str', '')) {
-            return;
-        }
-        if (!$this->var()->check('ptid', $data['ptid'])) {
-            return;
-        }
-        if (!$this->var()->check('modify_cids', $cids)) {
-            return;
-        }
-        if (!$this->var()->check('preview', $data['preview'])) {
-            return;
-        }
-        if (!$this->var()->find('returnurl', $data['returnurl'], 'str:1', '')) {
-            return;
-        }
-        if (!$this->var()->check('quit', $data['quit'])) {
-            return;
-        }
-        if (!$this->var()->check('front', $data['front'])) {
-            return;
-        }
-        if (!$this->var()->find('tab', $data['tab'], 'str:1', '')) {
-            return;
-        }
+        $this->var()->check('itemid', $data['itemid']);
+        $this->var()->check('items', $items, 'str', '');
+        $this->var()->check('ptid', $data['ptid']);
+        $this->var()->check('modify_cids', $cids);
+        $this->var()->check('preview', $data['preview']);
+        $this->var()->find('returnurl', $data['returnurl'], 'str:1', '');
+        $this->var()->check('quit', $data['quit']);
+        $this->var()->check('front', $data['front']);
+        $this->var()->find('tab', $data['tab'], 'str:1', '');
 
         // Confirm authorisation code
         // This has been disabled for now
@@ -184,9 +166,7 @@ class UpdateMethod extends MethodClass
 
         if ($data['quit']) {
             // Redirect if needed
-            if (!$this->var()->find('return_url', $return_url, 'str', '')) {
-                return;
-            }
+            $this->var()->find('return_url', $return_url, 'str', '');
             if (!empty($return_url)) {
                 // FIXME: this is a hack for short URLS
                 $delimiter = (strpos($return_url, '&')) ? '&' : '?';

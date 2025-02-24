@@ -52,15 +52,9 @@ class NewMethod extends MethodClass
         extract($args);
 
         // Get parameters
-        if (!$this->var()->find('ptid', $data['ptid'], 'int', $this->mod()->getVar('defaultpubtype'))) {
-            return;
-        }
-        if (!$this->var()->find('catid', $catid, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('itemtype', $itemtype, 'id')) {
-            return;
-        }
+        $this->var()->find('ptid', $data['ptid'], 'int', $this->mod()->getVar('defaultpubtype'));
+        $this->var()->find('catid', $catid, 'str');
+        $this->var()->find('itemtype', $itemtype, 'id');
         $data['items'] = [];
 
         $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);

@@ -54,18 +54,10 @@ class UpdatestatusMethod extends MethodClass
         }
 
         // Get parameters
-        if (!$this->var()->check('ids', $ids)) {
-            return;
-        }
-        if (!$this->var()->check('state', $state)) {
-            return;
-        }
-        if (!$this->var()->check('catid', $catid)) {
-            return;
-        }
-        if (!$this->var()->check('ptid', $ptid)) {
-            return;
-        }
+        $this->var()->check('ids', $ids);
+        $this->var()->check('state', $state);
+        $this->var()->check('catid', $catid);
+        $this->var()->check('ptid', $ptid);
 
 
         // Confirm authorisation code

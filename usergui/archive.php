@@ -50,21 +50,11 @@ class ArchiveMethod extends MethodClass
         }
 
         // Get parameters from user
-        if (!$this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'))) {
-            return;
-        }
-        if (!$this->var()->find('sort', $sort, 'enum:d:t:1:2', 'd')) {
-            return;
-        }
-        if (!$this->var()->find('month', $month, 'str', '')) {
-            return;
-        }
-        if (!$this->var()->find('cids', $cids, 'array')) {
-            return;
-        }
-        if (!$this->var()->find('catid', $catid, 'str', '')) {
-            return;
-        }
+        $this->var()->find('ptid', $ptid, 'id', $this->mod()->getVar('defaultpubtype'));
+        $this->var()->find('sort', $sort, 'enum:d:t:1:2', 'd');
+        $this->var()->find('month', $month, 'str', '');
+        $this->var()->find('cids', $cids, 'array');
+        $this->var()->find('catid', $catid, 'str', '');
 
         // Override if needed from argument array
         extract($args);

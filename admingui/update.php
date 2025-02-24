@@ -58,33 +58,15 @@ class UpdateMethod extends MethodClass
         }
 
         // Get parameters
-        if (!$this->var()->check('itemid', $data['itemid'])) {
-            return;
-        }
-        if (!$this->var()->check('items', $items, 'str', '')) {
-            return;
-        }
-        if (!$this->var()->check('ptid', $data['ptid'])) {
-            return;
-        }
-        if (!$this->var()->check('modify_cids', $cids)) {
-            return;
-        }
-        if (!$this->var()->check('preview', $data['preview'])) {
-            return;
-        }
-        if (!$this->var()->check('quit', $data['quit'])) {
-            return;
-        }
-        if (!$this->var()->check('front', $data['front'])) {
-            return;
-        }
-        if (!$this->var()->find('tab', $data['tab'], 'str:1', '')) {
-            return;
-        }
-        if (!$this->var()->find('returnurl', $data['returnurl'], 'str:1', 'view')) {
-            return;
-        }
+        $this->var()->check('itemid', $data['itemid']);
+        $this->var()->check('items', $items, 'str', '');
+        $this->var()->check('ptid', $data['ptid']);
+        $this->var()->check('modify_cids', $cids);
+        $this->var()->check('preview', $data['preview']);
+        $this->var()->check('quit', $data['quit']);
+        $this->var()->check('front', $data['front']);
+        $this->var()->find('tab', $data['tab'], 'str:1', '');
+        $this->var()->find('returnurl', $data['returnurl'], 'str:1', 'view');
 
         // Confirm authorisation code
         // This has been disabled for now

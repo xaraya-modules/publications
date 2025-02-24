@@ -50,45 +50,19 @@ class PrivilegesMethod extends MethodClass
         extract($args);
 
         // fixed params
-        if (!$this->var()->check('ptid', $ptid)) {
-            return;
-        }
-        if (!$this->var()->check('cid', $cid)) {
-            return;
-        }
-        if (!$this->var()->check('uid', $uid)) {
-            return;
-        }
-        if (!$this->var()->check('author', $author)) {
-            return;
-        }
-        if (!$this->var()->check('id', $id)) {
-            return;
-        }
-        if (!$this->var()->check('apply', $apply)) {
-            return;
-        }
-        if (!$this->var()->check('extpid', $extpid)) {
-            return;
-        }
-        if (!$this->var()->check('extname', $extname)) {
-            return;
-        }
-        if (!$this->var()->check('extrealm', $extrealm)) {
-            return;
-        }
-        if (!$this->var()->check('extmodule', $extmodule)) {
-            return;
-        }
-        if (!$this->var()->check('extcomponent', $extcomponent)) {
-            return;
-        }
-        if (!$this->var()->check('extinstance', $extinstance)) {
-            return;
-        }
-        if (!$this->var()->check('extlevel', $extlevel)) {
-            return;
-        }
+        $this->var()->check('ptid', $ptid);
+        $this->var()->check('cid', $cid);
+        $this->var()->check('uid', $uid);
+        $this->var()->check('author', $author);
+        $this->var()->check('id', $id);
+        $this->var()->check('apply', $apply);
+        $this->var()->check('extpid', $extpid);
+        $this->var()->check('extname', $extname);
+        $this->var()->check('extrealm', $extrealm);
+        $this->var()->check('extmodule', $extmodule);
+        $this->var()->check('extcomponent', $extcomponent);
+        $this->var()->check('extinstance', $extinstance);
+        $this->var()->check('extlevel', $extlevel);
 
         sys::import('modules.dynamicdata.class.properties.master');
         /** @var \CategoriesProperty $categories */

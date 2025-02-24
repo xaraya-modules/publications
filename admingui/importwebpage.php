@@ -49,48 +49,20 @@ class ImportwebpageMethod extends MethodClass
         }
 
         // Get parameters
-        if (!$this->var()->check('url', $data['url'], 'str', '')) {
-            return;
-        }
-        if (!$this->var()->check('refresh', $refresh)) {
-            return;
-        }
-        if (!$this->var()->find('ptid', $data['ptid'], 'int', 0)) {
-            return;
-        }
-        if (!$this->var()->check('contentfield', $data['contentfield'], 'str', '')) {
-            return;
-        }
-        if (!$this->var()->check('titlefield', $data['titlefield'], 'str', '')) {
-            return;
-        }
-        if (!$this->var()->check('cids', $cids)) {
-            return;
-        }
-        if (!$this->var()->check('filterhead', $filterhead)) {
-            return;
-        }
-        if (!$this->var()->check('filtertail', $filtertail)) {
-            return;
-        }
-        if (!$this->var()->check('findtitle', $findtitle)) {
-            return;
-        }
-        if (!$this->var()->check('numrules', $numrules)) {
-            return;
-        }
-        if (!$this->var()->check('search', $search)) {
-            return;
-        }
-        if (!$this->var()->check('replace', $replace)) {
-            return;
-        }
-        if (!$this->var()->check('test', $test)) {
-            return;
-        }
-        if (!$this->var()->check('import', $import)) {
-            return;
-        }
+        $this->var()->check('url', $data['url'], 'str', '');
+        $this->var()->check('refresh', $refresh);
+        $this->var()->find('ptid', $data['ptid'], 'int', 0);
+        $this->var()->check('contentfield', $data['contentfield'], 'str', '');
+        $this->var()->check('titlefield', $data['titlefield'], 'str', '');
+        $this->var()->check('cids', $cids);
+        $this->var()->check('filterhead', $filterhead);
+        $this->var()->check('filtertail', $filtertail);
+        $this->var()->check('findtitle', $findtitle);
+        $this->var()->check('numrules', $numrules);
+        $this->var()->check('search', $search);
+        $this->var()->check('replace', $replace);
+        $this->var()->check('test', $test);
+        $this->var()->check('import', $import);
 
         # --------------------------------------------------------
         #

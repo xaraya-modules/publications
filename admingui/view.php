@@ -55,36 +55,16 @@ class ViewMethod extends MethodClass
         }
 
         // Get parameters
-        if (!$this->var()->find('startnum', $startnum, 'isset', 1)) {
-            return;
-        }
-        if (!$this->var()->find('ptid', $ptid)) {
-            return;
-        }
-        if (!$this->var()->check('state', $state)) {
-            return;
-        }
-        if (!$this->var()->check('itemtype', $itemtype)) {
-            return;
-        }
-        if (!$this->var()->check('catid', $catid)) {
-            return;
-        }
-        if (!$this->var()->get('sort', $sort, 'strlist:,:pre')) {
-            return;
-        }
-        if (!$this->var()->check('owner', $owner)) {
-            return;
-        }
-        if (!$this->var()->check('lang', $lang)) {
-            return;
-        }
-        if (!$this->var()->find('pubdate', $pubdate, 'str:1')) {
-            return;
-        }
-        if (!$this->var()->find('object', $object, 'str:1')) {
-            return;
-        }
+        $this->var()->find('startnum', $startnum, 'isset', 1);
+        $this->var()->find('ptid', $ptid);
+        $this->var()->check('state', $state);
+        $this->var()->check('itemtype', $itemtype);
+        $this->var()->check('catid', $catid);
+        $this->var()->get('sort', $sort, 'strlist:,:pre');
+        $this->var()->check('owner', $owner);
+        $this->var()->check('lang', $lang);
+        $this->var()->find('pubdate', $pubdate, 'str:1');
+        $this->var()->find('object', $object, 'str:1');
 
         extract($args);
 

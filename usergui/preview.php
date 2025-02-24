@@ -42,9 +42,7 @@ class PreviewMethod extends MethodClass
     {
         /** @var UserApi $userapi */
         $userapi = $this->userapi();
-        if (!$this->var()->find('layout', $layout, 'str:1', 'detail')) {
-            return;
-        }
+        $this->var()->find('layout', $layout, 'str:1', 'detail');
 
         // Override xarVar::fetch
         extract($data);

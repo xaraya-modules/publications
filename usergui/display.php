@@ -53,27 +53,13 @@ class DisplayMethod extends MethodClass
         // this is used to determine whether we come from a pubtype-based view or a
         // categories-based navigation
         // Note we support both id and itemid
-        if (!$this->var()->find('name', $name, 'str', '')) {
-            return;
-        }
-        if (!$this->var()->check('ptid', $ptid, 'id')) {
-            return;
-        }
-        if (!$this->var()->find('itemid', $itemid, 'id')) {
-            return;
-        }
-        if (!$this->var()->find('id', $id, 'id')) {
-            return;
-        }
-        if (!$this->var()->find('page', $page, 'int:1')) {
-            return;
-        }
-        if (!$this->var()->find('translate', $translate, 'int:1', 1)) {
-            return;
-        }
-        if (!$this->var()->find('layout', $layout, 'str:1', 'detail')) {
-            return;
-        }
+        $this->var()->find('name', $name, 'str', '');
+        $this->var()->check('ptid', $ptid, 'id');
+        $this->var()->find('itemid', $itemid, 'id');
+        $this->var()->find('id', $id, 'id');
+        $this->var()->find('page', $page, 'int:1');
+        $this->var()->find('translate', $translate, 'int:1', 1);
+        $this->var()->find('layout', $layout, 'str:1', 'detail');
 
         // Override xarVar::fetch
         extract($args);
@@ -229,9 +215,7 @@ class DisplayMethod extends MethodClass
         } elseif ($redirect_type == 2) {
             // This displays a page of a different module
             // If this is from a link of a redirect child page, use the child param as new URL
-            if (!$this->var()->find('child', $child, 'str')) {
-                return;
-            }
+            $this->var()->find('child', $child, 'str');
             if (!empty($child)) {
                 // This page was submitted
                 // Turn entities into amps

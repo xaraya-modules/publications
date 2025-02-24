@@ -50,18 +50,10 @@ class DeletePubtypeMethod extends MethodClass
             return;
         }
 
-        if (!$this->var()->find('confirmed', $confirmed, 'int')) {
-            return;
-        }
-        if (!$this->var()->check('itemid', $itemid, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('idlist', $idlist, 'str')) {
-            return;
-        }
-        if (!$this->var()->check('returnurl', $returnurl, 'str')) {
-            return;
-        }
+        $this->var()->find('confirmed', $confirmed, 'int');
+        $this->var()->check('itemid', $itemid, 'str');
+        $this->var()->find('idlist', $idlist, 'str');
+        $this->var()->check('returnurl', $returnurl, 'str');
 
         if (!empty($itemid)) {
             $idlist = $itemid;

@@ -49,9 +49,7 @@ class MainMethod extends MethodClass
             #
             # Get the ID of the translation if required
             #
-            if (!$this->var()->find('translate', $translate, 'int:1', 1)) {
-                return;
-            }
+            $this->var()->find('translate', $translate, 'int:1', 1);
             return $this->ctl()->redirect($this->mod()->getURL(
                 'user',
                 'display',

@@ -48,12 +48,8 @@ class ModifyconfigMethod extends MethodClass
         }
 
         // Get parameters
-        if (!$this->var()->find('tab', $data['tab'], 'str:1:100', 'global')) {
-            return;
-        }
-        if (!$this->var()->check('ptid', $data['ptid'], 'int', $this->mod()->getVar('defaultpubtype'))) {
-            return;
-        }
+        $this->var()->find('tab', $data['tab'], 'str:1:100', 'global');
+        $this->var()->check('ptid', $data['ptid'], 'int', $this->mod()->getVar('defaultpubtype'));
 
         if ($data['tab'] == 'pubtypes') {
             // Configuration specific to a publication type

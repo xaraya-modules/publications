@@ -42,9 +42,7 @@ class Publications_GlossaryBlock extends BasicBlock implements iBlock
     {
         $vars = $this->getContent();
 
-        if (!$this->var()->fetch($vars['paramname'], 'str', $glossaryterm, null, xarVar::NOT_REQUIRED)) {
-            return;
-        }
+        $this->var()->fetch($vars['paramname'], 'str', $glossaryterm, null, xarVar::NOT_REQUIRED);
         if (!$glossaryterm) {
             return;
         }

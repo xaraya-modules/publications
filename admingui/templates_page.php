@@ -45,21 +45,11 @@ class TemplatesPageMethod extends MethodClass
 
         extract($args);
 
-        if (!$this->var()->find('confirm', $confirm, 'int', 0)) {
-            return;
-        }
-        if (!$this->var()->find('ptid', $data['ptid'], 'id', 0)) {
-            return;
-        }
-        if (!$this->var()->find('itemid', $data['itemid'], 'id', 0)) {
-            return;
-        }
-        if (!$this->var()->find('file', $data['file'], 'str', 'summary')) {
-            return;
-        }
-        if (!$this->var()->find('source_data', $data['source_data'], 'str', '')) {
-            return;
-        }
+        $this->var()->find('confirm', $confirm, 'int', 0);
+        $this->var()->find('ptid', $data['ptid'], 'id', 0);
+        $this->var()->find('itemid', $data['itemid'], 'id', 0);
+        $this->var()->find('file', $data['file'], 'str', 'summary');
+        $this->var()->find('source_data', $data['source_data'], 'str', '');
 
         if (empty($data['itemid']) || empty($data['ptid'])) {
             return $this->ctl()->notFound();
@@ -76,7 +66,7 @@ class TemplatesPageMethod extends MethodClass
 
         $basepath = sys::code() . "modules/publications/xartemplates/objects/" . $pubtype;
         $sourcefile = $basepath . "/" . $data['file'] . "_" . $data['itemid'] . ".xt";
-        $overridepath = "themes/" . xarModVars::get('themes', 'default_theme') . "/modules/publications/objects/" . $pubtype;
+        $overridepath = "themes/" . $this->mod('themes')->getVar('default_theme') . "/modules/publications/objects/" . $pubtype;
         $overridefile = $overridepath . "/" . $data['file'] . "-" . $data['itemid'] . ".xt";
 
         // If we are saving, write the file now

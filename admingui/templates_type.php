@@ -44,18 +44,10 @@ class TemplatesTypeMethod extends MethodClass
 
         extract($args);
 
-        if (!$this->var()->find('confirm', $confirm, 'int', 0)) {
-            return;
-        }
-        if (!$this->var()->find('ptid', $data['ptid'], 'id', $this->mod()->getVar('defaultpubtype'))) {
-            return;
-        }
-        if (!$this->var()->find('file', $data['file'], 'str', 'summary')) {
-            return;
-        }
-        if (!$this->var()->find('source_data', $data['source_data'], 'str', '')) {
-            return;
-        }
+        $this->var()->find('confirm', $confirm, 'int', 0);
+        $this->var()->find('ptid', $data['ptid'], 'id', $this->mod()->getVar('defaultpubtype'));
+        $this->var()->find('file', $data['file'], 'str', 'summary');
+        $this->var()->find('source_data', $data['source_data'], 'str', '');
         /** @var AdminGui $admingui */
         $admingui = $this->admingui();
 
@@ -68,7 +60,7 @@ class TemplatesTypeMethod extends MethodClass
 
         $basepath = sys::code() . "modules/publications/xartemplates/objects/" . $pubtype;
         $sourcefile = $basepath . "/" . $data['file'] . ".xt";
-        $overridepath = "themes/" . xarModVars::get('themes', 'default_theme') . "/modules/publications/objects/" . $pubtype;
+        $overridepath = "themes/" . $this->mod('themes')->getVar('default_theme') . "/modules/publications/objects/" . $pubtype;
         $overridefile = $overridepath . "/" . $data['file'] . ".xt";
 
         // If we are saving, write the file now

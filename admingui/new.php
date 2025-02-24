@@ -48,15 +48,9 @@ class NewMethod extends MethodClass
         extract($args);
 
         // Get parameters
-        if (!$this->var()->find('ptid', $data['ptid'], 'id')) {
-            return;
-        }
-        if (!$this->var()->find('catid', $catid, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('itemtype', $itemtype, 'id')) {
-            return;
-        }
+        $this->var()->find('ptid', $data['ptid'], 'id');
+        $this->var()->find('catid', $catid, 'str');
+        $this->var()->find('itemtype', $itemtype, 'id');
 
         if (null === $data['ptid']) {
             $data['ptid'] = $this->session()->getVar('publications_current_pubtype');

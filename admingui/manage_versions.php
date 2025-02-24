@@ -40,12 +40,8 @@ class ManageVersionsMethod extends MethodClass
             return;
         }
 
-        if (!$this->var()->find('itemid', $data['page_id'], 'id', 0)) {
-            return;
-        }
-        if (!$this->var()->find('name', $data['objectname'], 'str', '')) {
-            return;
-        }
+        $this->var()->find('itemid', $data['page_id'], 'id', 0);
+        $this->var()->find('name', $data['objectname'], 'str', '');
         if (empty($data['page_id'])) {
             return $this->ctl()->notFound();
         }
@@ -59,12 +55,8 @@ class ManageVersionsMethod extends MethodClass
             return $data;
         }
 
-        if (!$this->var()->find('version_1', $version_1, 'int', $data['versions'])) {
-            return;
-        }
-        if (!$this->var()->find('version_2', $version_2, 'int', $data['versions'] - 1)) {
-            return;
-        }
+        $this->var()->find('version_1', $version_1, 'int', $data['versions']);
+        $this->var()->find('version_2', $version_2, 'int', $data['versions'] - 1);
         $data['version_1'] = $version_1;
         $data['version_2'] = $version_2;
 

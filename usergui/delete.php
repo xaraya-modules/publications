@@ -53,18 +53,10 @@ class DeleteMethod extends MethodClass
         }
 
         $return = $this->mod()->getURL( 'user', 'view', ['ptid' => $this->mod()->getVar('defaultpubtype')]);
-        if (!$this->var()->find('confirmed', $confirmed, 'int')) {
-            return;
-        }
-        if (!$this->var()->check('itemid', $itemid, 'int')) {
-            return;
-        }
-        if (!$this->var()->find('idlist', $idlist, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('returnurl', $returnurl, 'str', $return)) {
-            return;
-        }
+        $this->var()->find('confirmed', $confirmed, 'int');
+        $this->var()->check('itemid', $itemid, 'int');
+        $this->var()->find('idlist', $idlist, 'str');
+        $this->var()->find('returnurl', $returnurl, 'str', $return);
 
         if (!empty($itemid)) {
             $idlist = $itemid;

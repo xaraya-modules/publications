@@ -79,7 +79,7 @@ class PublicationsShortController extends ShortActionController
                 $token2 = $this->shorturl_decode($this->nextToken());
                 $token3 = $this->shorturl_decode($this->nextToken());
 
-                if (!$token3 && is_numeric($token2) && !xarModVars::get('publications', 'usetitleforurl')) {
+                if (!$token3 && is_numeric($token2) && !$this->mod('publications')->getVar('usetitleforurl')) {
                     // A single numeric token is a page id
                     $data['itemid'] = $token2;
                 } else {
@@ -104,7 +104,7 @@ class PublicationsShortController extends ShortActionController
                 $token2 = $this->shorturl_decode($this->nextToken());
                 $token3 = $this->shorturl_decode($this->nextToken());
 
-                if (!$token3 && is_numeric($token2) && !xarModVars::get('publications', 'usetitleforurl')) {
+                if (!$token3 && is_numeric($token2) && !$this->mod('publications')->getVar('usetitleforurl')) {
                     // A single numeric token is a page id
                     $data['itemid'] = $token2;
                 } else {
@@ -227,7 +227,7 @@ class PublicationsShortController extends ShortActionController
                     return $data;
                 } else {
                     // Match the first token
-                    if (xarModVars::get('publications', 'usetitleforurl')) {
+                    if ($this->mod('publications')->getVar('usetitleforurl')) {
                         if ($token1) {
                             $data['ptid'] = $this->decode_pubtype($token1);
                         }
@@ -237,7 +237,7 @@ class PublicationsShortController extends ShortActionController
                 // We now have the pubtype; check for the publication
                 if (!$token2) {
                     // No more tokens; set this as a view or display, depending on whether the previous token was an id or not
-                    if (xarModVars::get('publications', 'usetitleforurl')) {
+                    if ($this->mod('publications')->getVar('usetitleforurl')) {
                         $data['func'] = 'view';
                     } else {
                         $data['func'] = 'display';
@@ -372,7 +372,7 @@ class PublicationsShortController extends ShortActionController
                 }
 
 
-                $use_shortest_paths = xarModVars::get('publications', 'shortestpath');
+                $use_shortest_paths = $this->mod('publications')->getVar('shortestpath');
 
                 // Consume the pid from the get parameters.
                 $pid = $params['pid'];
@@ -438,7 +438,7 @@ class PublicationsShortController extends ShortActionController
     private function decode_pubtype($token = '')
     {
         $token = $this->shorturl_decode($token);
-        if (xarModVars::get('publications', 'usetitleforurl')) {
+        if ($this->mod('publications')->getVar('usetitleforurl')) {
             // Get all publication types present
             if (empty($this->pubtypes)) {
                 $this->pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');
@@ -459,7 +459,7 @@ class PublicationsShortController extends ShortActionController
         $xartables = xarDB3::getTables();
         $q = new Query('SELECT', $xartables['publications']);
         $q->eq('pubtype_id', $ptid);
-        switch ((int) xarModVars::get('publications', 'usetitleforurl')) {
+        switch ((int) $this->mod('publications')->getVar('usetitleforurl')) {
             case 0:
                 $q->eq('id', (int) $token2);
                 break;
@@ -520,7 +520,7 @@ class PublicationsShortController extends ShortActionController
 
     private function encode_page($row = [])
     {
-        $usetitles = xarModVars::get('publications', 'usetitleforurl');
+        $usetitles = $this->mod('publications')->getVar('usetitleforurl');
         $path = [];
         if ($usetitles == 0) {
             // We're not using names: just use the ID
@@ -603,7 +603,7 @@ class PublicationsShortController extends ShortActionController
 
     private function encode_pubtype($ptid = 0)
     {
-        if (xarModVars::get('publications', 'usetitleforurl')) {
+        if ($this->mod('publications')->getVar('usetitleforurl')) {
             // Get all publication types present
             if (empty($this->pubtypes)) {
                 $this->pubtypes = xarMod::apiFunc('publications', 'user', 'get_pubtypes');

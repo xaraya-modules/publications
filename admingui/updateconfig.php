@@ -56,60 +56,28 @@ class UpdateconfigMethod extends MethodClass
         // Get parameters
         //A lot of these probably are bools, still might there be a need to change the template to return
         //'true' and 'false' to use those...
-        if (!$this->var()->find('settings', $settings, 'array', [])) {
-            return;
-        }
-        if (!$this->var()->find('usetitleforurl', $usetitleforurl, 'int', $this->mod()->getVar('usetitleforurl'))) {
-            return;
-        }
-        if (!$this->var()->find('defaultstate', $defaultstate, 'isset', 0)) {
-            return;
-        }
-        if (!$this->var()->find('defaultsort', $defaultsort, 'isset', 'date')) {
-            return;
-        }
-        if (!$this->var()->find('usealias', $usealias, 'int', 0)) {
-            return;
-        }
-        if (!$this->var()->find('ptid', $ptid, 'isset', $this->mod()->getVar('defaultpubtype'))) {
-            return;
-        }
-        if (!$this->var()->find('multilanguage', $multilanguage, 'int', 0)) {
-            return;
-        }
-        if (!$this->var()->find('tab', $data['tab'], 'str:1:10', 'global')) {
-            return;
-        }
+        $this->var()->find('settings', $settings, 'array', []);
+        $this->var()->find('usetitleforurl', $usetitleforurl, 'int', $this->mod()->getVar('usetitleforurl'));
+        $this->var()->find('defaultstate', $defaultstate, 'isset', 0);
+        $this->var()->find('defaultsort', $defaultsort, 'isset', 'date');
+        $this->var()->find('usealias', $usealias, 'int', 0);
+        $this->var()->find('ptid', $ptid, 'isset', $this->mod()->getVar('defaultpubtype'));
+        $this->var()->find('multilanguage', $multilanguage, 'int', 0);
+        $this->var()->find('tab', $data['tab'], 'str:1:10', 'global');
 
         if (!xarSecurity::check('AdminPublications', 1, 'Publication', "$ptid:All:All:All")) {
             return;
         }
 
         if ($data['tab'] == 'global') {
-            if (!$this->var()->find('defaultpubtype', $defaultpubtype, 'isset', 1)) {
-                return;
-            }
-            if (!$this->var()->find('sortpubtypes', $sortpubtypes, 'isset', 'id')) {
-                return;
-            }
-            if (!$this->var()->find('defaultlanguage', $defaultlanguage, 'str:1:100', $this->mod()->getVar('defaultlanguage'))) {
-                return;
-            }
-            if (!$this->var()->find('debugmode', $debugmode, 'checkbox', $this->mod()->getVar('debugmode'))) {
-                return;
-            }
-            if (!$this->var()->find('use_process_states', $use_process_states, 'checkbox', $this->mod()->getVar('use_process_states'))) {
-                return;
-            }
-            if (!$this->var()->find('use_versions', $use_versions, 'checkbox', $this->mod()->getVar('use_versions'))) {
-                return;
-            }
-            if (!$this->var()->find('hide_tree_display', $hide_tree_display, 'checkbox', $this->mod()->getVar('hide_tree_display'))) {
-                return;
-            }
-            if (!$this->var()->find('admin_override', $admin_override, 'int', $this->mod()->getVar('admin_override'))) {
-                return;
-            }
+            $this->var()->find('defaultpubtype', $defaultpubtype, 'isset', 1);
+            $this->var()->find('sortpubtypes', $sortpubtypes, 'isset', 'id');
+            $this->var()->find('defaultlanguage', $defaultlanguage, 'str:1:100', $this->mod()->getVar('defaultlanguage'));
+            $this->var()->find('debugmode', $debugmode, 'checkbox', $this->mod()->getVar('debugmode'));
+            $this->var()->find('use_process_states', $use_process_states, 'checkbox', $this->mod()->getVar('use_process_states'));
+            $this->var()->find('use_versions', $use_versions, 'checkbox', $this->mod()->getVar('use_versions'));
+            $this->var()->find('hide_tree_display', $hide_tree_display, 'checkbox', $this->mod()->getVar('hide_tree_display'));
+            $this->var()->find('admin_override', $admin_override, 'int', $this->mod()->getVar('admin_override'));
 
             $this->mod()->setVar('defaultpubtype', $defaultpubtype);
             $this->mod()->setVar('sortpubtypes', $sortpubtypes);
@@ -134,16 +102,12 @@ class UpdateconfigMethod extends MethodClass
             // Get the special pages.
             foreach (['defaultpage', 'errorpage', 'notfoundpage', 'noprivspage'] as $special_name) {
                 unset($special_id);
-                if (!$this->var()->find($special_name, $special_id, 'id', 0)) {
-                    return;
-                }
+                $this->var()->find($special_name, $special_id, 'id', 0);
                 $this->mod()->setVar($special_name, $special_id);
             }
 
             if ($this->db()->getType() == 'mysql') {
-                if (!$this->var()->find('fulltext', $fulltext)) {
-                    return;
-                }
+                $this->var()->find('fulltext', $fulltext);
                 $oldval = $this->mod()->getVar('fulltextsearch');
                 $index = 'i_' . $this->db()->getPrefix() . '_publications_fulltext';
                 if (empty($fulltext) && !empty($oldval)) {

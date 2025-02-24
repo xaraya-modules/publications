@@ -50,86 +50,50 @@ class SearchMethod extends MethodClass
         /** @var UserApi $userapi */
         $userapi = $this->userapi();
         // pager stuff
-        if (!$this->var()->find('startnum', $startnum, 'int:0')) {
-            return;
-        }
+        $this->var()->find('startnum', $startnum, 'int:0');
 
         // categories stuff
-        if (!$this->var()->find('cids', $cids, 'array')) {
-            return;
-        }
-        if (!$this->var()->find('andcids', $andcids, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('catid', $catid, 'str')) {
-            return;
-        }
+        $this->var()->find('cids', $cids, 'array');
+        $this->var()->find('andcids', $andcids, 'str');
+        $this->var()->find('catid', $catid, 'str');
 
         // single publication type when called via the pager
-        if (!$this->var()->find('ptid', $ptid, 'id')) {
-            return;
-        }
+        $this->var()->find('ptid', $ptid, 'id');
 
         // multiple publication types when called via search hooks
-        if (!$this->var()->find('ptids', $ptids, 'array')) {
-            return;
-        }
+        $this->var()->find('ptids', $ptids, 'array');
 
         // date stuff via forms
-        if (!$this->var()->find('publications_startdate', $startdate, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('publications_enddate', $enddate, 'str')) {
-            return;
-        }
+        $this->var()->find('publications_startdate', $startdate, 'str');
+        $this->var()->find('publications_enddate', $enddate, 'str');
 
         // date stuff via URLs
-        if (!$this->var()->find('start', $start, 'int:0')) {
-            return;
-        }
-        if (!$this->var()->find('end', $end, 'int:0')) {
-            return;
-        }
+        $this->var()->find('start', $start, 'int:0');
+        $this->var()->find('end', $end, 'int:0');
 
         // search button was pressed
-        if (!$this->var()->find('search', $search, 'str')) {
-            return;
-        }
+        $this->var()->find('search', $search, 'str');
 
         // select by article state (array or string)
-        if (!$this->var()->find('state', $state)) {
-            return;
-        }
+        $this->var()->find('state', $state);
 
         // yes, this is the query
-        if (!$this->var()->find('q', $q, 'str')) {
-            return;
-        }
-        if (!$this->var()->find('author', $author, 'str')) {
-            return;
-        }
+        $this->var()->find('q', $q, 'str');
+        $this->var()->find('author', $author, 'str');
 
         // filter by category
-        if (!$this->var()->find('by', $by, 'str')) {
-            return;
-        }
+        $this->var()->find('by', $by, 'str');
 
         // can't use list enum here, because we don't know which sorts might be used
-        if (!$this->var()->get('sort', $sort, 'regexp:/^[\w,]*$/')) {
-            return;
-        }
+        $this->var()->get('sort', $sort, 'regexp:/^[\w,]*$/');
 
         // boolean AND/OR for words (no longer used)
-        //if(!$this->var()->find('bool', $bool, 'str', NULL)) {return;}
+        //$this->var()->find('bool', $bool, 'str', NULL);
 
         // search in specific fields
-        if (!$this->var()->find('publications_fields', $fields)) {
-            return;
-        }
+        $this->var()->find('publications_fields', $fields);
 
-        if (!$this->var()->find('searchtype', $searchtype)) {
-            return;
-        }
+        $this->var()->find('searchtype', $searchtype);
 
         if (isset($args['objectid'])) {
             $ishooked = 1;
@@ -137,9 +101,7 @@ class SearchMethod extends MethodClass
             $ishooked = 0;
             if (empty($fields)) {
                 // search in specific fields via URLs
-                if (!$this->var()->find('fields', $fields)) {
-                    return;
-                }
+                $this->var()->find('fields', $fields);
             }
         }
 

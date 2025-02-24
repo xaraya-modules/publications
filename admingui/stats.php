@@ -46,9 +46,7 @@ class StatsMethod extends MethodClass
             return;
         }
 
-        if (!$this->var()->find('group', $group, 'isset', [])) {
-            return;
-        }
+        $this->var()->find('group', $group, 'isset', []);
         extract($args);
 
         if (!empty($group)) {

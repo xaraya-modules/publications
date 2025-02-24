@@ -44,18 +44,10 @@ class StylesheetTypeMethod extends MethodClass
 
         extract($args);
 
-        if (!$this->var()->find('confirm', $confirm, 'int', 0)) {
-            return;
-        }
-        if (!$this->var()->find('ptid', $data['ptid'], 'id', $this->mod()->getVar('defaultpubtype'))) {
-            return;
-        }
-        if (!$this->var()->find('file', $data['file'], 'str', '')) {
-            return;
-        }
-        if (!$this->var()->find('source_data', $data['source_data'], 'str', '')) {
-            return;
-        }
+        $this->var()->find('confirm', $confirm, 'int', 0);
+        $this->var()->find('ptid', $data['ptid'], 'id', $this->mod()->getVar('defaultpubtype'));
+        $this->var()->find('file', $data['file'], 'str', '');
+        $this->var()->find('source_data', $data['source_data'], 'str', '');
         /** @var AdminGui $admingui */
         $admingui = $this->admingui();
 
@@ -68,7 +60,7 @@ class StylesheetTypeMethod extends MethodClass
 
         $basepath = sys::code() . "modules/publications/xarstyles";
         $sourcefile = $basepath . "/" . $data['file'] . ".css";
-        $overridepath = "themes/" . xarModVars::get('themes', 'default_theme') . "/modules/publications/style";
+        $overridepath = "themes/" . $this->mod('themes')->getVar('default_theme') . "/modules/publications/style";
         $overridefile = $overridepath . "/" . $data['file'] . ".css";
 
         // If we are saving, write the file now

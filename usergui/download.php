@@ -35,9 +35,7 @@ class DownloadMethod extends MethodClass
      */
     public function __invoke(array $args = [])
     {
-        if (!$this->var()->find('filepath', $filepath, 'str', '')) {
-            return;
-        }
+        $this->var()->find('filepath', $filepath, 'str', '');
 
         # --------------------------------------------------------
         # Check the input

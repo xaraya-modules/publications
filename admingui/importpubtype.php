@@ -44,12 +44,8 @@ class ImportpubtypeMethod extends MethodClass
             return;
         }
 
-        if (!$this->var()->check('import', $import)) {
-            return;
-        }
-        if (!$this->var()->check('xml', $xml)) {
-            return;
-        }
+        $this->var()->check('import', $import);
+        $this->var()->check('xml', $xml);
 
         extract($args);
 

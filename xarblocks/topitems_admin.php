@@ -27,48 +27,20 @@ class Publications_TopitemsBlockAdmin extends Publications_TopitemsBlock
     {
         $args = [];
 
-        if (!$this->var()->fetch('numitems', 'int:1:200', $args['numitems'], $this->numitems, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('pubtype_id', 'id', $args['pubtype_id'], $this->pubtype_id, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('linkpubtype', 'checkbox', $args['linkpubtype'], false, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('nopublimit', 'checkbox', $args['nopublimit'], false, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('catfilter', 'id', $args['catfilter'], $this->catfilter, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('includechildren', 'checkbox', $args['includechildren'], false, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('nocatlimit', 'checkbox', $args['nocatlimit'], false, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('linkcat', 'checkbox', $args['linkcat'], false, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('dynamictitle', 'checkbox', $args['dynamictitle'], false, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('showsummary', 'checkbox', $args['showsummary'], false, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('showdynamic', 'checkbox', $args['showdynamic'], false, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('showvalue', 'checkbox', $args['showvalue'], false, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('pubstate', 'strlist:,:int:1:4', $args['pubstate'], $this->pubstate, xarVar::NOT_REQUIRED)) {
-            return;
-        }
-        if (!$this->var()->fetch('toptype', 'enum:author:date:hits:rating:title', $args['toptype'], $this->toptype, xarVar::NOT_REQUIRED)) {
-            return;
-        }
+        $this->var()->fetch('numitems', 'int:1:200', $args['numitems'], $this->numitems, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('pubtype_id', 'id', $args['pubtype_id'], $this->pubtype_id, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('linkpubtype', 'checkbox', $args['linkpubtype'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('nopublimit', 'checkbox', $args['nopublimit'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('catfilter', 'id', $args['catfilter'], $this->catfilter, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('includechildren', 'checkbox', $args['includechildren'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('nocatlimit', 'checkbox', $args['nocatlimit'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('linkcat', 'checkbox', $args['linkcat'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('dynamictitle', 'checkbox', $args['dynamictitle'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showsummary', 'checkbox', $args['showsummary'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showdynamic', 'checkbox', $args['showdynamic'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('showvalue', 'checkbox', $args['showvalue'], false, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('pubstate', 'strlist:,:int:1:4', $args['pubstate'], $this->pubstate, xarVar::NOT_REQUIRED);
+        $this->var()->fetch('toptype', 'enum:author:date:hits:rating:title', $args['toptype'], $this->toptype, xarVar::NOT_REQUIRED);
 
         if ($args['nopublimit'] == true) {
             $args['pubtype_id'] = 0;
