@@ -14,6 +14,7 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
+use xarModItemVars;
 use xarModUserVars;
 use xarModVars;
 use xarMod;
@@ -55,7 +56,7 @@ class GetrootcatsMethod extends MethodClass
         // see which root categories we need to handle
         $rootcats = [];
         if (!empty($ptid)) {
-            $rootcats = unserialize(xarModUserVars::get('publications', 'basecids', $ptid));
+            $rootcats = unserialize($this->mod()->getItemVar('basecids', $ptid));
         } elseif (empty($all)) {
             $rootcats = unserialize($this->mod()->getVar('basecids'));
         } else {
@@ -71,7 +72,7 @@ class GetrootcatsMethod extends MethodClass
                 if (empty($pubid)) {
                     $cidstring = $this->mod()->getVar('basecids');
                 } else {
-                    $cidstring = xarModUserVars::get('publications', 'basecids', $pubid);
+                    $cidstring = $this->mod()->getItemVar('basecids', $pubid);
                 }
                 if (!empty($cidstring)) {
                     $rootcats = unserialize($cidstring);

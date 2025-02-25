@@ -109,10 +109,10 @@ class DeleteMethod extends MethodClass
                         case 0:
                             break;
                         case 1:
-                            $allow = xarRoles::isParent('Administrators', xarUser::getVar('uname'));
+                            $allow = xarRoles::isParent('Administrators', $this->user()->getUser());
                             break;
                         case 2:
-                            $allow = xarUser::isSiteAdmin();
+                            $allow = $this->user()->isSiteAdmin();
                             break;
                     }
                 }
@@ -166,10 +166,10 @@ class DeleteMethod extends MethodClass
                         case 0:
                             break;
                         case 1:
-                            $allow = xarRoles::isParent('Administrators', xarUser::getVar('uname'));
+                            $allow = xarRoles::isParent('Administrators', $this->user()->getUser());
                             break;
                         case 2:
-                            $allow = xarUser::isSiteAdmin();
+                            $allow = $this->user()->isSiteAdmin();
                             break;
                     }
                 }

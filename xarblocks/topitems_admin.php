@@ -39,7 +39,7 @@ class Publications_TopitemsBlockAdmin extends Publications_TopitemsBlock
         $this->var()->find('showsummary', $args['showsummary'], 'checkbox', false);
         $this->var()->find('showdynamic', $args['showdynamic'], 'checkbox', false);
         $this->var()->find('showvalue', $args['showvalue'], 'checkbox', false);
-        $this->var()->find('pubstate', :int:1:4', 'strlist:, $args['pubstate'], $this->pubstate);
+        $this->var()->find('pubstate', $args['pubstate'], 'strlist:,:int:1:4', $this->pubstate);
         $this->var()->find('toptype', $args['toptype'], 'enum:author:date:hits:rating:title', $this->toptype);
 
         if ($args['nopublimit'] == true) {

@@ -263,7 +263,7 @@ class ImportpicturesMethod extends MethodClass
                     'cids' => $cids,
                     // for preview
                     'pubtype_id' => $data['ptid'],
-                    'owner' => xarUser::getVar('id'),
+                    'owner' => $this->user()->getId(),
                     'id' => 0, ];
                 if (!empty($data['title']) && !empty($filename)) {
                     $article[$data['title']] = $filename;

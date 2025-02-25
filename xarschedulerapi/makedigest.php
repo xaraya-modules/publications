@@ -83,8 +83,8 @@ function publications_schedulerapi_makedigest(array $args = [], $context = null)
 
         // send the digest to all of them
         foreach ($userlist as $uid) {
-            $name = xarUser::getVar('name',$uid);
-            $email = xarUser::getVar('email',$uid);
+            $name = $this->user($uid)->getName();
+            $email = $this->user($uid)->getEmail();
             if (!xarMod::apiFunc('mail', 'admin', 'sendhtmlmail',
                                array('info' => $email,
                                      'name' => $name,

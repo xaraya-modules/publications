@@ -103,7 +103,7 @@ class UpdateMethod extends MethodClass
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
             if (!$isvalid &&
-                $this->mod()->getVar('debugmode') && xarUser::isDebugAdmin()) {
+                $this->mod()->getVar('debugmode') && $this->user()->isDebugAdmin()) {
                 var_dump($data['object']->getInvalids());
             }
             // Preview or bad data: redisplay the form

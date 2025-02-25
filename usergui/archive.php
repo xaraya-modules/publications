@@ -298,7 +298,7 @@ class ArchiveMethod extends MethodClass
             }
             /* TODO: move date formatting to template, delete this code after testing
                     if ($showdate && !empty($publications[$key]['pubdate'])) {
-                        $publications[$key]['date'] = xarLocale::formatDate("%Y-%m-%d %H:%M:%S",
+                        $publications[$key]['date'] = $this->mls()->formatDate("%Y-%m-%d %H:%M:%S",
                                                            $publications[$key]['pubdate']);
                     } else {
                         $publications[$key]['date'] = '';

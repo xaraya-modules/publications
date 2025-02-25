@@ -98,7 +98,7 @@ class UpdateMethod extends MethodClass
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
             if (!$isvalid &&
-                $this->mod()->getVar('debugmode') && xarUser::isDebugAdmin()) {
+                $this->mod()->getVar('debugmode') && $this->user()->isDebugAdmin()) {
                 echo $this->ml('The following were invalid fields:');
                 echo "<br/>";
                 var_dump($data['object']->getInvalids());

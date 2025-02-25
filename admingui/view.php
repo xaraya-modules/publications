@@ -398,7 +398,7 @@ class ViewMethod extends MethodClass
 
         // Suppress deleted items if not an admin
         // Remove this once listing property works with dataobject access
-        if (!xarRoles::isParent('Administrators', xarUser::getVar('uname'))) {
+        if (!xarRoles::isParent('Administrators', $this->user()->getUser())) {
             $q->ne('state', 0);
         }
         $data['conditions'] = $q;

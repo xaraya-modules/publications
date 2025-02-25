@@ -245,7 +245,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
                     // TODO: make user-dependent
                     if (!empty($article['create_date'])) {
                         //$article['value'] = strftime("%Y-%m-%d", $article['create_date']);
-                        $article['value'] = xarLocale::getFormattedDate('short', $article['create_date']);
+                        $article['value'] = $this->mls()->getFormattedDate('short', $article['create_date']);
                     } else {
                         $article['value'] = 0;
                     }

@@ -96,7 +96,7 @@ class CreateMethod extends MethodClass
 
         // Default author ID is the current user, or Anonymous (1) otherwise
         if (empty($owner) || !is_numeric($owner)) {
-            $owner = xarUser::getVar('id');
+            $owner = $this->user()->getId();
             if (empty($owner)) {
                 $owner = _XAR_ID_UNREGISTERED;
             }

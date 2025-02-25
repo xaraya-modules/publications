@@ -257,10 +257,10 @@ class SearchMethod extends MethodClass
         }
 
         if (isset($start) && is_numeric($start)) {
-            $startdate = xarLocale::formatDate("%Y-%m-%d %H:%M:%S", $start);
+            $startdate = $this->mls()->formatDate("%Y-%m-%d %H:%M:%S", $start);
         }
         if (isset($end) && is_numeric($end)) {
-            $enddate = xarLocale::formatDate("%Y-%m-%d %H:%M:%S", $end);
+            $enddate = $this->mls()->formatDate("%Y-%m-%d %H:%M:%S", $end);
         }
 
         if (empty($fields)) {
@@ -482,7 +482,7 @@ class SearchMethod extends MethodClass
                         // publication date of article (if needed)
                         if (!empty($pubtypes[$curptid]['config']['startdate']['label'])
                             && !empty($article['startdate'])) {
-                            $date = xarLocale::formatDate('%a, %d %B %Y %H:%M:%S %Z', $article['startdate']);
+                            $date = $this->mls()->formatDate('%a, %d %B %Y %H:%M:%S %Z', $article['startdate']);
                             $startdate = $article['startdate'];
                         } else {
                             $date = '';

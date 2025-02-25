@@ -170,7 +170,7 @@ class ViewMethod extends MethodClass
 
         // Get the users requested number of stories per page.
         // If user doesn't care, use the site default
-        if (xarUser::isLoggedIn()) {
+        if ($this->user()->isLoggedIn()) {
             // TODO: figure how to let users specify their settings
             // COMMENT: if the settings were split into separate module variables,
             // then they could all be individually over-ridden by each user.
@@ -308,7 +308,7 @@ class ViewMethod extends MethodClass
         //        selected (per category, per publication type, a combination, ...) ?
 
         if (!empty($owner)) {
-            $data['author'] = xarUser::getVar('name', $owner);
+            $data['author'] = $this->user($owner)->getName();
             if (empty($data['author'])) {
                 $data['author'] = $this->ml('Unknown');
             }

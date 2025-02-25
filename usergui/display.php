@@ -243,8 +243,10 @@ class DisplayMethod extends MethodClass
                 return $this->ctl()->notFound();
             }
 
+            $baseurl = $this->ctl()->getBaseURL();
+            $parsed = parse_url($baseurl);
             // If this is an external link, show it without further processing
-            if (!empty($params['host']) && $params['host'] != xarServer::getHost() && $params['host'] . ":" . $params['port'] != xarServer::getHost()) {
+            if (!empty($params['host']) && $params['host'] != $parsed['host'] && $params['port'] != $parsed['port']) {
                 $this->ctl()->redirect($url, 301);
             } elseif (strpos($this->ctl()->getCurrentURL(), $url) === 0) {
                 // CHECKME: is this robust enough?
