@@ -40,6 +40,8 @@ class GetsettingsMethod extends MethodClass
         if (empty($data['ptid'])) {
             throw new Exception('Missing publication type for caching');
         }
+        /** @var UserApi $userapi */
+        $userapi = $this->userapi();
 
         // If already cached, then get that
         if ($this->var()->isCached('publications', 'settings_' . $data['ptid'])) {
@@ -56,7 +58,7 @@ class GetsettingsMethod extends MethodClass
         } catch (Exception $e) {
         }
 
-        $globalsettings = $this->getglobalsettings();
+        $globalsettings = $userapi->getglobalsettings();
         if (is_array($pubtypesettings)) {
             $settings = $pubtypesettings + $globalsettings;
         } else {
@@ -64,39 +66,6 @@ class GetsettingsMethod extends MethodClass
         }
 
         $this->var()->setCached('publications', 'settings_' . $data['ptid'], $settings);
-        return $settings;
-    }
-
-    public function getglobalsettings(array $args = [])
-    {
-        $settings = [
-            'number_of_columns'     => 1,
-            'items_per_page'        => 20,
-            'defaultview'           => "Sections",
-            'defaultsort'           => "name",
-            'show_categories'       => false,
-            'show_catcount'         => false,
-            'namestring'            => 'pub',
-            'show_prevnext'         => true,
-            'show_keywords'         => false,
-            'show_comments'         => false,
-            'show_hitcount'         => false,
-            'show_ratings'          => false,
-            'show_archives'         => false,
-            'show_map'              => false,
-            'show_publinks'         => false,
-            'show_pubcount'         => true,
-            'do_transform'          => true,
-            'title_transform'       => true,
-            'usealias'              => false,                //CHECKME
-            'defaultstate'          => 2,
-            'defaultprocessstate'   => 0,
-            'showsubmit'            => false,              //CHECKME
-            'summary_template'      => '',
-            'detail_template'       => '',
-            'page_template'         => "",
-            'theme'                 => '',
-        ];
         return $settings;
     }
 }
