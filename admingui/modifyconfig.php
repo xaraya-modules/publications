@@ -53,7 +53,7 @@ class ModifyconfigMethod extends MethodClass
 
         if ($data['tab'] == 'pubtypes') {
             // Configuration specific to a publication type
-            if (!xarSecurity::check('AdminPublications', 1, 'Publication', $data['ptid'] . ":All:All:All")) {
+            if (!$this->sec()->check('AdminPublications', 1, 'Publication', $data['ptid'] . ":All:All:All")) {
                 return;
             }
 

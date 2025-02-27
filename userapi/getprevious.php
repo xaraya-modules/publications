@@ -125,7 +125,7 @@ class GetpreviousMethod extends MethodClass
         // TODO: grab categories & check against them too
 
         // check security - don't generate an exception here
-        if (!xarSecurity::check('ViewPublications', 0, 'Publication', "$item[pubtype_id]:All:$item[owner]:$item[id]")) {
+        if (!$this->sec()->check('ViewPublications', 0, 'Publication', "$item[pubtype_id]:All:$item[owner]:$item[id]")) {
             return [];
         }
 

@@ -68,10 +68,10 @@ class ArchiveMethod extends MethodClass
         }
 
         if (empty($ptid)) {
-            if (!xarSecurity::check('ViewPublications', 0, 'Publication', 'All:All:All:All')) {
+            if (!$this->sec()->check('ViewPublications', 0, 'Publication', 'All:All:All:All')) {
                 return $this->ml('You have no permission to view these items');
             }
-        } elseif (!xarSecurity::check('ViewPublications', 0, 'Publication', $ptid . ':All:All:All')) {
+        } elseif (!$this->sec()->check('ViewPublications', 0, 'Publication', $ptid . ':All:All:All')) {
             return $this->ml('You have no permission to view these items');
         }
 

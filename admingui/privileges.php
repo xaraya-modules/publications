@@ -91,7 +91,7 @@ class PrivilegesMethod extends MethodClass
                 return;
             }
         } else {
-            if (!xarSecurity::check('AdminPublications', 1, 'Publication', "$ptid:All:All:All")) {
+            if (!$this->sec()->check('AdminPublications', 1, 'Publication', "$ptid:All:All:All")) {
                 return;
             }
         }

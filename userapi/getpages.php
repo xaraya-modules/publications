@@ -265,7 +265,7 @@ class GetpagesMethod extends MethodClass
                     }
                 }
 
-                if (!xarSecurity::check('ReadPublications', 0, 'Page', $row['name'] . ':' . $typename, 'publications')) {
+                if (!$this->sec()->check('ReadPublications', 0, 'Page', $row['name'] . ':' . $typename, 'publications')) {
                     // We have reached a page that allows only overview access.
                     // Flag all pages with the restricted view until we get past this page.
                     $overview_only_left = $row['rightpage_id'];

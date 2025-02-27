@@ -86,10 +86,10 @@ class ViewMethod extends MethodClass
             } else {
                 // we default to this for convenience
                 $default = $this->mod()->getVar('defaultpubtype');
-                if (!empty($default) && !xarSecurity::check('EditPublications', 0, 'Publication', "$default:All:All:All")) {
+                if (!empty($default) && !$this->sec()->check('EditPublications', 0, 'Publication', "$default:All:All:All")) {
                     // try to find some alternate starting pubtype if necessary
                     foreach ($pubtypes as $id => $pubtype) {
-                        if (xarSecurity::check('EditPublications', 0, 'Publication', "$id:All:All:All")) {
+                        if ($this->sec()->check('EditPublications', 0, 'Publication', "$id:All:All:All")) {
                             $ptid = $id;
                             break;
                         }
@@ -130,12 +130,12 @@ class ViewMethod extends MethodClass
         $data['catid'] = $catid;
 
         if (empty($ptid)) {
-            if (!xarSecurity::check('EditPublications', 1, 'Publication', "All:All:All:All")) {
+            if (!$this->sec()->check('EditPublications', 1, 'Publication', "All:All:All:All")) {
                 return;
             }
         } elseif (!is_numeric($ptid) || !isset($pubtypes[$ptid])) {
             return $this->ctl()->notFound();
-        } elseif (!xarSecurity::check('EditPublications', 1, 'Publication', "$ptid:All:All:All")) {
+        } elseif (!$this->sec()->check('EditPublications', 1, 'Publication', "$ptid:All:All:All")) {
             return;
         }
 
@@ -309,7 +309,7 @@ class ViewMethod extends MethodClass
         $pubfilters = [];
         /*
         foreach ($pubtypes as $id => $pubtype) {
-            if (!xarSecurity::check('EditPublications',0,'Publication',"$id:All:All:All")) {
+            if (!$this->sec()->check('EditPublications',0,'Publication',"$id:All:All:All")) {
                 continue;
             }
             $pubitem = array();
@@ -350,7 +350,7 @@ class ViewMethod extends MethodClass
         $data['statefilters'] = $statefilters;
         $data['changestatelabel'] = $this->ml('Change Status');
         // Add link to create new article
-        if (xarSecurity::check('SubmitPublications', 0, 'Publication', "$ptid:All:All:All")) {
+        if ($this->sec()->check('SubmitPublications', 0, 'Publication', "$ptid:All:All:All")) {
             $newurl = $this->mod()->getURL(
                 'admin',
                 'new',

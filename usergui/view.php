@@ -343,12 +343,12 @@ class ViewMethod extends MethodClass
             }
             if (count($cids) > 0) {
                 foreach ($cids as $cid) {
-                    if (xarSecurity::check('SubmitPublications', 0, 'Publication', "$curptid:$cid:All:All")) {
+                    if ($this->sec()->check('SubmitPublications', 0, 'Publication', "$curptid:$cid:All:All")) {
                         $data['submitlink'] = $this->mod()->getURL( 'admin', 'new', ['ptid' => $ptid, 'catid' => $catid]);
                         break;
                     }
                 }
-            } elseif (xarSecurity::check('SubmitPublications', 0, 'Publication', "$curptid:All:All:All")) {
+            } elseif ($this->sec()->check('SubmitPublications', 0, 'Publication', "$curptid:All:All:All")) {
                 $data['submitlink'] = $this->mod()->getURL( 'admin', 'new', ['ptid' => $ptid]);
             }
         }

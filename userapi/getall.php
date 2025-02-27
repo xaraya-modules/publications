@@ -420,7 +420,7 @@ class GetallMethod extends MethodClass
                 $item[$field] = $value;
             }
             // check security - don't generate an exception here
-            if (empty($required['cids']) && !xarSecurity::check('ViewPublications', 0, 'Publication', "$item[pubtype_id]:All:$item[owner]:$item[id]")) {
+            if (empty($required['cids']) && !$this->sec()->check('ViewPublications', 0, 'Publication', "$item[pubtype_id]:All:$item[owner]:$item[id]")) {
                 continue;
             }
             $publications[] = $item;
@@ -464,14 +464,14 @@ class GetallMethod extends MethodClass
                 if (isset($cids[$article['id']]) && count($cids[$article['id']]) > 0) {
                     $publications[$key]['cids'] = $cids[$article['id']];
                     foreach ($cids[$article['id']] as $cid) {
-                        if (!xarSecurity::check('ViewPublications', 0, 'Publication', "$article[pubtype_id]:$cid:$article[owner]:$article[id]")) {
+                        if (!$this->sec()->check('ViewPublications', 0, 'Publication', "$article[pubtype_id]:$cid:$article[owner]:$article[id]")) {
                             $delete[$key] = 1;
                             break;
                         }
                         if (!isset($cachesec[$cid])) {
                             // TODO: combine with ViewCategoryLink check when we can combine module-specific
                             // security checks with "parent" security checks transparently ?
-                            $cachesec[$cid] = xarSecurity::check('ReadCategories', 0, 'Category', "All:$cid");
+                            $cachesec[$cid] = $this->sec()->check('ReadCategories', 0, 'Category', "All:$cid");
                         }
                         if (!$cachesec[$cid]) {
                             $delete[$key] = 1;
@@ -479,7 +479,7 @@ class GetallMethod extends MethodClass
                         }
                     }
                 } else {
-                    if (!xarSecurity::check('ViewPublications', 0, 'Publication', "$article[pubtype_id]:All:$article[owner]:$article[id]")) {
+                    if (!$this->sec()->check('ViewPublications', 0, 'Publication', "$article[pubtype_id]:All:$article[owner]:$article[id]")) {
                         $delete[$key] = 1;
                         continue;
                     }

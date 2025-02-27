@@ -222,17 +222,17 @@ class GetMethod extends MethodClass
         if (isset($article['cids']) && count($article['cids']) > 0) {
             // TODO: do we want all-or-nothing access here, or is one access enough ?
             foreach ($article['cids'] as $cid) {
-                if (!xarSecurity::check('ReadPublications', 0, 'Publication', "$pubtype_id:$cid:$owner:$id")) {
+                if (!$this->sec()->check('ReadPublications', 0, 'Publication', "$pubtype_id:$cid:$owner:$id")) {
                     return;
                 }
                 // TODO: combine with ViewCategoryLink check when we can combine module-specific
                 // security checks with "parent" security checks transparently ?
-                if (!xarSecurity::check('ReadCategories', 0, 'Category', "All:$cid")) {
+                if (!$this->sec()->check('ReadCategories', 0, 'Category', "All:$cid")) {
                     return;
                 }
             }
         } else {
-            if (!xarSecurity::check('ReadPublications', 0, 'Publication', "$pubtype_id:All:$owner:$id")) {
+            if (!$this->sec()->check('ReadPublications', 0, 'Publication', "$pubtype_id:All:$owner:$id")) {
                 return;
             }
         }

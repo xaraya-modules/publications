@@ -65,4 +65,37 @@ sys::import('xaraya.modules.userapi');
 class UserApi extends UserApiClass
 {
     // ...
+
+    public function getglobalsettings(array $args = [])
+    {
+        $settings = [
+            'number_of_columns'     => 1,
+            'items_per_page'        => 20,
+            'defaultview'           => "Sections",
+            'defaultsort'           => "name",
+            'show_categories'       => false,
+            'show_catcount'         => false,
+            'namestring'            => 'pub',
+            'show_prevnext'         => true,
+            'show_keywords'         => false,
+            'show_comments'         => false,
+            'show_hitcount'         => false,
+            'show_ratings'          => false,
+            'show_archives'         => false,
+            'show_map'              => false,
+            'show_publinks'         => false,
+            'show_pubcount'         => true,
+            'do_transform'          => true,
+            'title_transform'       => true,
+            'usealias'              => false,                //CHECKME
+            'defaultstate'          => 2,
+            'defaultprocessstate'   => 0,
+            'showsubmit'            => false,              //CHECKME
+            'summary_template'      => '',
+            'detail_template'       => '',
+            'page_template'         => "",
+            'theme'                 => '',
+        ];
+        return $settings;
+    }
 }

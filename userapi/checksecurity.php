@@ -202,7 +202,7 @@ class ChecksecurityMethod extends MethodClass
         $result = false;
         foreach (array_keys($jointcids) as $cid) {
             // TODO: do we want all-or-nothing access here, or is one access enough ?
-            if (xarSecurity::check($mask, 0, 'Publication', "$ptid:$cid:$owner:$id")) {
+            if ($this->sec()->check($mask, 0, 'Publication', "$ptid:$cid:$owner:$id")) {
                 $result = true;
             }
         }

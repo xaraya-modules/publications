@@ -65,7 +65,7 @@ class UpdateconfigMethod extends MethodClass
         $this->var()->find('multilanguage', $multilanguage, 'int', 0);
         $this->var()->find('tab', $data['tab'], 'str:1:10', 'global');
 
-        if (!xarSecurity::check('AdminPublications', 1, 'Publication', "$ptid:All:All:All")) {
+        if (!$this->sec()->check('AdminPublications', 1, 'Publication', "$ptid:All:All:All")) {
             return;
         }
 

@@ -91,7 +91,7 @@ class GetpublinksMethod extends MethodClass
         $publinks = [];
         $isfirst = 1;
         foreach ($pubtypes as $id => $pubtype) {
-            if (!xarSecurity::check('ViewPublications', 0, 'Publication', $id . ':All:All:All')) {
+            if (!$this->sec()->check('ViewPublications', 0, 'Publication', $id . ':All:All:All')) {
                 continue;
             }
             if ($all || (isset($pubcount[$id]) && $pubcount[$id] > 0)) {

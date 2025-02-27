@@ -61,7 +61,7 @@ class DeletepubtypeMethod extends MethodClass
         }
 
         // Security check - we require ADMIN rights here
-        if (!xarSecurity::check('AdminPublications', 1, 'Publication', "$ptid:All:All:All")) {
+        if (!$this->sec()->check('AdminPublications', 1, 'Publication', "$ptid:All:All:All")) {
             return;
         }
 
