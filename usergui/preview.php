@@ -90,6 +90,7 @@ class PreviewMethod extends MethodClass
                     'display',
                     ['itemid' => $nopermissionpage_id]
                 ));
+                return true;
             } else {
                 $data = ['context' => $this->getContext()];
                 return $this->mod()->template('empty', $data);
@@ -107,6 +108,7 @@ class PreviewMethod extends MethodClass
                         'display',
                         ['itemid' => $nopermissionpage_id]
                     ));
+                    return true;
                 } else {
                     $data = ['context' => $this->getContext()];
                     return $this->mod()->template('empty', $data);

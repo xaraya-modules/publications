@@ -66,6 +66,7 @@ class DeletePubtypeMethod extends MethodClass
             } else {
                 $this->ctl()->redirect($this->mod()->getURL('admin', 'view_pubtypes'));
             }
+            return true;
         }
 
         $data['message'] = '';

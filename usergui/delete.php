@@ -69,6 +69,7 @@ class DeleteMethod extends MethodClass
             } else {
                 $this->ctl()->redirect($this->mod()->getURL('user', 'view'));
             }
+            return true;
         }
 
         $data['message'] = '';
@@ -128,6 +129,7 @@ class DeleteMethod extends MethodClass
                                 'display',
                                 ['itemid' => $nopermissionpage_id]
                             ));
+                            return true;
                         } else {
                             $data = ['context' => $this->getContext()];
                             return $this->mod()->template('empty', $data);
@@ -185,6 +187,7 @@ class DeleteMethod extends MethodClass
                                 'display',
                                 ['itemid' => $nopermissionpage_id]
                             ));
+                            return true;
                         } else {
                             $data = ['context' => $this->getContext()];
                             return $this->mod()->template('empty', $data);

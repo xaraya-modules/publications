@@ -69,6 +69,7 @@ class DeleteMethod extends MethodClass
             } else {
                 $this->ctl()->redirect($this->mod()->getURL('admin', 'view'));
             }
+            return true;
         }
 
         $data['message'] = '';

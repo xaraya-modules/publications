@@ -96,12 +96,14 @@ class CreateMethod extends MethodClass
             // FIXME: this is a hack for short URLS
             $delimiter = (strpos($return_url, '&')) ? '&' : '?';
             $this->ctl()->redirect($return_url . $delimiter . 'itemid=' . $itemid);
+            return true;
         }
 
         // Redirect if we came from somewhere else
         $current_listview = $this->session()->getVar('publications_current_listview');
         if (!empty($current_listview)) {
             $this->ctl()->redirect($current_listview);
+            return true;
         }
 
         $this->ctl()->redirect($this->mod()->getURL(

@@ -94,6 +94,7 @@ class DisplayMethod extends MethodClass
                 // use the new one
                 $this->ctl()->redirect($this->mod()->getURL( 'user', 'display',
                     array('itemid' => $newid, 'translate' => 0)));
+                return true;
             }
             */
         }
@@ -108,6 +109,7 @@ class DisplayMethod extends MethodClass
         } elseif (empty($id)) {
             // We're missing an id but can get a pubtype: jump to the pubtype view
             $this->ctl()->redirect($this->mod()->getURL('user', 'view'));
+            return true;
         }
 
         # --------------------------------------------------------
@@ -167,6 +169,7 @@ class DisplayMethod extends MethodClass
                     'display',
                     ['itemid' => $nopermissionpage_id]
                 ));
+                return true;
             } else {
                 $data = ['context' => $this->getContext()];
                 return $this->mod()->template('empty', $data);
@@ -184,6 +187,7 @@ class DisplayMethod extends MethodClass
                         'display',
                         ['itemid' => $nopermissionpage_id]
                     ));
+                    return true;
                 } else {
                     $data = ['context' => $this->getContext()];
                     return $this->mod()->template('empty', $data);
@@ -209,6 +213,7 @@ class DisplayMethod extends MethodClass
                     eval('$url = ' . $url . ';');
                 }
                 $this->ctl()->redirect($url, 301);
+                return true;
             } catch (Exception $e) {
                 return $this->ctl()->notFound();
             }
@@ -248,10 +253,12 @@ class DisplayMethod extends MethodClass
             // If this is an external link, show it without further processing
             if (!empty($params['host']) && $params['host'] != $parsed['host'] && $params['port'] != $parsed['port']) {
                 $this->ctl()->redirect($url, 301);
+                return true;
             } elseif (strpos($this->ctl()->getCurrentURL(), $url) === 0) {
                 // CHECKME: is this robust enough?
                 // Redirect to avoid recursion if $url is already our present URL
                 $this->ctl()->redirect($url, 301);
+                return true;
             } else {
                 // This is a local URL. We need to parse it, but parse_url is no longer good enough here
                 $request = new xarRequest($url);

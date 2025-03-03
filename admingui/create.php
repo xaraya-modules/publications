@@ -93,6 +93,7 @@ class CreateMethod extends MethodClass
         $current_listview = $this->session()->getVar('publications_current_listview');
         if (!empty($cuurent_listview)) {
             $this->ctl()->redirect($current_listview);
+            return true;
         }
 
         $this->ctl()->redirect($this->mod()->getURL(

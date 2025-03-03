@@ -106,6 +106,7 @@ class DisplayMethod extends MethodClass
         } elseif (empty($id)) {
             // We're missing an id but can get a pubtype: jump to the pubtype view
             $this->ctl()->redirect($this->mod()->getURL('user', 'view'));
+            return true;
         }
 
         # --------------------------------------------------------
@@ -181,6 +182,7 @@ class DisplayMethod extends MethodClass
                 }
 
                 $this->ctl()->redirect($url, 301);
+                return true;
             } catch (Exception $e) {
                 return $this->ctl()->notFound();
             }
@@ -214,6 +216,7 @@ class DisplayMethod extends MethodClass
             // If this is an external link, show it without further processing
             if (!empty($params['host']) && $params['host'] != $parsed['host'] && $params['port'] != $parsed['port']) {
                 $this->ctl()->redirect($url, 301);
+                return true;
             } else {
                 parse_str($params['query'], $info);
                 $other_params = $info;
