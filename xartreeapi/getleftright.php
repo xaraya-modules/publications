@@ -22,7 +22,7 @@ function publications_treeapi_getleftright(array $args = [], $context = null)
             . ' FROM ' . $tablename
             . ' WHERE ' . $idname . ' = ?';
         $result = $dbconn->execute($query, [(int) $id]);
-        if (!$result->EOF) {
+        if ($result->first()) {
             [$parent, $left, $right] = $result->fields;
             $return = ['parent' => (int) $parent, 'left' => (int) $left, 'right' => (int) $right];
         } else {
@@ -39,7 +39,7 @@ function publications_treeapi_getleftright(array $args = [], $context = null)
             . ' FROM ' . $tablename;
         $result = $dbconn->execute($query);
         $parent = 0;
-        if (!$result->EOF) {
+        if ($result->first()) {
             [$parent, $left, $right] = $result->fields;
             $return = ['parent' => (int) $parent, 'left' => (int) $left, 'right' => (int) $right];
             // Hack for MySQL where EOF does not work on MIN/MAX group functions.

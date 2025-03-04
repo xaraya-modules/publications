@@ -38,10 +38,9 @@ function publications_treeapi_getancestors(array $args = [], $context = null)
         $ancestors = [];
 
         // return results in order from root to leaf
-        while (!$result->EOF) {
+        while ($result->next()) {
             [$pid] = $result->fields;
             $ancestors[] = $pid;
-            $result->MoveNext();
         }
         if (count($ancestors) > 0) {
             return $ancestors;

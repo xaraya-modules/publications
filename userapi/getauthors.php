@@ -123,10 +123,9 @@ class GetauthorsMethod extends MethodClass
         }
 
         $authors = [];
-        while (!$result->EOF) {
+        while ($result->next()) {
             [$uid, $name] = $result->fields;
             $authors[$uid] = ['id' => $uid, 'name' => $name];
-            $result->MoveNext();
         }
 
         $result->Close();

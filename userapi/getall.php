@@ -405,7 +405,7 @@ class GetallMethod extends MethodClass
 
         $itemids_per_type = [];
         // Put publications into result array
-        for (; !$result->EOF; $result->MoveNext()) {
+        while ($result->next()) {
             $data = $result->fields;
             $item = [];
             // loop over all required fields again

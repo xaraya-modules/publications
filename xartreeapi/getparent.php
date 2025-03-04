@@ -22,7 +22,7 @@ function publications_treeapi_getparent(array $args = [], $context = null)
             . ' FROM ' . $tablename
             . ' WHERE ' . $idname . ' = ?';
         $result = $dbconn->execute($query, [(int) $id]);
-        if (!$result->EOF) {
+        if ($result->first()) {
             [$parent] = $result->fields;
             $return = [(int) $parent];
         } else {
@@ -34,4 +34,5 @@ function publications_treeapi_getparent(array $args = [], $context = null)
         // Insert point is the virtual root.
         $return = [0];
     }
+    return $return;
 }

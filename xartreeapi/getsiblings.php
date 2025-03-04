@@ -36,10 +36,9 @@ function publications_treeapi_getsiblings(array $args = [], $context = null)
         $siblings = [];
 
         // return results in proper order
-        while (!$result->EOF) {
+        while ($result->next()) {
             [$pid] = $result->fields;
             $siblings[] = $pid;
-            $result->MoveNext();
         }
         if (count($siblings) > 0) {
             return $siblings;

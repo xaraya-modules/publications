@@ -93,7 +93,7 @@ class GetpubcatcountMethod extends MethodClass
             }
             return $pubcatcount;
         }
-        while (!$result->EOF) {
+        while ($result->next()) {
             // we may have 1 or more cid fields here, depending on what we're
             // counting (cfr. AND in categories)
             $fields = $result->fields;
@@ -106,7 +106,6 @@ class GetpubcatcountMethod extends MethodClass
             } else {
                 $pubcatcount[$cid][$ptid] = $count;
             }
-            $result->MoveNext();
         }
         foreach ($pubcatcount as $id1 => $val) {
             $total = 0;

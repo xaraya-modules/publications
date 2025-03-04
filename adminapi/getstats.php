@@ -133,7 +133,7 @@ class GetstatsMethod extends MethodClass
         }
 
         $stats = [];
-        while (!$result->EOF) {
+        while ($result->next()) {
             if (count($newfields) > 3) {
                 [$field1, $field2, $field3, $field4, $count] = $result->fields;
                 $stats[$field1][$field2][$field3][$field4] = $count;
@@ -147,7 +147,6 @@ class GetstatsMethod extends MethodClass
                 [$field1, $count] = $result->fields;
                 $stats[$field1] = $count;
             }
-            $result->MoveNext();
         }
         $result->Close();
 

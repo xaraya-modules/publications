@@ -118,8 +118,8 @@ class CountitemsMethod extends MethodClass
             return;
         }
 
-        if ($result->EOF) {
-            return;
+        if (!$result->first()) {
+            return 0;
         }
 
         $num = $result->fields[0];

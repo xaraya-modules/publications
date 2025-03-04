@@ -54,7 +54,7 @@ class PageintreesMethod extends MethodClass
         $tree_roots[] = $pid;
         $result = $dbconn->execute($query, $tree_roots);
 
-        if (!$result || $result->EOF) {
+        if (!$result || !$result->first()) {
             return false;
         }
 

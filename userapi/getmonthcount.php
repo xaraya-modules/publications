@@ -83,10 +83,9 @@ class GetmonthcountMethod extends MethodClass
         }
 
         $months = [];
-        while (!$result->EOF) {
+        while ($result->next()) {
             [$month, $count] = $result->fields;
             $months[$month] = $count;
-            $result->MoveNext();
         }
 
         return $months;

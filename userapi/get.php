@@ -175,7 +175,7 @@ class GetMethod extends MethodClass
             return;
         }
 
-        if ($result->EOF) {
+        if (!$result->first()) {
             return false;
         }
 

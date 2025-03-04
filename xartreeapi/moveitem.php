@@ -29,7 +29,7 @@ function publications_treeapi_moveitem(array $args = [], $context = null)
         return;
     }
 
-    if ($result->EOF) {
+    if (!$result->first()) {
         $msg = xarMLS::translate('Reference item "#(1)" does not exist', $refid);
         throw new BadParameterException(null, $msg);
     }
@@ -41,7 +41,7 @@ function publications_treeapi_moveitem(array $args = [], $context = null)
         return;
     }
 
-    if ($result->EOF) {
+    if (!$result->first()) {
         $msg = xarMLS::translate('Moving item "#(1)" does not exist', $itemid);
         throw new BadParameterException(null, $msg);
     }
