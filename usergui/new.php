@@ -16,16 +16,7 @@ use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarSecurity;
-use xarVar;
-use xarModVars;
-use xarMod;
-use xarController;
-use xarTpl;
-use DataObjectFactory;
-use DataPropertyMaster;
 use sys;
-use BadParameterException;
 
 sys::import('xaraya.modules.method');
 

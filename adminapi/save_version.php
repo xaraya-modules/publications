@@ -14,7 +14,6 @@ namespace Xaraya\Modules\Publications\AdminApi;
 
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
-use DataObjectFactory;
 use sys;
 use Exception;
 

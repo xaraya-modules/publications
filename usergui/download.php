@@ -14,8 +14,6 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
-use xarVar;
-use xarSecurity;
 use sys;
 use Exception;
 

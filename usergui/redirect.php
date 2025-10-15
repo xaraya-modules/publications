@@ -15,10 +15,7 @@ namespace Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarVar;
-use xarMod;
 use xarModHooks;
-use xarController;
 use sys;
 use DataNotFoundException;
 

@@ -14,13 +14,7 @@ namespace Xaraya\Modules\Publications\UserGui;
 
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
-use xarModVars;
-use xarVar;
-use xarController;
-use xarServer;
-use xarMod;
 use sys;
-use BadParameterException;
 
 sys::import('xaraya.modules.method');
 

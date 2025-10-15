@@ -14,14 +14,7 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarModItemVars;
-use xarModUserVars;
-use xarModVars;
-use xarMod;
-use xarVar;
-use xarController;
 use sys;
-use BadParameterException;
 
 sys::import('xaraya.modules.method');
 

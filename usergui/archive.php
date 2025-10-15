@@ -15,14 +15,6 @@ use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarSecurity;
-use xarVar;
-use xarModVars;
-use xarMod;
-use xarController;
-use xarLocale;
-use xarCoreCache;
-use xarTpl;
 use sys;
 use DataNotFoundException;
 

@@ -15,9 +15,6 @@ namespace Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarSecurity;
-use xarMod;
-use xarDB;
 use sys;
 use BadParameterException;
 

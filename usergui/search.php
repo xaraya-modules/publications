@@ -15,17 +15,8 @@ use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarVar;
-use xarMod;
-use xarSecurity;
-use xarModVars;
-use xarLocale;
-use xarController;
 use xarMLS;
-use xarTplPager;
-use xarTpl;
 use sys;
-use BadParameterException;
 
 sys::import('xaraya.modules.method');
 

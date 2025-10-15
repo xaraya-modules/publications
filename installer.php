@@ -14,17 +14,13 @@
 namespace Xaraya\Modules\Publications;
 
 use Xaraya\Modules\InstallerClass;
-use xarDB;
 use xarMod;
-use xarModVars;
 use xarModHooks;
 use xarHooks;
 use xarPrivileges;
-use xarController;
 use xarMasks;
 use Query;
 use sys;
-use Exception;
 
 sys::import('xaraya.modules.installer');
 
