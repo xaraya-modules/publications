@@ -93,7 +93,7 @@ class CreateMethod extends MethodClass
         if (empty($owner) || !is_numeric($owner)) {
             $owner = $this->user()->getId();
             if (empty($owner)) {
-                $owner = _XAR_ID_UNREGISTERED;
+                $owner = $this->session()->getAnonId();
             }
             // for security check below
             $args['owner'] = $owner;
