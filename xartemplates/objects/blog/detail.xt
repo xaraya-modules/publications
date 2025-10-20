@@ -117,16 +117,16 @@
         <div class="g-plusone" data-size="medium" data-count="false" ></div>
 
         <style type="text/css">
-            @import "#sys::code()#modules/publications/xarstyles/jquery.bookmark.css";
+            @import "#xarTpl::getCodeUrl()#modules/publications/xarstyles/jquery.bookmark.css";
             
             ##basicBookmark ul { width: 320px; }
             .bookmark_list span.bookmark_icons {
-                background: url(#sys::code()#modules/publications/xarstyles/bookmarks.png) no-repeat center;
+                background: url(#xarTpl::getCodeUrl()#modules/publications/xarstyles/bookmarks.png) no-repeat center;
             }
         </style>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-        <script type="text/javascript" src="#sys::code()#modules/publications/xartemplates/scripts/jquery.bookmark.min.js"></script>
-        <script type="text/javascript" src="#sys::code()#modules/publications/xartemplates/scripts/jquery.bookmark.ext.pack.js"></script>
+        <script type="text/javascript" src="#xarTpl::getCodeUrl()#modules/publications/xartemplates/scripts/jquery.bookmark.min.js"></script>
+        <script type="text/javascript" src="#xarTpl::getCodeUrl()#modules/publications/xartemplates/scripts/jquery.bookmark.ext.pack.js"></script>
         <script type="text/javascript">
             $(function () {
                 $('#basicBookmark').bookmark();
