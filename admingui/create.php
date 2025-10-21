@@ -75,11 +75,11 @@ class CreateMethod extends MethodClass
 
         // Inform the world via hooks
         $item = ['module' => 'publications', 'itemid' => $itemid, 'itemtype' => $data['object']->properties['itemtype']->value];
-        xarHooks::notify('ItemCreate', $item);
+        $this->mod()->notifyHooks('ItemCreate', $item);
 
         // Redirect if we came from somewhere else
         $current_listview = $this->session()->getVar('publications_current_listview');
-        if (!empty($cuurent_listview)) {
+        if (!empty($current_listview)) {
             $this->ctl()->redirect($current_listview);
             return true;
         }

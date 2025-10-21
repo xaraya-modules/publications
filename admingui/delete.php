@@ -98,7 +98,7 @@ class DeleteMethod extends MethodClass
 
                 // Inform the world via hooks
                 $item = ['module' => 'publications', 'itemid' => $itemid, 'itemtype' => $publication->properties['itemtype']->value];
-                xarHooks::notify('ItemDelete', $item);
+                $this->mod()->notifyHooks('ItemDelete', $item);
             }
             if (isset($returnurl)) {
                 $this->ctl()->redirect($returnurl);

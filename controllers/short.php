@@ -42,10 +42,8 @@
 
 sys::import('xaraya.mapper.controllers.short');
 sys::import('xaraya.structures.query');
-sys::import('xaraya.facades.database');
-sys::import('xaraya.facades.modules');
-use Xaraya\Facades\xarDB3;
-use Xaraya\Facades\xarMod3;
+sys::import('xaraya.services.xar');
+use Xaraya\Services\xar;
 
 class PublicationsShortController extends ShortActionController
 {
@@ -81,7 +79,7 @@ class PublicationsShortController extends ShortActionController
                 $token2 = $this->shorturl_decode($this->nextToken());
                 $token3 = $this->shorturl_decode($this->nextToken());
 
-                if (!$token3 && is_numeric($token2) && !xarMod3::getVar('usetitleforurl', 'publications')) {
+                if (!$token3 && is_numeric($token2) && !xar::mod()->getVar('usetitleforurl', 'publications')) {
                     // A single numeric token is a page id
                     $data['itemid'] = $token2;
                 } else {
@@ -106,7 +104,7 @@ class PublicationsShortController extends ShortActionController
                 $token2 = $this->shorturl_decode($this->nextToken());
                 $token3 = $this->shorturl_decode($this->nextToken());
 
-                if (!$token3 && is_numeric($token2) && !xarMod3::getVar('usetitleforurl', 'publications')) {
+                if (!$token3 && is_numeric($token2) && !xar::mod()->getVar('usetitleforurl', 'publications')) {
                     // A single numeric token is a page id
                     $data['itemid'] = $token2;
                 } else {
@@ -139,7 +137,7 @@ class PublicationsShortController extends ShortActionController
                 $roottoken = $this->firstToken();
 
                 // Look for a root page with the name as the first part of the path.
-                $rootpage = xarMod3::apiFunc(
+                $rootpage = xar::mod()->apiFunc(
                     'publications',
                     'user',
                     'getpages',
@@ -149,7 +147,7 @@ class PublicationsShortController extends ShortActionController
                 // If no root page matches, and an alias was provided, look for a non-root start page.
                 // These are used as short-cuts.
                 if (empty($rootpage) && $module != 'publications') {
-                    $rootpage = xarMod3::apiFunc(
+                    $rootpage = xar::mod()->apiFunc(
                         'publications',
                         'user',
                         'getpages',
@@ -167,7 +165,7 @@ class PublicationsShortController extends ShortActionController
                     // The first part of the path matches
 
                     // Fetch the complete page tree for the root page.
-                    $tree = xarMod3::apiFunc(
+                    $tree = xar::mod()->apiFunc(
                         'publications',
                         'user',
                         'getpagestree',
@@ -200,7 +198,7 @@ class PublicationsShortController extends ShortActionController
                     if (!empty($decode_url)) {
                         // Attempt to invoke the custom decode URL function, suppressing errors.
                         try {
-                            $args2 = xarMod3::apiFunc('publications', 'decode', $decode_url, $data);
+                            $args2 = xar::mod()->apiFunc('publications', 'decode', $decode_url, $data);
                         } catch (Exception $e) {
                             $args2 = [];
                         }
@@ -229,7 +227,7 @@ class PublicationsShortController extends ShortActionController
                     return $data;
                 } else {
                     // Match the first token
-                    if (xarMod3::getVar('usetitleforurl', 'publications')) {
+                    if (xar::mod()->getVar('usetitleforurl', 'publications')) {
                         if ($token1) {
                             $data['ptid'] = $this->decode_pubtype($token1);
                         }
@@ -239,7 +237,7 @@ class PublicationsShortController extends ShortActionController
                 // We now have the pubtype; check for the publication
                 if (!$token2) {
                     // No more tokens; set this as a view or display, depending on whether the previous token was an id or not
-                    if (xarMod3::getVar('usetitleforurl', 'publications')) {
+                    if (xar::mod()->getVar('usetitleforurl', 'publications')) {
                         $data['func'] = 'view';
                     } else {
                         $data['func'] = 'display';
@@ -360,7 +358,7 @@ class PublicationsShortController extends ShortActionController
                 // number of pages is not going to get too high.
                 if (empty($pages)) {
                     // Fetch all pages, with no DD required.
-                    $pages = xarMod3::apiFunc(
+                    $pages = xar::mod()->apiFunc(
                         'publications',
                         'user',
                         'getpages',
@@ -374,7 +372,7 @@ class PublicationsShortController extends ShortActionController
                 }
 
 
-                $use_shortest_paths = xarMod3::getVar('shortestpath', 'publications');
+                $use_shortest_paths = xar::mod()->getVar('shortestpath', 'publications');
 
                 // Consume the pid from the get parameters.
                 $pid = $params['pid'];
@@ -409,7 +407,7 @@ class PublicationsShortController extends ShortActionController
                 // return two arrays: 'path' with path components and 'get' with
                 // any unconsumed (or new) get parameters.
                 if (!empty($pages[$pid]['encode_url'])) {
-                    $extra = xarMod3::apiFunc('publications', 'encode', $pages[$pid]['encode_url'], $params);
+                    $extra = xar::mod()->apiFunc('publications', 'encode', $pages[$pid]['encode_url'], $params);
 
                     if (!empty($extra)) {
                         // The handler has supplied some further short URL path components.
@@ -440,10 +438,10 @@ class PublicationsShortController extends ShortActionController
     private function decode_pubtype($token = '')
     {
         $token = $this->shorturl_decode($token);
-        if (xarMod3::getVar('usetitleforurl', 'publications')) {
+        if (xar::mod()->getVar('usetitleforurl', 'publications')) {
             // Get all publication types present
             if (empty($this->pubtypes)) {
-                $this->pubtypes = xarMod3::apiFunc('publications', 'user', 'get_pubtypes');
+                $this->pubtypes = xar::mod()->apiFunc('publications', 'user', 'get_pubtypes');
             }
             // Match the first token
             foreach ($this->pubtypes as $id => $pubtype) {
@@ -458,10 +456,10 @@ class PublicationsShortController extends ShortActionController
 
     private function decode_page($token2 = '', $ptid = 0)
     {
-        $xartables = xarDB3::getTables();
+        $xartables = xar::db()->getTables();
         $q = new Query('SELECT', $xartables['publications']);
         $q->eq('pubtype_id', $ptid);
-        switch ((int) xarMod3::getVar('usetitleforurl', 'publications')) {
+        switch ((int) xar::mod()->getVar('usetitleforurl', 'publications')) {
             case 0:
                 $q->eq('id', (int) $token2);
                 break;
@@ -522,7 +520,7 @@ class PublicationsShortController extends ShortActionController
 
     private function encode_page($row = [])
     {
-        $usetitles = xarMod3::getVar('usetitleforurl', 'publications');
+        $usetitles = xar::mod()->getVar('usetitleforurl', 'publications');
         $path = [];
         if ($usetitles == 0) {
             // We're not using names: just use the ID
@@ -542,7 +540,7 @@ class PublicationsShortController extends ShortActionController
         } elseif (!empty($row['name']) && in_array($usetitles, [1,2,3])) {
             // Now come the cases where we distinguish duplicates in the URL
             // For this we need to do another SELECT on the name to see if there are actually duplicates
-            $xartables = xarDB3::getTables();
+            $xartables = xar::db()->getTables();
             $q = new Query('SELECT', $xartables['publications']);
             $q->eq('name', $row['name']);
             $q->eq('pubtype_id', $row['pubtype_id']);
@@ -572,7 +570,7 @@ class PublicationsShortController extends ShortActionController
         } elseif (!empty($row['title']) && in_array($usetitles, [5,6,7])) {
             // Now come the cases where we distinguish duplicates in the URL
             // For this we need to do another SELECT on the name to see if there are actually duplicates
-            $xartables = xarDB3::getTables();
+            $xartables = xar::db()->getTables();
             $q = new Query('SELECT', $xartables['publications']);
             $q->eq('title', $row['title']);
             $q->eq('pubtype_id', (int) $row['pubtype_id']);
@@ -605,10 +603,10 @@ class PublicationsShortController extends ShortActionController
 
     private function encode_pubtype($ptid = 0)
     {
-        if (xarMod3::getVar('usetitleforurl', 'publications')) {
+        if (xar::mod()->getVar('usetitleforurl', 'publications')) {
             // Get all publication types present
             if (empty($this->pubtypes)) {
-                $this->pubtypes = xarMod3::apiFunc('publications', 'user', 'get_pubtypes');
+                $this->pubtypes = xar::mod()->apiFunc('publications', 'user', 'get_pubtypes');
             }
             // Match to the function token
             foreach ($this->pubtypes as $id => $pubtype) {
@@ -623,7 +621,7 @@ class PublicationsShortController extends ShortActionController
     }
     private function getpage($itemid = 0)
     {
-        $xartables = xarDB3::getTables();
+        $xartables = xar::db()->getTables();
         $q = new Query('SELECT', $xartables['publications']);
         $q->eq('id', (int) $itemid);
         $q->addfield('pubtype_id');

@@ -76,7 +76,7 @@ class CreateMethod extends MethodClass
 
         // Inform the world via hooks
         $item = ['module' => 'publications', 'itemid' => $itemid, 'itemtype' => $data['object']->properties['itemtype']->value];
-        xarHooks::notify('ItemCreate', $item);
+        $this->mod()->notifyHooks('ItemCreate', $item);
 
         // Redirect if needed
         $this->var()->find('return_url', $return_url, 'str', '');

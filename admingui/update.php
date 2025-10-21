@@ -147,7 +147,7 @@ class UpdateMethod extends MethodClass
 
         // Inform the world via hooks
         $item = ['module' => 'publications', 'itemid' => $data['itemid'], 'itemtype' => $data['object']->properties['itemtype']->value];
-        xarHooks::notify('ItemUpdate', $item);
+        $this->mod()->notifyHooks('ItemUpdate', $item);
 
         // If quitting, go to admin view; otherwise redisplay the page
         if ($data['quit']) {
