@@ -5,6 +5,15 @@
     "homepage": "https://github.com/xaraya-modules/publications",
     "license": "GPL-2.0-or-later",
     "require": {},
+    "suggest": {
+        "chrisboulton/php-diff": "A comprehensive library for generating differences between two hashable objects (strings or arrays)."
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bigcommerce/php-diff"
+        }
+    ],
     "autoload": {
         "classmap": ["./"],
         "exclude-from-classmap": ["/vendor/", "/class/lib/"]

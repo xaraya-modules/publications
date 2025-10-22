@@ -41,7 +41,6 @@
  * @link http://github.com/chrisboulton/php-diff
  */
 
-#[\AllowDynamicProperties]
 class Diff_SequenceMatcher
 {
     /**
@@ -78,6 +77,21 @@ class Diff_SequenceMatcher
     ];
 
     /**
+     * @var array|null
+     */
+    private $matchingBlocks;
+
+    /**
+     * @var array|null
+     */
+    private $opCodes;
+
+    /**
+     * @var array|null
+     */
+    private $fullBCount;
+
+    /**
      * The constructor. With the sequences being passed, they'll be set for the
      * sequence matcher and it will perform a basic cleanup & calculate junk
      * elements.
@@ -86,7 +100,7 @@ class Diff_SequenceMatcher
      * @param string|array $b A string or array containing the lines to compare.
      * @param string|array $junkCallback Either an array or string that references a callback function (if there is one) to determine 'junk' characters.
      */
-    public function __construct($a, $b, $junkCallback = null, $options = [])
+    public function __construct($a, $b, $junkCallback, $options)
     {
         $this->a = null;
         $this->b = null;
@@ -271,27 +285,27 @@ class Diff_SequenceMatcher
             $j2Len = $newJ2Len;
         }
 
-        while ($bestI > $alo && $bestJ > $blo && !$this->isBJunk($b[$bestJ - 1]) &&
-            !$this->linesAreDifferent($bestI - 1, $bestJ - 1)) {
+        while ($bestI > $alo && $bestJ > $blo && !$this->isBJunk($b[$bestJ - 1])
+            && !$this->linesAreDifferent($bestI - 1, $bestJ - 1)) {
             --$bestI;
             --$bestJ;
             ++$bestSize;
         }
 
-        while ($bestI + $bestSize < $ahi && ($bestJ + $bestSize) < $bhi &&
-            !$this->isBJunk($b[$bestJ + $bestSize]) && !$this->linesAreDifferent($bestI + $bestSize, $bestJ + $bestSize)) {
+        while ($bestI + $bestSize < $ahi && ($bestJ + $bestSize) < $bhi
+            && !$this->isBJunk($b[$bestJ + $bestSize]) && !$this->linesAreDifferent($bestI + $bestSize, $bestJ + $bestSize)) {
             ++$bestSize;
         }
 
-        while ($bestI > $alo && $bestJ > $blo && $this->isBJunk($b[$bestJ - 1]) &&
-            !$this->isLineDifferent($bestI - 1, $bestJ - 1)) {
+        while ($bestI > $alo && $bestJ > $blo && $this->isBJunk($b[$bestJ - 1])
+            && !$this->isLineDifferent($bestI - 1, $bestJ - 1)) {
             --$bestI;
             --$bestJ;
             ++$bestSize;
         }
 
-        while ($bestI + $bestSize < $ahi && $bestJ + $bestSize < $bhi &&
-            $this->isBJunk($b[$bestJ + $bestSize]) && !$this->linesAreDifferent($bestI + $bestSize, $bestJ + $bestSize)) {
+        while ($bestI + $bestSize < $ahi && $bestJ + $bestSize < $bhi
+            && $this->isBJunk($b[$bestJ + $bestSize]) && !$this->linesAreDifferent($bestI + $bestSize, $bestJ + $bestSize)) {
             ++$bestSize;
         }
 
@@ -348,8 +362,8 @@ class Diff_SequenceMatcher
             return $this->matchingBlocks;
         }
 
-        $aLength = count($this->a);
-        $bLength = count($this->b);
+        $aLength = count($this->a ?? []);
+        $bLength = count($this->b ?? []);
 
         $queue = [
             [
@@ -621,7 +635,7 @@ class Diff_SequenceMatcher
      * Quickly return an upper bound ratio for the similarity of the strings.
      * This is quicker to compute than Ratio().
      *
-     * @return float|void The calculated ratio.
+     * @return float The calculated ratio.
      */
     private function quickRatio()
     {
@@ -721,7 +735,7 @@ class Diff_SequenceMatcher
             }
         }
 
-        if (count($a) == count($b)) {
+        if (count($a) == $count($b)) {
             return 0;
         } elseif (count($a) < count($b)) {
             return -1;

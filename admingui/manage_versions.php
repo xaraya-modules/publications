@@ -107,16 +107,7 @@ class ManageVersionsMethod extends MethodClass
 
         // Keep a copy to show if the two versions are identical
         $data['content'] = $content_2;
-        /*
-            sys::import('modules.publications.class.difflib');
-            sys::import('modules.publications.class.showdiff');
 
-            $diff = new \Xaraya\Modules\Publications\Diff( explode("\n",$orig_str), explode("\n",$final_str));
-            $objshowdiff = new \Xaraya\Modules\Publications\showdiff();
-            $data['result'] = $objshowdiff->checkdiff($orig_str,$final_str,$diff,'Line');
-
-            $string_arr= explode("<br>",$data['result']);
-        */
         sys::import('modules.publications.class.lib.Diff');
         sys::import('modules.publications.class.lib.Diff.Renderer.Html.Inline');
 
@@ -134,8 +125,6 @@ class ManageVersionsMethod extends MethodClass
         $diff = new Diff($content_1, $content_2, $options);
         $renderer = new Diff_Renderer_Html_Inline();
         $data['diffresult'] = $diff->render($renderer);
-
-
 
         //	$data['content_1'] = nl2br($string_arr[0]);
         //	$data['content_2'] = nl2br($string_arr[1]);
