@@ -13,8 +13,6 @@
 
 namespace Xaraya\Modules\Publications;
 
-use xarDB;
-
 class Tables
 {
     /**
@@ -22,9 +20,8 @@ class Tables
      *
      * @return array with the tables used in publications
      */
-    public function __invoke(?string $prefix = null)
+    public function __invoke(string $prefix = 'xar')
     {
-        $prefix ??= xarDB::getPrefix();
         $xartable['publications'] = $prefix . '_publications';
         $xartable['publications_types'] = $prefix . '_publications_types';
 
