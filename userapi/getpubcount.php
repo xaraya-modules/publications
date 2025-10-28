@@ -45,8 +45,8 @@ class GetpubcountMethod extends MethodClass
             $statestring = $args['state'];
         }
 
-        if ($this->var()->isCached('Publications.PubCount', $statestring)) {
-            return $this->var()->getCached('Publications.PubCount', $statestring);
+        if ($this->mem()->has('Publications.PubCount', $statestring)) {
+            return $this->mem()->get('Publications.PubCount', $statestring);
         }
 
         $pubcount = [];
@@ -71,7 +71,7 @@ class GetpubcountMethod extends MethodClass
         foreach ($q->output() as $key => $value) {
             $pubcount[$value['pubtype_id']] = $value['count'];
         }
-        $this->var()->setCached('Publications.PubCount', $statestring, $pubcount);
+        $this->mem()->set('Publications.PubCount', $statestring, $pubcount);
         return $pubcount;
     }
 }

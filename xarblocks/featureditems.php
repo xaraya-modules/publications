@@ -143,8 +143,8 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
             // See if we're currently displaying a publication
             // We do this to remove a link form a featured item if that item is already being displayed
-            if ($this->var()->isCached('Blocks.publications', 'id')) {
-                $curid = $this->var()->getCached('Blocks.publications', 'id');
+            if ($this->mem()->has('Blocks.publications', 'id')) {
+                $curid = $this->mem()->get('Blocks.publications', 'id');
             } else {
                 $curid = -1;
             }

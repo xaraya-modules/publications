@@ -75,7 +75,7 @@ class DisplayMethod extends MethodClass
         # Get the ID of the translation if required
         #
         // First save the "untranslated" id for blocks etc.
-        $this->var()->setCached('Blocks.publications', 'current_base_id', $id);
+        $this->mem()->set('Blocks.publications', 'current_base_id', $id);
 
         if ($translate) {
             $id = $userapi->gettranslationid(['id' => $id]);
@@ -135,7 +135,7 @@ class DisplayMethod extends MethodClass
         }
 
         // Save this as the current pubtype
-        $this->var()->setCached('Publications', 'current_pubtype_object', $pubtypeobject);
+        $this->mem()->set('Publications', 'current_pubtype_object', $pubtypeobject);
 
         $data['object'] = $this->data()->getObject(['name' => $pubtypeobject->properties['name']->value]);
         //    $id = $userapi->gettranslationid(array('id' => $id));
@@ -395,7 +395,7 @@ class DisplayMethod extends MethodClass
 
         // Pass the access rules of the publication type to the template
         $data['pubtype_access'] = $pubtypeobject->properties['access']->getValue();
-        $this->var()->setCached('Publications', 'pubtype_access', $data['pubtype_access']);
+        $this->mem()->set('Publications', 'pubtype_access', $data['pubtype_access']);
 
         # --------------------------------------------------------
         #
@@ -472,7 +472,7 @@ class DisplayMethod extends MethodClass
         #
         // Now we can cache all this data away for the blocks.
         // The blocks should have access to most of the same data as the page.
-        //    $this->var()->setCached('Blocks.publications', 'pagedata', $tree);
+        //    $this->mem()->set('Blocks.publications', 'pagedata', $tree);
 
         // The 'serialize' hack ensures we have a proper copy of the
         // paga data, which is a self-referencing array. If we don't
@@ -480,9 +480,9 @@ class DisplayMethod extends MethodClass
         $data = unserialize(serialize($data));
 
         // Save some values. These are used by blocks in 'automatic' mode.
-        $this->var()->setCached('Blocks.publications', 'current_id', $id);
-        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
-        $this->var()->setCached('Blocks.publications', 'author', $data['object']->properties['author']->value);
+        $this->mem()->set('Blocks.publications', 'current_id', $id);
+        $this->mem()->set('Blocks.publications', 'ptid', $ptid);
+        $this->mem()->set('Blocks.publications', 'author', $data['object']->properties['author']->value);
 
         # --------------------------------------------------------
         #
@@ -507,8 +507,8 @@ class DisplayMethod extends MethodClass
             $prevpublication = '';
             $nextpublication = '';
         }
-        $this->var()->setCached('Publications', 'prevpublication', $prevpublication);
-        $this->var()->setCached('Publications', 'nextpublication', $nextpublication);
+        $this->mem()->set('Publications', 'prevpublication', $prevpublication);
+        $this->mem()->set('Publications', 'nextpublication', $nextpublication);
 
         return $data;
     }

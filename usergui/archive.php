@@ -384,15 +384,15 @@ class ArchiveMethod extends MethodClass
         }
 
         // Save some variables to (temporary) cache for use in blocks etc.
-        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
+        $this->mem()->set('Blocks.publications', 'ptid', $ptid);
         if (!empty($cids)) {
-            $this->var()->setCached('Blocks.publications', 'cids', $cids);
+            $this->mem()->set('Blocks.publications', 'cids', $cids);
         }
         //if ($shownavigation) {
-        $this->var()->setCached('Blocks.categories', 'module', 'publications');
-        $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
+        $this->mem()->set('Blocks.categories', 'module', 'publications');
+        $this->mem()->set('Blocks.categories', 'itemtype', $ptid);
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
-            $this->var()->setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
+            $this->mem()->set('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
             $this->tpl()->setPageTitle($this->ml('Archive'), $pubtypes[$ptid]['description']);
         } else {
             $this->tpl()->setPageTitle($this->ml('Archive'));

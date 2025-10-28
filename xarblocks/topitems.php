@@ -57,8 +57,8 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
         $data = $this->getContent();
 
         // see if we're currently displaying an article
-        if ($this->var()->isCached('Blocks.publications', 'id')) {
-            $curid = $this->var()->getCached('Blocks.publications', 'id');
+        if ($this->mem()->has('Blocks.publications', 'id')) {
+            $curid = $this->mem()->get('Blocks.publications', 'id');
         } else {
             $curid = -1;
         }
@@ -86,8 +86,8 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
                 // use the current category
                 // Jonn: this currently only works with one category at a time
                 // it could be reworked to support multiple cids
-                if ($this->var()->isCached('Blocks.publications', 'cids')) {
-                    $curcids = $this->var()->getCached('Blocks.publications', 'cids');
+                if ($this->mem()->has('Blocks.publications', 'cids')) {
+                    $curcids = $this->mem()->get('Blocks.publications', 'cids');
                     if (!empty($curcids)) {
                         if ($curid == -1) {
                             //$cid = $curcids[0]['name'];
@@ -142,8 +142,8 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
             // MikeC: Check to see if admin has specified that only a specific
             // Publication Type should be displayed.  If not, then default to original TopItems configuration.
             if ($data['pubtype_id'] == 0) {
-                if ($this->var()->isCached('Blocks.publications', 'ptid')) {
-                    $ptid = $this->var()->getCached('Blocks.publications', 'ptid');
+                if ($this->mem()->has('Blocks.publications', 'ptid')) {
+                    $ptid = $this->mem()->get('Blocks.publications', 'ptid');
                 }
                 if (empty($ptid)) {
                     // default publication type

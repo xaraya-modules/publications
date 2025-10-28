@@ -29,12 +29,12 @@ class GetPubtypesMethod extends MethodClass
 
     public function __invoke(array $args = [])
     {
-        if ($this->var()->isCached('Publications.Data', 'producttypes')) {
-            return $this->var()->getCached('Publications.Data', 'producttypes');
+        if ($this->mem()->has('Publications.Data', 'producttypes')) {
+            return $this->mem()->get('Publications.Data', 'producttypes');
         }
         $object = $this->data()->getObjectList(['name' => 'publications_types']);
         $items = $object->getItems();
-        $this->var()->setCached('Publications.Data', 'producttypes', $items);
+        $this->mem()->set('Publications.Data', 'producttypes', $items);
         return $items;
     }
 }

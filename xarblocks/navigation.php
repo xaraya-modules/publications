@@ -71,8 +71,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
         //       (e.g. cross-module categories defined in categories admin ?)
         // Get current module
         if (empty($module)) {
-            if ($this->var()->isCached('Blocks.categories', 'module')) {
-                $modname = $this->var()->getCached('Blocks.categories', 'module');
+            if ($this->mem()->has('Blocks.categories', 'module')) {
+                $modname = $this->mem()->get('Blocks.categories', 'module');
             }
             if (empty($modname)) {
                 $modname = $this->mod()->getName();
@@ -87,8 +87,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
 
         // Get current item type (if any)
         if (!isset($itemtype)) {
-            if ($this->var()->isCached('Blocks.categories', 'itemtype')) {
-                $itemtype = $this->var()->getCached('Blocks.categories', 'itemtype');
+            if ($this->mem()->has('Blocks.categories', 'itemtype')) {
+                $itemtype = $this->mem()->get('Blocks.categories', 'itemtype');
             } else {
                 // try to get itemtype from input
                 $this->var()->check('itemtype', $itemtype, 'isset', null);
@@ -103,8 +103,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
 
         // Get current item id (if any)
         if (!isset($itemid)) {
-            if ($this->var()->isCached('Blocks.categories', 'itemid')) {
-                $itemid = $this->var()->getCached('Blocks.categories', 'itemid');
+            if ($this->mem()->has('Blocks.categories', 'itemid')) {
+                $itemid = $this->mem()->get('Blocks.categories', 'itemid');
             } else {
                 // try to get itemid from input
                 $this->var()->check('itemid', $itemid, 'isset', null);
@@ -178,8 +178,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
         }
         if (empty($showempty) || !empty($show_catcount)) {
             // A 'deep count' sums the totals at each node with the totals of all descendants.
-            if ($this->var()->isCached('Blocks.categories', 'deepcount')) {
-                $deepcount = $this->var()->getCached('Blocks.categories', 'deepcount');
+            if ($this->mem()->has('Blocks.categories', 'deepcount')) {
+                $deepcount = $this->mem()->get('Blocks.categories', 'deepcount');
             } else {
                 $deepcount = $this->mod()->apiFunc(
                     'categories',
@@ -187,13 +187,13 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     'deepcount',
                     ['modid' => $modid, 'itemtype' => $itemtype]
                 );
-                $this->var()->setCached('Blocks.categories', 'deepcount', $deepcount);
+                $this->mem()->set('Blocks.categories', 'deepcount', $deepcount);
             }
         }
 
         if (!empty($show_catcount)) {
-            if ($this->var()->isCached('Blocks.categories', 'catcount')) {
-                $catcount = $this->var()->getCached('Blocks.categories', 'catcount');
+            if ($this->mem()->has('Blocks.categories', 'catcount')) {
+                $catcount = $this->mem()->get('Blocks.categories', 'catcount');
             } else {
                 // Get number of items per category (for this module).
                 // If show_catcount == 2 then add in all descendants too.
@@ -211,22 +211,22 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     $catcount = & $deepcount;
                 }
 
-                $this->var()->setCached('Blocks.categories', 'catcount', $catcount);
+                $this->mem()->set('Blocks.categories', 'catcount', $catcount);
             }
         }
 
         // Specify type=... & func = ... arguments for $this->ctl()->getModuleURL()
         if (empty($type)) {
-            if ($this->var()->isCached('Blocks.categories', 'type')) {
-                $type = $this->var()->getCached('Blocks.categories', 'type');
+            if ($this->mem()->has('Blocks.categories', 'type')) {
+                $type = $this->mem()->get('Blocks.categories', 'type');
             }
             if (empty($type)) {
                 $type = 'user';
             }
         }
         if (empty($func)) {
-            if ($this->var()->isCached('Blocks.categories', 'func')) {
-                $func = $this->var()->getCached('Blocks.categories', 'func');
+            if ($this->mem()->has('Blocks.categories', 'func')) {
+                $func = $this->mem()->get('Blocks.categories', 'func');
             }
             if (empty($func)) {
                 $func = 'view';
@@ -234,8 +234,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
         }
 
         // Get current categories
-        if ($this->var()->isCached('Blocks.categories', 'catid')) {
-            $catid = $this->var()->getCached('Blocks.categories', 'catid');
+        if ($this->mem()->has('Blocks.categories', 'catid')) {
+            $catid = $this->mem()->get('Blocks.categories', 'catid');
         }
         if (empty($catid)) {
             // try to get catid from input
@@ -260,11 +260,11 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 $andcids = false;
             }
         } elseif (empty($cids)) {
-            if ($this->var()->isCached('Blocks.categories', 'cids')) {
-                $cids = $this->var()->getCached('Blocks.categories', 'cids');
+            if ($this->mem()->has('Blocks.categories', 'cids')) {
+                $cids = $this->mem()->get('Blocks.categories', 'cids');
             }
-            if ($this->var()->isCached('Blocks.categories', 'andcids')) {
-                $andcids = $this->var()->getCached('Blocks.categories', 'andcids');
+            if ($this->mem()->has('Blocks.categories', 'andcids')) {
+                $andcids = $this->mem()->get('Blocks.categories', 'andcids');
             }
             if (empty($cids)) {
                 // try to get cids from input

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
-    <xar:set name="pubtype_access">xarCoreCache::getCached('Publications', 'pubtype_access')</xar:set>
+    <xar:set name="pubtype_access">\Xaraya\Services\xar::mem()->get('Publications', 'pubtype_access')</xar:set>
     <!-- This condition makes these icons not show in nested displays (preview functionality) -->
     <xar:if condition="isset($pubtype_access)">
         <xar:set name="pageName">xarTpl::getPageTemplateName()</xar:set>

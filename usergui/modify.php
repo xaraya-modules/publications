@@ -170,7 +170,7 @@ class ModifyMethod extends MethodClass
         # Cache data
         #
         // Now we can cache all data away for blocks, subitems etc.
-        $this->var()->setCached('Publications', 'itemid', $data['itemid']);
+        $this->mem()->set('Publications', 'itemid', $data['itemid']);
 
         return $data;
     }

@@ -350,14 +350,14 @@ class ViewMethod extends MethodClass
         }
         $data['newurl'] = $newurl;
         // TODO: Hook category block someday ?
-        $this->var()->setCached('Blocks.categories', 'module', 'publications');
-        $this->var()->setCached('Blocks.categories', 'type', 'admin');
-        $this->var()->setCached('Blocks.categories', 'func', 'view');
-        $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
+        $this->mem()->set('Blocks.categories', 'module', 'publications');
+        $this->mem()->set('Blocks.categories', 'type', 'admin');
+        $this->mem()->set('Blocks.categories', 'func', 'view');
+        $this->mem()->set('Blocks.categories', 'itemtype', $ptid);
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
-            $this->var()->setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
+            $this->mem()->set('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
         }
-        $this->var()->setCached('Blocks.categories', 'cids', $cids);
+        $this->mem()->set('Blocks.categories', 'cids', $cids);
 
         if (!empty($ptid)) {
             $template = $pubtypes[$ptid]['name'];

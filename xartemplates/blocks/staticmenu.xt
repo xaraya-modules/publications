@@ -29,7 +29,7 @@
             </xar:if>
             <!-- Check if this is the active node -->
             <xar:set name="hilite">'hilite' . $node['id']</xar:set>
-            <xar:if condition="$node['id'] eq (int)xarCoreCache::getCached('Blocks.publications', 'current_base_id')">
+            <xar:if condition="$node['id'] eq (int)\Xaraya\Services\xar::mem()->get('Blocks.publications', 'current_base_id')">
                 <xar:set name="hilite">'active'</xar:set>
             <xar:else/>
                 <xar:set name="hilite">''</xar:set>
@@ -60,7 +60,7 @@
             <xar:foreach in="$nodes" value="$node">
                 <!-- Check if this is the active node -->
                 <xar:set name="hilite">'hilite' . $node['id']</xar:set>
-                <xar:if condition="$node['id'] eq (int)xarCoreCache::getCached('Blocks.publications', 'current_base_id')">
+                <xar:if condition="$node['id'] eq (int)\Xaraya\Services\xar::mem()->get('Blocks.publications', 'current_base_id')">
                     <xar:set name="hilite">'active'</xar:set>
                 <xar:else/>
                     <xar:set name="hilite">''</xar:set>

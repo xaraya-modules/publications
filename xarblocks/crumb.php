@@ -63,8 +63,8 @@ class Publications_CrumbBlock extends BasicBlock implements iBlock
         $id = 1;
 
         // Automatic: that means look at the page cache.
-        if ($this->var()->isCached('Blocks.publications', 'current_id')) {
-            $id = $this->var()->getCached('Blocks.publications', 'current_id');
+        if ($this->mem()->has('Blocks.publications', 'current_id')) {
+            $id = $this->mem()->get('Blocks.publications', 'current_id');
             // Make sure it is numeric.
             if (!isset($id) || !is_numeric($id)) {
                 $id = 0;
@@ -79,12 +79,12 @@ class Publications_CrumbBlock extends BasicBlock implements iBlock
         // The page details may have been cached, if
         // we have several
         // blocks on the same page showing the same tree.
-        if ($this->var()->isCached('Blocks.publications', 'pagedata')) {
+        if ($this->mem()->has('Blocks.publications', 'pagedata')) {
             // Pages are cached?
             // The 'serialize' hack ensures we have a proper copy of the
             // paga data, which is a self-referencing array. If we don't
             // do this, then any changes we make will affect the stored version.
-            $pagedata = unserialize(serialize($this->var()->getCached('Blocks.publications', 'pagedata')));
+            $pagedata = unserialize(serialize($this->mem()->get('Blocks.publications', 'pagedata')));
 
             // If the cached tree does not contain the current page,
             // then we cannot use it.

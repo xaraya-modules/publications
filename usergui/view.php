@@ -99,7 +99,7 @@ class ViewMethod extends MethodClass
         $data['pubtypeobject']->getItem(['itemid' => $ptid]);
 
         // Pass the access rules of the publication type to the template
-        $this->var()->setCached('Publications', 'pubtype_access', $data['pubtypeobject']->properties['access']->getValue());
+        $this->mem()->set('Publications', 'pubtype_access', $data['pubtypeobject']->properties['access']->getValue());
 
         // A non-active publication type means the page does not exist
         if ($data['pubtypeobject']->properties['state']->value < Defines::STATE_ACTIVE) {
@@ -305,14 +305,14 @@ class ViewMethod extends MethodClass
         }
 
         // Save some variables to (temporary) cache for use in blocks etc.
-        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
-        $this->var()->setCached('Blocks.publications', 'cids', $cids);
-        $this->var()->setCached('Blocks.publications', 'owner', $owner);
+        $this->mem()->set('Blocks.publications', 'ptid', $ptid);
+        $this->mem()->set('Blocks.publications', 'cids', $cids);
+        $this->mem()->set('Blocks.publications', 'owner', $owner);
         if (isset($data['author'])) {
-            $this->var()->setCached('Blocks.publications', 'author', $data['author']);
+            $this->mem()->set('Blocks.publications', 'author', $data['author']);
         }
         if (isset($data['pubdate'])) {
-            $this->var()->setCached('Blocks.publications', 'pubdate', $data['pubdate']);
+            $this->mem()->set('Blocks.publications', 'pubdate', $data['pubdate']);
         }
 
         // TODO: add this to publications configuration ?
@@ -341,11 +341,11 @@ class ViewMethod extends MethodClass
         }
         $data['cids'] = $cids;
         $data['catid'] = $catid;
-        $this->var()->setCached('Blocks.categories', 'module', 'publications');
-        $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
-        $this->var()->setCached('Blocks.categories', 'cids', $cids);
+        $this->mem()->set('Blocks.categories', 'module', 'publications');
+        $this->mem()->set('Blocks.categories', 'itemtype', $ptid);
+        $this->mem()->set('Blocks.categories', 'cids', $cids);
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
-            $this->var()->setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
+            $this->mem()->set('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
             // Note : this gets overriden by the categories navigation if necessary
             $this->tpl()->setPageTitle($this->var()->prep($pubtypes[$ptid]['description']));
         }
@@ -357,7 +357,7 @@ class ViewMethod extends MethodClass
                     ['state' => $c_posted, 'ptid' => $ptid]
                 );
                 if (isset($pubcatcount[$ptid])) {
-                    $this->var()->setCached('Blocks.categories', 'catcount', $pubcatcount[$ptid]);
+                    $this->mem()->set('Blocks.categories', 'catcount', $pubcatcount[$ptid]);
                 }
                 unset($pubcatcount);
             } else {
@@ -370,12 +370,12 @@ class ViewMethod extends MethodClass
                     foreach ($pubcatcount as $cat => $count) {
                         $catcount[$cat] = $count['total'];
                     }
-                    $this->var()->setCached('Blocks.categories', 'catcount', $catcount);
+                    $this->mem()->set('Blocks.categories', 'catcount', $catcount);
                 }
                 unset($pubcatcount);
             }
         } else {
-            // $this->var()->setCached('Blocks.categories','catcount',array());
+            // $this->mem()->set('Blocks.categories','catcount',array());
         }
 
         // retrieve the number of comments for each article
@@ -505,7 +505,7 @@ class ViewMethod extends MethodClass
                 }
 
                 // RSS Processing
-                $current_theme = $this->var()->getCached('Themes.name', 'CurrentTheme');
+                $current_theme = $this->mem()->get('Themes.name', 'CurrentTheme');
                 if (($current_theme == 'rss') or ($current_theme == 'atom')){
                     $article['rsstitle'] = htmlspecialchars($article['title']);
                     //$article['rssdate'] = strtotime($article['date']);
@@ -600,7 +600,7 @@ class ViewMethod extends MethodClass
         }
 
         // Throw all the settings we are using into the cache
-        $this->var()->setCached('publications', 'settings_' . $data['ptid'], $data['settings']);
+        $this->mem()->set('publications', 'settings_' . $data['ptid'], $data['settings']);
 
         // Flag this as the current list view
         $this->session()->setVar('publications_current_listview', $this->ctl()->getCurrentURL(['ptid' => $data['ptid']]));

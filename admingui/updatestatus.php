@@ -79,7 +79,7 @@ class UpdatestatusMethod extends MethodClass
         // We need to tell some hooks that we are coming from the update state screen
         // and not the update the actual article screen.  Right now, the keywords vanish
         // into thin air.  Bug 1960 and 3161
-        $this->var()->setCached('Hooks.all', 'noupdate', 1);
+        $this->mem()->set('Hooks.all', 'noupdate', 1);
 
         foreach ($ids as $id => $val) {
             if ($val != 1) {

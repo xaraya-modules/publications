@@ -320,12 +320,12 @@ class ViewmapMethod extends MethodClass
         }
 
         // Save some variables to (temporary) cache for use in blocks etc.
-        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
+        $this->mem()->set('Blocks.publications', 'ptid', $ptid);
         //if ($shownavigation) {
-        $this->var()->setCached('Blocks.categories', 'module', 'publications');
-        $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
+        $this->mem()->set('Blocks.categories', 'module', 'publications');
+        $this->mem()->set('Blocks.categories', 'itemtype', $ptid);
         if (!empty($descr)) {
-            $this->var()->setCached('Blocks.categories', 'title', $descr);
+            $this->mem()->set('Blocks.categories', 'title', $descr);
             $this->tpl()->setPageTitle($this->ml('Map'), $this->var()->prep($descr));
         }
         //}

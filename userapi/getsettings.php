@@ -42,8 +42,8 @@ class GetsettingsMethod extends MethodClass
         $userapi = $this->userapi();
 
         // If already cached, then get that
-        if ($this->var()->isCached('publications', 'settings_' . $data['ptid'])) {
-            return $this->var()->getCached('publications', 'settings_' . $data['ptid']);
+        if ($this->mem()->has('publications', 'settings_' . $data['ptid'])) {
+            return $this->mem()->get('publications', 'settings_' . $data['ptid']);
         }
 
         sys::import('modules.dynamicdata.class.objects.factory');
@@ -63,7 +63,7 @@ class GetsettingsMethod extends MethodClass
             $settings = $globalsettings;
         }
 
-        $this->var()->setCached('publications', 'settings_' . $data['ptid'], $settings);
+        $this->mem()->set('publications', 'settings_' . $data['ptid'], $settings);
         return $settings;
     }
 }

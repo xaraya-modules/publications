@@ -61,7 +61,7 @@ class PreviewMethod extends MethodClass
         $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $ptid]);
         // Save this as the current pubtype
-        $this->var()->setCached('Publications', 'current_pubtype_object', $pubtypeobject);
+        $this->mem()->set('Publications', 'current_pubtype_object', $pubtypeobject);
 
         # --------------------------------------------------------
         #
@@ -261,7 +261,7 @@ class PreviewMethod extends MethodClass
         #
         // Now we can cache all this data away for the blocks.
         // The blocks should have access to most of the same data as the page.
-        //    $this->var()->setCached('Blocks.publications', 'pagedata', $tree);
+        //    $this->mem()->set('Blocks.publications', 'pagedata', $tree);
 
         // The 'serialize' hack ensures we have a proper copy of the
         // paga data, which is a self-referencing array. If we don't
@@ -269,9 +269,9 @@ class PreviewMethod extends MethodClass
         $data = unserialize(serialize($data));
 
         // Save some values. These are used by blocks in 'automatic' mode.
-        //    $this->var()->setCached('Blocks.publications', 'current_id', $id);
-        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
-        $this->var()->setCached('Blocks.publications', 'author', $data['object']->properties['author']->value);
+        //    $this->mem()->set('Blocks.publications', 'current_id', $id);
+        $this->mem()->set('Blocks.publications', 'ptid', $ptid);
+        $this->mem()->set('Blocks.publications', 'author', $data['object']->properties['author']->value);
 
         # --------------------------------------------------------
         #

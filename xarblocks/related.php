@@ -53,7 +53,7 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
 
         // Trick : work with cached variables here (set by the module function)
         // Check if we've been through publications display
-        if (!$this->var()->isCached('Blocks.publications', 'current_id')) {
+        if (!$this->mem()->has('Blocks.publications', 'current_id')) {
             return;
         }
 
@@ -62,8 +62,8 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
         if ($vars['showpubtype']) {
             // Show publication type (for now)
             $pubtypes = $this->mod()->apiMethod('publications', 'user', 'get_pubtypes');
-            if ($this->var()->isCached('Blocks.publications', 'ptid')) {
-                $ptid = $this->var()->getCached('Blocks.publications', 'ptid');
+            if ($this->mem()->has('Blocks.publications', 'ptid')) {
+                $ptid = $this->mem()->get('Blocks.publications', 'ptid');
                 if (!empty($ptid) && isset($pubtypes[$ptid]['description'])) {
                     $vars['pubtypelink'] = $this->mod()->getURL(
                         'user',
@@ -78,16 +78,16 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
 
         if ($vars['showcategory']) {
             // Show categories (for now)
-            if ($this->var()->isCached('Blocks.publications', 'cids')) {
-                $cids = $this->var()->getCached('Blocks.publications', 'cids');
+            if ($this->mem()->has('Blocks.publications', 'cids')) {
+                $cids = $this->mem()->get('Blocks.publications', 'cids');
                 // TODO: add related links
             }
         }
 
         if ($vars['showauthor']) {
             // Show author (for now)
-            if ($this->var()->isCached('Blocks.publications', 'author')) {
-                $author = $this->var()->getCached('Blocks.publications', 'author');
+            if ($this->mem()->has('Blocks.publications', 'author')) {
+                $author = $this->mem()->get('Blocks.publications', 'author');
                 if (!empty($author)) {
                     $vars['authorlink'] = $this->mod()->getURL(
                         'user',

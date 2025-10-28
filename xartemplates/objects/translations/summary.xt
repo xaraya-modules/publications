@@ -3,7 +3,7 @@
     <!-- License: GPL http://www.gnu.org/copyleft/gpl.html -->
 
     <!-- Get the settings of this publication type -->
-    <xar:set name="settings">xarCoreCache::getCached('publications', 'settings_' . $object->properties['itemtype']->value)</xar:set>
+    <xar:set name="settings">\Xaraya\Services\xar::mem()->get('publications', 'settings_' . $object->properties['itemtype']->value)</xar:set>
     
     <!-- Load the stylesheet for this publication type -->
     <xar:style method="import" module="publications" file="translation" title="Translation Stylesheet"/>

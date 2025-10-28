@@ -88,8 +88,8 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
         $id = 0;
         if (empty($data['current_source']) || $data['current_source'] == 'AUTO' || $data['current_source'] == 'AUTODEFAULT') {
             // Automatic: that means look at the page cache.
-            if ($this->var()->isCached('Blocks.publications', 'current_id')) {
-                $cached_id = $this->var()->getCached('Blocks.publications', 'current_id');
+            if ($this->mem()->has('Blocks.publications', 'current_id')) {
+                $cached_id = $this->mem()->get('Blocks.publications', 'current_id');
                 // Make sure it is numeric.
                 if (isset($cached_id) && is_numeric($cached_id)) {
                     $id = $cached_id;
@@ -107,12 +107,12 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
         // The page details *may* have been cached, if
         // we are in the Publications module, or have several
         // blocks on the same page showing the same tree.
-        if ($this->var()->isCached('Blocks.publications', 'pagedata')) {
+        if ($this->mem()->has('Blocks.publications', 'pagedata')) {
             // Pages are cached?
             // The 'serialize' hack ensures we have a proper copy of the
             // paga data, which is a self-referencing array. If we don't
             // do this, then any changes we make will affect the stored version.
-            $pagedata = unserialize(serialize($this->var()->getCached('Blocks.publications', 'pagedata')));
+            $pagedata = unserialize(serialize($this->mem()->get('Blocks.publications', 'pagedata')));
             //$pagedata = unserialize(serialize($pagedata));
             // If the cached tree does not contain the current page,
             // then we cannot use it.
@@ -167,8 +167,8 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
             // Only cache it if the cache is empty to start with. We only cache a complete
             // tree here, so if any other blocks need it, it contains all possible
             // pages we could need in that tree.
-            if (!$this->var()->isCached('Blocks.publications', 'pagedata')) {
-                $this->var()->setCached('Blocks.publications', 'pagedata', $pagedata);
+            if (!$this->mem()->has('Blocks.publications', 'pagedata')) {
+                $this->mem()->set('Blocks.publications', 'pagedata', $pagedata);
             }
         }
 

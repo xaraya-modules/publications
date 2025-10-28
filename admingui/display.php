@@ -82,7 +82,7 @@ class DisplayMethod extends MethodClass
         # Get the ID of the translation if required
         #
         // First save the "untranslated" id
-        $this->var()->setCached('Blocks.publications', 'current_base_id', $id);
+        $this->mem()->set('Blocks.publications', 'current_base_id', $id);
 
         if ($translate) {
             $id = $userapi->gettranslationid(['id' => $id]);
@@ -382,7 +382,7 @@ class DisplayMethod extends MethodClass
         #
         // Now we can cache all this data away for the blocks.
         // The blocks should have access to most of the same data as the page.
-        $this->var()->setCached('Blocks.publications', 'pagedata', $tree);
+        $this->mem()->set('Blocks.publications', 'pagedata', $tree);
 
         // The 'serialize' hack ensures we have a proper copy of the
         // paga data, which is a self-referencing array. If we don't
@@ -390,9 +390,9 @@ class DisplayMethod extends MethodClass
         $data = unserialize(serialize($data));
 
         // Save some values. These are used by blocks in 'automatic' mode.
-        $this->var()->setCached('Blocks.publications', 'current_id', $id);
-        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
-        $this->var()->setCached('Blocks.publications', 'author', $data['object']->properties['author']->value);
+        $this->mem()->set('Blocks.publications', 'current_id', $id);
+        $this->mem()->set('Blocks.publications', 'ptid', $ptid);
+        $this->mem()->set('Blocks.publications', 'author', $data['object']->properties['author']->value);
 
         # --------------------------------------------------------
         #
@@ -539,7 +539,7 @@ class DisplayMethod extends MethodClass
         }
     */
         // multi-page output for 'body' field (mostly for sections at the moment)
-        $themeName = $this->var()->getCached('Themes.name', 'CurrentTheme');
+        $themeName = $this->mem()->get('Themes.name', 'CurrentTheme');
         if ($themeName != 'print') {
             if (strstr($publication->properties['body']->value, '<!--pagebreak-->')) {
                 if ($preview) {
@@ -571,7 +571,7 @@ class DisplayMethod extends MethodClass
 
                     if ($page > 1) {
                         // Don't count page hits after the first page.
-                        $this->var()->setCached('Hooks.hitcount', 'nocount', 1);
+                        $this->mem()->set('Hooks.hitcount', 'nocount', 1);
                     }
 
                     // Pass in the pager info so a complete custom pager
@@ -691,7 +691,7 @@ class DisplayMethod extends MethodClass
             $this->tpl()->setPageTitle($this->var()->prep($title), $this->var()->prep($pubtypes[$data['itemtype']]['description']));
 
             // Save some variables to (temporary) cache for use in blocks etc.
-            $this->var()->setCached('Comments.title', 'title', $data['title']);
+            $this->mem()->set('Comments.title', 'title', $data['title']);
         }
 
         /*
@@ -742,7 +742,7 @@ class DisplayMethod extends MethodClass
         // Tell the hitcount hook not to display the hitcount, but to save it
         // in the variable cache.
         if ($this->mod()->isHooked('hitcount', 'publications', $pubtype_id)) {
-            $this->var()->setCached('Hooks.hitcount', 'save', 1);
+            $this->mem()->set('Hooks.hitcount', 'save', 1);
             $data['dohitcount'] = 1;
         } else {
             $data['dohitcount'] = 0;
@@ -750,7 +750,7 @@ class DisplayMethod extends MethodClass
 
         // Tell the ratings hook to save the rating in the variable cache.
         if ($this->mod()->isHooked('ratings', 'publications', $pubtype_id)) {
-            $this->var()->setCached('Hooks.ratings', 'save', 1);
+            $this->mem()->set('Hooks.ratings', 'save', 1);
             $data['doratings'] = 1;
         } else {
             $data['doratings'] = 0;
@@ -758,47 +758,47 @@ class DisplayMethod extends MethodClass
 
 
         // Retrieve the current hitcount from the variable cache
-        if ($data['dohitcount'] && $this->var()->isCached('Hooks.hitcount', 'value')) {
-            $data['counter'] = $this->var()->getCached('Hooks.hitcount', 'value');
+        if ($data['dohitcount'] && $this->mem()->has('Hooks.hitcount', 'value')) {
+            $data['counter'] = $this->mem()->get('Hooks.hitcount', 'value');
         } else {
             $data['counter'] = '';
         }
 
         // Retrieve the current rating from the variable cache
-        if ($data['doratings'] && $this->var()->isCached('Hooks.ratings', 'value')) {
-            $data['rating'] = intval($this->var()->getCached('Hooks.ratings', 'value'));
+        if ($data['doratings'] && $this->mem()->has('Hooks.ratings', 'value')) {
+            $data['rating'] = intval($this->mem()->get('Hooks.ratings', 'value'));
         } else {
             $data['rating'] = '';
         }
 
         // Save some variables to (temporary) cache for use in blocks etc.
-        $this->var()->setCached('Blocks.publications', 'title', $data['title']);
+        $this->mem()->set('Blocks.publications', 'title', $data['title']);
 
         // Generating keywords from the API now instead of setting the entire
         // body into the cache.
         $keywords = $userapi->generatekeywords(['incomingkey' => $data['body']]
         );
 
-        $this->var()->setCached('Blocks.publications', 'body', $keywords);
-        $this->var()->setCached('Blocks.publications', 'summary', $data['summary']);
-        $this->var()->setCached('Blocks.publications', 'id', $id);
-        $this->var()->setCached('Blocks.publications', 'ptid', $ptid);
-        $this->var()->setCached('Blocks.publications', 'cids', $cids);
-        $this->var()->setCached('Blocks.publications', 'owner', $owner);
+        $this->mem()->set('Blocks.publications', 'body', $keywords);
+        $this->mem()->set('Blocks.publications', 'summary', $data['summary']);
+        $this->mem()->set('Blocks.publications', 'id', $id);
+        $this->mem()->set('Blocks.publications', 'ptid', $ptid);
+        $this->mem()->set('Blocks.publications', 'cids', $cids);
+        $this->mem()->set('Blocks.publications', 'owner', $owner);
         if (isset($data['author'])) {
-            $this->var()->setCached('Blocks.publications', 'author', $data['author']);
+            $this->mem()->set('Blocks.publications', 'author', $data['author']);
         }
         // TODO: add this to publications configuration ?
         //if ($shownavigation) {
         $data['id'] = $id;
         $data['cids'] = $cids;
-        $this->var()->setCached('Blocks.categories', 'module', 'publications');
-        $this->var()->setCached('Blocks.categories', 'itemtype', $ptid);
-        $this->var()->setCached('Blocks.categories', 'itemid', $id);
-        $this->var()->setCached('Blocks.categories', 'cids', $cids);
+        $this->mem()->set('Blocks.categories', 'module', 'publications');
+        $this->mem()->set('Blocks.categories', 'itemtype', $ptid);
+        $this->mem()->set('Blocks.categories', 'itemid', $id);
+        $this->mem()->set('Blocks.categories', 'cids', $cids);
 
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
-            $this->var()->setCached('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
+            $this->mem()->set('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
         }
 
         // optional category count
@@ -808,10 +808,10 @@ class DisplayMethod extends MethodClass
                     'ptid' => $ptid, ]
             );
             if (!empty($pubcatcount[$ptid])) {
-                $this->var()->setCached('Blocks.categories', 'catcount', $pubcatcount[$ptid]);
+                $this->mem()->set('Blocks.categories', 'catcount', $pubcatcount[$ptid]);
             }
         } else {
-            //    $this->var()->setCached('Blocks.categories','catcount',array());
+            //    $this->mem()->set('Blocks.categories','catcount',array());
         }
         //}
 
