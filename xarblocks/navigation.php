@@ -357,7 +357,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                         unset($publications[$k]);
                     }// foreach
 
-                    $label = $this->var()->prep($info['name']);
+                    $label = \xarVarPrep::forDisplay($info['name']);
 
                     if (isset($publications[$label])) {
                         $link = $this->ctl()->getModuleURL(
@@ -419,7 +419,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     ['cid' => $cid]
                 );
 
-                $blockinfo['title'] = $this->var()->prep($cat['name']);
+                $blockinfo['title'] = \xarVarPrep::forDisplay($cat['name']);
                 if (isset($cat['blockimage'])) {
                     $data['catimage'] = $cat['blockimage'];
                 }// if
@@ -451,7 +451,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     if (strtolower($item['title']) == strtolower($cat['name'])) {
                         unset($items[$k]);
                     } else {
-                        $label = $this->var()->prep($item['title']);
+                        $label = \xarVarPrep::forDisplay($item['title']);
                         $class = ($item['id'] == $itemid) ? 'xar-menu-item-current' : 'xar-menu-item';
                         $link = $this->ctl()->getModuleURL(
                             $modname,
@@ -496,7 +496,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             unset($publications[$k]);
                         }// foreach
 
-                        $clabel = $this->var()->prep($child['name']);
+                        $clabel = \xarVarPrep::forDisplay($child['name']);
 
                         if (isset($publications[$clabel])) {
                             $clink = $this->ctl()->getModuleURL(

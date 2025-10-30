@@ -520,7 +520,7 @@ class DisplayMethod extends MethodClass
                                  array(//'state' => array(Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED).
                                        'ptid' => $ptid,
                                        'catid' => $cat['cid']));
-                $name = $this->var()->prep($cat['name']);
+                $name = \xarVarPrep::forDisplay($cat['name']);
 
                 $data['topic_urls'][] = $link;
                 $data['topic_names'][] = $name;
@@ -688,7 +688,7 @@ class DisplayMethod extends MethodClass
         if (!empty($data['title'])) {
             // CHECKME: <rabbit> Strip tags out of the title - the <title> tag shouldn't have any other tags in it.
             $title = strip_tags($data['title']);
-            $this->tpl()->setPageTitle($this->var()->prep($title), $this->var()->prep($pubtypes[$data['itemtype']]['description']));
+            $this->tpl()->setPageTitle(\xarVarPrep::forDisplay($title), \xarVarPrep::forDisplay($pubtypes[$data['itemtype']]['description']));
 
             // Save some variables to (temporary) cache for use in blocks etc.
             $this->mem()->set('Comments.title', 'title', $data['title']);

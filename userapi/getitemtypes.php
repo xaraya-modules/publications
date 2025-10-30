@@ -45,8 +45,8 @@ class GetitemtypesMethod extends MethodClass
         $pubtypes = $userapi->get_pubtypes();
 
         foreach ($pubtypes as $id => $pubtype) {
-            $itemtypes[$id] = ['label' => $this->var()->prep($pubtype['description']),
-                'title' => $this->var()->prep($this->ml('Display #(1)', $pubtype['description'])),
+            $itemtypes[$id] = ['label' => \xarVarPrep::forDisplay($pubtype['description']),
+                'title' => \xarVarPrep::forDisplay($this->ml('Display #(1)', $pubtype['description'])),
                 'url'   => $this->mod()->getURL( 'user', 'view', ['ptid' => $id]),
             ];
         }

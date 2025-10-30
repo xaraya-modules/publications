@@ -156,7 +156,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
 
             if (!empty($data['dynamictitle'])) {
                 if (!empty($ptid) && isset($publication_types[$ptid]['description'])) {
-                    $data['title'] .= ' ' . $this->var()->prep($publication_types[$ptid]['description']);
+                    $data['title'] .= ' ' . \xarVarPrep::forDisplay($publication_types[$ptid]['description']);
                 } else {
                     $data['title'] .= ' ' . $this->ml('Content');
                 }
@@ -213,7 +213,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
         }
         $items = [];
         foreach ($publications as $article) {
-            $article['title'] = $this->var()->prepHTML($article['title']);
+            $article['title'] = \xarVarPrep::htmlDisplay($article['title']);
             if ($article['id'] != $curid) {
                 // Use the filtered category if set, and not including children
                 $article['link'] = $this->mod()->getURL(
@@ -256,7 +256,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
 
             // MikeC: Bring the summary field back as $desc
             if (!empty($data['showsummary'])) {
-                $article['summary']  = $this->var()->prepHTML($article['summary']);
+                $article['summary']  = \xarVarPrep::htmlDisplay($article['summary']);
                 $article['transform'] = ['summary', 'title'];
                 $article = xarModHooks::call('item', 'transform', $article['id'], $article, 'publications');
             } else {

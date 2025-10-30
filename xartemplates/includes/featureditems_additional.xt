@@ -8,16 +8,16 @@
         <xar:foreach in="$items" value="$item">
           <li>
             <xar:if condition="empty($item.link)">
-                #xarVar::prepForDisplay($item.title)#
+                #xarVarPrep::forDisplay($item.title)#
             <xar:else />
                 <xar:if condition="!empty($item.count)">
-                    <a href="#$item.link#">#xarVar::prepForDisplay($item.title)# (#$item.count#)</a>
+                    <a href="#$item.link#">#xarVarPrep::forDisplay($item.title)# (#$item.count#)</a>
                 <xar:else />
-                    <a href="#$item.link#">#xarVar::prepForDisplay($item.title)#</a>
+                    <a href="#$item.link#">#xarVarPrep::forDisplay($item.title)#</a>
                 </xar:if>
             </xar:if>
             <xar:if condition="!empty($item.description)">
-                #xarVar::prepHTMLDisplay($item.description)#
+                #xarVarPrep::htmlDisplay($item.description)#
             </xar:if>
           </li>
         </xar:foreach>

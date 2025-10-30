@@ -280,8 +280,8 @@ class SearchMethod extends MethodClass
         $data['ishooked'] = $ishooked;
         // TODO: MichelV: $ishooked is never empty, but either 0 or 1
         if (empty($ishooked)) {
-            $data['q'] = isset($q) ? $this->var()->prep($q) : null;
-            $data['author'] = isset($author) ? $this->var()->prep($author) : null;
+            $data['q'] = isset($q) ? \xarVarPrep::forDisplay($q) : null;
+            $data['author'] = isset($author) ? \xarVarPrep::forDisplay($author) : null;
             $data['searchtype'] = $searchtype;
         }
         if ($isadmin) {
@@ -309,7 +309,7 @@ class SearchMethod extends MethodClass
                 $checked = '';
             }
             $data['publications'][] = ['id' => $pubid,
-                'description' => $this->var()->prep($pubtype['description']),
+                'description' => \xarVarPrep::forDisplay($pubtype['description']),
                 'checked' => $checked, ];
         }
 
@@ -431,7 +431,7 @@ class SearchMethod extends MethodClass
                             $catroots = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $curptid]);
                         }
                         foreach ($catinfo as $cid => $info) {
-                            $catinfo[$cid]['name'] = $this->var()->prep($info['name']);
+                            $catinfo[$cid]['name'] = \xarVarPrep::forDisplay($info['name']);
                             $catinfo[$cid]['link'] = $this->mod()->getURL(
                                 'user',
                                 'view',
@@ -511,7 +511,7 @@ class SearchMethod extends MethodClass
                             }
                         }
 
-                        $items[] = ['title' => $this->var()->prepHTML($article['title']),
+                        $items[] = ['title' => \xarVarPrep::htmlDisplay($article['title']),
                             'locale' => $article['locale'],
 
                             'link' => $link,
@@ -585,7 +585,7 @@ class SearchMethod extends MethodClass
                                   $this->ml('sort by') . ' ' . $this->ml($othersort) . '</a>';
                     }
 
-                    $data['results'][] = ['description' => $this->var()->prep($pubtypes[$curptid]['description']),
+                    $data['results'][] = ['description' => \xarVarPrep::forDisplay($pubtypes[$curptid]['description']),
                         'items' => $items,
                         'pager' => $pager, ];
                 }

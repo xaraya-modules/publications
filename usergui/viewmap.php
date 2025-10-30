@@ -326,7 +326,7 @@ class ViewmapMethod extends MethodClass
         $this->mem()->set('Blocks.categories', 'itemtype', $ptid);
         if (!empty($descr)) {
             $this->mem()->set('Blocks.categories', 'title', $descr);
-            $this->tpl()->setPageTitle($this->ml('Map'), $this->var()->prep($descr));
+            $this->tpl()->setPageTitle($this->ml('Map'), \xarVarPrep::forDisplay($descr));
         }
         //}
 
