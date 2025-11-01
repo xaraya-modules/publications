@@ -121,7 +121,7 @@ class GetchildcatsMethod extends MethodClass
                 ['ptid' => $ptid,
                     'catid' => $catid, ]
             );
-            $info['name'] = \xarVarPrep::forDisplay($info['name']);
+            $info['name'] = $this->prep()->text($info['name']);
             if ($count) {
                 if (isset($pubcatcount[$info['id']][$curptid])) {
                     $info['count'] = $pubcatcount[$info['id']][$curptid];

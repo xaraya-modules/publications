@@ -347,7 +347,7 @@ class ViewMethod extends MethodClass
         if (!empty($ptid) && !empty($pubtypes[$ptid]['description'])) {
             $this->mem()->set('Blocks.categories', 'title', $pubtypes[$ptid]['description']);
             // Note : this gets overriden by the categories navigation if necessary
-            $this->tpl()->setPageTitle(\xarVarPrep::forDisplay($pubtypes[$ptid]['description']));
+            $this->tpl()->setPageTitle($this->prep()->text($pubtypes[$ptid]['description']));
         }
 
         // optional category count
@@ -434,7 +434,7 @@ class ViewMethod extends MethodClass
                     );
                 }
                 foreach ($catinfo as $cid => $info) {
-                    $catinfo[$cid]['name'] = \xarVarPrep::forDisplay($info['name']);
+                    $catinfo[$cid]['name'] = $this->prep()->text($info['name']);
                     $catinfo[$cid]['link'] = $this->mod()->getURL( 'user', 'view',
                         array('ptid' => $ptid, 'catid' => (($catid && $andcids) ? $catid . '+' . $cid : $cid) )
                     );
@@ -510,7 +510,7 @@ class ViewMethod extends MethodClass
                     $article['rsstitle'] = htmlspecialchars($article['title']);
                     //$article['rssdate'] = strtotime($article['date']);
                     $article['rsssummary'] = preg_replace('<br />', "\n", $article['summary']);
-                    $article['rsssummary'] = \xarVarPrep::forDisplay(strip_tags($article['rsssummary']));
+                    $article['rsssummary'] = $this->prep()->text(strip_tags($article['rsssummary']));
                     $article['rsscomment'] = $this->ctl()->getModuleURL('comments', 'user', 'display', array('modid' => $c_modid, 'objectid' => $article['id']));
                     // $article['rsscname'] = htmlspecialchars($item['cname']);
                     // <category>#$rsscname#</category>

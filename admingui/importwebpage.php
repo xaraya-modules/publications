@@ -247,15 +247,15 @@ class ImportwebpageMethod extends MethodClass
             }
         }
 
-        $data['filterhead'] = \xarVarPrep::forDisplay($data['filterhead']);
-        $data['filtertail'] = \xarVarPrep::forDisplay($data['filtertail']);
-        $data['findtitle'] = \xarVarPrep::forDisplay($data['findtitle']);
+        $data['filterhead'] = $this->prep()->text($data['filterhead']);
+        $data['filtertail'] = $this->prep()->text($data['filtertail']);
+        $data['findtitle'] = $this->prep()->text($data['findtitle']);
         for ($i = 0; $i < $numrules; $i++) {
             if (!empty($data['search'][$i])) {
-                $data['search'][$i] = \xarVarPrep::forDisplay($data['search'][$i]);
+                $data['search'][$i] = $this->prep()->text($data['search'][$i]);
             }
             if (!empty($data['replace'][$i])) {
-                $data['replace'][$i] = \xarVarPrep::forDisplay($data['replace'][$i]);
+                $data['replace'][$i] = $this->prep()->text($data['replace'][$i]);
             }
         }
         return $data;

@@ -213,10 +213,10 @@ class PrivilegesMethod extends MethodClass
             'ptid'         => $ptid,
             'cid'          => $cid,
             'uid'          => $uid,
-            'author'       => \xarVarPrep::forDisplay($author),
+            'author'       => $this->prep()->text($author),
             'authorlist'   => $authorlist,
             'id'          => $id,
-            'title'        => \xarVarPrep::forDisplay($title),
+            'title'        => $this->prep()->text($title),
             'numitems'     => $numitems,
             'extpid'       => $extpid,
             'extname'      => $extname,
@@ -224,7 +224,7 @@ class PrivilegesMethod extends MethodClass
             'extmodule'    => $extmodule,
             'extcomponent' => $extcomponent,
             'extlevel'     => $extlevel,
-            'extinstance'  => \xarVarPrep::forDisplay(join(':', $newinstance)),
+            'extinstance'  => $this->prep()->text(join(':', $newinstance)),
         ];
 
         // Get publication types

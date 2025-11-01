@@ -67,13 +67,13 @@
                                         </xar:if>
                                     </xar:if>
                                     <xar:if condition="$source_flag eq 2">
-                                        #xarVarPrep::forDisplay($loop:item.title)#
+                                        #xarVarPrep::text($loop:item.title)#
                                     <xar:elseif condition="$source_flag eq 3"/>
-                                        #xarVarPrep::forDisplay($loop:item.description)#
+                                        #xarVarPrep::text($loop:item.description)#
                                     <xar:elseif condition="$source_flag eq 4"/>
-                                        #xarVarPrep::forDisplay($loop:item.sitemap_alias)#
+                                        #xarVarPrep::text($loop:item.sitemap_alias)#
                                     <xar:else/>
-                                        #xarVarPrep::forDisplay($loop:item.title)#
+                                        #xarVarPrep::text($loop:item.title)#
                                     </xar:if>
                                 <xar:else/>
                                     <a href="#xarController::URL('publications','user','display',['itemid' => $loop->item['id']])#" title="#$loop->item['title']#">
@@ -86,13 +86,13 @@
                                             </xar:if>
                                         </xar:if>
                                         <xar:if condition="$source_flag eq 2">
-                                            #xarVarPrep::forDisplay($loop:item.title)#
+                                            #xarVarPrep::text($loop:item.title)#
                                         <xar:elseif condition="$source_flag eq 3"/>
-                                            #xarVarPrep::forDisplay($loop:item.description)#
+                                            #xarVarPrep::text($loop:item.description)#
                                         <xar:elseif condition="$source_flag eq 4"/>
-                                            #xarVarPrep::forDisplay($loop:item.sitemap_alias)#
+                                            #xarVarPrep::text($loop:item.sitemap_alias)#
                                         <xar:else/>
-                                            #xarVarPrep::forDisplay($loop:item.title)#
+                                            #xarVarPrep::text($loop:item.title)#
                                         </xar:if>
                                     </a>
                                 </xar:if>

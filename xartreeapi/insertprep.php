@@ -23,7 +23,7 @@ function publications_treeapi_insertprep(array $args = [], $context = null)
 
     // Default operation is 'before' - i.e. put the new item in the place
     // of the insertpoint and move everything to the right one place.
-    if (!xarVar::validate('enum:before:after:firstchild:lastchild', $offset, true)) {
+    if (!xarVarPrep::validate('enum:before:after:firstchild:lastchild', $offset, true)) {
         $offset = 'firstchild';
     }
 

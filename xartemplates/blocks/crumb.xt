@@ -5,9 +5,9 @@
         <xar:loop name="$ancestors">
             <xar:if condition="$loop:index ge 1">&#187;</xar:if>
             <xar:if condition="$loop:item.id eq $id">
-                <span title="#xarVarPrep::forDisplay($loop:item.title)#"><strong>#xarVarPrep::forDisplay($loop:item.title)#</strong></span>
+                <span title="#xarVarPrep::text($loop:item.title)#"><strong>#xarVarPrep::text($loop:item.title)#</strong></span>
             <xar:else />
-                <a href="#xarController::URL('publications','user','display',['id'=>$loop:item.id,'ptid'=>$loop:item.ptid])#" title="#xarVarPrep::forDisplay($loop:item.title)#">#xarVarPrep::forDisplay($loop:item.title)#</a>
+                <a href="#xarController::URL('publications','user','display',['id'=>$loop:item.id,'ptid'=>$loop:item.ptid])#" title="#xarVarPrep::text($loop:item.title)#">#xarVarPrep::text($loop:item.title)#</a>
             </xar:if>
         </xar:loop>
 
