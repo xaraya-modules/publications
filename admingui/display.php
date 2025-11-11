@@ -20,10 +20,7 @@ use xarTpl;
 use xarTplPager;
 use xarModHooks;
 use XarayaCompiler;
-use sys;
 use Exception;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin display function
@@ -269,7 +266,6 @@ class DisplayMethod extends MethodClass
 
         if ($data['object']->properties['pagetype']->value == 2) {
             // Get a copy of the compiler
-            sys::import('xaraya.templating.compiler');
             $blCompiler = XarayaCompiler::instance();
 
             // Get the data fields
@@ -306,7 +302,8 @@ class DisplayMethod extends MethodClass
         # Get the complete tree for this section of pages. We need this for blocks etc.
         #
 
-        $tree = $userapi->getpagestree([
+        $tree = $userapi->getpagestree(
+            [
                 'tree_contains_pid' => $id,
                 'key' => 'id',
                 'status' => 'ACTIVE,FRONTPAGE,PLACEHOLDER',
@@ -404,11 +401,13 @@ class DisplayMethod extends MethodClass
         #
         # Get information on next and previous items
         #
-        $data['prevpublication'] = $userapi->getnext(['id' => $id,
+        $data['prevpublication'] = $userapi->getnext(
+            ['id' => $id,
                 'ptid' => $ptid,
                 'sort' => 'tree',]
         );
-        $data['nextpublication'] = $userapi->getnext(['id' => $id,
+        $data['nextpublication'] = $userapi->getnext(
+            ['id' => $id,
                 'ptid' => $ptid,
                 'sort' => 'tree',]
         );
@@ -776,7 +775,8 @@ class DisplayMethod extends MethodClass
 
         // Generating keywords from the API now instead of setting the entire
         // body into the cache.
-        $keywords = $userapi->generatekeywords(['incomingkey' => $data['body']]
+        $keywords = $userapi->generatekeywords(
+            ['incomingkey' => $data['body']]
         );
 
         $this->mem()->set('Blocks.publications', 'body', $keywords);

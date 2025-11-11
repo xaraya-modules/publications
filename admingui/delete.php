@@ -11,13 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
-use xarHooks;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin delete function
@@ -69,7 +64,6 @@ class DeleteMethod extends MethodClass
 
         /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
-        sys::import('modules.dynamicdata.class.objects.factory');
         $publication = $this->data()->getObject(['name' => 'publications_publications']);
         if (!isset($confirmed)) {
             $data['idlist'] = $idlist;
@@ -86,7 +80,7 @@ class DeleteMethod extends MethodClass
                 $items[] = $item;
             }
             $data['items'] = $items;
-            $data['yes_action'] = $this->mod()->getURL( 'admin', 'delete', ['idlist' => $idlist]);
+            $data['yes_action'] = $this->mod()->getURL('admin', 'delete', ['idlist' => $idlist]);
             return $this->mod()->template('delete', $data);
         } else {
             if (!$this->sec()->confirmAuthKey()) {
@@ -103,7 +97,7 @@ class DeleteMethod extends MethodClass
             if (isset($returnurl)) {
                 $this->ctl()->redirect($returnurl);
             } else {
-                $this->ctl()->redirect($this->mod()->getURL( 'admin', 'view', $data));
+                $this->ctl()->redirect($this->mod()->getURL('admin', 'view', $data));
             }
             return true;
         }

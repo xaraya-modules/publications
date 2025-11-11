@@ -15,10 +15,7 @@ use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
 use DataNotFoundException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user archive function
@@ -141,7 +138,8 @@ class ArchiveMethod extends MethodClass
         }
 
         // Get monthly statistics
-        $monthcount = $userapi->getmonthcount(['ptid' => $ptid,
+        $monthcount = $userapi->getmonthcount(
+            ['ptid' => $ptid,
                 'state' => $state,
                 'enddate' => time(), ]
         );
@@ -258,7 +256,8 @@ class ArchiveMethod extends MethodClass
 
         // Get publications
         if ($month == 'all' || ($startdate && $enddate)) {
-            $publications = $userapi->getall(['ptid' => ($ptid ?? null),
+            $publications = $userapi->getall(
+                ['ptid' => ($ptid ?? null),
                     'startdate' => $startdate,
                     'enddate' => $enddate,
                     'state' => $state,
@@ -440,7 +439,8 @@ class ArchiveMethod extends MethodClass
             'showdate' => $showdate,
             'show_publinks' => $show_publinks,
             'publabel' => $this->ml('Publication'),
-            'publinks' => $userapi->getpublinks(['ptid' => $ptid,
+            'publinks' => $userapi->getpublinks(
+                ['ptid' => $ptid,
                     'state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                     'count' => $show_pubcount,
                     // override default 'view'

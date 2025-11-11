@@ -22,10 +22,7 @@ use xarRequest;
 use xarRouter;
 use xarDispatcher;
 use XarayaCompiler;
-use sys;
 use Exception;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user display function
@@ -319,7 +316,6 @@ class DisplayMethod extends MethodClass
         #
         if ($data['object']->properties['pagetype']->value == 2) {
             // Get a copy of the compiler
-            sys::import('xaraya.templating.compiler');
             $blCompiler = XarayaCompiler::instance();
 
             // Get the data fields
@@ -495,11 +491,13 @@ class DisplayMethod extends MethodClass
         # Get information on next and previous items
         #
         if ($data['settings']['show_prevnext']) {
-            $prevpublication = $userapi->getprevious(['id' => $itemid,
+            $prevpublication = $userapi->getprevious(
+                ['id' => $itemid,
                     'ptid' => $data['object']->properties['itemtype']->value,
                     'sort' => 'title',]
             );
-            $nextpublication = $userapi->getnext(['id' => $itemid,
+            $nextpublication = $userapi->getnext(
+                ['id' => $itemid,
                     'ptid' => $data['object']->properties['itemtype']->value,
                     'sort' => 'title',]
             );

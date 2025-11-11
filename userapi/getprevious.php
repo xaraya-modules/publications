@@ -15,9 +15,6 @@ use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getprevious function
@@ -70,7 +67,6 @@ class GetpreviousMethod extends MethodClass
         $fields = ['id','name','title'];
 
         // Create the query
-        sys::import('xaraya.structures.query');
         $tables = & $this->db()->getTables();
         $q = new Query('SELECT', $tables['publications']);
         $q->addfield('id');

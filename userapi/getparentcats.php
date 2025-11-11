@@ -14,9 +14,6 @@ namespace Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getparentcats function
@@ -67,7 +64,8 @@ class GetparentcatsMethod extends MethodClass
 
         // get the counts for all child categories
         if ($count) {
-            $pubcatcount = $userapi->getpubcatcount(['state' => $state,
+            $pubcatcount = $userapi->getpubcatcount(
+                ['state' => $state,
                     'cids' => $cids,
                     'ptid' => $ptid,
                     'reverse' => 1, ]
@@ -133,8 +131,8 @@ class GetparentcatsMethod extends MethodClass
                     if (!empty($info['image'])) {
                         $trailitem['icon'] = ['image' => $info['image'],
                             'text' => $item['ptitle'],
-                            'link' =>
-                              $this->mod()->getURL(
+                            'link'
+                              => $this->mod()->getURL(
                                   'user',
                                   'view',
                                   ['ptid' => $ptid,

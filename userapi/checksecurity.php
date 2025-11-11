@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
 use xarSecurity;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi checksecurity function
@@ -79,7 +75,8 @@ class ChecksecurityMethod extends MethodClass
         }
         // Get article information
         if (!isset($publication) && !empty($id) && $mask != 'SubmitPublications') {
-            $publication = $userapi->get(['id' => $id,
+            $publication = $userapi->get(
+                ['id' => $id,
                     'withcids' => true, ]
             );
             if ($publication == false) {

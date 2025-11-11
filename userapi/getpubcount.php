@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getpubcount function
@@ -52,7 +48,6 @@ class GetpubcountMethod extends MethodClass
         $pubcount = [];
 
         $tables = & $this->db()->getTables();
-        sys::import('xaraya.structures.query');
         $q = new Query('SELECT', $tables['publications']);
         $q->addfield('pubtype_id');
         $q->addfield('COUNT(state) AS count');

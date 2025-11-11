@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use PropertyRegistration;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin modifyconfig function
@@ -67,8 +63,8 @@ class ModifyconfigMethod extends MethodClass
                 //       need to use something like 'c15+32'
                 foreach ($catlinks as $catlink) {
                     $viewoptions[] = ['id' => 'c' . $catlink['category_id'],
-                        'name' => $this->ml('Browse in') . ' ' .
-                                   $catlink['name'], ];
+                        'name' => $this->ml('Browse in') . ' '
+                                   . $catlink['name'], ];
                 }
             }
             $data['viewoptions'] = $viewoptions;
@@ -141,7 +137,6 @@ class ModifyconfigMethod extends MethodClass
             }
 
             // Whether the languages property is loaded
-            sys::import('modules.dynamicdata.class.properties.registration');
             $types = PropertyRegistration::Retrieve();
             $data['languages'] = isset($types[30039]);
         }

@@ -11,17 +11,12 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarModHooks;
 use xarModAlias;
-use xarHooks;
 use DataPropertyMaster;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin update function
@@ -90,8 +85,8 @@ class UpdateMethod extends MethodClass
 
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
-            if (!$isvalid &&
-                $this->mod()->getVar('debugmode') && $this->user()->isDebugAdmin()) {
+            if (!$isvalid
+                && $this->mod()->getVar('debugmode') && $this->user()->isDebugAdmin()) {
                 var_dump($data['object']->getInvalids());
             }
             // Preview or bad data: redisplay the form

@@ -11,14 +11,9 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
-
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarHooks;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user create function
@@ -58,8 +53,8 @@ class CreateMethod extends MethodClass
 
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
-            if (!$isvalid &&
-                $this->mod()->getVar('debugmode') && $this->user()->isDebugAdmin()) {
+            if (!$isvalid
+                && $this->mod()->getVar('debugmode') && $this->user()->isDebugAdmin()) {
                 var_dump($data['object']->getInvalids());
             }
             // Preview or bad data: redisplay the form

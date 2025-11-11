@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -13,7 +14,6 @@
  * initialise block
  * @author Jim McDonald
  */
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_TopitemsBlock extends BasicBlock implements iBlock
 {
@@ -197,15 +197,15 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
             'user',
             'getall',
             [
-                    'ptid' => $ptid,
-                    'cids' => $cidsarray,
-                    'andcids' => 'false',
-                    'state' => $statearray,
-                    'create_date' => time(),
-                    'fields' => $fields,
-                    'sort' => $sort,
-                    'numitems' => $data['numitems'],
-                ]
+                'ptid' => $ptid,
+                'cids' => $cidsarray,
+                'andcids' => 'false',
+                'state' => $statearray,
+                'create_date' => time(),
+                'fields' => $fields,
+                'sort' => $sort,
+                'numitems' => $data['numitems'],
+            ]
         );
 
         if (!isset($publications) || !is_array($publications) || count($publications) == 0) {
@@ -220,9 +220,9 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
                     'user',
                     'display',
                     [
-                            'itemid' => $article['id'],
-                            'catid' => ((!empty($data['linkcat']) && !empty($data['catfilter'])) ? $data['catfilter'] : null),
-                        ]
+                        'itemid' => $article['id'],
+                        'catid' => ((!empty($data['linkcat']) && !empty($data['catfilter'])) ? $data['catfilter'] : null),
+                    ]
                 );
             } else {
                 $article['link'] = '';

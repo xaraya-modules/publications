@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -13,7 +14,6 @@
  * initialise block
  * @author Jim McDonald
  */
-sys::import('modules.publications.xarblocks.topitems');
 
 class Publications_TopitemsBlockAdmin extends Publications_TopitemsBlock
 {

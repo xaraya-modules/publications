@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -15,7 +16,6 @@
  * Displays a crumb-trail block
  * Shows the visitor's current position in the page hierarchy
 */
-sys::import('modules.publications.xarblocks.crumb');
 
 class Publications_CrumbBlockAdmin extends Publications_CrumbBlock implements iBlock
 {

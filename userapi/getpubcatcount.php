@@ -11,12 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getpubcatcount function
@@ -75,8 +71,8 @@ class GetpubcatcountMethod extends MethodClass
                . ', COUNT(*)
                 FROM ' . $publicationsdef['table'] . '
                 LEFT JOIN ' . $categoriesdef['table'] . '
-                ON ' . $categoriesdef['field'] . ' = ' . $publicationsdef['field'] .
-                $categoriesdef['more'] . '
+                ON ' . $categoriesdef['field'] . ' = ' . $publicationsdef['field']
+                . $categoriesdef['more'] . '
                 WHERE ' . $categoriesdef['where'] . ' AND ' . $publicationsdef['where'] . '
                 GROUP BY ' . $publicationsdef['pubtype_id'] . ', ' . $categoriesdef['category_id'];
 

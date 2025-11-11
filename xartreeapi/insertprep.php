@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Prepare a tree for insering a new item.
  * Basically opens a gap for the item, then returns the

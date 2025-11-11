@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -14,7 +15,6 @@
  * @author Jonn Beames et al
  */
 
-sys::import('modules.publications.xarblocks.featureditems');
 
 class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlock
 {
@@ -113,7 +113,6 @@ class Publications_FeatureditemsBlockAdmin extends Publications_FeatureditemsBlo
         $this->var()->find('linkpubtype', $args['linkpubtype'], 'checkbox', 0);
         $this->var()->find('linkcat', $args['linkcat'], 'checkbox', 0);
 
-        sys::import('modules.dynamicdata.class.properties.master');
         $multiselect = $this->prop()->getProperty(['name' => 'multiselect']);
         // We cheat a bit here. Allowing override means we don't need to load the options
         $multiselect->validation_override = true;

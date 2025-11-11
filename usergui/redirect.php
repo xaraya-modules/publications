@@ -11,15 +11,11 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
-
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarModHooks;
-use sys;
 use DataNotFoundException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user redirect function
@@ -53,7 +49,8 @@ class RedirectMethod extends MethodClass
         }
 
         // Get publication
-        $publication = $userapi->get(['id' => $id]
+        $publication = $userapi->get(
+            ['id' => $id]
         );
 
         if (!is_array($publication)) {

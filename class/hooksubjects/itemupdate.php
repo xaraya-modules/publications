@@ -8,7 +8,6 @@
 /**
  * API type hook, observers should return array of $extrainfo
 **/
-sys::import('xaraya.structures.hooks.apisubject');
 class PublicationsItemUpdateSubject extends ApiHookSubject
 {
     public $subject = 'ItemUpdate';

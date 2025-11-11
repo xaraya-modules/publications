@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -13,7 +14,6 @@
  * Original Author of file: Jim McDonald
  * Purpose of file: Publications Block
  */
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_GlossaryBlock extends BasicBlock implements iBlock
 {

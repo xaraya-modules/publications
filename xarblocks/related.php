@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -15,7 +16,6 @@
 /**
  * initialise block
  */
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_RelatedBlock extends BasicBlock implements iBlock
 {
@@ -93,7 +93,7 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
                         'user',
                         'view',
                         ['ptid' => (!empty($ptid) ? $ptid : null),
-                                                              'owner' => $author, ]
+                            'owner' => $author, ]
                     );
                     $vars['authorid'] = $author;
                     if (!empty($vars['showvalue'])) {
@@ -102,10 +102,10 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
                             'user',
                             'countitems',
                             ['ptid' => (!empty($ptid) ? $ptid : null),
-                                                                       'owner' => $author,
-                                                                       // limit to approved / frontpage publications
-                                                                       'state' => [2,3],
-                                                                       'enddate' => time(), ]
+                                'owner' => $author,
+                                // limit to approved / frontpage publications
+                                'state' => [2,3],
+                                'enddate' => time(), ]
                         );
                     }
                     $links++;

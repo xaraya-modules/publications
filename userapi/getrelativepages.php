@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarUser;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getrelativepages function
@@ -72,7 +68,6 @@ class GetrelativepagesMethod extends MethodClass
 
         // FIXME: Combine everything below to single query to avoid the two loops at the end
         $xartable = & $this->db()->getTables();
-        sys::import('xaraya.structures.query');
         $q = new Query();
         $q->addtable($xartable['publications'], 'p');
 

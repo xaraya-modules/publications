@@ -214,20 +214,20 @@ function publications_treeapi_array_image_substitution($node)
     if (!isset($image_list)) {
         $style = 'class="xar-publications-tree"';
 
-        $image_list[_PUBLICATIONS_O_CONNECTOR] =
-            '<img ' . $style . ' src="' . xarTpl::getImage('n_nosub.gif', 'publications') . '" alt="0"/>';
-        $image_list[_PUBLICATIONS_P_CONNECTOR] =
-            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub.gif', 'publications') . '" alt="P"/>';
-        $image_list[_PUBLICATIONS_T_CONNECTOR] =
-            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_branch_t.gif', 'publications') . '" alt="t"/>';
-        $image_list[_PUBLICATIONS_L_CONNECTOR] =
-            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_branch_l.gif', 'publications') . '" alt="L"/>';
-        $image_list[_PUBLICATIONS_I_CONNECTOR] =
-            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_line.gif', 'publications') . '" alt="|"/>';
-        $image_list[_PUBLICATIONS_BLANK_CONNECTOR] =
-            '<img ' . $style . ' src="' . xarTpl::getImage('n_spacer.gif', 'publications') . '" alt="&#160;"/>';
-        $image_list[_PUBLICATIONS_DASH_CONNECTOR] =
-            '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_end.gif', 'publications') . '" alt="_"/>';
+        $image_list[_PUBLICATIONS_O_CONNECTOR]
+            = '<img ' . $style . ' src="' . xarTpl::getImage('n_nosub.gif', 'publications') . '" alt="0"/>';
+        $image_list[_PUBLICATIONS_P_CONNECTOR]
+            = '<img ' . $style . ' src="' . xarTpl::getImage('n_sub.gif', 'publications') . '" alt="P"/>';
+        $image_list[_PUBLICATIONS_T_CONNECTOR]
+            = '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_branch_t.gif', 'publications') . '" alt="t"/>';
+        $image_list[_PUBLICATIONS_L_CONNECTOR]
+            = '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_branch_l.gif', 'publications') . '" alt="L"/>';
+        $image_list[_PUBLICATIONS_I_CONNECTOR]
+            = '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_line.gif', 'publications') . '" alt="|"/>';
+        $image_list[_PUBLICATIONS_BLANK_CONNECTOR]
+            = '<img ' . $style . ' src="' . xarTpl::getImage('n_spacer.gif', 'publications') . '" alt="&#160;"/>';
+        $image_list[_PUBLICATIONS_DASH_CONNECTOR]
+            = '<img ' . $style . ' src="' . xarTpl::getImage('n_sub_end.gif', 'publications') . '" alt="_"/>';
         $image_list[_PUBLICATIONS_NO_CONNECTOR] = '';
     }
 

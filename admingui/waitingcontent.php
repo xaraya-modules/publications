@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin waitingcontent function
@@ -40,7 +36,8 @@ class WaitingcontentMethod extends MethodClass
         }
 
         // Get publication types
-        $publinks = $userapi->getpublinks(['state' => [0],
+        $publinks = $userapi->getpublinks(
+            ['state' => [0],
                 'typemod' => 'admin', ]
         );
 

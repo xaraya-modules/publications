@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMod;
-use sys;
 use BadParameterException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi get function

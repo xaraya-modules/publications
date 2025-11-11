@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -14,7 +15,6 @@
  * Displays a crumb-trail block
  *
 */
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_CrumbBlock extends BasicBlock implements iBlock
 {

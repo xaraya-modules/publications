@@ -11,13 +11,10 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin stylesheet_type function

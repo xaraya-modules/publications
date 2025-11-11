@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getitemlinks function
@@ -38,7 +34,6 @@ class GetitemlinksMethod extends MethodClass
     {
         $itemlinks = [];
 
-        sys::import('xaraya.structures.query');
         $xartable = & $this->db()->getTables();
         $q = new Query('SELECT', $xartable['publications']);
         $q->addfield('id');

@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
-use sys;
 use Exception;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin display_version function
@@ -40,7 +36,6 @@ class DisplayVersionMethod extends MethodClass
             return $this->ctl()->notFound();
         }
 
-        sys::import('modules.dynamicdata.class.objects.factory');
         $entries = $this->data()->getObjectList(['name' => 'publications_versions']);
         $entries->dataquery->eq($entries->properties['page_id']->source, $data['page_id']);
         $data['versions'] = $entries->countItems();

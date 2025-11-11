@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -13,7 +14,6 @@
  * initialise block
  * @author Roger Keays
  */
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_RandomBlock extends BasicBlock implements iBlock
 {
@@ -112,13 +112,13 @@ class Publications_RandomBlock extends BasicBlock implements iBlock
             'user',
             'getrandom',
             ['ptid'     => $data['pubtype_id'],
-                                            'cids'     => $cidsarray,
-                                            'andcids'  => false,
-                                            'state'   => $statearray,
-                                            'locale' => $lang,
-                                            'numitems' => $data['numitems'],
-                                            'fields'   => $fields,
-                                            'unique'   => true, ]
+                'cids'     => $cidsarray,
+                'andcids'  => false,
+                'state'   => $statearray,
+                'locale' => $lang,
+                'numitems' => $data['numitems'],
+                'fields'   => $fields,
+                'unique'   => true, ]
         );
 
         if (!isset($publications) || !is_array($publications) || count($publications) == 0) {

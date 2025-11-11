@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Displays a menu block
  *
@@ -15,7 +16,6 @@
  * init func
  */
 
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_StaticmenuBlock extends BasicBlock implements iBlock
 {
@@ -62,7 +62,6 @@ class Publications_StaticmenuBlock extends BasicBlock implements iBlock
         #------------------------------------------------------------
         # Add the chosen pages as nodes to a graph
         #
-        sys::import('xaraya.structures.graph');
         $g = new Graph();
         foreach ($pagedata as $page) {
             $n = new GraphNode();
@@ -167,12 +166,12 @@ class Publications_StaticmenuBlock extends BasicBlock implements iBlock
 
             // Assemble the menu item
             $data['menuarray'][$ndata['parentpage_id']][] = [
-                                                    'id'             => $ndata['id'],
-                                                    'name'           => $ndata['name'],
-                                                    'label'          => !empty($ndata[$label]) ? $ndata[$label] : $ndata['name'],
-                                                    'state'          => $ndata['state'],
-                                                    'redirect_flag'  => $ndata['redirect_flag'],
-                                                ];
+                'id'             => $ndata['id'],
+                'name'           => $ndata['name'],
+                'label'          => !empty($ndata[$label]) ? $ndata[$label] : $ndata['name'],
+                'state'          => $ndata['state'],
+                'redirect_flag'  => $ndata['redirect_flag'],
+            ];
         }
         return $data;
     }

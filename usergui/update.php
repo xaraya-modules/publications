@@ -11,17 +11,12 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
-
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarModHooks;
 use xarModAlias;
-use xarHooks;
 use DataPropertyMaster;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user update function
@@ -85,8 +80,8 @@ class UpdateMethod extends MethodClass
 
         if ($data['preview'] || !$isvalid) {
             // Show debug info if called for
-            if (!$isvalid &&
-                $this->mod()->getVar('debugmode') && $this->user()->isDebugAdmin()) {
+            if (!$isvalid
+                && $this->mod()->getVar('debugmode') && $this->user()->isDebugAdmin()) {
                 echo $this->ml('The following were invalid fields:');
                 echo "<br/>";
                 var_dump($data['object']->getInvalids());

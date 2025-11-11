@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
-
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use Query;
-use sys;
 use BadParameterException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi delete function
@@ -60,7 +56,6 @@ class DeleteMethod extends MethodClass
             $deletetype = 0;
         }
 
-        sys::import('xaraya.structures.query');
         $table = & $this->db()->getTables();
 
         switch ($deletetype) {

@@ -20,7 +20,6 @@
  *     #$hookoutput#
  * </xar:foreach>
 **/
-sys::import('xaraya.structures.hooks.guisubject');
 class PublicationsItemDisplaySubject extends GuiHookSubject
 {
     public $subject = 'ItemDisplay';

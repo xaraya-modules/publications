@@ -19,7 +19,6 @@
  * @param $blockinfo array (serialized or unserialized)
  */
 
-sys::import('modules.publications.xarblocks.menu');
 
 class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlock
 {

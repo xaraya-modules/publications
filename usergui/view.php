@@ -16,9 +16,6 @@ use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarModHooks;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user view function
@@ -141,7 +138,8 @@ class ViewMethod extends MethodClass
         // TODO: show this *after* category list when we start from categories :)
         // Navigation links
         $data['publabel'] = $this->ml('Publication');
-        $data['publinks'] = $userapi->getpublinks([
+        $data['publinks'] = $userapi->getpublinks(
+            [
                 'ptid' => $ishome ? '' : $ptid,
                 'state' => $c_posted,
                 'count' => $data['settings']['show_pubcount'],
@@ -331,12 +329,12 @@ class ViewMethod extends MethodClass
             if (count($cids) > 0) {
                 foreach ($cids as $cid) {
                     if ($this->sec()->check('SubmitPublications', 0, 'Publication', "$curptid:$cid:All:All")) {
-                        $data['submitlink'] = $this->mod()->getURL( 'admin', 'new', ['ptid' => $ptid, 'catid' => $catid]);
+                        $data['submitlink'] = $this->mod()->getURL('admin', 'new', ['ptid' => $ptid, 'catid' => $catid]);
                         break;
                     }
                 }
             } elseif ($this->sec()->check('SubmitPublications', 0, 'Publication', "$curptid:All:All:All")) {
-                $data['submitlink'] = $this->mod()->getURL( 'admin', 'new', ['ptid' => $ptid]);
+                $data['submitlink'] = $this->mod()->getURL('admin', 'new', ['ptid' => $ptid]);
             }
         }
         $data['cids'] = $cids;

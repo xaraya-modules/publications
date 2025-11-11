@@ -11,12 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin multiops function

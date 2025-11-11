@@ -15,9 +15,6 @@ use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user viewmap function
@@ -80,7 +77,6 @@ class ViewmapMethod extends MethodClass
         }
 
         // Get publication types
-        sys::import('modules.dynamicdata.class.objects.factory');
         $object = $this->data()->getObjectList(['name' => 'publications_types']);
         $data['pubtypes'] = $object->getItems();
 
@@ -91,7 +87,7 @@ class ViewmapMethod extends MethodClass
             } else {
                 $catid = null;
             }
-            $url = $this->mod()->getURL( 'user', 'view', ['ptid' => $ptid, 'catid' => $catid]);
+            $url = $this->mod()->getURL('user', 'view', ['ptid' => $ptid, 'catid' => $catid]);
             $this->ctl()->redirect($url);
             return;
         }
@@ -105,7 +101,7 @@ class ViewmapMethod extends MethodClass
         $publinks = [];
 
         if ($by == 'cat') {
-            $data['maplink'] = $this->mod()->getURL( 'user', 'viewmap', ['by' => 'cat']);
+            $data['maplink'] = $this->mod()->getURL('user', 'viewmap', ['by' => 'cat']);
 
             // TODO: re-evaluate this after user feedback...
             // *trick* Use the 'default' categories here, instead of all rootcats
@@ -251,10 +247,11 @@ class ViewmapMethod extends MethodClass
                 $descr = $data['pubtypes'][$ptid]['description'];
             }
         } else {
-            $data['maplink'] = $this->mod()->getURL( 'user', 'viewmap', ['by' => 'pub']);
+            $data['maplink'] = $this->mod()->getURL('user', 'viewmap', ['by' => 'pub']);
 
             // get the links and counts for all publication types
-            $publinks = $userapi->getpublinks(['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
+            $publinks = $userapi->getpublinks(
+                ['state' => [Defines::STATE_FRONTPAGE,Defines::STATE_APPROVED],
                     'all' => 1, ]
             );
 

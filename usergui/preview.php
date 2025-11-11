@@ -11,17 +11,13 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
-
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarVar;
 use xarTpl;
 use XarayaCompiler;
-use sys;
 use Exception;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user preview function
@@ -116,7 +112,6 @@ class PreviewMethod extends MethodClass
         #
         if ($data['object']->properties['pagetype']->value == 2) {
             // Get a copy of the compiler
-            sys::import('xaraya.templating.compiler');
             $blCompiler = XarayaCompiler::instance();
 
             // Get the data fields

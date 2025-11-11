@@ -11,12 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin delete_pubtype function
@@ -67,7 +63,6 @@ class DeletePubtypeMethod extends MethodClass
 
         /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
-        sys::import('modules.dynamicdata.class.objects.factory');
         $pubtype = $this->data()->getObject(['name' => 'publications_types']);
         if (!isset($confirmed)) {
             $data['idlist'] = $idlist;
@@ -84,7 +79,7 @@ class DeletePubtypeMethod extends MethodClass
                 $items[] = $item;
             }
             $data['items'] = $items;
-            $data['yes_action'] = $this->mod()->getURL( 'admin', 'delete_pubtype', ['idlist' => $idlist]);
+            $data['yes_action'] = $this->mod()->getURL('admin', 'delete_pubtype', ['idlist' => $idlist]);
             $data['context'] ??= $this->getContext();
             return $this->mod()->template('delete_pubtype', $data);
         } else {
@@ -98,7 +93,7 @@ class DeletePubtypeMethod extends MethodClass
             if (isset($returnurl)) {
                 $this->ctl()->redirect($returnurl);
             } else {
-                $this->ctl()->redirect($this->mod()->getURL( 'admin', 'view_pubtypes', $data));
+                $this->ctl()->redirect($this->mod()->getURL('admin', 'view_pubtypes', $data));
             }
             return true;
         }

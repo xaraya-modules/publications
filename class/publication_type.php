@@ -12,7 +12,6 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('modules.dynamicdata.class.objects.base');
 
 class PublicationType extends DataObject
 {

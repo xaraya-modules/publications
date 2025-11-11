@@ -11,15 +11,11 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarUser;
 use Query;
-use sys;
 use BadParameterException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi gettranslationid function
@@ -58,7 +54,6 @@ class GettranslationidMethod extends MethodClass
             $locale = $args['locale'];
         }
 
-        sys::import('xaraya.structures.query');
 
         if ($args['partiallocale']) {
             $parts = explode('.', $locale);

@@ -11,15 +11,12 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
 use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin importpages function
@@ -72,7 +69,8 @@ class ImportpagesMethod extends MethodClass
             $data['basedir'] = realpath($basedir);
         }
 
-        $data['filelist'] = $adminapi->browse(['basedir' => $data['basedir'],
+        $data['filelist'] = $adminapi->browse(
+            ['basedir' => $data['basedir'],
                 'filetype' => 'html?', ]
         );
 
@@ -102,7 +100,6 @@ class ImportpagesMethod extends MethodClass
             #
             # Get the fields of hte chosen pubtype
             #
-            sys::import('modules.dynamicdata.class.objects.factory');
             $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
             $pubtypeobject->getItem(['itemid' => $data['ptid']]);
             $objectname = $pubtypeobject->properties['name']->value;
@@ -240,7 +237,8 @@ class ImportpagesMethod extends MethodClass
 
                 if (isset($test)) {
                     // preview the first file as a test
-                    $data['preview'] = $usergui->preview(['object' => $pageobject]
+                    $data['preview'] = $usergui->preview(
+                        ['object' => $pageobject]
                     );
                     break;
                 } else {

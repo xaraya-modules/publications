@@ -11,17 +11,13 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
-use sys;
 use BadParameterException;
 use DataNotFoundException;
 use ForbiddenOperationException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin updatestatus function
@@ -86,7 +82,8 @@ class UpdatestatusMethod extends MethodClass
                 continue;
             }
             // Get original article information
-            $article = $userapi->get(['id' => $id,
+            $article = $userapi->get(
+                ['id' => $id,
                     'withcids' => 1, ]
             );
             if (!isset($article) || !is_array($article)) {

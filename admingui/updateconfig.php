@@ -11,15 +11,11 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarModAlias;
 use PropertyRegistration;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin updateconfig function
@@ -80,7 +76,6 @@ class UpdateconfigMethod extends MethodClass
             $this->mod()->setVar('admin_override', $admin_override);
 
             // Allow multilanguage only if the languages property is present
-            sys::import('modules.dynamicdata.class.properties.registration');
             $types = PropertyRegistration::Retrieve();
             if (isset($types[30039])) {
                 $this->mod()->setVar('multilanguage', $multilanguage);

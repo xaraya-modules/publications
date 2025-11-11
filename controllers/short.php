@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications
  *
@@ -40,9 +41,6 @@
  * /publications/delete/pubtype_name/page_name[/page_id]
 **/
 
-sys::import('xaraya.mapper.controllers.short');
-sys::import('xaraya.structures.query');
-sys::import('xaraya.services.xar');
 use Xaraya\Services\xar;
 
 class PublicationsShortController extends ShortActionController

@@ -11,15 +11,11 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarRoles;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin view function
@@ -315,8 +311,8 @@ class ViewMethod extends MethodClass
         $statefilters = [];
         if (!empty($labels['state'])) {
             $statefilters[] = ['stitle' => $this->ml('All'),
-                'slink' => !is_array($state) ? '' :
-                               $this->mod()->getURL(
+                'slink' => !is_array($state) ? ''
+                               : $this->mod()->getURL(
                                    'admin',
                                    'view',
                                    ['ptid' => $ptid,
@@ -324,8 +320,8 @@ class ViewMethod extends MethodClass
                                ), ];
             foreach ($data['states'] as $id => $name) {
                 $statefilters[] = ['stitle' => $name,
-                    'slink' => (is_array($state) && $state[0] == $id) ? '' :
-                                   $this->mod()->getURL(
+                    'slink' => (is_array($state) && $state[0] == $id) ? ''
+                                   : $this->mod()->getURL(
                                        'admin',
                                        'view',
                                        ['ptid' => $ptid,
@@ -378,7 +374,6 @@ class ViewMethod extends MethodClass
         $data['objects'] = $options;
 
         // Only show top level documents, not translations
-        sys::import('xaraya.structures.query');
         $q = new Query();
         $q->eq('parent_id', 0);
         $q->eq('pubtype_id', $ptid);

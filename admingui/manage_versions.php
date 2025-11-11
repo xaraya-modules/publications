@@ -11,15 +11,11 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use Diff;
 use Diff_Renderer_Html_Inline;
-use sys;
 use Exception;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin manage_versions function
@@ -42,7 +38,6 @@ class ManageVersionsMethod extends MethodClass
             return $this->ctl()->notFound();
         }
 
-        sys::import('modules.dynamicdata.class.objects.factory');
         $entries = $this->data()->getObjectList(['name' => 'publications_versions']);
         $entries->dataquery->eq($entries->properties['page_id']->source, $data['page_id']);
         $data['versions'] = $entries->countItems() + 1;
@@ -108,8 +103,6 @@ class ManageVersionsMethod extends MethodClass
         // Keep a copy to show if the two versions are identical
         $data['content'] = $content_2;
 
-        sys::import('modules.publications.class.lib.Diff');
-        sys::import('modules.publications.class.lib.Diff.Renderer.Html.Inline');
 
         // Explode the content by lines
         $content_1 = explode("\n", $content_1);

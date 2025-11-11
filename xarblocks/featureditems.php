@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -15,7 +16,6 @@
  * @author Jonn Beams (based on code from TopItems block)
  *
  */
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 {
@@ -72,12 +72,10 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
         $data['items'] = [];
 
         // Load the query class and the publications tables
-        sys::import('xaraya.structures.query');
         $this->mod()->apiLoad('publications');
         $tables = & $this->db()->getTables();
 
         // Get all the publications types
-        sys::import('modules.dynamicdata.class.objects.factory');
         $pubtypeobject = $this->data()->getObjectList(['name' => 'publications_types']);
         $types = $pubtypeobject->getItems();
 
@@ -102,8 +100,8 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
                 'user',
                 'display',
                 [
-                                            'itemid' => $data['properties']['id']->value,
-                                        ]
+                    'itemid' => $data['properties']['id']->value,
+                ]
             );
             $feature['alttitle']   = $data['alttitle'];
             $feature['altsummary'] = $data['altsummary'];

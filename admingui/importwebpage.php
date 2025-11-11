@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin importwebpage function
@@ -88,7 +84,6 @@ class ImportwebpageMethod extends MethodClass
             #
             # Get the fields of hte chosen pubtype
             #
-            sys::import('modules.dynamicdata.class.objects.factory');
             $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
             $pubtypeobject->getItem(['itemid' => $data['ptid']]);
             $objectname = $pubtypeobject->properties['name']->value;
@@ -234,7 +229,8 @@ class ImportwebpageMethod extends MethodClass
             #
             if (isset($test)) {
                 // preview the first file as a test
-                $data['preview'] = $usergui->preview(['object' => $pageobject]
+                $data['preview'] = $usergui->preview(
+                    ['object' => $pageobject]
                 );
             } else {
                 $id = $pageobject->createItem();

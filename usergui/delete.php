@@ -11,15 +11,10 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
-
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarRoles;
-use xarHooks;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user delete function
@@ -41,7 +36,7 @@ class DeleteMethod extends MethodClass
             return;
         }
 
-        $return = $this->mod()->getURL( 'user', 'view', ['ptid' => $this->mod()->getVar('defaultpubtype')]);
+        $return = $this->mod()->getURL('user', 'view', ['ptid' => $this->mod()->getVar('defaultpubtype')]);
         $this->var()->find('confirmed', $confirmed, 'int');
         $this->var()->check('itemid', $itemid, 'int');
         $this->var()->find('idlist', $idlist, 'str');
@@ -66,7 +61,6 @@ class DeleteMethod extends MethodClass
 
         /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
-        sys::import('modules.dynamicdata.class.objects.factory');
         $publication = $this->data()->getObject(['name' => 'publications_documents']);
         /** @var \AccessProperty $access */
         $access = $this->prop()->getProperty(['name' => 'access']);
@@ -132,7 +126,7 @@ class DeleteMethod extends MethodClass
                 $items[] = $item;
             }
             $data['items'] = $items;
-            $data['yes_action'] = $this->mod()->getURL( 'user', 'delete', ['idlist' => $idlist]);
+            $data['yes_action'] = $this->mod()->getURL('user', 'delete', ['idlist' => $idlist]);
             $data['context'] ??= $this->getContext();
             return $this->mod()->template('delete', $data);
         } else {
@@ -199,7 +193,7 @@ class DeleteMethod extends MethodClass
             if (isset($returnurl)) {
                 $this->ctl()->redirect($returnurl);
             } else {
-                $this->ctl()->redirect($this->mod()->getURL( 'user', 'view', $data));
+                $this->ctl()->redirect($this->mod()->getURL('user', 'view', $data));
             }
             return true;
         }

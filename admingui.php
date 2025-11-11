@@ -12,10 +12,6 @@
 namespace Xaraya\Modules\Publications;
 
 use Xaraya\Modules\AdminGuiClass;
-use sys;
-
-sys::import('xaraya.modules.admingui');
-sys::import('modules.publications.adminapi');
 
 /**
  * Handle the publications admin GUI

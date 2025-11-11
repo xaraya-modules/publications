@@ -11,12 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getmenulinks function
@@ -46,7 +42,7 @@ class GetmenulinksMethod extends MethodClass
 
         $items = $userapi->get_menu_pages();
         foreach ($items as $item) {
-            $menulinks[] = ['url'   => $this->mod()->getURL( 'user', 'display', ['itemid' => $item['id']]),
+            $menulinks[] = ['url'   => $this->mod()->getURL('user', 'display', ['itemid' => $item['id']]),
                 'title' => $this->ml('Display #(1)', $item['description']),
                 'label' => $item['title'], ];
         }

@@ -14,9 +14,6 @@ namespace Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getchildcats function

@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\Publications\TreeApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin view_pages function
@@ -63,7 +59,8 @@ class ViewPagesMethod extends MethodClass
         }
         $this->session()->setVar('publications_root_id', $root_id);
 
-        $data = $userapi->getpagestree(['key' => 'index', 'dd_flag' => false, 'tree_contains_id' => $root_id]
+        $data = $userapi->getpagestree(
+            ['key' => 'index', 'dd_flag' => false, 'tree_contains_id' => $root_id]
         );
 
         if (empty($data['pages'])) {
@@ -81,7 +78,6 @@ class ViewPagesMethod extends MethodClass
         // DeletePage - page can be renamed, moved and deleted
         if (!empty($data['pages'])) {
             // Bring in the access property for security checks
-            sys::import('modules.dynamicdata.class.properties.master');
             /** @var \AccessProperty $accessproperty */
             $accessproperty = $this->prop()->getProperty(['name' => 'access']);
             $accessproperty->module = 'publications';

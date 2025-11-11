@@ -11,15 +11,11 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
-
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
 use BadParameterException;
 use DuplicateException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi importpubtype function
@@ -257,7 +253,8 @@ class ImportpubtypeMethod extends MethodClass
                     }
 
                     // 3. create the pubtype
-                    $ptid = $adminapi->createpubtype(['name' => $object['name'],
+                    $ptid = $adminapi->createpubtype(
+                        ['name' => $object['name'],
                             'descr' => $object['label'],
                             'config' => $fields, ]
                     );

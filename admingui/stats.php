@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin stats function
@@ -61,7 +57,8 @@ class StatsMethod extends MethodClass
 
         $data = [];
         $data['group'] = $group;
-        $data['stats'] = $adminapi->getstats(['group' => $group]
+        $data['stats'] = $adminapi->getstats(
+            ['group' => $group]
         );
         $data['pubtypes'] = $userapi->get_pubtypes();
         $data['statelist'] = $userapi->getstates();

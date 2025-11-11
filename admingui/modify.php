@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin modify function
@@ -116,11 +112,13 @@ class ModifyMethod extends MethodClass
         #
         # Get information on next and previous items
         #
-        $data['prevpublication'] = $userapi->getprevious(['id' => $data['itemid'],
+        $data['prevpublication'] = $userapi->getprevious(
+            ['id' => $data['itemid'],
                 'ptid' => $ptid,
                 'sort' => 'tree',]
         );
-        $data['nextpublication'] = $userapi->getnext(['id' => $data['itemid'],
+        $data['nextpublication'] = $userapi->getnext(
+            ['id' => $data['itemid'],
                 'ptid' => $ptid,
                 'sort' => 'tree',]
         );

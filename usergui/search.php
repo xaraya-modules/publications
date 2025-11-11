@@ -16,9 +16,6 @@ use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMLS;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user search function
@@ -389,7 +386,8 @@ class SearchMethod extends MethodClass
             $count = 0;
             // TODO: allow combination of searches ?
             foreach ($ptids as $curptid) {
-                $publications = $userapi->getall(['startnum' => $startnum,
+                $publications = $userapi->getall(
+                    ['startnum' => $startnum,
                         'cids' => $cids,
                         'andcids' => $andcids,
                         'ptid' => $curptid,
@@ -426,7 +424,8 @@ class SearchMethod extends MethodClass
                                 ['cids' => array_keys($cidlist)]
                             );
                             // get root categories for this publication type
-                            $catroots = $userapi->getrootcats(['ptid' => $curptid]
+                            $catroots = $userapi->getrootcats(
+                                ['ptid' => $curptid]
                             );
                             $catroots = $this->mod()->apiFunc('categories', 'user', 'getallcatbases', ['module' => 'publications','itemtype' => $curptid]);
                         }
@@ -485,8 +484,8 @@ class SearchMethod extends MethodClass
 
                         // categories this article belongs to
                         $categories = [];
-                        if ($show_categories && !empty($article['cids']) &&
-                            is_array($article['cids']) && count($article['cids']) > 0) {
+                        if ($show_categories && !empty($article['cids'])
+                            && is_array($article['cids']) && count($article['cids']) > 0) {
                             $cidlist = $article['cids'];
                             // order cids by root category order
                             usort($cidlist, [$this, 'sortbyorder']);
@@ -524,10 +523,10 @@ class SearchMethod extends MethodClass
 
                     // Pager
                     // TODO: make count depend on locale in the future
-                    sys::import('modules.base.class.pager');
                     $pager = $this->tpl()->getPager(
                         $startnum,
-                        $userapi->countitems(['cids' => $cids,
+                        $userapi->countitems(
+                            ['cids' => $cids,
                                 'andcids' => $andcids,
                                 'ptid' => $curptid,
                                 'owner' => $owner,
@@ -581,8 +580,8 @@ class SearchMethod extends MethodClass
                                 'sort' => $othersort, ]
                         );
 
-                        $pager .= '&#160;&#160;<a href="' . $sortlink . '">' .
-                                  $this->ml('sort by') . ' ' . $this->ml($othersort) . '</a>';
+                        $pager .= '&#160;&#160;<a href="' . $sortlink . '">'
+                                  . $this->ml('sort by') . ' ' . $this->ml($othersort) . '</a>';
                     }
 
                     $data['results'][] = ['description' => $this->prep()->text($pubtypes[$curptid]['description']),

@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use Query;
-use sys;
 use BadParameterException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getitempubtype function
@@ -39,7 +35,6 @@ class GetitempubtypeMethod extends MethodClass
             throw new BadParameterException('itemid');
         }
 
-        sys::import('xaraya.structures.query');
         $xartables = & $this->db()->getTables();
         $q = new Query('SELECT', $xartables['publications']);
         $q->addfield('pubtype_id');

@@ -11,15 +11,11 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
-
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
 use xarRoles;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user modify function

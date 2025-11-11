@@ -11,15 +11,11 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
-
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use Query;
-use sys;
 use BadParameterException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi promote_alias function
@@ -72,7 +68,6 @@ class PromoteAliasMethod extends MethodClass
         $publication->updateItem();
 
         // Switch the linkages to categories
-        sys::import('xaraya.structures.query');
         $tables = & $this->db()->getTables();
 
         // Remove the old base publication into the tree

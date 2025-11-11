@@ -11,12 +11,8 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin delete_translation function
@@ -60,14 +56,13 @@ class DeleteTranslationMethod extends MethodClass
 
         /*------------- Ask for Confirmation.  If yes, action ----------------------------*/
 
-        sys::import('modules.dynamicdata.class.objects.factory');
         $publication = $this->data()->getObject(['name' => 'publications_publications']);
         if (!isset($confirmed)) {
             $data['title'] = $this->ml("Delete Translation");
             $data['authid'] = $this->sec()->genAuthKey();
             $publication->getItem(['itemid' => $data['itemid']]);
             $data['item'] = $publication->getFieldValues();
-            $data['yes_action'] = $this->mod()->getURL( 'admin', 'delete', ['itemid' => $data['itemid']]);
+            $data['yes_action'] = $this->mod()->getURL('admin', 'delete', ['itemid' => $data['itemid']]);
             return $this->mod()->template('delete_translation', $data);
         } else {
             if (!$this->sec()->confirmAuthKey()) {
@@ -78,7 +73,7 @@ class DeleteTranslationMethod extends MethodClass
             if (isset($returnurl)) {
                 $this->ctl()->redirect($returnurl);
             } else {
-                $this->ctl()->redirect($this->mod()->getURL( 'admin', 'view', $data));
+                $this->ctl()->redirect($this->mod()->getURL('admin', 'view', $data));
             }
             return true;
         }

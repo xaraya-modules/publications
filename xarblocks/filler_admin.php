@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -11,7 +12,6 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('modules.publications.xarblocks.filler');
 
 class Publications_FillerBlockAdmin extends Publications_FillerBlock
 {

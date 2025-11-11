@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
-use sys;
 use BadParameterException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin importpubtype function
@@ -82,10 +78,12 @@ class ImportpubtypeMethod extends MethodClass
                     $msg = $this->ml('File not found');
                     throw new BadParameterException(null, $msg);
                 }
-                $ptid = $adminapi->importpubtype(['file' => $basedir . '/' . $file]
+                $ptid = $adminapi->importpubtype(
+                    ['file' => $basedir . '/' . $file]
                 );
             } else {
-                $ptid = $adminapi->importpubtype(['xml' => $xml]
+                $ptid = $adminapi->importpubtype(
+                    ['xml' => $xml]
                 );
             }
             if (empty($ptid)) {

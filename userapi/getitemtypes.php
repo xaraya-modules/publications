@@ -11,12 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getitemtypes function
@@ -47,7 +43,7 @@ class GetitemtypesMethod extends MethodClass
         foreach ($pubtypes as $id => $pubtype) {
             $itemtypes[$id] = ['label' => $this->prep()->text($pubtype['description']),
                 'title' => $this->prep()->text($this->ml('Display #(1)', $pubtype['description'])),
-                'url'   => $this->mod()->getURL( 'user', 'view', ['ptid' => $id]),
+                'url'   => $this->mod()->getURL('user', 'view', ['ptid' => $id]),
             ];
         }
 

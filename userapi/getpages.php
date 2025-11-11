@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getpages function
@@ -42,7 +38,6 @@ class GetpagesMethod extends MethodClass
         $count = (empty($count)) ? false : true;
 
         // Assemble the query
-        sys::import('xaraya.structures.query');
         $xartable = & $this->db()->getTables();
         $q = new Query();
         $q->addtable($xartable['publications'], 'tpages');
@@ -171,7 +166,8 @@ class GetpagesMethod extends MethodClass
             $pages = [];
 
             // Get all the page type details.
-            $pagetypes = $userapi->get_pubtypes(['key' => 'id']
+            $pagetypes = $userapi->get_pubtypes(
+                ['key' => 'id']
             );
 
             foreach ($q->output() as $row) {
@@ -202,7 +198,6 @@ class GetpagesMethod extends MethodClass
                 // show the 'no privs' page.
 
                 // Define admin access
-                sys::import('modules.dynamicdata.class.properties.master');
                 /** @var \AccessProperty $accessproperty */
                 $accessproperty = $this->prop()->getProperty(['name' => 'access']);
                 $typename = $pagetypes[$row['ptid']]['name'];

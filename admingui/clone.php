@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\AdminGui;
 
-
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\MethodClass;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications admin clone function
@@ -63,7 +59,6 @@ class CloneMethod extends MethodClass
             return $this->ctl()->notFound();
         }
 
-        sys::import('modules.dynamicdata.class.objects.factory');
         $data['object'] = $this->data()->getObject(['name' => $objectname]);
         if (empty($data['object'])) {
             return $this->ctl()->notFound();
@@ -105,7 +100,6 @@ class CloneMethod extends MethodClass
             $this->var()->find('clone_translations', $clone_translations, 'int', 0);
             if ($clone_translations) {
                 // Get the info on all the objects to be cloned
-                sys::import('xaraya.structures.query');
                 $tables = & $this->db()->getTables();
                 $q = new Query();
                 $q->addtable($tables['publications'], 'p');

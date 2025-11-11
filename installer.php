@@ -20,9 +20,6 @@ use xarHooks;
 use xarPrivileges;
 use xarMasks;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.installer');
 
 /**
  * Handle module installer functions
@@ -59,7 +56,6 @@ class Installer extends InstallerClass
      */
     public function init()
     {
-        sys::import('xaraya.structures.query');
         $xartable = & $this->db()->getTables();
 
         # --------------------------------------------------------
@@ -317,7 +313,6 @@ class Installer extends InstallerClass
         xarHooks::registerSubject('ItemUpdate', 'item', 'publications');
         xarHooks::registerSubject('ItemDelete', 'item', 'publications');
 
-        sys::import('xaraya.structures.hooks.observer');
 
         // Enable publications hooks for search
         if ($this->mod()->isAvailable('search')) {

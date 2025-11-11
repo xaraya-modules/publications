@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\UserGui;
 
-
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\MethodClass;
-use sys;
 use Exception;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications user download function

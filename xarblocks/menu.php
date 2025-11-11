@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Displays a menu block
  *
@@ -15,7 +16,6 @@
  * init func
  */
 
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_MenuBlock extends BasicBlock implements iBlock
 {
@@ -150,10 +150,10 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
                 'user',
                 'getmenutree',
                 [
-                'tree_contains_id' => $id,
-//                    'dd_flag' => true,
-//                    'key' => 'id',
-//                    'status' => 'ACTIVE,EMPTY'
+                    'tree_contains_id' => $id,
+                    //                    'dd_flag' => true,
+                    //                    'key' => 'id',
+                    //                    'status' => 'ACTIVE,EMPTY'
                 ]
             );
 
@@ -255,8 +255,8 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
         // that root page.
         if (empty($data['multi_homed'])) {
             $pagedata['pages'][0] = [
-            'child_keys' => [$pagedata['root_page']['id']],
-            'has_children' => true, 'is_ancestor' => true,
+                'child_keys' => [$pagedata['root_page']['id']],
+                'has_children' => true, 'is_ancestor' => true,
             ];
             unset($pagedata['root_page']);
             $pagedata['root_page'] = & $pagedata['pages'][0];

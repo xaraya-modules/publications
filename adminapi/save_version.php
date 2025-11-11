@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
-
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
-use sys;
 use Exception;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi save_version function
@@ -44,7 +40,6 @@ class SaveVersionMethod extends MethodClass
             throw new Exception($this->ml('Missing object arg for saving version'));
         }
 
-        sys::import('modules.dynamicdata.class.objects.factory');
         $entries = $this->data()->getObject(['name' => 'publications_versions']);
         $entries->properties['content']->value = serialize($args['object']->getFieldValues([], 1));
         $entries->properties['operation']->value = $args['operation'];

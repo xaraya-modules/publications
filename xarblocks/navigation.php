@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -12,7 +13,6 @@
 /**
  * Original Author of file: Jim McDonald
  */
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_NavigationBlock extends BasicBlock implements iBlock
 {
@@ -279,8 +279,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             'user',
                             'getlinks',
                             ['modid' => $modid,
-                                                    'itemtype' => $itemtype,
-                                                    'iids' => [$itemid], ]
+                                'itemtype' => $itemtype,
+                                'iids' => [$itemid], ]
                         );
                         if (!empty($links) && count($links) > 0) {
                             $cids = array_keys($links);
@@ -348,9 +348,9 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                         'user',
                         'getall',
                         ['cid' => $info['cid'],
-                                                  'ptid' => $itemtype,
-                                                  'fields' => ['id','title'],
-                                                  ]
+                            'ptid' => $itemtype,
+                            'fields' => ['id','title'],
+                        ]
                     );
                     foreach ($publications as $k => $article) {
                         $publications[$article['title']] = $article['id'];
@@ -365,8 +365,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             $type,
                             'display',
                             ['ptid' => $itemtype,
-                                            'catid' => $info['cid'],
-                                            'id' => $publications[$label], ]
+                                'catid' => $info['cid'],
+                                'id' => $publications[$label], ]
                         );
                     } else {
                         $link = $this->ctl()->getModuleURL(
@@ -374,7 +374,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             $type,
                             $func,
                             ['itemtype' => $itemtype,
-                                            'catid' => $info['cid'], ]
+                                'catid' => $info['cid'], ]
                         );
                     }// if
 
@@ -389,9 +389,9 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                         $count = 0;
                     }// if
                     $catparents[] = ['catlabel' => $label,
-                                        'catid' => $info['cid'],
-                                        'catlink' => $link,
-                                        'catcount' => $count, ];
+                        'catid' => $info['cid'],
+                        'catlink' => $link,
+                        'catcount' => $count, ];
                 }// foreach
 
                 $data['cattrees'][] = ['catparents' => $catparents];
@@ -443,8 +443,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     'user',
                     'getall',
                     ['cids' => [$cid],
-                                                'fields' => ['id', 'pubtype_id', 'title'],
-                                                ]
+                        'fields' => ['id', 'pubtype_id', 'title'],
+                    ]
                 );
                 $tmpPublications = [];
                 foreach ($items as $k => $item) {
@@ -458,15 +458,15 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             $type,
                             'display',
                             ['id'       => $item['id'],
-                                            'itemtype'  => $item['pubtype_id'],
-                                            'catid'     => $cid, ]
+                                'itemtype'  => $item['pubtype_id'],
+                                'catid'     => $cid, ]
                         );
 
                         $count = 0;
                         $items[$k] = ['label' => $label,
-                                       'id' => $item['id'],
-                                       'class' => $class,
-                                       'link' => $link, ];
+                            'id' => $item['id'],
+                            'class' => $class,
+                            'link' => $link, ];
 
                         $tmpPublications[$pubtypes[$item['pubtype_id']]['description']][] = $items[$k];
                     }// if
@@ -487,9 +487,9 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             'user',
                             'getall',
                             ['cid' => $child['cid'],
-                                                      'ptid' => $itemtype,
-                                                      'fields' => ['id','title'],
-                                                      ]
+                                'ptid' => $itemtype,
+                                'fields' => ['id','title'],
+                            ]
                         );
                         foreach ($publications as $k => $article) {
                             $publications[$article['title']] = $article['id'];
@@ -504,8 +504,8 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                                 $type,
                                 'display',
                                 ['ptid' => $itemtype,
-                                                'catid' => $child['cid'],
-                                                'id' => $publications[$clabel], ]
+                                    'catid' => $child['cid'],
+                                    'id' => $publications[$clabel], ]
                             );
                         } else {
                             $clink = $this->ctl()->getModuleURL(
@@ -513,7 +513,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                                 $type,
                                 $func,
                                 ['itemtype' => $itemtype,
-                                                'catid' => $child['cid'], ]
+                                    'catid' => $child['cid'], ]
                             );
                         }// if
 
@@ -523,16 +523,16 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                             $ccount = 0;
                         }
                         $catitems[] = ['catlabel' => $clabel,
-                                             'catid' => $child['cid'],
-                                             'catlink' => $clink,
-                                             'catcount' => $ccount,
-                                             'catchildren' => [], ];
+                            'catid' => $child['cid'],
+                            'catlink' => $clink,
+                            'catcount' => $ccount,
+                            'catchildren' => [], ];
                     }// foreach
                 }// if
 
                 if (sizeof($catitems) > 0 || sizeof($items) > 0) {
                     $data['cattrees'][] = ['catitems' => $catitems,
-                                              'items' => $items, ];
+                        'items' => $items, ];
                 } else {
                     return;
                 }// if

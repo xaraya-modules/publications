@@ -11,14 +11,10 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarUser;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi get_menu_pages function
@@ -68,7 +64,6 @@ class GetMenuPagesMethod extends MethodClass
         }
 
         $xartable = & $this->db()->getTables();
-        sys::import('xaraya.structures.query');
         $q = new Query();
         $q->addtable($xartable['publications'], 'p');
 

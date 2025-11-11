@@ -11,12 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi fieldoutput function
@@ -40,7 +36,6 @@ class FieldoutputMethod extends MethodClass
         if (!isset($object) || !isset($itemid) || !isset($field)) {
             return '';
         }
-        sys::import('modules.dynamicdata.class.objects.factory');
         $object = $this->data()->getObject(['name' => $object]);
         $itemid = $userapi->gettranslationid(['id' => $itemid]);
         $object->getItem(['itemid' => $itemid]);

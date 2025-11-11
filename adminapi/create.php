@@ -11,17 +11,13 @@
 
 namespace Xaraya\Modules\Publications\AdminApi;
 
-
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use xarMLS;
 use xarModHooks;
-use sys;
 use BadParameterException;
 use ForbiddenOperationException;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications adminapi create function
@@ -100,9 +96,9 @@ class CreateMethod extends MethodClass
         }
 
         // Default categories is none
-        if (empty($cids) || !is_array($cids) ||
+        if (empty($cids) || !is_array($cids)
             // catch common mistake of using array('') instead of array()
-            (count($cids) > 0 && empty($cids[0]))) {
+            || (count($cids) > 0 && empty($cids[0]))) {
             $cids = [];
             // for security check below
             $args['cids'] = $cids;
@@ -202,7 +198,6 @@ class CreateMethod extends MethodClass
         }
 
         /* ---------------------------- TODO: Remove once publications uses dd objects */
-        sys::import('modules.dynamicdata.class.properties.master');
         /** @var \CategoriesProperty $categories */
         $categories = $this->prop()->getProperty(['name' => 'categories']);
         $categories->checkInput('categories', $id);

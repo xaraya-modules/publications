@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
 use Exception;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getsettings function
@@ -46,7 +42,6 @@ class GetsettingsMethod extends MethodClass
             return $this->mem()->get('publications', 'settings_' . $data['ptid']);
         }
 
-        sys::import('modules.dynamicdata.class.objects.factory');
         $pubtypeobject = $this->data()->getObject(['name' => 'publications_types']);
         $pubtypeobject->getItem(['itemid' => $data['ptid']]);
 

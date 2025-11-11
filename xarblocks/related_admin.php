@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -15,7 +16,6 @@
  * initialise block
  * @author Jim McDonald
  */
-sys::import('modules.publications.xarblocks.related');
 
 class Publications_RelatedBlockAdmin extends Publications_RelatedBlock
 {

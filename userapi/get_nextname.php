@@ -11,13 +11,9 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
 use Query;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi get_nextname function
@@ -78,7 +74,6 @@ class GetNextnameMethod extends MethodClass
         }
 
         // Get the number of publications of this pubtype and increment by 1
-        sys::import('xaraya.structures.query');
         $tables = & $this->db()->getTables();
         $q = new Query('SELECT', $tables['publications']);
         $q->eq('pubtype_id', $args['ptid']);

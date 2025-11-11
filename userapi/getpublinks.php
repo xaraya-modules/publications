@@ -11,12 +11,8 @@
 
 namespace Xaraya\Modules\Publications\UserApi;
 
-
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * publications userapi getpublinks function
@@ -77,7 +73,8 @@ class GetpublinksMethod extends MethodClass
 
         if ($count) {
             if (isset($state)) {
-                $pubcount = $userapi->getpubcount(['state' => $state]
+                $pubcount = $userapi->getpubcount(
+                    ['state' => $state]
                 );
             } else {
                 $pubcount = $userapi->getpubcount();
@@ -96,7 +93,7 @@ class GetpublinksMethod extends MethodClass
                 if (isset($ptid) && $ptid == $id) {
                     $item['publink'] = '';
                 } else {
-                    $item['publink'] = $this->mod()->getURL( $typemod, $func, ['ptid' => $id]);
+                    $item['publink'] = $this->mod()->getURL($typemod, $func, ['ptid' => $id]);
                 }
                 if ($count && isset($pubcount[$id])) {
                     $item['pubcount'] = $pubcount[$id];

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Publications Module
  *
@@ -11,7 +12,6 @@
  * @author Marc Lutolf <mfl@netspan.ch>
  */
 
-sys::import('xaraya.structures.containers.blocks.basicblock');
 
 class Publications_FillerBlock extends BasicBlock implements iBlock
 {

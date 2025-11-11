@@ -12,9 +12,6 @@
 namespace Xaraya\Modules\Publications;
 
 use Xaraya\Modules\UserApiClass;
-use sys;
-
-sys::import('xaraya.modules.userapi');
 
 /**
  * Handle the publications user API
