@@ -12,7 +12,7 @@
             Modify Document <xar:data-output property="$properties['title']"/>
         </h2>
         <div style="float:right">
-            <xar:set name="type">xarController::$request->getInfo()</xar:set>
+            <xar:set name="type">xarController::getRequest()->getInfo()</xar:set>
             <a href="#xarController::URL('publications',$type[1],'view',['ptid' => $ptid])#">
                 Publications List
             </a>

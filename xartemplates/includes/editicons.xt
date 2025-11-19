@@ -4,7 +4,7 @@
     <!-- This condition makes these icons not show in nested displays (preview functionality) -->
     <xar:if condition="isset($pubtype_access)">
         <xar:set name="pageName">xarTpl::getPageTemplateName()</xar:set>
-        <xar:set name="info">xarController::$request->getInfo()</xar:set>
+        <xar:set name="info">xarController::getRequest()->getInfo()</xar:set>
         <xar:if condition="($pageName eq 'admin') AND ($info[2] ne 'display_version') AND ($info[2] ne 'manage_versions') AND empty($preview)">
             <xar:template file="editicons-admin"/>
         <xar:elseif condition="($pageName ne 'module') AND xarUser::isLoggedIn() AND (xarUser::getVar('id') eq $properties['author']->value)"/>

@@ -30,7 +30,7 @@
                     <xar:data-input name="ptid" type="objectref" refobject="publications_types" store_prop="id" display_prop="description" value="$ptid" onchange="$onchange" />
                 </div>
                 <div class="xar-col" style="text-align: right; min-width: 40%">
-                    <xar:set name="type">xarController::$request->getInfo()</xar:set>
+                    <xar:set name="type">xarController::getRequest()->getInfo()</xar:set>
                     <a href="#xarController::URL('publications',$type[1],'view',['ptid' => $ptid])#">
                         Publications List
                     </a>
