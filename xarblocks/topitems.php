@@ -130,7 +130,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
 
         // Get publication types
         // MarieA - moved to always get pubtypes.
-        $publication_types = $this->mod()->apiMethod('publications', 'user', 'get_pubtypes');
+        $publication_types = $this->mod()->apiMethod('publications', 'userapi', 'get_pubtypes');
 
         if (!empty($data['nopublimit'])) {
             //don't limit by publication type
@@ -194,7 +194,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
 
         $publications = $this->mod()->apiMethod(
             'publications',
-            'user',
+            'userapi',
             'getall',
             [
                 'ptid' => $ptid,

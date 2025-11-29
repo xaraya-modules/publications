@@ -36,7 +36,7 @@ class Publications_MenuBlockAdmin extends Publications_MenuBlock implements iBlo
         // Get the tree of all pages, without the DD for speed.
         $data['all_pages'] = $this->mod()->apiMethod(
             'publications',
-            'user',
+            'userapi',
             'getpagestree',
             ['dd_flag' => false, 'key' => 'pid']
         );

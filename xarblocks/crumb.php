@@ -99,7 +99,7 @@ class Publications_CrumbBlock extends BasicBlock implements iBlock
         // If necessary, check whether the current page is under one of the
         // of the allowed root pids.
         if (!empty($root_ids)) {
-            if (!$this->mod()->apiMethod('publications', 'user', 'pageintrees', ['pid' => $id, 'tree_roots' => $root_ids])) {
+            if (!$this->mod()->apiMethod('publications', 'userapi', 'pageintrees', ['pid' => $id, 'tree_roots' => $root_ids])) {
                 return;
             }
         }
@@ -113,7 +113,7 @@ class Publications_CrumbBlock extends BasicBlock implements iBlock
         // the current page.
         $pagedata = $this->mod()->apiMethod(
             'publications',
-            'user',
+            'userapi',
             'addcurrentpageflags',
             ['pagedata' => $pagedata, 'id' => $id, 'root_ids' => $root_ids]
         );

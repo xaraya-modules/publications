@@ -35,12 +35,12 @@ class Publications_FillerBlockAdmin extends Publications_FillerBlock
 
         $data['filtereditems'] = $this->mod()->apiMethod(
             'publications',
-            'user',
+            'userapi',
             'getall',
             $article_args
         );
 
-        $data['pubtypes'] = $this->mod()->apiMethod('publications', 'user', 'get_pubtypes');
+        $data['pubtypes'] = $this->mod()->apiMethod('publications', 'userapi', 'get_pubtypes');
         $data['stateoptions'] = [
             ['id' => '', 'name' => $this->ml('All Published')],
             ['id' => '3', 'name' => $this->ml('Frontpage')],

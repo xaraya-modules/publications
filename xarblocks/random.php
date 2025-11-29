@@ -109,7 +109,7 @@ class Publications_RandomBlock extends BasicBlock implements iBlock
 
         $publications = $this->mod()->apiMethod(
             'publications',
-            'user',
+            'userapi',
             'getrandom',
             ['ptid'     => $data['pubtype_id'],
                 'cids'     => $cidsarray,

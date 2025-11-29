@@ -129,7 +129,7 @@ class Publications_FeatureditemsBlock extends BasicBlock implements iBlock
 
             $publications = $this->mod()->apiMethod(
                 'publications',
-                'user',
+                'userapi',
                 'getall',
                 [
                     'ids' => $data['moreitems'],

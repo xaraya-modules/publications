@@ -39,7 +39,7 @@ class Publications_CrumbBlockAdmin extends Publications_CrumbBlock implements iB
         // Get the tree of all pages, without the DD for speed.
         $data['all_pages'] = $this->mod()->apiMethod(
             'publications',
-            'user',
+            'userapi',
             'getpagestree',
             ['dd_flag' => false, 'key' => 'id']
         );

@@ -61,7 +61,7 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
 
         if ($vars['showpubtype']) {
             // Show publication type (for now)
-            $pubtypes = $this->mod()->apiMethod('publications', 'user', 'get_pubtypes');
+            $pubtypes = $this->mod()->apiMethod('publications', 'userapi', 'get_pubtypes');
             if ($this->mem()->has('Blocks.publications', 'ptid')) {
                 $ptid = $this->mem()->get('Blocks.publications', 'ptid');
                 if (!empty($ptid) && isset($pubtypes[$ptid]['description'])) {
@@ -99,7 +99,7 @@ class Publications_RelatedBlock extends BasicBlock implements iBlock
                     if (!empty($vars['showvalue'])) {
                         $vars['authorcount'] = $this->mod()->apiMethod(
                             'publications',
-                            'user',
+                            'userapi',
                             'countitems',
                             ['ptid' => (!empty($ptid) ? $ptid : null),
                                 'owner' => $author,

@@ -345,7 +345,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                 foreach ($parents as $id => $info) {
                     $publications = $this->mod()->apiMethod(
                         'publications',
-                        'user',
+                        'userapi',
                         'getall',
                         ['cid' => $info['cid'],
                             'ptid' => $itemtype,
@@ -435,12 +435,12 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
 
 
                 # get all the pubtypes so we can digest the ids
-                $pubtypes = $this->mod()->apiMethod('publications', 'user', 'get_pubtypes', []);
+                $pubtypes = $this->mod()->apiMethod('publications', 'userapi', 'get_pubtypes', []);
 
                 # get immediate items in current category
                 $items = $this->mod()->apiMethod(
                     'publications',
-                    'user',
+                    'userapi',
                     'getall',
                     ['cids' => [$cid],
                         'fields' => ['id', 'pubtype_id', 'title'],
@@ -484,7 +484,7 @@ class Publications_NavigationBlock extends BasicBlock implements iBlock
                     foreach ($childrenCategories as $child) {
                         $publications = $this->mod()->apiMethod(
                             'publications',
-                            'user',
+                            'userapi',
                             'getall',
                             ['cid' => $child['cid'],
                                 'ptid' => $itemtype,

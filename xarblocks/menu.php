@@ -129,7 +129,7 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
         // If necessary, check whether the current page is under one of the
         // of the allowed root ids.
         if (!empty($root_ids)) {
-            if (!$this->mod()->apiMethod('publications', 'user', 'pageintrees', ['id' => $id, 'tree_roots' => $root_ids])) {
+            if (!$this->mod()->apiMethod('publications', 'userapi', 'pageintrees', ['id' => $id, 'tree_roots' => $root_ids])) {
                 // Not under a root.
                 // If the mode is AUTO then leave the menu blank.
                 if ($data['current_source'] == 'AUTO' || $data['current_source'] == 'DEFAULT' || empty($data['default_id'])) {
@@ -147,7 +147,7 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
             // Get the page data here now.
             $pagedata = $this->mod()->apiMethod(
                 'publications',
-                'user',
+                'userapi',
                 'getmenutree',
                 [
                     'tree_contains_id' => $id,
@@ -243,7 +243,7 @@ class Publications_MenuBlock extends BasicBlock implements iBlock
         // the current page.
         $pagedata = $this->mod()->apiMethod(
             'publications',
-            'user',
+            'userapi',
             'addcurrentpageflags',
             ['pagedata' => $pagedata, 'id' => $id, 'root_ids' => $root_ids]
         );
