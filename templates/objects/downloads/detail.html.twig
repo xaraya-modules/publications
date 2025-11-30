@@ -33,7 +33,7 @@
         {% if fields['image'] %}
             <div style="width: 400px">
                 <div style="float: left;">
-                    {% set filepath = properties['image'].initialization_basedirectory ~ '/'. fields['image'] %}
+                    {% set filepath = properties['image'].initialization_basedirectory ~ '/' ~ fields['image'] %}
                     <img src="{{ filepath }}" style="margin-right: 25px;" />
                 </div>
                 <div class="xar-publications-download-detail-text ">
@@ -47,7 +47,7 @@
         {% endif %}
             
         {# <!-- Download link(s) --> #}
-        {% set filepath = properties['fileupload'].initialization_basedirectory ~ '/'. fields['fileupload'] %}
+        {% set filepath = properties['fileupload'].initialization_basedirectory ~ '/' ~ fields['fileupload'] %}
 
         {% if not fields['fileupload'] %}
             {# <!-- Nothing to display --> #}

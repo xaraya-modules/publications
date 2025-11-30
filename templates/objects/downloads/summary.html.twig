@@ -35,7 +35,7 @@
         {# <!-- Download link --> #}
         <div class="xar-publications-download-summary-text ">
             Link:&#160;
-            {% set filepath = properties['fileupload'].initialization_basedirectory ~ '/'. fields['fileupload'] %}
+            {% set filepath = properties['fileupload'].initialization_basedirectory ~ '/' ~ fields['fileupload'] %}
             
             {% if not fields['fileupload'] %}
                 {# <!-- Nothing to display --> #}

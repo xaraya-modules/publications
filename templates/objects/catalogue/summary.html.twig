@@ -34,7 +34,7 @@
         {% if fields['detail_image'] %}
             <div>
                 <div style="float: left;">
-                    {% set imagepath = properties['detail_image'].initialization_basedirectory ~ '/'. fields['detail_image'] %}
+                    {% set imagepath = properties['detail_image'].initialization_basedirectory ~ '/' ~ fields['detail_image'] %}
                     <img src="{{ imagepath }}" style="margin-right: 25px; vertical-align:text-top; border: 1px dotted gray" />
                 </div>
                 <div class="xar-publications-catalogue-author-text ">
