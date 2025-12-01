@@ -12,6 +12,7 @@
 namespace Xaraya\Modules\Publications;
 
 use Xaraya\Modules\AdminGuiClass;
+use Xaraya\Modules\UserApiInterface;
 
 /**
  * Handle the publications admin GUI
@@ -52,6 +53,16 @@ use Xaraya\Modules\AdminGuiClass;
 class AdminGui extends AdminGuiClass
 {
     // ...
+
+    /**
+     * Get module tree API class for this module
+     */
+    public function treeapi(): ?UserApiInterface
+    {
+        $component = $this->getModule()->getComponent('TreeApi');
+        assert($component instanceof UserApiInterface);
+        return $component;
+    }
 
     public function is_writeable_dir($path)
     {

@@ -525,7 +525,7 @@ class DisplayMethod extends MethodClass
                 $data['topic_names'][] = $name;
 
                 if (!empty($cat['image'])) {
-                    $image = $this->tpl()->getImage($cat['image'],'categories');
+                    $image = $this->tpl()->getImage($cat['image'], 'module', 'categories');
                     $data['topic_icons'] .= '<a href="'. $link .'">'.
                                             '<img src="'. $image .
                                             '" alt="'. $name .'" />'.

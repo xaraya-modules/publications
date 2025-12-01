@@ -41,7 +41,7 @@ class ViewPagesMethod extends MethodClass
         /** @var UserApi $userapi */
         $userapi = $this->userapi();
         /** @var TreeApi $treeapi */
-        $treeapi = $this->treeapi();
+        $treeapi = $this->getParent()->treeapi();
 
         if (!$this->sec()->checkAccess('ManagePublications')) {
             return;

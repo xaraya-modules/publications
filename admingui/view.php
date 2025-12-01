@@ -43,7 +43,7 @@ class ViewMethod extends MethodClass
         $this->var()->check('state', $state);
         $this->var()->check('itemtype', $itemtype);
         $this->var()->check('catid', $catid);
-        $this->var()->get('sort', $sort, 'strlist:,:pre');
+        $this->var()->find('sort', $sort, 'strlist:,:pre');
         $this->var()->check('owner', $owner);
         $this->var()->check('lang', $lang);
         $this->var()->find('pubdate', $pubdate, 'str:1');

@@ -44,7 +44,7 @@ class ViewMethod extends MethodClass
         // The original 'regexp:/^[\w,]*$/' lets through *any* non-space character.
         // This validation will accept a list of comma-separated words, and will lower-case, trim
         // and strip out non-alphanumeric characters from each word.
-        $this->var()->get('sort', $sort, 'strlist:,:pre:trim:lower:alnum');
+        $this->var()->find('sort', $sort, 'strlist:,:pre:trim:lower:alnum');
         $this->var()->find('numcols', $numcols, 'int:0');
         $this->var()->find('owner', $owner, 'id');
         $this->var()->find('pubdate', $pubdate, 'str:1');

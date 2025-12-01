@@ -73,7 +73,7 @@ class SearchMethod extends MethodClass
         $this->var()->find('by', $by, 'str');
 
         // can't use list enum here, because we don't know which sorts might be used
-        $this->var()->get('sort', $sort, 'regexp:/^[\w,]*$/');
+        $this->var()->find('sort', $sort, 'regexp:/^[\w,]*$/');
 
         // boolean AND/OR for words (no longer used)
         //$this->var()->find('bool', $bool, 'str', NULL);

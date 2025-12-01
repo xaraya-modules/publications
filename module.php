@@ -22,6 +22,6 @@ class Module extends ModuleClass
     {
         parent::setClassTypes();
         // add other class types for publications
-        //$this->classtypes['utilapi'] = 'UtilApi';
+        $this->classtypes['treeapi'] = 'TreeApi';
     }
 }

@@ -12,6 +12,7 @@
 namespace Xaraya\Modules\Publications;
 
 use Xaraya\Modules\UserGuiClass;
+use Xaraya\Modules\UserApiInterface;
 
 /**
  * Handle the publications user GUI
@@ -37,4 +38,14 @@ use Xaraya\Modules\UserGuiClass;
 class UserGui extends UserGuiClass
 {
     // ...
+
+    /**
+     * Get module tree API class for this module
+     */
+    public function treeapi(): ?UserApiInterface
+    {
+        $component = $this->getModule()->getComponent('TreeApi');
+        assert($component instanceof UserApiInterface);
+        return $component;
+    }
 }
