@@ -178,7 +178,7 @@ class UpdateconfigMethod extends MethodClass
 
             $pubtypes = $userapi->get_pubtypes();
             if ($usealias) {
-                $this->mod()->setAlias($pubtypes[$ptid]['name'], 'publications');
+                $this->mod()->defineAlias($pubtypes[$ptid]['name'], 'publications');
             } else {
                 $this->mod()->removeAlias($pubtypes[$ptid]['name'], 'publications');
             }

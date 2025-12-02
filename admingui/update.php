@@ -122,12 +122,12 @@ class UpdateMethod extends MethodClass
             if ($alias_flag == 1) {
                 $alias = $data['object']->properties['alias']->value;
                 if (!empty($alias)) {
-                    $this->mod()->setAlias($alias, 'publications');
+                    $this->mod()->defineAlias($alias, 'publications');
                 }
             } elseif ($alias_flag == 2) {
                 $alias = $data['object']->properties['name']->value;
                 if (!empty($alias)) {
-                    $this->mod()->setAlias($alias, 'publications');
+                    $this->mod()->defineAlias($alias, 'publications');
                 }
             }
 
