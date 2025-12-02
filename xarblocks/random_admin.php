@@ -26,7 +26,7 @@ class Publications_RandomBlockAdmin extends Publications_RandomBlock
             $cidsarray = [];
         }
 
-        $data['locales'] = xarMLS::listSiteLocales();
+        $data['locales'] = $this->mls()->listSiteLocales();
         asort($data['locales']);
 
         return $data;

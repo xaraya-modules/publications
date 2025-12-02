@@ -13,7 +13,6 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarUser;
 use Query;
 use BadParameterException;
 
@@ -49,7 +48,7 @@ class GettranslationidMethod extends MethodClass
         }
         // We can look for a specific translation
         if (empty($args['locale'])) {
-            $locale = xarUser::getNavigationLocale();
+            $locale = $this->user()->getLocale();
         } else {
             $locale = $args['locale'];
         }
@@ -96,7 +95,7 @@ class GettranslationidMethod extends MethodClass
             // If nothing was returned it means either the base document has the correct locale,
             // or no document in this group has it. Either way we need to return the base document.
             return (int) $row['parent_id'];
-        } elseif ($args['locale'] == xarUser::getNavigationLocale()) {
+        } elseif ($args['locale'] == $this->user()->getLocale()) {
             // No need to look further
             return $args['id'];
         } elseif ($args['locale'] == $this->mod()->getVar('defaultlanguage')) {

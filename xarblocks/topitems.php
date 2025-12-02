@@ -258,7 +258,7 @@ class Publications_TopitemsBlock extends BasicBlock implements iBlock
             if (!empty($data['showsummary'])) {
                 $article['summary']  = $this->prep()->html($article['summary']);
                 $article['transform'] = ['summary', 'title'];
-                $article = xarModHooks::call('item', 'transform', $article['id'], $article, 'publications');
+                $article = $this->mod()->callHooks('item', 'transform', $article['id'], $article, 'publications');
             } else {
                 $article['summary'] = '';
             }

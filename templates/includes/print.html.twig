@@ -1,7 +1,7 @@
 {# @publications/includes/print.html.twig #}
 
 {% block print %}
-{% set dummy = xar_coremethod('xarVar', 'fetch', 'pageName', 'str:1', pageName, '', constant('xarVar::NOT_REQUIRED')) %}
+{% set dummy = xar_coremethod('xarVar', 'fetch', 'pageName', 'str:1', pageName, '', constant('ixarVar::NOT_REQUIRED')) %}
     {% if pageName != 'module' %}
         <a href="{{ xar_currenturl({'pageName': 'module'}) }}" style="float:right; margin-left: 10px; margin-right: 10px">
             <img src="{{ xar_imageurl('icons/document-print.png','base') }}"/>

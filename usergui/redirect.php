@@ -14,7 +14,6 @@ namespace Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarModHooks;
 use DataNotFoundException;
 
 /**
@@ -71,7 +70,7 @@ class RedirectMethod extends MethodClass
             }
             if ($value['format'] == 'url' && !empty($publication[$field]) && $publication[$field] != 'http://') {
                 // TODO: add some verifications here !
-                $hooks = xarModHooks::call(
+                $hooks = $this->mod()->callHooks(
                     'item',
                     'display',
                     $id,
@@ -85,7 +84,7 @@ class RedirectMethod extends MethodClass
             } elseif ($value['format'] == 'urltitle' && !empty($publication[$field]) && substr($publication[$field], 0, 2) == 'a:') {
                 $array = unserialize($publication[$field]);
                 if (!empty($array['link']) && $array['link'] != 'http://') {
-                    $hooks = xarModHooks::call(
+                    $hooks = $this->mod()->callHooks(
                         'item',
                         'display',
                         $id,

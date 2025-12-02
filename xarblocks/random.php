@@ -65,7 +65,7 @@ class Publications_RandomBlock extends BasicBlock implements iBlock
         if (empty($data['locale'])) {
             $lang = null;
         } elseif ($data['locale'] == 'current') {
-            $lang = xarMLS::getCurrentLocale();
+            $lang = $this->mls()->getCurrentLocale();
         } else {
             $lang = $data['locale'];
         }

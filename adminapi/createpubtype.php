@@ -14,7 +14,6 @@ namespace Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarModHooks;
 use BadParameterException;
 
 /**
@@ -110,7 +109,7 @@ class CreatepubtypeMethod extends MethodClass
         $ptid = $dbconn->PO_Insert_ID($pubtypestable, 'pubtype_id');
 
         // Don't call creation hooks here...
-        //xarModHooks::call('item', 'create', $ptid, 'ptid');
+        //$this->mod()->callHooks('item', 'create', $ptid, 'ptid');
 
         return $ptid;
     }

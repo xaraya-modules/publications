@@ -99,8 +99,8 @@ class Publication extends DataObject
         if ($this->mod('publications')->getVar('use_versions')) {
             $temp = $this->getFieldValues([], 1);
             $this->getItem(['itemid' => $this->properties['id']->value]);
-            $operation = xarMLS::translate('Update');
-            xarMod::apiFunc('publications', 'admin', 'save_version', ['object' => $this, 'operation' => $operation]);
+            $operation = $this->mls()->translate('Update');
+            $this->mod()->apiFunc('publications', 'admin', 'save_version', ['object' => $this, 'operation' => $operation]);
             $this->setFieldValues($temp, 1);
             $this->properties['version']->value++;
         }

@@ -13,7 +13,6 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarMod;
 use xarSecurity;
 
 /**
@@ -132,7 +131,7 @@ class ChecksecurityMethod extends MethodClass
             if (!$this->mod()->apiLoad('categories', 'user')) {
                 return;
             }
-            $info = xarMod::getBaseInfo('publications');
+            $info = $this->mod()->getBaseInfo('publications');
             $sysid = $info['systemid'];
             $publicationcids = $this->mod()->apiFunc(
                 'categories',

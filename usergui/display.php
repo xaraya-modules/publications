@@ -16,8 +16,6 @@ use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\MethodClass;
-use xarVar;
-use xarTpl;
 use xarRequest;
 use xarRouter;
 use xarDispatcher;
@@ -51,7 +49,7 @@ class DisplayMethod extends MethodClass
         $this->var()->find('translate', $translate, 'int:1', 1);
         $this->var()->find('layout', $layout, 'str:1', 'detail');
 
-        // Override xarVar::fetch
+        // Override xar::var()->fetch
         extract($args);
 
         // The itemid var takes precedence if it exiata
@@ -339,7 +337,7 @@ class DisplayMethod extends MethodClass
                     $tplString = $blCompiler->compilestring($tplString);
                     // We don't allow passing $data to the template for now
                     $tpldata = [];
-                    $tplString = xarTpl::string($tplString, $tpldata);
+                    $tplString = $this->tpl()->string($tplString, $tpldata);
                 } catch (Exception $e) {
                     var_dump($tplString);
                 }
@@ -398,7 +396,7 @@ class DisplayMethod extends MethodClass
         # Set the theme if needed
         #
         if (!empty($data['object']->properties['theme']->value)) {
-            xarTpl::setThemeName($data['object']->properties['theme']->value);
+            $this->tpl()->setThemeName($data['object']->properties['theme']->value);
         }
 
         # --------------------------------------------------------

@@ -13,7 +13,6 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarMod;
 use BadParameterException;
 
 /**
@@ -194,7 +193,7 @@ class GetMethod extends MethodClass
                 return;
             }
 
-            $info = xarMod::getBaseInfo('publications');
+            $info = $this->mod()->getBaseInfo('publications');
             $regid = $info['systemid'];
             $articlecids = $this->mod()->apiFunc(
                 'categories',

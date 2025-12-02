@@ -14,8 +14,6 @@ namespace Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarModHooks;
-use xarModAlias;
 use DataPropertyMaster;
 
 /**
@@ -104,7 +102,7 @@ class UpdateMethod extends MethodClass
 
         // call transform input hooks
         $article['transform'] = ['summary','body','notes'];
-        //    $article = xarModHooks::call('item', 'transform-input', $data['itemid'], $article,
+        //    $article = $this->mod()->callHooks('item', 'transform-input', $data['itemid'], $article,
         //                               'publications', $data['ptid']);
 
         // Now talk to the database. Loop through all the translation pages
@@ -124,12 +122,12 @@ class UpdateMethod extends MethodClass
             if ($alias_flag == 1) {
                 $alias = $data['object']->properties['alias']->value;
                 if (!empty($alias)) {
-                    xarModAlias::set($alias, 'publications');
+                    $this->mod()->setAlias($alias, 'publications');
                 }
             } elseif ($alias_flag == 2) {
                 $alias = $data['object']->properties['name']->value;
                 if (!empty($alias)) {
-                    xarModAlias::set($alias, 'publications');
+                    $this->mod()->setAlias($alias, 'publications');
                 }
             }
 

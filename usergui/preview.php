@@ -14,8 +14,6 @@ namespace Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarVar;
-use xarTpl;
 use XarayaCompiler;
 use Exception;
 
@@ -34,7 +32,7 @@ class PreviewMethod extends MethodClass
         $userapi = $this->userapi();
         $this->var()->find('layout', $layout, 'str:1', 'detail');
 
-        // Override xarVar::fetch
+        // Override xar::var()->fetch
         extract($data);
 
         if (empty($data['object'])) {
@@ -135,7 +133,7 @@ class PreviewMethod extends MethodClass
                     $tplString = $blCompiler->compilestring($tplString);
                     // We don't allow passing $data to the template for now
                     $tpldata = [];
-                    $tplString = xarTpl::string($tplString, $tpldata);
+                    $tplString = $this->tpl()->string($tplString, $tpldata);
                 } catch (Exception $e) {
                     var_dump($tplString);
                 }
@@ -190,7 +188,7 @@ class PreviewMethod extends MethodClass
         # Set the theme if needed
         #
         if (!empty($data['object']->properties['theme']->value)) {
-            xarTpl::setThemeName($data['object']->properties['theme']->value);
+            $this->tpl()->setThemeName($data['object']->properties['theme']->value);
         }
 
         # --------------------------------------------------------

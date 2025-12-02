@@ -13,7 +13,6 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarUser;
 use Query;
 
 /**
@@ -104,7 +103,7 @@ class GetrelativepagesMethod extends MethodClass
         }
 
         // We need to grab all the pages if we are looking for translations, because the translation might have a valid state
-        if ($this->mod()->getVar('defaultlanguage') == xarUser::getNavigationLocale()) {
+        if ($this->mod()->getVar('defaultlanguage') == $this->user()->getLocale()) {
             // Allow filtering on state nonetheless
             if (!empty($args['state'])) {
                 if (!is_array($args['state'])) {
@@ -170,7 +169,7 @@ class GetrelativepagesMethod extends MethodClass
         // CHECKME: is there a better way?
         // If there is no translation the base document remains, unless $args['no_fallback_locale'] is true;
 
-        if (!empty($pages) && $this->mod()->getVar('defaultlanguage') != xarUser::getNavigationLocale()) {
+        if (!empty($pages) && $this->mod()->getVar('defaultlanguage') != $this->user()->getLocale()) {
             $indexedpages = [];
             foreach ($pages as $v) {
                 $indexedpages[$v['id']] = $v;
@@ -188,7 +187,7 @@ class GetrelativepagesMethod extends MethodClass
             $q->addfield('locale');
             $q->addfield('state');
             $q->in('parent_id', $ids);
-            $q->eq('locale', xarUser::getNavigationLocale());
+            $q->eq('locale', $this->user()->getLocale());
 
             // Allow state filter, if there is one
             if (!empty($args['state'])) {
@@ -226,7 +225,7 @@ class GetrelativepagesMethod extends MethodClass
                     unset($indexedpages[$key]);
                 }
                 // Special case: we ignore pages that have no translation in the current locale
-                if (!empty($args['no_fallback_locale']) && ($page['locale'] != xarUser::getNavigationLocale())) {
+                if (!empty($args['no_fallback_locale']) && ($page['locale'] != $this->user()->getLocale())) {
                     unset($indexedpages[$key]);
                 }
             }

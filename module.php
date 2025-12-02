@@ -14,7 +14,7 @@ namespace Xaraya\Modules\Publications;
 use Xaraya\Modules\ModuleClass;
 
 /**
- * Get publications module classes via xarMod::getModule()
+ * Get publications module classes via xar::mod()->getModule()
  */
 class Module extends ModuleClass
 {

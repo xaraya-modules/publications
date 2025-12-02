@@ -14,7 +14,6 @@ namespace Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarModHooks;
 use BadParameterException;
 
 /**
@@ -100,7 +99,7 @@ class DeletepubtypeMethod extends MethodClass
         }
 
         // TODO: call some kind of itemtype delete hooks here, once we have those
-        //xarModHooks::call('itemtype', 'delete', $ptid,
+        //$this->mod()->callHooks('itemtype', 'delete', $ptid,
         //                array('module' => 'publications',
         //                      'itemtype' =>'ptid'));
 

@@ -71,7 +71,7 @@ class PublicationType extends DataObject
 
     public function getLabel()
     {
-        $settings = xarMod::apiFunc('publications', 'user', 'getsettings', ['ptid' => $this->properties['id']->value]);
+        $settings = $this->mod()->apiFunc('publications', 'user', 'getsettings', ['ptid' => $this->properties['id']->value]);
         if (!empty($settings['alias'])) {
             return $settings['alias'];
         } else {

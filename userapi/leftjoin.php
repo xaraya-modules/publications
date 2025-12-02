@@ -13,7 +13,6 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarMLS;
 
 /**
  * publications userapi leftjoin function
@@ -168,7 +167,7 @@ class LeftjoinMethod extends MethodClass
         */
         /* Example: automatically filter by the current locale - cfr. bug 3454
             if (empty($locale)) {
-                $locale = xarMLS::getCurrentLocale();
+                $locale = $this->mls()->getCurrentLocale();
             }
         */
         if (!empty($locale) && is_string($locale)) {

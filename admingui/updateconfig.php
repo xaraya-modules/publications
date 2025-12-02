@@ -14,7 +14,6 @@ namespace Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarModAlias;
 use PropertyRegistration;
 
 /**
@@ -179,9 +178,9 @@ class UpdateconfigMethod extends MethodClass
 
             $pubtypes = $userapi->get_pubtypes();
             if ($usealias) {
-                xarModAlias::set($pubtypes[$ptid]['name'], 'publications');
+                $this->mod()->setAlias($pubtypes[$ptid]['name'], 'publications');
             } else {
-                xarModAlias::delete($pubtypes[$ptid]['name'], 'publications');
+                $this->mod()->removeAlias($pubtypes[$ptid]['name'], 'publications');
             }
         } elseif ($data['tab'] == 'redirects') {
             $redirects = $this->prop()->getProperty(['name' => 'array']);

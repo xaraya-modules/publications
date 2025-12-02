@@ -15,7 +15,6 @@ use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarModHooks;
 
 /**
  * publications user view function
@@ -159,7 +158,7 @@ class ViewMethod extends MethodClass
             // TODO: figure how to let users specify their settings
             // COMMENT: if the settings were split into separate module variables,
             // then they could all be individually over-ridden by each user.
-            //$numitems = xarModUserGetVar('items_per_page');
+            //$numitems = xar::mod()->getUserVar('items_per_page');
         }
         if (empty($numitems)) {
             if (!empty($settings['items_per_page'])) {
@@ -523,7 +522,7 @@ class ViewMethod extends MethodClass
                     } else {
                         $article['transform'] = array('summary', 'body', 'notes');
                     }
-                    $article = xarModHooks::call('item', 'transform', $article['id'], $article, 'publications');
+                    $article = $this->mod()->callHooks('item', 'transform', $article['id'], $article, 'publications');
                 }
 
                 $data['titles'][$article['id']] = $article['title'];

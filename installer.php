@@ -14,7 +14,6 @@
 namespace Xaraya\Modules\Publications;
 
 use Xaraya\Modules\InstallerClass;
-use xarMod;
 use xarModHooks;
 use xarHooks;
 use xarPrivileges;
@@ -194,7 +193,7 @@ class Installer extends InstallerClass
             'publications_versions',
         ];
 
-        if (!xarMod::apiFunc('modules', 'admin', 'standardinstall', ['module' => $module, 'objects' => $objects])) {
+        if (!$this->mod()->apiFunc('modules', 'admin', 'standardinstall', ['module' => $module, 'objects' => $objects])) {
             return;
         }
 
@@ -202,7 +201,7 @@ class Installer extends InstallerClass
         // Create publications categories
         $cids = [];
         foreach ($categories as $category) {
-            $cid[$category['name']] = xarMod::apiFunc(
+            $cid[$category['name']] = $this->mod()->apiFunc(
                 'categories',
                 'admin',
                 'create',
@@ -211,7 +210,7 @@ class Installer extends InstallerClass
                     'parent_id' => 0, ]
             );
             foreach ($category['children'] as $child) {
-                $cid[$child] = xarMod::apiFunc(
+                $cid[$child] = $this->mod()->apiFunc(
                     'categories',
                     'admin',
                     'create',
@@ -316,7 +315,7 @@ class Installer extends InstallerClass
 
         // Enable publications hooks for search
         if ($this->mod()->isAvailable('search')) {
-            xarMod::apiFunc(
+            $this->mod()->apiFunc(
                 'modules',
                 'admin',
                 'enablehooks',
@@ -325,12 +324,12 @@ class Installer extends InstallerClass
         }
 
         // Enable categories hooks for publications
-        /*    xarMod::apiFunc('modules','admin','enablehooks',
+        /*    $this->mod()->apiFunc('modules','admin','enablehooks',
                           array('callerModName' => 'publications', 'hookModName' => 'categories'));
         */
         // Enable comments hooks for publications
         if ($this->mod()->isAvailable('comments')) {
-            xarMod::apiFunc(
+            $this->mod()->apiFunc(
                 'modules',
                 'admin',
                 'enablehooks',
@@ -339,7 +338,7 @@ class Installer extends InstallerClass
         }
         // Enable hitcount hooks for publications
         if ($this->mod()->isAvailable('hitcount')) {
-            xarMod::apiFunc(
+            $this->mod()->apiFunc(
                 'modules',
                 'admin',
                 'enablehooks',
@@ -348,7 +347,7 @@ class Installer extends InstallerClass
         }
         // Enable ratings hooks for publications
         if ($this->mod()->isAvailable('ratings')) {
-            xarMod::apiFunc(
+            $this->mod()->apiFunc(
                 'modules',
                 'admin',
                 'enablehooks',
@@ -361,7 +360,7 @@ class Installer extends InstallerClass
         * Format is
         * xarPrivileges::defineInstance(Module,Component,Querystring,ApplicationVar,LevelTable,ChildIDField,ParentIDField)
         *********************************************************************/
-        $info = xarMod::getBaseInfo('publications');
+        $info = $this->mod()->getBaseInfo('publications');
         $sysid = $info['systemid'];
         $xartable = & $this->db()->getTables();
         $instances = [
@@ -436,6 +435,6 @@ class Installer extends InstallerClass
     public function delete()
     {
         $module = 'publications';
-        return xarMod::apiFunc('modules', 'admin', 'standarddeinstall', ['module' => $module]);
+        return $this->mod()->apiFunc('modules', 'admin', 'standarddeinstall', ['module' => $module]);
     }
 }

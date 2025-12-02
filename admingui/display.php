@@ -15,10 +15,7 @@ use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\AdminGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarVar;
-use xarTpl;
 use xarTplPager;
-use xarModHooks;
 use XarayaCompiler;
 use Exception;
 
@@ -55,7 +52,7 @@ class DisplayMethod extends MethodClass
         $this->var()->find('translate', $translate, 'int:1', 1);
         $this->var()->find('layout', $layout, 'str:1', 'detail');
 
-        // Override xarVar::fetch
+        // Override xar::var()->fetch
         extract($args);
 
         /** @var AdminGui $admingui */
@@ -289,7 +286,7 @@ class DisplayMethod extends MethodClass
                     $tplString = $blCompiler->compilestring($tplString);
                     // We don't allow passing $data to the template for now
                     $tpldata = [];
-                    $tplString = xarTpl::string($tplString, $tpldata);
+                    $tplString = $this->tpl()->string($tplString, $tpldata);
                 } catch (Exception $e) {
                     var_dump($tplString);
                 }
@@ -344,7 +341,7 @@ class DisplayMethod extends MethodClass
         # Set the theme if needed
         #
         if (!empty($data['object']->properties['theme']->value)) {
-            xarTpl::setThemeName($data['object']->properties['theme']->value);
+            $this->tpl()->setThemeName($data['object']->properties['theme']->value);
         }
 
         # --------------------------------------------------------
@@ -678,7 +675,7 @@ class DisplayMethod extends MethodClass
                 $data['transform'][] = 'notes';
             }
         }
-        $data = xarModHooks::call('item', 'transform', $id, $data, 'publications');
+        $data = $this->mod()->callHooks('item', 'transform', $id, $data, 'publications');
         $data['context'] ??= $this->getContext();
 
         return $this->tpl()->module('publications', 'user', 'display', $data);

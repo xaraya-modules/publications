@@ -14,8 +14,6 @@ namespace Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\AdminApi;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarMLS;
-use xarModHooks;
 use BadParameterException;
 use ForbiddenOperationException;
 
@@ -130,7 +128,7 @@ class CreateMethod extends MethodClass
 
         // Default locale is current locale
         if (empty($locale)) {
-            $locale = xarMLS::getCurrentLocale();
+            $locale = $this->mls()->getCurrentLocale();
         }
 
         // Default summary is empty
@@ -212,7 +210,7 @@ class CreateMethod extends MethodClass
         $args['itemid'] = $id;
         // TODO: get rid of this
         $args['cids'] = $cids;
-        xarModHooks::call('item', 'create', $id, $args);
+        $this->mod()->callHooks('item', 'create', $id, $args);
 
         return $id;
     }

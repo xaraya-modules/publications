@@ -15,7 +15,6 @@ use Xaraya\Modules\Publications\Defines;
 use Xaraya\Modules\Publications\UserGui;
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarMLS;
 
 /**
  * publications user search function
@@ -355,7 +354,7 @@ class SearchMethod extends MethodClass
             }
             $startdate = strtotime($startdate);
             // adjust for the user's timezone offset
-            $startdate -= xarMLS::userOffset() * 3600;
+            $startdate -= $this->mls()->userOffset() * 3600;
             if ($startdate > $now && !$isadmin) {
                 $startdate = $now;
             }
@@ -370,7 +369,7 @@ class SearchMethod extends MethodClass
             }
             $enddate = strtotime($enddate);
             // adjust for the user's timezone offset
-            $enddate -= xarMLS::userOffset() * 3600;
+            $enddate -= $this->mls()->userOffset() * 3600;
             if ($enddate > $now && !$isadmin) {
                 $enddate = $now;
             }

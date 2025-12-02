@@ -13,7 +13,6 @@ namespace Xaraya\Modules\Publications\UserApi;
 
 use Xaraya\Modules\Publications\UserApi;
 use Xaraya\Modules\MethodClass;
-use xarUser;
 use Query;
 
 /**
@@ -144,7 +143,7 @@ class GetSitemapPagesMethod extends MethodClass
         // CHECKME: is there a better way?
         // If there is no translation the base document remains. Is this desired outcome?
 
-        if (!empty($pages) && $this->mod()->getVar('defaultlanguage') != xarUser::getNavigationLocale()) {
+        if (!empty($pages) && $this->mod()->getVar('defaultlanguage') != $this->user()->getLocale()) {
             $indexedpages = [];
             foreach ($pages as $v) {
                 $indexedpages[$v['id']] = $v;
@@ -162,7 +161,7 @@ class GetSitemapPagesMethod extends MethodClass
             $q->addfield('sitemap_alias');
             $q->addfield('pubtype_id');
             $q->in('parent_id', $ids);
-            $q->eq('locale', xarUser::getNavigationLocale());
+            $q->eq('locale', $this->user()->getLocale());
 
             // Add any fiters we found
             foreach ($filters as $k => $v) {
