@@ -5,21 +5,21 @@
         <xar:style scope="module" module="publications" file="alphapager" />
 
         <div class="alphapager-wrapper">
-            <a href="#xarServer::getCurrentURL(['letter' => null, 'startnum' => null, 'q' => null])#">All</a>
+            <a href="#$xar->ctl()->getCurrentURL(['letter' => null, 'startnum' => null, 'q' => null])#">All</a>
             <xar:for start="$i = ord('A')" test="$i le ord('Z')" iter="$i++">
                 <xar:set name="curletter">chr($i)</xar:set>
 
                 <xar:if condition="!empty($letter) and ($letter eq strtolower($curletter))">
                     <span>#$curletter#</span>
                 <xar:else />
-                    <a href="#xarServer::getCurrentURL(['letter' => $curletter, 'startnum' => null, 'q' => null])#">#$curletter#</a>
+                    <a href="#$xar->ctl()->getCurrentURL(['letter' => $curletter, 'startnum' => null, 'q' => null])#">#$curletter#</a>
                 </xar:if>
 
             </xar:for>
             <xar:if condition="!empty($letter) and ($letter eq 'other')">
                 <span>Other</span>
             <xar:else />
-                <a href="#xarServer::getCurrentURL(['letter' => 'other', 'startnum' => null, 'q' => null])#">Other</a>
+                <a href="#$xar->ctl()->getCurrentURL(['letter' => 'other', 'startnum' => null, 'q' => null])#">Other</a>
             </xar:if>
         </div>
     </xar:if>

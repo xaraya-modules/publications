@@ -11,11 +11,11 @@
         <xar:if condition="empty($versions)">
             There are no versions previous to the current version
         <xar:else />
-            <form method="post" action="#xarServer::getCurrentURL()#">
+            <form method="post" action="#$xar->ctl()->getCurrentURL()#">
                 <div class="xar-row">
                     <div class="xar-col">
-                        <a href="#xarController::URL('publications', 'admin', 'modify', ['name' => $objectname, 'itemid' => $page_id])#" title="#xarML('Modify this item')#" style="margin-right: 5px">
-                            <img src="#xarTpl::getImage('icons/' . 'modify.png', 'base')#" width="16" height="16" alt="#xarML('Modify')#"/>
+                        <a href="#$xar->ctl()->URL('publications', 'admin', 'modify', ['name' => $objectname, 'itemid' => $page_id])#" title="#$xar->ml('Modify this item')#" style="margin-right: 5px">
+                            <img src="#$xar->tpl()->getImage('icons/' . 'modify.png', 'base')#" width="16" height="16" alt="#$xar->ml('Modify')#"/>
                         </a>
                         &#160;
                         &#160;

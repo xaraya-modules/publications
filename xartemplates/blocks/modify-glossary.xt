@@ -2,7 +2,7 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
 <h4>Where the glossary items are held</h4>
 <div>
-    <span class="help" title="#xarML('Choose the publication type for the glossary.')#"><label for="ptid_block_#$bid#">Publication Type</label>:</span>
+    <span class="help" title="#$xar->ml('Choose the publication type for the glossary.')#"><label for="ptid_block_#$bid#">Publication Type</label>:</span>
 </div>
 <div>
     <select name="ptid" id="ptid_block_#$bid#">
@@ -18,7 +18,7 @@
 </div>
 
 <div>
-    <span class="help" title="#xarML('Choose the category for the glossary.')#"><label for="cid_block_#$bid#">Category</label>:</span>
+    <span class="help" title="#$xar->ml('Choose the category for the glossary.')#"><label for="cid_block_#$bid#">Category</label>:</span>
 </div>
 <div>
     <select name="cid" id="cid_block_#$bid#">
@@ -35,9 +35,9 @@
 
 <h4>How the glossary block is invoked</h4>
 <div>
-    <span class="help" title="#xarML('The name of the glossary parameter to trigger the block.')#"><label for="paramname_#$bid#">Parameter Name</label>:</span>
+    <span class="help" title="#$xar->ml('The name of the glossary parameter to trigger the block.')#"><label for="paramname_#$bid#">Parameter Name</label>:</span>
 </div>
 <div>
-    <input type="text" name="paramname" id="paramname_block_#$bid#" size="20" maxlength="20" value="#xarVarPrep::text($paramname)#"/>
+    <input type="text" name="paramname" id="paramname_block_#$bid#" size="20" maxlength="20" value="#$xar->prep()->text($paramname)#"/>
 </div>
 </xar:template>

@@ -2,29 +2,29 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <div class="xar-row">
         <div class="xar-col">
-            <label class="xar-form-label help" title="#xarML('Choose the publication type you want to display with top items.')#" for="pubtype_id#$blockid#"> 
+            <label class="xar-form-label help" title="#$xar->ml('Choose the publication type you want to display with top items.')#" for="pubtype_id#$blockid#"> 
                 Publication Type
             </label> 
         </div>
         <div class="xar-col">
             <xar:var name="firstline">All</xar:var>
             <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
-            <xar:set name="options">xarMod::apiFunc('publications', 'user', 'get_pubtypes')</xar:set>        
+            <xar:set name="options">$xar->mod()->apiFunc('publications', 'user', 'get_pubtypes')</xar:set>        
             <xar:data-input type="dropdown" name="pubtype_id" firstline="$firstline" options="$options" value="$pubtype_id"/>
         </div>
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="xar-form-label help" title="#xarML('Choose the state (e.g. Approved, Front Page) for the featured items.')#" for="state#$blockid#"> 
+            <label class="xar-form-label help" title="#$xar->ml('Choose the state (e.g. Approved, Front Page) for the featured items.')#" for="state#$blockid#"> 
                 Status             
             </label>
         </div>
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    ['id' => '2,3', 'name' => xarML('All Published')],
-                    ['id' => '3', 'name' => xarML('Frontpage')],
-                    ['id' => '2', 'name' => xarML('Approved')]
+                    ['id' => '2,3', 'name' => $xar->ml('All Published')],
+                    ['id' => '3', 'name' => $xar->ml('Frontpage')],
+                    ['id' => '2', 'name' => $xar->ml('Approved')]
                 )
             </xar:set>        
             <xar:data-input type="dropdown" name="state" options="$options" value="$state"/>
@@ -32,7 +32,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label for="fillerid#$blockid#" class="help xar-form-label" title="#xarML('Choose the publication to display as a featured item.')#">
+            <label for="fillerid#$blockid#" class="help xar-form-label" title="#$xar->ml('Choose the publication to display as a featured item.')#">
                 Featured Publication        
             </label>
         </div>
@@ -44,15 +44,15 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('The type of display to show in this block')#" for="displaytype#$blockid#">
+            <label class="help" title="#$xar->ml('The type of display to show in this block')#" for="displaytype#$blockid#">
                 Display Type            
             </label>
         </div>
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    ['id' => 'summary', 'name' => xarML('Summary Display')],
-                    ['id' => 'detail', 'name' => xarML('Detail Display')],
+                    ['id' => 'summary', 'name' => $xar->ml('Summary Display')],
+                    ['id' => 'detail', 'name' => $xar->ml('Detail Display')],
                 )
             </xar:set>        
             <xar:data-input type="dropdown" name="displaytype" options="$options" value=""/>
@@ -60,7 +60,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label for="alttitle#$blockid#" class="help xar-form-label" title="#xarML('If you wish to give the article an alternative title to be displayed as a featured item, enter the name here.')#">
+            <label for="alttitle#$blockid#" class="help xar-form-label" title="#$xar->ml('If you wish to give the article an alternative title to be displayed as a featured item, enter the name here.')#">
                 Alternate Title        
             </label> 
         </div>
@@ -70,7 +70,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('If you wish to give the article an alternative text to be displayed as a featured item, enter the summary here.')#" for="alttext#$blockid#">
+            <label class="help" title="#$xar->ml('If you wish to give the article an alternative text to be displayed as a featured item, enter the summary here.')#" for="alttext#$blockid#">
                 Alternate Text        
             </label>
         </div>

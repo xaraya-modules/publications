@@ -13,9 +13,9 @@
         <xar:else />
             <div class="xar-row">
                 <div class="xar-col">
-                    <form method="post" action="#xarServer::getCurrentURL()#">
-                        <a href="#xarController::URL('publications', 'admin', 'modify', ['name' => $objectname, 'itemid' => $page_id])#" title="#xarML('Modify this item')#" style="margin-right: 5px">
-                            <img src="#xarTpl::getImage('icons/' . 'modify.png', 'base')#" width="16" height="16" alt="#xarML('Modify')#"/>
+                    <form method="post" action="#$xar->ctl()->getCurrentURL()#">
+                        <a href="#$xar->ctl()->URL('publications', 'admin', 'modify', ['name' => $objectname, 'itemid' => $page_id])#" title="#$xar->ml('Modify this item')#" style="margin-right: 5px">
+                            <img src="#$xar->tpl()->getImage('icons/' . 'modify.png', 'base')#" width="16" height="16" alt="#$xar->ml('Modify')#"/>
                         </a>
                         &#160;
                         &#160;
@@ -28,7 +28,7 @@
                     </form>
                 </div>
                 <div class="xar-col">
-                    <form method="post" action="#xarServer::getCurrentURL()#">
+                    <form method="post" action="#$xar->ctl()->getCurrentURL()#">
                         <xar:var name="label">Make This Version Current</xar:var>
                         <xar:button type="submit" label="$label"/>
                         <input type="hidden" name="confirm" value="2"/>

@@ -41,8 +41,8 @@
                             Category
                         </th>
                         <td>
-                            <xar:set name="firstline">['id' => xarML('All'), 'name' => xarML('All'])</xar:set>
-                            <xar:set name="onchange">"this.form.action='" . xarServer::getCurrentURL() . "';this.form.submit();"</xar:set>
+                            <xar:set name="firstline">['id' => $xar->ml('All'), 'name' => $xar->ml('All'])</xar:set>
+                            <xar:set name="onchange">"this.form.action='" . $xar->ctl()->getCurrentURL() . "';this.form.submit();"</xar:set>
                             <xar:data-input type="categories" name="privcategories" itemtype="$ptid" value="$cids" firstline="All" layout="vertical" returnitself="true" onchange="$onchange" />
                         </td>
                     </tr>

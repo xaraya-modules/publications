@@ -17,7 +17,7 @@
                     <xar:continue />
                 </xar:if>
             <th>
-                <xar:set name="url">xarServer::getCurrentURL($paramarray)</xar:set>
+                <xar:set name="url">$xar->ctl()->getCurrentURL($paramarray)</xar:set>
                 <a href="#$url#" class="refresh_listing" alt="Click to order by this field" title="Order by #$column#">
                     <xar:var name="fieldlabels.$column"/>
                 </a>

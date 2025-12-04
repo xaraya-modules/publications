@@ -2,20 +2,20 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <div class="xar-row">
         <div class="xar-col">
-            <label class="xar-form-label help" title="#xarML('Choose the publication type you want to display with top items.')#" for="pubtype_id#$blockid#"> 
+            <label class="xar-form-label help" title="#$xar->ml('Choose the publication type you want to display with top items.')#" for="pubtype_id#$blockid#"> 
                 Publication Type
             </label> 
         </div>
         <div class="xar-col">
             <xar:var name="firstline">All</xar:var>
             <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
-            <xar:set name="options">xarMod::apiFunc('publications', 'user', 'get_pubtypes')</xar:set>        
+            <xar:set name="options">$xar->mod()->apiFunc('publications', 'user', 'get_pubtypes')</xar:set>        
             <xar:data-input type="dropdown" name="pubtype_id" firstline="$firstline" options="$options" value="$pubtype_id"/>
         </div>
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('Check this if you want to include the publication type in the article links.')#" for="linkpubtype#$blockid#"> 
+            <label class="help" title="#$xar->ml('Check this if you want to include the publication type in the article links.')#" for="linkpubtype#$blockid#"> 
                 Link to Publication Type 
             </label> 
         </div>
@@ -26,21 +26,21 @@
     <xar:if condition="empty($nocatlimit)">
         <div class="xar-row">
             <div class="xar-col">
-                <label class="xar-form-label help" title="#xarML('Choose the category for the featured items.')#" for="catfilter#$blockid#"> 
+                <label class="xar-form-label help" title="#$xar->ml('Choose the category for the featured items.')#" for="catfilter#$blockid#"> 
                     Category 
                 </label>
             </div>
             <div class="xar-col">
                 <xar:var name="firstline">All / Current</xar:var>
                 <xar:set name="firstline">['id' => 0, 'name' => $firstline]</xar:set>
-                <xar:set name="options">xarMod::apiFunc('categories', 'user', 'getcat')</xar:set>        
+                <xar:set name="options">$xar->mod()->apiFunc('categories', 'user', 'getcat')</xar:set>        
                 <xar:data-input type="dropdown" name="catfilter" firstline="$firstline" options="$options" value="$catfilter"/>
             </div>
         </div>
         <xar:if condition="empty($includechildren) and $catfilter gt 0">
             <div class="xar-row">
                 <div class="xar-col">
-                    <label class="help" title="#xarML('Check this if you want to include this the category in the article links.')#" for="linkcat#$blockid#"> 
+                    <label class="help" title="#$xar->ml('Check this if you want to include this the category in the article links.')#" for="linkcat#$blockid#"> 
                         Link to This Category 
                     </label> 
                 </div>
@@ -54,7 +54,7 @@
                 <xar:data-input type="checkbox" name="includechildren" checked="$includechildren"/>
             </div>
             <div class="xar-col">
-                <label class="help" title="#xarML('Check this if you want to display all publications in all subcategories of the current or selected category.')#" for="includechildren#$blockid#"> 
+                <label class="help" title="#$xar->ml('Check this if you want to display all publications in all subcategories of the current or selected category.')#" for="includechildren#$blockid#"> 
                     Include Child Category Content 
                 </label> 
            </div>
@@ -62,7 +62,7 @@
     </xar:if>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('Check this if you want the block to display content from all categories all the time.')#" for="nocatlimit#$blockid#"> 
+            <label class="help" title="#$xar->ml('Check this if you want the block to display content from all categories all the time.')#" for="nocatlimit#$blockid#"> 
                 All Categories 
             </label> 
         </div>
@@ -72,16 +72,16 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="xar-form-label help" title="#xarML('Choose the state (e.g. Approved, Front Page) for the featured items.')#" for="state#$blockid#"> 
+            <label class="xar-form-label help" title="#$xar->ml('Choose the state (e.g. Approved, Front Page) for the featured items.')#" for="state#$blockid#"> 
                 Status             
             </label>
         </div>
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    ['id' => '2,3', 'name' => xarML('All Published')],
-                    ['id' => '3', 'name' => xarML('Frontpage')],
-                    ['id' => '2', 'name' => xarML('Approved')]
+                    ['id' => '2,3', 'name' => $xar->ml('All Published')],
+                    ['id' => '3', 'name' => $xar->ml('Frontpage')],
+                    ['id' => '2', 'name' => $xar->ml('Approved')]
                 )
             </xar:set>        
             <xar:data-input type="dropdown" name="pubstate" options="$options" value="$pubstate"/>
@@ -90,7 +90,7 @@
 
     <div class="xar-row">
         <div class="xar-col">
-            <label for="numitems#$blockid#" class="help xar-form-label" title="#xarML('Enter the number of items to choose featured publications from.')#">
+            <label for="numitems#$blockid#" class="help xar-form-label" title="#$xar->ml('Enter the number of items to choose featured publications from.')#">
                 Limit       
            :</label> 
         </div>
@@ -101,7 +101,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label for="featuredid#$blockid#" class="help xar-form-label" title="#xarML('Choose the article to display as a featured item.')#">
+            <label for="featuredid#$blockid#" class="help xar-form-label" title="#$xar->ml('Choose the article to display as a featured item.')#">
                 Featured Publication        
             </label>
         </div>
@@ -113,7 +113,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label for="alttitle#$blockid#" class="help xar-form-label" title="#xarML('If you wish to give the article an alternative title to be displayed as a featured item, enter the name here.')#">
+            <label for="alttitle#$blockid#" class="help xar-form-label" title="#$xar->ml('If you wish to give the article an alternative title to be displayed as a featured item, enter the name here.')#">
                 Alternate Title        
             </label> 
         </div>
@@ -123,7 +123,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('If you wish to show the summary for the article as teaser text select this box.')#" for="showfeaturedsum#$blockid#">
+            <label class="help" title="#$xar->ml('If you wish to show the summary for the article as teaser text select this box.')#" for="showfeaturedsum#$blockid#">
                 Show summary            
             </label>
         </div>
@@ -133,7 +133,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('If you wish to show the whole of the body of the featured article.')#" for="showfeaturedbod#$blockid#">
+            <label class="help" title="#$xar->ml('If you wish to show the whole of the body of the featured article.')#" for="showfeaturedbod#$blockid#">
                 Show body            
             </label>
         </div>
@@ -143,7 +143,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('If you wish to give the article an alternative summary to be displayed as a featured item, enter the summary here.')#" for="altsummary#$blockid#">
+            <label class="help" title="#$xar->ml('If you wish to give the article an alternative summary to be displayed as a featured item, enter the summary here.')#" for="altsummary#$blockid#">
                 Alternate Summary        
             </label>
         </div>
@@ -153,7 +153,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help xar-form-label" title="#xarML('Choose additional headlines to display.')#" for="moreitems">
+            <label class="help xar-form-label" title="#$xar->ml('Choose additional headlines to display.')#" for="moreitems">
                 Additional Headlines        
             </label> 
         </div>
@@ -163,18 +163,18 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="xar-form-label help" title="#xarML('Choose the sorting options for the top items.')#" for="toptype#$blockid#"> 
+            <label class="xar-form-label help" title="#$xar->ml('Choose the sorting options for the top items.')#" for="toptype#$blockid#"> 
                 Sort by 
             </label>
         </div>
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    ['id' => 'author', 'name' => xarML('Author')],
-                    ['id' => 'date', 'name' => xarML('Date')],
-                    ['id' => 'hits', 'name' => xarML('Hit Count')],
-                    ['id' => 'rating', 'name' => xarML('Rating')],
-                    ['id' => 'title', 'name' => xarML('Title')]
+                    ['id' => 'author', 'name' => $xar->ml('Author')],
+                    ['id' => 'date', 'name' => $xar->ml('Date')],
+                    ['id' => 'hits', 'name' => $xar->ml('Hit Count')],
+                    ['id' => 'rating', 'name' => $xar->ml('Rating')],
+                    ['id' => 'title', 'name' => $xar->ml('Title')]
                 )
             </xar:set>        
             <xar:data-input type="dropdown" name="sortoptions" options="$options" value="$toptype"/>
@@ -183,7 +183,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('Select this box if you wish to display the sort options.')#" for="showvalue#$blockid#">
+            <label class="help" title="#$xar->ml('Select this box if you wish to display the sort options.')#" for="showvalue#$blockid#">
                 Show sort value            
             </label>
         </div>
@@ -193,7 +193,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('If you wish to show the summary for the block, select this box.')#" for="showsummary#$blockid#">
+            <label class="help" title="#$xar->ml('If you wish to show the summary for the block, select this box.')#" for="showsummary#$blockid#">
                 Show summary            
             </label>
         </div>
@@ -203,7 +203,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help" title="#xarML('Set to include the publication type in the article link.')#" for="linkpubtype#$blockid#">
+            <label class="help" title="#$xar->ml('Set to include the publication type in the article link.')#" for="linkpubtype#$blockid#">
                 Link to publication type            
             </label>
         </div>
@@ -214,7 +214,7 @@
     <xar:if condition="isset($catfilter)">
         <div class="xar-row">
             <div class="xar-col">
-                <label class="help" title="#xarML('Set to include the filter category in the article link.')#" for="linkcat#$blockid#">
+                <label class="help" title="#$xar->ml('Set to include the filter category in the article link.')#" for="linkcat#$blockid#">
                     Link to filter category                
                 </label>
             </div>

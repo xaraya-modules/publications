@@ -7,7 +7,7 @@
     <xar:data-input property="$properties['version']" hidden="hidden" />
     <xar:data-input property="$properties['author']" hidden="hidden" />
     <xar:data-input property="$properties['pages']" hidden="hidden" />
-    <xar:if condition="xarModVars::get('publications', 'multilanguage')">
+    <xar:if condition="$xar->mod('publications')->getVar('multilanguage')">
         <fieldset>
             <legend>
                 Page Characteristics
@@ -68,8 +68,8 @@
                 </div>
                 <div class="xar-col">
                     &#160;
-                    <a href="#xarController::URL('publications','admin','delete_translation',['itemid'=>$properties['id']->value])#" title="#xarML('Delete this translation')#" style="margin-right: 5px">
-                        <img src="#xarTpl::getImage('icons/'.'delete.png', 'base')#" width="16" height="16" alt="#xarML('Delete Translation')#"/>
+                    <a href="#$xar->ctl()->URL('publications','admin','delete_translation',['itemid'=>$properties['id']->value])#" title="#$xar->ml('Delete this translation')#" style="margin-right: 5px">
+                        <img src="#$xar->tpl()->getImage('icons/'.'delete.png', 'base')#" width="16" height="16" alt="#$xar->ml('Delete Translation')#"/>
                     </a>
                 </div>
             </div>
@@ -162,10 +162,10 @@
             Allowed Tags
         </legend>
         <div class="xar-form-input-wrapper">
-            <label class="xar-form-label help" title="#xarML('This is the allowed HTML that this website has configured.')#">
+            <label class="xar-form-label help" title="#$xar->ml('This is the allowed HTML that this website has configured.')#">
                 Allowed HTML tags
             </label>
-            <xar:set name="tags">xarConfigVars::get(null,'Site.Core.AllowableHTML')</xar:set>
+            <xar:set name="tags">$xar->config()->getVar('Site.Core.AllowableHTML')</xar:set>
             <div class="xar-form-container-after">
                 <xar:set name="tagstring">""</xar:set>
                 <xar:foreach in="$tags" key="$key" value="$value">

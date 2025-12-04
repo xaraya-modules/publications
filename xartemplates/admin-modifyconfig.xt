@@ -10,7 +10,7 @@
         <xar:template type="module" module="base" file="admin-menu-skel"/>
         
         <xar:if condition="$tab eq 'global'">
-           <form class="xar-formwidget" action="#xarController::URL('publications', 'admin', 'updateconfig')#" method="post" enctype="application/x-www-form-urlencoded">
+           <form class="xar-formwidget" action="#$xar->ctl()->URL('publications', 'admin', 'updateconfig')#" method="post" enctype="application/x-www-form-urlencoded">
                 <fieldset>
                     <legend>General Settings</legend>
                     <xar:data-form object="$module_settings"/>
@@ -27,24 +27,24 @@
                     </legend>
                     <div class="xar-row">
                         <div class="xar-col">
-                            <label class="xar-form-label" for="multilanguage" title="#xarML('Support more than one language')#">
+                            <label class="xar-form-label" for="multilanguage" title="#$xar->ml('Support more than one language')#">
                                 Support Translations
                             </label> 
                         </div>
                         <div class="xar-col">
-                            <xar:set name="value">xarModVars::get('publications', 'multilanguage')</xar:set>
+                            <xar:set name="value">$xar->mod('publications')->getVar('multilanguage')</xar:set>
                             <xar:data-input type="checkbox" name="multilanguage" value="$value" />
                         </div>
                     </div>
                     <div class="xar-row">
                         <div class="xar-col">
-                            <label class="xar-form-label" for="defaultlanguage" title="#xarML('The language we fall back on if no translation is available')#">
+                            <label class="xar-form-label" for="defaultlanguage" title="#$xar->ml('The language we fall back on if no translation is available')#">
                                 Default Language
                             </label> 
                         </div>
                         <div class="xar-col">
                             <xar:if condition="$languages">
-                                <xar:set name="value">xarModVars::get('publications', 'defaultlanguage')</xar:set>
+                                <xar:set name="value">$xar->mod('publications')->getVar('defaultlanguage')</xar:set>
                                 <xar:data-input type="languages" name="defaultlanguage" value="$value" />
                             <xar:else/>
                                 <span class="xar-warning">The languages property is not available</span>
@@ -64,7 +64,7 @@
                             <label class="xar-form-label" for="defaultpage">
                                 Default page
                             </label>
-                            <xar:set name="value">xarModVars::get('publications', 'defaultpage')</xar:set>
+                            <xar:set name="value">$xar->mod('publications')->getVar('defaultpage')</xar:set>
                         </div>
                         <div class="xar-col">
                             <xar:data-input type="dropdown" name="defaultpage" value="$value" options="$options" firstline="$firstline"/>
@@ -77,7 +77,7 @@
                             </label>
                         </div>
                         <div class="xar-col">
-                            <xar:set name="value">xarModVars::get('publications', 'errorpage')</xar:set>
+                            <xar:set name="value">$xar->mod('publications')->getVar('errorpage')</xar:set>
                             <xar:data-input type="dropdown" name="errorpage" value="$value" options="$options" firstline="$firstline"/>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                             </label>
                         </div>
                         <div class="xar-col">
-                            <xar:set name="value">xarModVars::get('publications', 'notfoundpage')</xar:set>
+                            <xar:set name="value">$xar->mod('publications')->getVar('notfoundpage')</xar:set>
                             <xar:data-input type="dropdown" name="notfoundpage" value="$value" options="$options" firstline="$firstline"/>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                             </label>
                         </div>
                         <div class="xar-col">
-                            <xar:set name="value">xarModVars::get('publications', 'noprivspage')</xar:set>
+                            <xar:set name="value">$xar->mod('publications')->getVar('noprivspage')</xar:set>
                             <xar:data-input type="dropdown" name="noprivspage" value="$value" options="$options" firstline="$firstline"/>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                             </label>
                         </div>
                         <div class="xar-col">
-                            <xar:set name="value">xarModVars::get('publications', 'hide_tree_display')</xar:set>
+                            <xar:set name="value">$xar->mod('publications')->getVar('hide_tree_display')</xar:set>
                             <xar:data-input type="checkbox" name="hide_tree_display" value="$value"/>
                         </div>
                     </div>
@@ -123,12 +123,12 @@
                     <input type="hidden" name="id" id="id" value="#$ptid#" />
                     <div class="xar-row">
                         <div class="xar-col">
-                            <label class="help xar-form-label" for="usealias" title="#xarML('Removes the publications module name from the short url.')#">
+                            <label class="help xar-form-label" for="usealias" title="#$xar->ml('Removes the publications module name from the short url.')#">
                                 Alias for short URLs
                             </label>
                         </div>
                         <div class="xar-col">
-                            <xar:set name="value">xarModVars::get('publications', 'usealias')</xar:set>
+                            <xar:set name="value">$xar->mod('publications')->getVar('usealias')</xar:set>
                             <xar:data-input type="checkbox" name="usealias" checked="$value" />&#160;
                             <xar:ml>
                                     Use '#(1)' as alias in short URLs
@@ -140,7 +140,7 @@
                     </div>
                     <xar:comment><!--
                     <div class="xar-form-input-wrapper">
-                        <label class="help xar-form-label" for="page_template" title="#xarML('Change the theme/themename/pages/ template that you use with this publication type.')#">                    
+                        <label class="help xar-form-label" for="page_template" title="#$xar->ml('Change the theme/themename/pages/ template that you use with this publication type.')#">                    
                             Use different page template                    
                         </label> 
                         <input type="text" name="settings[page_template]" id="page_template" size="20" maxlength="60" value="#$settings['page_template']#" />
@@ -148,7 +148,7 @@
                     --></xar:comment>
                     <div class="xar-row">
                         <div class="xar-col">
-                            <label class="help xar-form-label" for="usetitleforurl" title="#xarML('Note: if a title contains characters that are illegal in a URL, the title will not be used..')#">                    
+                            <label class="help xar-form-label" for="usetitleforurl" title="#$xar->ml('Note: if a title contains characters that are illegal in a URL, the title will not be used..')#">                    
                                 Use title in short URLs                    
                             </label>
                             <!--
@@ -169,7 +169,7 @@
                                     ['id' => 8, 'name' => 'Use title ignore duplicates (faster)'],
                                 )
                             </xar:set>
-                            <xar:set name="value">xarModVars::get('publications', 'usetitleforurl')</xar:set>
+                            <xar:set name="value">$xar->mod('publications')->getVar('usetitleforurl')</xar:set>
                             <xar:data-input type="dropdown" name="usetitleforurl" options="$options" value="$value" />&#160;
                         </div>
                     </div>
@@ -195,29 +195,29 @@
                         <xar:button type="submit" label="$label" />
                         <xar:comment><!--
                         &#160;
-                        <xar:set name="label">xarML('Reset')</xar:set>
+                        <xar:set name="label">$xar->ml('Reset')</xar:set>
                         <xar:button type="cancel" label="$label" />
                         --></xar:comment>
                         <input type="hidden" name="tab" id="tab" value="#$tab#" />
-                        <input type="hidden" name="authid" id="authid" value="#xarSec::genAuthKey()#" /> 
+                        <input type="hidden" name="authid" id="authid" value="#$xar->sec()->genAuthKey()#" /> 
                     </div>
                 </div>
             </form>
         <xar:elseif condition="$tab eq 'pubtypes'" />
             <div class="xar-row">
                 <div class="xar-col">
-                    <label class="help xar-form-label" title="#xarML('Select the type of publication whose settings you want to configure')#">                    
+                    <label class="help xar-form-label" title="#$xar->ml('Select the type of publication whose settings you want to configure')#">                    
                         Publication Type                    
                     </label>
                 </div>
                 <div class="xar-col">
-                    <form method="post" action="#xarController::URL('publications','admin','modifyconfig',['tab' => 'pubtypes'])#">
+                    <form method="post" action="#$xar->ctl()->URL('publications','admin','modifyconfig',['tab' => 'pubtypes'])#">
                         <xar:set name="onchange">"javascript:this.form.submit();"</xar:set>
                         <xar:data-input name="ptid" type="objectref" refobject="publications_types" store_prop="id" display_prop="description" value="$ptid" onchange="$onchange" />
                     </form>
                 </div>
             </div>
-           <form class="xar-formwidget" action="#xarController::URL('publications','admin','updateconfig')#" method="post" enctype="application/x-www-form-urlencoded">
+           <form class="xar-formwidget" action="#$xar->ctl()->URL('publications','admin','updateconfig')#" method="post" enctype="application/x-www-form-urlencoded">
                 <input type="hidden" name="ptid" value="#$ptid#" />
                 <fieldset class="xar-norm">
                     <legend>
@@ -225,7 +225,7 @@
                     </legend>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label class="help xar-form-label" for="defaultview" title="#xarML('Sorting by default.')#">
+                            <label class="help xar-form-label" for="defaultview" title="#$xar->ml('Sorting by default.')#">
                                 Default start view
                             </label> 
                         </div>
@@ -235,7 +235,7 @@
                         <div class="xar-col" style="width: 10%">
                         </div>
                         <div class="xar-col" style="width: 20%">
-                            <label for="items_per_page" class="help xar-form-label" title="#xarML('Number of items to display on user view.')#">
+                            <label for="items_per_page" class="help xar-form-label" title="#$xar->ml('Number of items to display on user view.')#">
                                 Items per page on user view
                             </label> 
                         </div>
@@ -245,7 +245,7 @@
                     </div>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label class="help xar-form-label" for="defaultsort" title="#xarML('Sorting by default')#">
+                            <label class="help xar-form-label" for="defaultsort" title="#$xar->ml('Sorting by default')#">
                                 Default sort order
                             </label>
                         </div>
@@ -269,7 +269,7 @@
                         <div class="xar-col" style="width: 10%">
                         </div>
                         <div class="xar-col" style="width: 20%">
-                            <label for="number_of_columns" class="help xar-form-label" title="#xarML('Number of columns to display on view pages.')#">
+                            <label for="number_of_columns" class="help xar-form-label" title="#$xar->ml('Number of columns to display on view pages.')#">
                                 Number of columns
                             </label>
                         </div>
@@ -279,7 +279,7 @@
                     </div>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label class="help xar-form-label" for="namestring" title="#xarML('String to identify the document')#">
+                            <label class="help xar-form-label" for="namestring" title="#$xar->ml('String to identify the document')#">
                                 Default ID string for name
                             </label> 
                         </div>
@@ -294,7 +294,7 @@
                     </legend>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_prevnext" class="help xar-form-label" title="#xarML('Show link to previous/next item in display.')#">                    
+                            <label for="show_prevnext" class="help xar-form-label" title="#$xar->ml('Show link to previous/next item in display.')#">                    
                                 Show previous/next links
                             </label>
                         </div>
@@ -309,7 +309,7 @@
                     </legend>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_keywords" class="help xar-form-label" title="#xarML('Show keywords on view page.')#">
+                            <label for="show_keywords" class="help xar-form-label" title="#$xar->ml('Show keywords on view page.')#">
                                 Show Keywords
                             </label>
                         </div>
@@ -324,7 +324,7 @@
                         <div class="xar-col" style="width: 10%">
                         </div>
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_ratings" class="help xar-form-label" title="#xarML('Show ratings on view page.')#">
+                            <label for="show_ratings" class="help xar-form-label" title="#$xar->ml('Show ratings on view page.')#">
                                 Show Ratings
                             </label>
                         </div>
@@ -339,7 +339,7 @@
                     </div>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_hitcount" class="help xar-form-label" title="#xarML('Show hit counts on view page.')#">
+                            <label for="show_hitcount" class="help xar-form-label" title="#$xar->ml('Show hit counts on view page.')#">
                                 Show Hit Counts
                             </label>
                         </div>
@@ -359,7 +359,7 @@
                     </legend>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_publinks" class="help xar-form-label" title="#xarML('Show links to publication types.')#">
+                            <label for="show_publinks" class="help xar-form-label" title="#$xar->ml('Show links to publication types.')#">
                                 Show links to publication types
                             </label>
                         </div>
@@ -369,7 +369,7 @@
                         <div class="xar-col" style="width: 10%">
                         </div>
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_archives" class="help xar-form-label" title="#xarML('Show link to archives.')#">
+                            <label for="show_archives" class="help xar-form-label" title="#$xar->ml('Show link to archives.')#">
                                 Show link to archives
                             </label>
                         </div>
@@ -379,7 +379,7 @@
                     </div>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_pubcount" class="help xar-form-label" title="#xarML('Show links to publication types.')#">
+                            <label for="show_pubcount" class="help xar-form-label" title="#$xar->ml('Show links to publication types.')#">
                                 Show number of publications in publication links
                             </label>
                         </div>
@@ -389,7 +389,7 @@
                         <div class="xar-col" style="width: 10%">
                         </div>
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_map" class="help xar-form-label" title="#xarML('Show link to publication map.')#">
+                            <label for="show_map" class="help xar-form-label" title="#$xar->ml('Show link to publication map.')#">
                                 Show link to publication map
                             </label>
                         </div>
@@ -404,7 +404,7 @@
                     </legend>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label for="do_transform" class="help xar-form-label" title="#xarML('Call transform hooks in summaries.')#">
+                            <label for="do_transform" class="help xar-form-label" title="#$xar->ml('Call transform hooks in summaries.')#">
                                 Transform hooks in summaries
                             </label>
                         </div>
@@ -414,7 +414,7 @@
                         <div class="xar-col" style="width: 10%">
                         </div>
                         <div class="xar-col" style="width: 20%">
-                            <label for="title_transform" class="help xar-form-label" title="#xarML('Call transform hooks in titles.')#">
+                            <label for="title_transform" class="help xar-form-label" title="#$xar->ml('Call transform hooks in titles.')#">
                                 Transform hooks in titles
                             </label>
                         </div>
@@ -427,10 +427,10 @@
                     <legend>
                         Publication States
                     </legend>
-                    <xar:set name="states">xarMod::apiFunc('publications','user','getstates')</xar:set>
+                    <xar:set name="states">$xar->mod()->apiFunc('publications','user','getstates')</xar:set>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label class="help xar-form-label" for="defaultstate" title="#xarML('Default start state.')#">
+                            <label class="help xar-form-label" for="defaultstate" title="#$xar->ml('Default start state.')#">
                                 Default start state
                             </label>
                         </div>
@@ -440,7 +440,7 @@
                         <div class="xar-col" style="width: 10%">
                         </div>
                         <div class="xar-col" style="width: 20%">
-                            <label class="help xar-form-label" for="defaultprocessstate" title="#xarML('Default process state.')#">
+                            <label class="help xar-form-label" for="defaultprocessstate" title="#$xar->ml('Default process state.')#">
                                 Default process state
                             </label>
                         </div>
@@ -461,7 +461,7 @@
                     </legend>
                      <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_categories" class="help xar-form-label" title="#xarML('Show category links in publication summaries .')#">
+                            <label for="show_categories" class="help xar-form-label" title="#$xar->ml('Show category links in publication summaries .')#">
                                 Category links in summaries
                             </label>
                         </div>
@@ -471,7 +471,7 @@
                     </div>
                     <div class="xar-row">
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_catcount" class="help xar-form-label" title="#xarML('Show number of publications in category navigation.')#">
+                            <label for="show_catcount" class="help xar-form-label" title="#$xar->ml('Show number of publications in category navigation.')#">
                                 Show number of publications in category navigation
                             </label>
                         </div>
@@ -481,7 +481,7 @@
                         <div class="xar-col" style="width: 10%">
                         </div>
                         <div class="xar-col" style="width: 20%">
-                            <label for="show_comments" class="help xar-form-label" title="#xarML('Show comments on view page.')#">
+                            <label for="show_comments" class="help xar-form-label" title="#$xar->ml('Show comments on view page.')#">
                                 Show number of comments
                             </label>
                         </div>
@@ -525,7 +525,7 @@
                         <xar:button type="cancel" label="$label" />
                         --></xar:comment>
                         <input type="hidden" name="tab" id="tab" value="#$tab#" />
-                        <input type="hidden" name="authid" id="authid" value="#xarSec::genAuthKey()#" /> 
+                        <input type="hidden" name="authid" id="authid" value="#$xar->sec()->genAuthKey()#" /> 
                     </div>
                 </div>
             </form>

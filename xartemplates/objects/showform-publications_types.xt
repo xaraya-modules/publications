@@ -10,7 +10,7 @@
         </legend>
         <div class="xar-row">
             <div class="xar-col">
-                <label for="description" class="help xar-form-label" title="#xarML('The display name of this publication type')#">                    
+                <label for="description" class="help xar-form-label" title="#$xar->ml('The display name of this publication type')#">                    
                     Publication Type Description
                 </label>
             </div>
@@ -20,7 +20,7 @@
         </div>
         <div class="xar-row">
             <div class="xar-col">
-                <label for="summary_template" class="help xar-form-label" title="#xarML('The state of this publication type')#">                    
+                <label for="summary_template" class="help xar-form-label" title="#$xar->ml('The state of this publication type')#">                    
                     Publication Type State
                 </label>
             </div>
@@ -30,35 +30,35 @@
         </div>
         <div class="xar-row">
             <div class="xar-col">
-                <label for="summary_template" class="help xar-form-label" title="#xarML('Define the summary template for this publication type')#">                    
+                <label for="summary_template" class="help xar-form-label" title="#$xar->ml('Define the summary template for this publication type')#">                    
                     Summary Template
                 </label>
             </div>
             <div class="xar-col">
                 <xar:data-input property="$properties['summary_template']"/>
                 &#160;
-                <a href="#xarController::URL('publications','admin','templates_type',['file' => 'summary','ptid' => $properties['id']->value])#">
+                <a href="#$xar->ctl()->URL('publications','admin','templates_type',['file' => 'summary','ptid' => $properties['id']->value])#">
                     Edit template
                 </a>
             </div>
         </div>
         <div class="xar-row">
             <div class="xar-col">
-                <label for="detail_template" class="help xar-form-label" title="#xarML('Define the detail template for this publication type')#">                    
+                <label for="detail_template" class="help xar-form-label" title="#$xar->ml('Define the detail template for this publication type')#">                    
                     Detail Template
                 </label>
             </div>
             <div class="xar-col">
                 <xar:data-input property="$properties['detail_template']"/>
                 &#160;
-                <a href="#xarController::URL('publications','admin','templates_type',['file' => 'detail','ptid' => $properties['id']->value])#">
+                <a href="#$xar->ctl()->URL('publications','admin','templates_type',['file' => 'detail','ptid' => $properties['id']->value])#">
                     Edit template
                 </a>
             </div>
         </div>
         <div class="xar-row">
             <div class="xar-col">
-                <label for="page_template" class="help xar-form-label" title="#xarML('Define the page template for this publication type')#">                    
+                <label for="page_template" class="help xar-form-label" title="#$xar->ml('Define the page template for this publication type')#">                    
                     Page Template Override
                 </label>
             </div>
@@ -68,7 +68,7 @@
         </div>
        <div class="xar-row">
             <div class="xar-col">
-                <label for="theme" class="help xar-form-label" title="#xarML('Define the theme for this publication type')#">                    
+                <label for="theme" class="help xar-form-label" title="#$xar->ml('Define the theme for this publication type')#">                    
                     Theme Override
                 </label>
             </div>
@@ -105,7 +105,7 @@
         </div>
         <div class="xar-row">
             <div class="xar-col">
-                <label for="sitemap_source_flag" class="help xar-form-label" title="#xarML('Where publications of this type get their site map text')#">                    
+                <label for="sitemap_source_flag" class="help xar-form-label" title="#$xar->ml('Where publications of this type get their site map text')#">                    
                     Site Map Source
                 </label>
             </div>
@@ -115,7 +115,7 @@
         </div>
         <div class="xar-row">
             <div class="xar-col">
-                <label for="menu_source_flag" class="help xar-form-label" title="#xarML('Where publications of this type get their menu text')#">                    
+                <label for="menu_source_flag" class="help xar-form-label" title="#$xar->ml('Where publications of this type get their menu text')#">                    
                     Menu Source
                 </label>
             </div>

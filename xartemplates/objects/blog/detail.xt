@@ -9,7 +9,7 @@
         $properties['state']->value
     </xar:set>
 
-    <xar:if condition="$publication_state lt 3 AND !xarSecurity::check('ManagePublications',0)">
+    <xar:if condition="$publication_state lt 3 AND !$xar->sec()->check('ManagePublications',0)">
         This item cannot be viewed
     <xar:else />
 
@@ -35,8 +35,8 @@
             <xar:ml>
                 <xar:mlstring>Posted by: #(1) on #(2) #(3)</xar:mlstring>
                 <xar:mlvar>#$author_string#</xar:mlvar>
-                <xar:mlvar>#xarLocale::getFormattedDate('long',$properties['created']->value)#</xar:mlvar>
-                <xar:mlvar>#xarLocale::getFormattedTime('long',$properties['created']->value)#</xar:mlvar>
+                <xar:mlvar>#$xar->mls()->getFormattedDate('long',$properties['created']->value)#</xar:mlvar>
+                <xar:mlvar>#$xar->mls()->getFormattedTime('long',$properties['created']->value)#</xar:mlvar>
             </xar:ml>
             <xar:if condition="!empty($counter)">
                 <xar:ml>
@@ -75,7 +75,7 @@
             <xar:set name="prevpublication">\Xaraya\Services\xar::mem()->get('Publications', 'prevpublication')</xar:set>
             <xar:if condition="!empty($prevpublication)">
                 <xar:var name="prev">Previous</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $prevpublication['id']])#" title="#$prev#">
+                <a href="#$xar->ctl()->URL('publications', 'user', 'display', ['itemid' => $prevpublication['id']])#" title="#$prev#">
                     <xar:img scope="theme" file="icons/go-previous.png" class="xar-icon" alt="$prev"/>
                 </a>
             </xar:if>
@@ -83,7 +83,7 @@
             <xar:set name="nextpublication">\Xaraya\Services\xar::mem()->get('Publications', 'nextpublication')</xar:set>
             <xar:if condition="!empty($nextpublication)">
                 <xar:var name="next">Next</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $nextpublication['id']])#" title="#$next#">
+                <a href="#$xar->ctl()->URL('publications', 'user', 'display', ['itemid' => $nextpublication['id']])#" title="#$next#">
                     <xar:img scope="theme" file="icons/go-next.png" class="xar-icon" alt="$next"/>
                 </a>
             </xar:if>
@@ -109,7 +109,7 @@
           })();
         </script>
         
-        <xar:set name="url">urlencode(xarServer::getCurrentURL())</xar:set>
+        <xar:set name="url">urlencode($xar->ctl()->getCurrentURL())</xar:set>
         <a href="http://twitter.com/share" class="twitter-share-button"  data-count="none">Tweet</a>
         <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
         <iframe class="addthis_button_facebook_like" src="http://www.facebook.com/plugins/like.php?href=#$url#&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=20" scrolling="no" frameborder="0" style="margin-left:20px; border:none; overflow:hidden; width:70px; height:20px;" allowTransparency="true">
@@ -117,16 +117,16 @@
         <div class="g-plusone" data-size="medium" data-count="false" ></div>
 
         <style type="text/css">
-            @import "#xarTpl::getCodeUrl()#modules/publications/xarstyles/jquery.bookmark.css";
+            @import "#$xar->tpl()->getCodeUrl()#modules/publications/xarstyles/jquery.bookmark.css";
             
             ##basicBookmark ul { width: 320px; }
             .bookmark_list span.bookmark_icons {
-                background: url(#xarTpl::getCodeUrl()#modules/publications/xarstyles/bookmarks.png) no-repeat center;
+                background: url(#$xar->tpl()->getCodeUrl()#modules/publications/xarstyles/bookmarks.png) no-repeat center;
             }
         </style>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-        <script type="text/javascript" src="#xarTpl::getCodeUrl()#modules/publications/xartemplates/scripts/jquery.bookmark.min.js"></script>
-        <script type="text/javascript" src="#xarTpl::getCodeUrl()#modules/publications/xartemplates/scripts/jquery.bookmark.ext.pack.js"></script>
+        <script type="text/javascript" src="#$xar->tpl()->getCodeUrl()#modules/publications/xartemplates/scripts/jquery.bookmark.min.js"></script>
+        <script type="text/javascript" src="#$xar->tpl()->getCodeUrl()#modules/publications/xartemplates/scripts/jquery.bookmark.ext.pack.js"></script>
         <script type="text/javascript">
             $(function () {
                 $('#basicBookmark').bookmark();

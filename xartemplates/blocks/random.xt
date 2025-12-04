@@ -9,9 +9,9 @@
     <xar:foreach in="$items" value="$item">
         <xar:if condition="!empty($showtitle)">
             <xar:if condition="isset($linkpubtype)">
-                <a href="#xarController::URL('publications', 'user', 'display', ['id' => $item['id'], 'itemtype' => $item['pubtype_id']])#">#$item['title']#</a>
+                <a href="#$xar->ctl()->URL('publications', 'user', 'display', ['id' => $item['id'], 'itemtype' => $item['pubtype_id']])#">#$item['title']#</a>
             <xar:else />
-                <a href="#xarController::URL('publications', 'user', 'display', ['id' => $item['id']])#">#$item['title']#</a>
+                <a href="#$xar->ctl()->URL('publications', 'user', 'display', ['id' => $item['id']])#">#$item['title']#</a>
             </xar:if>
         </xar:if>
         <xar:if condition="!empty($showsummary) and !empty($item['summary'])">
@@ -26,14 +26,14 @@
         </xar:if>
         <xar:if condition="!empty($showpubdate)">
             <p>
-                #xarLocale::getFormattedDate('medium',$item['pubdate'])#
+                #$xar->mls()->getFormattedDate('medium',$item['pubdate'])#
             </p>
         </xar:if>
     </xar:foreach>
 
     <xar:if condition="!empty($showsubmit)">
         <div>
-            <a href="#xarController::URL('publications', 'admin', 'new', ['ptid' => $pubtype_id])#">Submit new</a>
+            <a href="#$xar->ctl()->URL('publications', 'admin', 'new', ['ptid' => $pubtype_id])#">Submit new</a>
         </div>
     </xar:if>
 

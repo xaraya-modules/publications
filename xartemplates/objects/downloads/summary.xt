@@ -13,13 +13,13 @@
         $properties['state']->value
     </xar:set>
 
-    <xar:if condition="$publication_state lt 3 AND !xarSecurity::check('ManagePublications',0)">
+    <xar:if condition="$publication_state lt 3 AND !$xar->sec()->check('ManagePublications',0)">
         This item cannot be viewed
     <xar:else />
 
         <!-- Title -->
         <div class="xar-publications-download-summary-title">
-            <a class="xar-title" href="#xarController::URL('publications','user','display',['itemid' => $fields['id']])#">
+            <a class="xar-title" href="#$xar->ctl()->URL('publications','user','display',['itemid' => $fields['id']])#">
                 <xar:data-output property="$properties['title']" value="$fields['title']"/>
             </a>
         </div>
@@ -44,13 +44,13 @@
             
             <xar:if condition="empty($fields['fileupload'])">
                 <!-- Nothing to display -->
-            <xar:elseif condition="xarHooks::isAttached('uploads','publications',$fields['itemtype']) and substr($fields['fileupload'],0,1) eq ';'" />
+            <xar:elseif condition="$xar->mod()->isHooked('uploads','publications',$fields['itemtype']) and substr($fields['fileupload'],0,1) eq ';'" />
                 <!-- If you hook the uploads module to publications, 
                 then file upload fields will contain a comma-separated list of file ids, 
                 and you will need to call an API function to retrieve the file information. 
                 For dynamic extra fields, you can use [fieldname]_output directly to access the file information.-->
                 <xar:set name="fileupload_output">
-                    xarMod::apiFunc('uploads','user','showoutput',['value' => $fields['fileupload'], 'multiple' => true])
+                    $xar->mod()->apiFunc('uploads','user','showoutput',['value' => $fields['fileupload'], 'multiple' => true])
                 </xar:set>
                 <xar:foreach in="$fileupload_output" key="$fileid" value="$fileinfo">
                     <p>
@@ -75,7 +75,7 @@
             <xar:if condition="!empty($keywords)">
             Keywords:
             <xar:loop name="$keywords">
-                <a href="#xarController::URL('keywords', 'user', 'main', ['keyword' => $loop:item['keyword']])#" title="#$loop:item['keyword']#">#$loop:item['keyword']#</a>
+                <a href="#$xar->ctl()->URL('keywords', 'user', 'main', ['keyword' => $loop:item['keyword']])#" title="#$loop:item['keyword']#">#$loop:item['keyword']#</a>
             </xar:loop></xar:if>
         </div>
     </xar:if>

@@ -2,19 +2,19 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
 <xar:style scope="module" module="base" file="navtabs" />
 <dl class="xar-tabs">
-    <dt class="help" title="#xarML('Click on a tab to explore further')#">
+    <dt class="help" title="#$xar->ml('Click on a tab to explore further')#">
         Options 
     </dt>
     <xar:if condition="$by ne 'cat'">
         <dd>
-            <a href="#xarController::URL('publications','user','viewmap',['by' => 'cat'])#">
+            <a href="#$xar->ctl()->URL('publications','user','viewmap',['by' => 'cat'])#">
                 Publication Map by Category 
             </a>
         </dd>
     </xar:if>
     <xar:if condition="$by ne 'pub'">
     <dd>
-        <a href="#xarController::URL('publications','user','viewmap',['by' => 'pub','ptid' => $ptid])#">
+        <a href="#$xar->ctl()->URL('publications','user','viewmap',['by' => 'pub','ptid' => $ptid])#">
             Publication Map by Publication Type 
         </a>
     </dd>

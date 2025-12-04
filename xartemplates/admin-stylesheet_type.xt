@@ -9,11 +9,11 @@
         </h2>
         <div class="xar-row">
             <div style="margin-right: 10px; float:left">
-                <label title="#xarML('Enter the name of a stylesheet to edit')#">
+                <label title="#$xar->ml('Enter the name of a stylesheet to edit')#">
                     Stylesheet:
                 </label>
             </div>
-            <form method="post" action="#xarController::URL('publications','admin','stylesheet_type')#" style="float:left">
+            <form method="post" action="#$xar->ctl()->URL('publications','admin','stylesheet_type')#" style="float:left">
                 <xar:var name="label">Refresh</xar:var>
                 <xar:button type="submit" label="$label"/>
                 &#160;
@@ -31,14 +31,14 @@
             </form>
         </div>
         <div style="clear:both">&#160;</div>
-        <form method="post" id="post" action="#xarServer::getCurrentURL()#" enctype="application/x-www-form-urlencoded" >
+        <form method="post" id="post" action="#$xar->ctl()->getCurrentURL()#" enctype="application/x-www-form-urlencoded" >
             <xar:data-input type="codemirror" name="source_data" value="$source_data"/>
             <div class="xar-row" style="margin-top: 10px">
                 <div class="xar-col">
                     <xar:if condition="$writable">
                         This stylesheet can be saved.
                     <xar:else/>
-                        <img src="#xarTpl::getImage('exception.png','base')#" width="20px" height="20px"/>&#160;
+                        <img src="#$xar->tpl()->getImage('exception.png','base')#" width="20px" height="20px"/>&#160;
                         <span class="warning">                            
                             <xar:if condition="$filetype eq 'module'">
                                 This stylesheet cannot be saved: check the directory permissions
@@ -49,7 +49,7 @@
                     </xar:if>
                 </div>
                 <div class="xar-col">
-                    <input type="hidden" name="authid" id="authid" value="#xarSec::genAuthKey()#" />
+                    <input type="hidden" name="authid" id="authid" value="#$xar->sec()->genAuthKey()#" />
                     <input type="hidden" name="confirm" id="confirm" value="1" />
                     <input type="hidden" name="ptid" id="ptid" value="#$ptid#" />
                     <input type="hidden" name="file" id="file" value="#$file#" />

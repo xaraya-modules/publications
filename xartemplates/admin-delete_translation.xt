@@ -16,7 +16,7 @@
                 </div>
             </xar:if>
             <br/>
-            <form method="post" action="#xarServer::getCurrentURL()#">
+            <form method="post" action="#$xar->ctl()->getCurrentURL()#">
                 <input type="hidden" name="authid" id="authid" value="#$authid#" />
                 <input type="hidden" name="itemid" id="itemid" value="#$itemid#" />
                 <input type="hidden" name="confirmed" id="confirmed" value="1" />

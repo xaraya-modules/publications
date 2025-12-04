@@ -2,7 +2,7 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <div class="xar-row">
         <div class="xar-col">
-            <label for="languages" class="help xar-form-label" title="#xarML('The languages shown in the translation display')#">                    
+            <label for="languages" class="help xar-form-label" title="#$xar->ml('The languages shown in the translation display')#">                    
                 Languages Displayed
             </label>
         </div>

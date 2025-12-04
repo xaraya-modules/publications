@@ -11,7 +11,7 @@
         $properties['state']->value
     </xar:set>
 
-    <xar:if condition="$publication_state lt 3 AND !xarSecurity::check('ManagePublications',0)">
+    <xar:if condition="$publication_state lt 3 AND !$xar->sec()->check('ManagePublications',0)">
         This item cannot be viewed
     <xar:else />
 
@@ -48,8 +48,8 @@
                     <xar:ml>
                         <xar:mlstring>Posted by: #(1) on #(2) #(3)</xar:mlstring>
                         <xar:mlvar>#$author_string#</xar:mlvar>
-                        <xar:mlvar>#xarLocale::getFormattedDate('long',$fields['created'])#</xar:mlvar>
-                        <xar:mlvar>#xarLocale::getFormattedTime('long',$fields['created'])#</xar:mlvar>
+                        <xar:mlvar>#$xar->mls()->getFormattedDate('long',$fields['created'])#</xar:mlvar>
+                        <xar:mlvar>#$xar->mls()->getFormattedTime('long',$fields['created'])#</xar:mlvar>
                     </xar:ml>
                     <xar:if condition="!empty($counter)">
                         <xar:ml>
@@ -67,8 +67,8 @@
                 <xar:ml>
                     <xar:mlstring>Posted by: #(1) on #(2) #(3)</xar:mlstring>
                     <xar:mlvar>#$author_string#</xar:mlvar>
-                    <xar:mlvar>#xarLocale::getFormattedDate('long',$fields['created'])#</xar:mlvar>
-                    <xar:mlvar>#xarLocale::getFormattedTime('long',$fields['created'])#</xar:mlvar>
+                    <xar:mlvar>#$xar->mls()->getFormattedDate('long',$fields['created'])#</xar:mlvar>
+                    <xar:mlvar>#$xar->mls()->getFormattedTime('long',$fields['created'])#</xar:mlvar>
                 </xar:ml>
                 <xar:if condition="!empty($counter)">
                     <xar:ml>
@@ -97,7 +97,7 @@
         <xar:if condition="empty($fields['download'])">
             <!-- Nothing to display -->
 
-        <xar:elseif condition="xarHooks::isAttached('uploads','publications',$fields['itemtype']) and substr($fields['fileupload'],0,1) eq ';'" />
+        <xar:elseif condition="$xar->mod()->isHooked('uploads','publications',$fields['itemtype']) and substr($fields['fileupload'],0,1) eq ';'" />
             <!-- Hook output -->
             <xar:comment>
                 If you hook the uploads module to publications, then file upload fields will contain
@@ -105,7 +105,7 @@
                 retrieve the file information. For dynamic extra fields, you can use [fieldname]_output
                 directly to access the file information.
             </xar:comment>
-            <xar:set name="fileupload_output">xarMod::apiFunc('uploads','user','showoutput',['value' => $fields['fileupload'], 'multiple' => true])</xar:set>
+            <xar:set name="fileupload_output">$xar->mod()->apiFunc('uploads','user','showoutput',['value' => $fields['fileupload'], 'multiple' => true])</xar:set>
             <xar:foreach in="$fileupload_output" key="$fileid" value="$fileinfo">
                 <p>
                     <a href="#$fileinfo['fileDownload']#">
@@ -155,7 +155,7 @@
             <xar:set name="prevpublication">\Xaraya\Services\xar::mem()->get('Publications', 'prevpublication')</xar:set>
             <xar:if condition="!empty($prevpublication)">
                 <xar:var name="prev">Previous</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $prevpublication['id']])#" title="#$prev#">
+                <a href="#$xar->ctl()->URL('publications', 'user', 'display', ['itemid' => $prevpublication['id']])#" title="#$prev#">
                     <xar:img scope="theme" file="icons/go-previous.png" class="xar-icon" alt="$prev"/>
                 </a>
             </xar:if>
@@ -163,7 +163,7 @@
             <xar:set name="nextpublication">\Xaraya\Services\xar::mem()->get('Publications', 'nextpublication')</xar:set>
             <xar:if condition="!empty($nextpublication)">
                 <xar:var name="next">Next</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $nextpublication['id']])#" title="#$next#">
+                <a href="#$xar->ctl()->URL('publications', 'user', 'display', ['itemid' => $nextpublication['id']])#" title="#$next#">
                     <xar:img scope="theme" file="icons/go-next.png" class="xar-icon" alt="$next"/>
                 </a>
             </xar:if>

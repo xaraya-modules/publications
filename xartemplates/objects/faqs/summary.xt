@@ -15,7 +15,7 @@
         
     <xar:template file="editicons"/>
         
-    <a class="xar-publications-faq-summary-title" href="#xarController::URL('publications','user','display',['itemid' => $properties['id']->value,'ptid' => $properties['itemtype']->value])#">
+    <a class="xar-publications-faq-summary-title" href="#$xar->ctl()->URL('publications','user','display',['itemid' => $properties['id']->value,'ptid' => $properties['itemtype']->value])#">
         <xar:data-output property="$properties['question']" />
     </a>
     <xar:if condition="!empty($counter)">
@@ -41,5 +41,5 @@
             <xar:data-output property="$properties['answer']" />
         </p>
     </xar:if>
-    <p><a href="#xarServer::getCurrentURL()##titles">Back to top</a></p>
+    <p><a href="#$xar->ctl()->getCurrentURL()##titles">Back to top</a></p>
 </xar:template>

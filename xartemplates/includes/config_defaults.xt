@@ -2,29 +2,29 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <div class="xar-row">
         <div class="xar-col">
-            <label for="show_pagetree" title="#xarML('The default page to show in the back end.')#" class="xar-form-label">
+            <label for="show_pagetree" title="#$xar->ml('The default page to show in the back end.')#" class="xar-form-label">
                 Show page tree view                
             </label>
         </div>
         <div class="xar-col">
-            <xar:set name="value">xarModVars::get('publications','show_pagetree')</xar:set>
+            <xar:set name="value">$xar->mod('publications')->getVar('show_pagetree')</xar:set>
             <xar:data-input type="checkbox" name="show_pagetree" checked="$value"/>
         </div>
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label for="show_bypubtype" title="#xarML('The default page to show in the back end.')#" class="xar-form-label">
+            <label for="show_bypubtype" title="#$xar->ml('The default page to show in the back end.')#" class="xar-form-label">
                 Show pages by type view                
             </label>
         </div>
         <div class="xar-col">
-            <xar:set name="value">xarModVars::get('publications','show_bypubtype')</xar:set>
+            <xar:set name="value">$xar->mod('publications')->getVar('show_bypubtype')</xar:set>
             <xar:data-input type="checkbox" name="show_bypubtype" checked="$value"/>
         </div>
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help xar-form-label" for="defaultpubtype" title="#xarML('Note: selecting Defaults here implies navigating (by category) across all publication types')#">
+            <label class="help xar-form-label" for="defaultpubtype" title="#$xar->ml('Note: selecting Defaults here implies navigating (by category) across all publication types')#">
                 Default Publication Type
             </label> 
         </div>
@@ -34,7 +34,7 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help xar-form-label" for="sortpubtypes" title="#xarML('Sort order for Publication Types in menus, publication map etc.')#">
+            <label class="help xar-form-label" for="sortpubtypes" title="#$xar->ml('Sort order for Publication Types in menus, publication map etc.')#">
                 Publication Type Sort Order
             </label>
         </div>
@@ -51,23 +51,23 @@
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help xar-form-label" for="use_versions" title="#xarML('Enable automatic saving of versions')#">
+            <label class="help xar-form-label" for="use_versions" title="#$xar->ml('Enable automatic saving of versions')#">
                 Enable Versions
             </label>
         </div>
         <div class="xar-col">
-            <xar:set name="value">xarModVars::get('publications','use_versions')</xar:set>
+            <xar:set name="value">$xar->mod('publications')->getVar('use_versions')</xar:set>
             <xar:data-input type="checkbox" name="use_versions" checked="$value"/>
         </div>
     </div>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help xar-form-label" for="use_process_states" title="#xarML('Enable process states for workflow')#">
+            <label class="help xar-form-label" for="use_process_states" title="#$xar->ml('Enable process states for workflow')#">
                 Enable Process States
             </label>
         </div>
         <div class="xar-col">
-            <xar:set name="value">xarModVars::get('publications','use_process_states')</xar:set>
+            <xar:set name="value">$xar->mod('publications')->getVar('use_process_states')</xar:set>
             <xar:data-input type="checkbox" name="use_process_states" checked="$value"/>
         </div>
     </div>
@@ -77,12 +77,12 @@
             <!--
                 You can adapt the field list here if you want e.g. to ignore the notes field for full-text search
             -->
-                <label class="help xar-form-label" for="fulltext" title="#xarML('Enable full-text search in MySQL')#">
+                <label class="help xar-form-label" for="fulltext" title="#$xar->ml('Enable full-text search in MySQL')#">
                     Full-text search in MySQL                        
                 </label>
             </div>
             <div class="xar-col">
-                <xar:set name="checked">xarModVars::get('publications', 'fulltextsearch')</xar:set>
+                <xar:set name="checked">$xar->mod('publications')->getVar('fulltextsearch')</xar:set>
                 <xar:data-input name="fulltext" type="checkbox" checked="$checked" />&#160;
                 [<a href="http://dev.mysql.com/doc/refman/4.1/en/fulltext-restrictions.html">with restrictions</a>]
             </div>
@@ -90,19 +90,19 @@
     </xar:if>
     <div class="xar-row">
         <div class="xar-col">
-            <label class="help xar-form-label" for="admin_override" title="#xarML('Defines who apart from the owner can manage members')#">
+            <label class="help xar-form-label" for="admin_override" title="#$xar->ml('Defines who apart from the owner can manage members')#">
                Allow edit/delete by
             </label>
         </div>
         <div class="xar-col">
             <xar:set name="options">
                 array(
-                    ['id' => 0, 'name' => xarML('Only owner')],
-                    ['id' => 1, 'name' => xarML('Owner or administrators')],
-                    ['id' => 2, 'name' => xarML('Owner or designated site administrator')],
+                    ['id' => 0, 'name' => $xar->ml('Only owner')],
+                    ['id' => 1, 'name' => $xar->ml('Owner or administrators')],
+                    ['id' => 2, 'name' => $xar->ml('Owner or designated site administrator')],
                 )
             </xar:set>
-            <xar:set name="value">xarModVars::get('publications', 'admin_override')</xar:set>
+            <xar:set name="value">$xar->mod('publications')->getVar('admin_override')</xar:set>
             <xar:data-input name="admin_override" type="dropdown" options="$options" value="$value"/>
         </div>
     </div>

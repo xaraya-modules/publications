@@ -2,17 +2,17 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
 <xar:style scope="module" module="base" file="navtabs" />
 <dl class="xar-tabs">
-    <dt class="help" title="#xarML('Click on a tab to explore further')#">        
+    <dt class="help" title="#$xar->ml('Click on a tab to explore further')#">        
         Options 
     </dt>
     <dd>
-        <a href="#xarController::URL('publications','user','viewmap',['by' => 'pub','ptid' => $ptid])#">            
+        <a href="#$xar->ctl()->URL('publications','user','viewmap',['by' => 'pub','ptid' => $ptid])#">            
             Publication Map by Publication Type             
         </a>
     </dd>
     <xar:if condition="count($catfilter) eq 2">
         <dd>
-            <a href="#xarController::URL('publications','user','viewmap',['by' => 'grid'])#">                
+            <a href="#$xar->ctl()->URL('publications','user','viewmap',['by' => 'grid'])#">                
                 Publication Map by Grid                 
             </a>
         </dd>

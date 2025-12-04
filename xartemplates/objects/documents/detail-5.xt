@@ -12,7 +12,7 @@
         $properties['state']->value
     </xar:set>
 
-    <xar:if condition="($publication_state lt \Xaraya\Modules\Publications\Defines::STATE_ACTIVE) AND (!xarSecurity::check('ManagePublications',0))">
+    <xar:if condition="($publication_state lt \Xaraya\Modules\Publications\Defines::STATE_ACTIVE) AND (!$xar->sec()->check('ManagePublications',0))">
         This item cannot be viewed
     <xar:else />
 
@@ -47,7 +47,7 @@
         </xar:set>
 
         <!-- Load the pages for this map -->
-        <xar:set name="pages">xarMod::apiFunc('publications','user','get_sitemap_pages')</xar:set>
+        <xar:set name="pages">$xar->mod()->apiFunc('publications','user','get_sitemap_pages')</xar:set>
         <div class="xar-publications-sitemap-detail-text">
             <table border="0" width="100%" cellspacing="0" cellpadding="0">
                 <xar:loop name="$pages">
@@ -67,16 +67,16 @@
                                         </xar:if>
                                     </xar:if>
                                     <xar:if condition="$source_flag eq 2">
-                                        #xarVarPrep::text($loop:item.title)#
+                                        #$xar->prep()->text($loop:item.title)#
                                     <xar:elseif condition="$source_flag eq 3"/>
-                                        #xarVarPrep::text($loop:item.description)#
+                                        #$xar->prep()->text($loop:item.description)#
                                     <xar:elseif condition="$source_flag eq 4"/>
-                                        #xarVarPrep::text($loop:item.sitemap_alias)#
+                                        #$xar->prep()->text($loop:item.sitemap_alias)#
                                     <xar:else/>
-                                        #xarVarPrep::text($loop:item.title)#
+                                        #$xar->prep()->text($loop:item.title)#
                                     </xar:if>
                                 <xar:else/>
-                                    <a href="#xarController::URL('publications','user','display',['itemid' => $loop->item['id']])#" title="#$loop->item['title']#">
+                                    <a href="#$xar->ctl()->URL('publications','user','display',['itemid' => $loop->item['id']])#" title="#$loop->item['title']#">
                                         <xar:set name="source_flag">$loop->item['sitemap_source_flag']</xar:set>
                                         <xar:if condition="$source_flag eq 1">
                                             <xar:if condition="isset($typeinfo[$loop->item['pubtype_id']]['menu_source_flag'])">
@@ -86,13 +86,13 @@
                                             </xar:if>
                                         </xar:if>
                                         <xar:if condition="$source_flag eq 2">
-                                            #xarVarPrep::text($loop:item.title)#
+                                            #$xar->prep()->text($loop:item.title)#
                                         <xar:elseif condition="$source_flag eq 3"/>
-                                            #xarVarPrep::text($loop:item.description)#
+                                            #$xar->prep()->text($loop:item.description)#
                                         <xar:elseif condition="$source_flag eq 4"/>
-                                            #xarVarPrep::text($loop:item.sitemap_alias)#
+                                            #$xar->prep()->text($loop:item.sitemap_alias)#
                                         <xar:else/>
-                                            #xarVarPrep::text($loop:item.title)#
+                                            #$xar->prep()->text($loop:item.title)#
                                         </xar:if>
                                     </a>
                                 </xar:if>
@@ -108,7 +108,7 @@
             <xar:set name="prevpublication">\Xaraya\Services\xar::mem()->get('Publications', 'prevpublication')</xar:set>
             <xar:if condition="!empty($prevpublication)">
                 <xar:var name="prev">Previous</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $prevpublication['id']])#" title="#$prev#">
+                <a href="#$xar->ctl()->URL('publications', 'user', 'display', ['itemid' => $prevpublication['id']])#" title="#$prev#">
                     <xar:img scope="theme" file="icons/go-previous.png" class="xar-icon" alt="$prev"/>
                 </a>
             </xar:if>
@@ -116,7 +116,7 @@
             <xar:set name="nextpublication">\Xaraya\Services\xar::mem()->get('Publications', 'nextpublication')</xar:set>
             <xar:if condition="!empty($nextpublication)">
                 <xar:var name="next">Next</xar:var>
-                <a href="#xarController::URL('publications', 'user', 'display', ['itemid' => $nextpublication['id']])#" title="#$next#">
+                <a href="#$xar->ctl()->URL('publications', 'user', 'display', ['itemid' => $nextpublication['id']])#" title="#$next#">
                     <xar:img scope="theme" file="icons/go-next.png" class="xar-icon" alt="$next"/>
                 </a>
             </xar:if>

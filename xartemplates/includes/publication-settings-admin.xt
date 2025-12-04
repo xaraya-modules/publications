@@ -38,7 +38,7 @@
                 <xar:data-label property="$properties['locale']" for="id" label="$label" />
             </div>
             <div class="xar-col">
-                <xar:if condition="xarModVars::get('publications', 'multilanguage')">
+                <xar:if condition="$xar->mod('publications')->getVar('multilanguage')">
                     <xar:data-input property="$properties['locale']"/>
                 <xar:else/>
                     <xar:data-output property="$properties['locale']"/>
@@ -46,7 +46,7 @@
                 </xar:if>
             </div>
         </div>
-        <xar:set name="versions">xarModVars::get('publications', 'use_versions')</xar:set>
+        <xar:set name="versions">$xar->mod('publications')->getVar('use_versions')</xar:set>
         <xar:if condition="$versions">
             <div class="xar-row">
                 <div class="xar-col">
@@ -57,11 +57,11 @@
                     <xar:data-input property="$properties['version']" />
                     <xar:if condition="!empty($itemid)">
                         &#160;
-                        <a href="#xarController::URL('publications', 'admin' ,'display_version', ['itemid' => $itemid, 'name' => $object->name])#" title="#xarML('Display version')#">
+                        <a href="#$xar->ctl()->URL('publications', 'admin' ,'display_version', ['itemid' => $itemid, 'name' => $object->name])#" title="#$xar->ml('Display version')#">
                             Display versions
                         </a>
                         &#160;
-                        <a href="#xarController::URL('publications', 'admin' ,'manage_versions', ['itemid' => $itemid, 'name' => $object->name])#" title="#xarML('Manage versions')#">
+                        <a href="#$xar->ctl()->URL('publications', 'admin' ,'manage_versions', ['itemid' => $itemid, 'name' => $object->name])#" title="#$xar->ml('Manage versions')#">
                             Manage versions
                         </a>
                     </xar:if>
@@ -134,13 +134,13 @@
                 <xar:data-input property="$properties['state']" />
                 &#160;
                 <xar:if condition="$properties['parent']->value != 0">
-                    <a href="#xarController::URL('publications','admin','delete_translation',['itemid'=>$properties['id']->value])#" title="#xarML('Delete this translation')#" style="margin-right: 5px">
-                        <img src="#xarTpl::getImage('icons/'.'delete.png', 'base')#" width="16" height="16" alt="#xarML('Delete Translation')#"/>
+                    <a href="#$xar->ctl()->URL('publications','admin','delete_translation',['itemid'=>$properties['id']->value])#" title="#$xar->ml('Delete this translation')#" style="margin-right: 5px">
+                        <img src="#$xar->tpl()->getImage('icons/'.'delete.png', 'base')#" width="16" height="16" alt="#$xar->ml('Delete Translation')#"/>
                     </a>
                 </xar:if>
             </div>
         </div>
-        <xar:set name="process">xarModVars::get('publications', 'use_process_states')</xar:set>
+        <xar:set name="process">$xar->mod('publications')->getVar('use_process_states')</xar:set>
         <xar:if condition="$process">
             <div class="xar-row">
                 <div class="xar-col">
@@ -189,7 +189,7 @@
                 <div class="xar-col">
                     <xar:data-input property="$properties['summary_template']" />
                     &#160;
-                    <a href="#xarController::URL('publications','admin','templates_page',['file' => 'summary','ptid' => $properties['itemtype']->value,'itemid' => $properties['id']->value])#">
+                    <a href="#$xar->ctl()->URL('publications','admin','templates_page',['file' => 'summary','ptid' => $properties['itemtype']->value,'itemid' => $properties['id']->value])#">
                         Edit template
                     </a>
                 </div>
@@ -202,7 +202,7 @@
                 <div class="xar-col">
                     <xar:data-input property="$properties['detail_template']" />
                     &#160;
-                    <a href="#xarController::URL('publications','admin','templates_page',['file' => 'detail','ptid' => $properties['itemtype']->value,'itemid' => $properties['id']->value])#">
+                    <a href="#$xar->ctl()->URL('publications','admin','templates_page',['file' => 'detail','ptid' => $properties['itemtype']->value,'itemid' => $properties['id']->value])#">
                         Edit template
                     </a>
                 </div>
@@ -430,10 +430,10 @@
             Allowed Tags
         </legend>
         <div class="xar-form-input-wrapper">
-            <label class="xar-form-label help" title="#xarML('This is the allowed HTML that this website has configured.')#">
+            <label class="xar-form-label help" title="#$xar->ml('This is the allowed HTML that this website has configured.')#">
                 Allowed HTML tags
             </label>
-            <xar:set name="tags">xarConfigVars::get(null,'Site.Core.AllowableHTML')</xar:set>
+            <xar:set name="tags">$xar->config()->getVar('Site.Core.AllowableHTML')</xar:set>
             <div class="xar-form-container-after">
                 <xar:set name="tagstring">""</xar:set>
                 <xar:foreach in="$tags" key="$key" value="$value">

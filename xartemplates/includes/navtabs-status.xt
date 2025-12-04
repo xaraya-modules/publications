@@ -3,13 +3,13 @@
     <xar:style scope="module" module="base" file="navtabs" />
     <xar:if condition="!empty($statefilters)">
         <dl class="xar-tabs">
-            <dt class="help" title="#xarML('Click on a tab to display publications from that publication type')#">
+            <dt class="help" title="#$xar->ml('Click on a tab to display publications from that publication type')#">
                 Status            :
             </dt>
             <xar:foreach in="$statefilters" value="$statefilter">
                 <xar:if condition="empty($statefilter['slink'])">
                     <dd class="active">
-                        <a href="#xarServer::getCurrentURL()#" title="#$statefilter['stitle']#">
+                        <a href="#$xar->ctl()->getCurrentURL()#" title="#$statefilter['stitle']#">
                             #$statefilter['stitle']#
                         </a>
                     </dd>

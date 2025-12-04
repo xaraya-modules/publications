@@ -5,7 +5,7 @@
     <!-- Set a custom page title, if one exists -->
     <xar:set name="page_title">$pubtypeobject->properties['page_title']->getValue()</xar:set>
     <xar:if condition="!empty($page_title)">
-        <xar:set name="dummy">xarTpl::setPageTitle($page_title)</xar:set>
+        <xar:set name="dummy">$xar->tpl()->setPageTitle($page_title)</xar:set>
     </xar:if>
     
     <!-- Set a custom page description, if one exists -->
@@ -26,11 +26,11 @@
 
     <!-- Get the list of object items we want -->
     <!-- Note: itemtype is already defined in the code -->
-    <xar:data-getitems properties="$properties" values="$items" object="$object" param="xarServer::getCurrentURL()" numitems="$numitems" startnum="$startnum" count="count">
+    <xar:data-getitems properties="$properties" values="$items" object="$object" param="$xar->ctl()->getCurrentURL()" numitems="$numitems" startnum="$startnum" count="count">
       <xar:select>
         <xar:andconditions>
           <xar:condition operator="in" property="state">[3,4]</xar:condition>
-          <xar:condition operator="eq" property="locale">xarUser::getNavigationLocale()</xar:condition>
+          <xar:condition operator="eq" property="locale">$xar->user()->getLocale()</xar:condition>
           <xar:condition operator="le" property="start_date">$now</xar:condition>
           <xar:orconditions>
             <xar:condition operator="ge" property="end_date">$now</xar:condition>
@@ -41,17 +41,17 @@
     </xar:data-getitems>
 
     <!-- For debugging -->
-    <xar:set name="debugadmins">xarConfigVars::get(null, 'Site.User.DebugAdmins')</xar:set>
-    <xar:set name="userid">xarUser::getVar('id')</xar:set>
-    <xar:set name="debug">xarModVars::get('publications','debugmode') and in_array($userid,$debugadmins)</xar:set>
+    <xar:set name="debugadmins">$xar->config()->getVar('Site.User.DebugAdmins')</xar:set>
+    <xar:set name="userid">$xar->user()->getVar('id')</xar:set>
+    <xar:set name="debug">$xar->mod('publications')->getVar('debugmode') and in_array($userid,$debugadmins)</xar:set>
     <xar:if condition="$debug">
         <xar:set name="dummy">$object->dataquery->qecho()</xar:set>
     </xar:if>
 
     <xar:comment><!-- For debugging
     <xar:set name="dummy">var_dump($items)</xar:set>
-    <xar:set name="dummy">var_dump(xarLocale::getFormattedDate('long',$now))</xar:set>
-    <xar:set name="dummy">var_dump(xarLocale::getFormattedTime('long',$now))</xar:set>
+    <xar:set name="dummy">var_dump($xar->mls()->getFormattedDate('long',$now))</xar:set>
+    <xar:set name="dummy">var_dump($xar->mls()->getFormattedTime('long',$now))</xar:set>
     --></xar:comment>
 
     <!-- Display the list of objects -->

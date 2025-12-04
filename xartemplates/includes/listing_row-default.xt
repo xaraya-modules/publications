@@ -13,8 +13,8 @@
                     <xar:continue />
                 </xar:if>
                 <td>
-                    <xar:if condition="$field eq $keyfieldalias AND xarSecurity::check('ReadPublications',0)">
-                        <a href="#xarController::URL('publications','user','display',['itemid' =>$loopitem[$primaryalias], 'name' => $objectname, 'tplmodule' => $module])#">
+                    <xar:if condition="$field eq $keyfieldalias AND $xar->sec()->check('ReadPublications',0)">
+                        <a href="#$xar->ctl()->URL('publications','user','display',['itemid' =>$loopitem[$primaryalias], 'name' => $objectname, 'tplmodule' => $module])#">
                             <xar:data-output property="$properties[$column]" value="$value" />
                         </a>
                     <xar:else />
@@ -39,13 +39,13 @@
                     <xar:continue />
                 </xar:if>
                 <td>
-                    <xar:if condition="xarUser::isLoggedIn() AND $field eq $keyfieldalias AND xarSecurity::check('EditPublications',0)">
-                        <a href="#xarController::URL('publications','admin','display',['itemid' =>$loopitem[$primaryalias], 'name' => $objectname,'tplmodule' => $module])#">
+                    <xar:if condition="$xar->user()->isLoggedIn() AND $field eq $keyfieldalias AND $xar->sec()->check('EditPublications',0)">
+                        <a href="#$xar->ctl()->URL('publications','admin','display',['itemid' =>$loopitem[$primaryalias], 'name' => $objectname,'tplmodule' => $module])#">
                             <xar:data-output property="$properties[$column]" value="$value" />
                         </a>
                     <xar:else />
-                        <xar:if condition="$field eq $keyfieldalias AND xarSecurity::check('ReadPublications',0)">
-                            <a href="#xarController::URL('publications','admin','display',['itemid' =>$loopitem[$primaryalias], 'name' => $objectname, 'tplmodule' => $module])#">
+                        <xar:if condition="$field eq $keyfieldalias AND $xar->sec()->check('ReadPublications',0)">
+                            <a href="#$xar->ctl()->URL('publications','admin','display',['itemid' =>$loopitem[$primaryalias], 'name' => $objectname, 'tplmodule' => $module])#">
                                 <xar:data-output property="$properties[$column]" value="$value" />
                             </a>
                         <xar:else />

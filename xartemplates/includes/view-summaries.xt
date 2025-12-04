@@ -2,7 +2,7 @@
 <xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
     <!-- License: GPL http://www.gnu.org/copyleft/gpl.html -->
     <xar:set name="ptid">$properties['itemtype']->value</xar:set>
-    <xar:set name="context">xarMod::apiFunc('publications','user','getsettings',['ptid' => $ptid])</xar:set>
+    <xar:set name="context">$xar->mod()->apiFunc('publications','user','getsettings',['ptid' => $ptid])</xar:set>
 
     <xar:set name="colwidth">
         100
@@ -30,7 +30,7 @@
     </h2>
     <xar:set name="instance">$properties['itemtype']->value . ':All:All:All'</xar:set>
     <xar:sec mask="SubmitPublications" instance="$instance">
-        <a href="#xarController::URL('publications','admin','new',['ptid' => $ptid])#">
+        <a href="#$xar->ctl()->URL('publications','admin','new',['ptid' => $ptid])#">
             Submit a <xar:data-output property="$properties['title']"/>
         </a>
         <div style="clear:both">&#160;</div>
@@ -74,11 +74,11 @@
         <br class="xar-clearboth" />
 
         <xar:if condition="$context['showcols'] eq 1">
-            <a href="#xarController::URL('publications','user','view',['numcols' => 1])#">
+            <a href="#$xar->ctl()->URL('publications','user','view',['numcols' => 1])#">
                 single-column display
             </a>
         <xar:else />
-            <a href="#xarController::URL('publications','user','view')#">
+            <a href="#$xar->ctl()->URL('publications','user','view')#">
                 <xar:ml>
                     #(1)-column display
                     <xar:mlvar>#$context['showcols']#</xar:mlvar>

@@ -4,7 +4,7 @@
     <h2>Search Results</h2>
 
 <xar:comment><!--
-    <xar:set name="fulltext">xarModVars::get('publications', 'fulltextsearch')</xar:set>
+    <xar:set name="fulltext">$xar->mod('publications')->getVar('fulltextsearch')</xar:set>
     <xar:if condition="!empty($fulltext)">
         <xar:set name="fulltextfields">explode(',',$fulltext)</xar:set>
     </xar:if>
@@ -85,12 +85,12 @@
                 #$cat['cjoin']# <a href="#$cat['clink']#">#$cat['cname']#</a>
               </xar:foreach> ]
             </xar:if>
-            <xar:if condition="xarModVars::get('publications', 'multilanguage')">
+            <xar:if condition="$xar->mod('publications')->getVar('multilanguage')">
                 <a href="#$item['link']#">#$item['title']# - #strstr($item['locale'], '_', true)#</a>
             <xar:else/>
                 <a href="#$item['link']#">#$item['title']#</a>
             </xar:if>
-            <xar:if condition="!empty($item['pubdate'])">#xarLocale::formatDate('%a, %d %B %Y %H:%M:%S %Z', $item['pubdate'])#</xar:if>
+            <xar:if condition="!empty($item['pubdate'])">#$xar->mls()->formatDate('%a, %d %B %Y %H:%M:%S %Z', $item['pubdate'])#</xar:if>
             <xar:comment><!-- Show relevance for MySQL full-text search (see $getfields in search.php)
                 <xar:if condition="isset($item['relevance'])">
                   <xar:set name="relevance">sprintf('%.2f',$item['relevance'])</xar:set>

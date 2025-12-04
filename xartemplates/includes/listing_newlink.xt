@@ -3,11 +3,11 @@
     <xar:if condition="$layout eq 'publications-admin'">
         <xar:access level="600">
             <xar:set name="link">
-                xarController::URL('publications','admin','new',['ptid'=> $object->properties['itemtype']->defaultvalue, 'tplmodule'=> $module])
+                $xar->ctl()->URL('publications','admin','new',['ptid'=> $object->properties['itemtype']->defaultvalue, 'tplmodule'=> $module])
             </xar:set>
-            <xar:if condition="xarModVars::get('publications', 'use_module_icons')">
-                <a href="#$link#" title="#xarML('Add A New Publication')#" style="margin-right: 5px">
-                    <img src="#xarTpl::getImage('icons/document-new.png', 'base')#" width="16" height="16" alt="#xarML('Add')#"/>
+            <xar:if condition="$xar->mod('publications')->getVar('use_module_icons')">
+                <a href="#$link#" title="#$xar->ml('Add A New Publication')#" style="margin-right: 5px">
+                    <img src="#$xar->tpl()->getImage('icons/document-new.png', 'base')#" width="16" height="16" alt="#$xar->ml('Add')#"/>
                 </a>
             <xar:else />
                 <a href="#$link#">
@@ -18,11 +18,11 @@
     <xar:else/>
         <xar:access level="600">
             <xar:set name="link">
-                xarController::URL('publications','user','new',['ptid'=> $object->properties['itemtype']->defaultvalue, 'tplmodule'=> $module])
+                $xar->ctl()->URL('publications','user','new',['ptid'=> $object->properties['itemtype']->defaultvalue, 'tplmodule'=> $module])
             </xar:set>
-            <xar:if condition="xarModVars::get('publications', 'use_module_icons')">
-                <a href="#$link#" title="#xarML('Add A New Publication')#" style="margin-right: 5px">
-                    <img src="#xarTpl::getImage('icons/document-new.png', 'base')#" width="16" height="16" alt="#xarML('Add')#"/>
+            <xar:if condition="$xar->mod('publications')->getVar('use_module_icons')">
+                <a href="#$link#" title="#$xar->ml('Add A New Publication')#" style="margin-right: 5px">
+                    <img src="#$xar->tpl()->getImage('icons/document-new.png', 'base')#" width="16" height="16" alt="#$xar->ml('Add')#"/>
                 </a>
             <xar:else />
                 <a href="#$link#">
