@@ -594,15 +594,13 @@ class SearchMethod extends MethodClass
 
             if ($count > 0) {
                 // bail out, we have what we needed
-                $data['context'] ??= $this->getContext();
-                return $this->mod()->template('search', $data);
+                return $data;
             }
 
             $data['state'] = $this->ml('No pages found matching this search');
         }
 
-        $data['context'] ??= $this->getContext();
-        return $this->mod()->template('search', $data);
+        return $data;
     }
 
     /**

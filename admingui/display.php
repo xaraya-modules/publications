@@ -676,7 +676,6 @@ class DisplayMethod extends MethodClass
             }
         }
         $data = $this->mod()->callHooks('item', 'transform', $id, $data, 'publications');
-        $data['context'] ??= $this->getContext();
 
         return $this->tpl()->module('publications', 'user', 'display', $data);
 
@@ -831,7 +830,6 @@ class DisplayMethod extends MethodClass
         $data['object'] = $this->data()->getObject(['name' => $pubtypeobject->properties['name']->value]);
         $id = $userapi->getranslationid(['id' => $id]);
         $data['object']->getItem(['itemid' => $id]);
-        $data['context'] ??= $this->getContext();
 
         return $this->tpl()->module('publications', 'user', 'display', $data, $template);
     }

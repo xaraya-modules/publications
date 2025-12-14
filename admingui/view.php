@@ -392,7 +392,6 @@ class ViewMethod extends MethodClass
         // Flag this as the current list view
         $this->session()->setVar('publications_current_listview', $this->ctl()->getCurrentURL(['ptid' => $ptid]));
 
-        $data['context'] ??= $this->getContext();
-        return $this->mod()->template('view', $data, $template);
+        return $this->render('view', $data, $template);
     }
 }

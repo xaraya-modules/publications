@@ -466,8 +466,7 @@ class ArchiveMethod extends MethodClass
             $template = null;
         }
 
-        $data['context'] ??= $this->getContext();
-        return $this->mod()->template('archive', $data, $template);
+        return $this->render('archive', $data, $template);
     }
 
     /**

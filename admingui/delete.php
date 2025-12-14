@@ -81,7 +81,7 @@ class DeleteMethod extends MethodClass
             }
             $data['items'] = $items;
             $data['yes_action'] = $this->mod()->getURL('admin', 'delete', ['idlist' => $idlist]);
-            return $this->mod()->template('delete', $data);
+            return $data;
         } else {
             if (!$this->sec()->confirmAuthKey()) {
                 return;

@@ -93,8 +93,7 @@ class UpdateMethod extends MethodClass
             // Get the settings of the publication type we are using
             $data['settings'] = $userapi->getsettings(['ptid' => $data['ptid']]);
 
-            $data['context'] ??= $this->getContext();
-            return $this->mod()->template('modify', $data);
+            return $this->render('modify', $data);
         }
 
         // call transform input hooks

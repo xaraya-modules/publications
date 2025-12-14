@@ -85,8 +85,7 @@ class ModifyPubtypeMethod extends MethodClass
 
             if (!$isvalid) {
                 // Bad data: redisplay the form with error messages
-                $data['context'] ??= $this->getContext();
-                return $this->mod()->template('modify_pubtype', $data);
+                return $data;
             } else {
                 // Good data: create the item
                 $itemid = $data['object']->updateItem(['itemid' => $data['itemid']]);

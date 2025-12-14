@@ -63,7 +63,7 @@ class DeleteTranslationMethod extends MethodClass
             $publication->getItem(['itemid' => $data['itemid']]);
             $data['item'] = $publication->getFieldValues();
             $data['yes_action'] = $this->mod()->getURL('admin', 'delete', ['itemid' => $data['itemid']]);
-            return $this->mod()->template('delete_translation', $data);
+            return $data;
         } else {
             if (!$this->sec()->confirmAuthKey()) {
                 return;

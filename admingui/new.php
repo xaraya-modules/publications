@@ -71,7 +71,6 @@ class NewMethod extends MethodClass
         // Get the settings of the publication type we are using
         $data['settings'] = $userapi->getsettings(['ptid' => $data['ptid']]);
 
-        $data['context'] ??= $this->getContext();
-        return $this->mod()->template('new', $data, $template);
+        return $this->render('new', $data, $template);
     }
 }

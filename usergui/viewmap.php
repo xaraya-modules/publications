@@ -360,7 +360,6 @@ class ViewmapMethod extends MethodClass
         // Pass the type of map to the template, so we can decide what links to show
         $data['by'] = $by;
 
-        $data['context'] ??= $this->getContext();
-        return $this->mod()->template('viewmap', $data, $template);
+        return $this->render('viewmap', $data, $template);
     }
 }

@@ -39,7 +39,6 @@ class OverviewMethod extends MethodClass
          * else just call the main function that usually displays the overview
          */
 
-        $data['context'] = $this->getContext();
-        return $this->mod()->template('main', $data, 'main');
+        return $this->render('main', $data);
     }
 }

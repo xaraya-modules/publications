@@ -80,8 +80,7 @@ class DeletePubtypeMethod extends MethodClass
             }
             $data['items'] = $items;
             $data['yes_action'] = $this->mod()->getURL('admin', 'delete_pubtype', ['idlist' => $idlist]);
-            $data['context'] ??= $this->getContext();
-            return $this->mod()->template('delete_pubtype', $data);
+            return $data;
         } else {
             if (!$this->sec()->confirmAuthKey()) {
                 return;

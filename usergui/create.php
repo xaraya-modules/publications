@@ -62,8 +62,7 @@ class CreateMethod extends MethodClass
             if ($data['preview']) {
                 $data['tab'] = 'preview';
             }
-            $data['context'] ??= $this->getContext();
-            return $this->mod()->template('new', $data);
+            return $this->render('new', $data);
         }
 
         // Create the object

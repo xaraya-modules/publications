@@ -80,8 +80,8 @@ class PreviewMethod extends MethodClass
                 ));
                 return true;
             } else {
-                $data = ['context' => $this->getContext()];
-                return $this->mod()->template('empty', $data);
+                $data = [];
+                return $this->render('empty', $data);
             }
         }
 
@@ -98,8 +98,8 @@ class PreviewMethod extends MethodClass
                     ));
                     return true;
                 } else {
-                    $data = ['context' => $this->getContext()];
-                    return $this->mod()->template('empty', $data);
+                    $data = [];
+                    return $this->render('empty', $data);
                 }
             }
         }
@@ -277,7 +277,6 @@ class PreviewMethod extends MethodClass
         #
         $data['preview'] = 1;
 
-        $data['context'] ??= $this->getContext();
-        return $this->mod()->template('display', $data);
+        return $this->render('display', $data);
     }
 }

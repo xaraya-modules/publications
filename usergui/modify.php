@@ -112,8 +112,8 @@ class ModifyMethod extends MethodClass
                 ));
                 return true;
             } else {
-                $data = ['context' => $this->getContext()];
-                return $this->mod()->template('empty', $data);
+                $data = [];
+                return $this->render('empty', $data);
             }
         }
 
