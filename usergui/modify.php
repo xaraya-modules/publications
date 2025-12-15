@@ -91,7 +91,7 @@ class ModifyMethod extends MethodClass
                 case 0:
                     break;
                 case 1:
-                    $allow = xarRoles::isParent('Administrators', $this->user()->getUser());
+                    $allow = $this->user()->hasParent('Administrators');
                     break;
                 case 2:
                     $allow = $this->user()->isSiteAdmin();

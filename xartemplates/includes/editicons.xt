@@ -9,7 +9,7 @@
             <xar:template file="editicons-admin"/>
         <xar:elseif condition="($pageName ne 'module') AND $xar->user()->isLoggedIn() AND ($xar->user()->getVar('id') eq $properties['author']->value)"/>
             <xar:template file="editicons-user"/>
-        <xar:elseif condition="($pageName ne 'admin') AND (xarRoles::isParent('Administrators', $xar->user()->getVar('uname')) OR xarRoles::isParent('SiteManagers', $xar->user()->getVar('uname')))"/>
+        <xar:elseif condition="($pageName ne 'admin') AND ($xar->user()->hasParent('Administrators') OR $xar->user()->hasParent('SiteManagers'))"/>
             <xar:template file="editicons-user"/>
         </xar:if>
     </xar:if>
